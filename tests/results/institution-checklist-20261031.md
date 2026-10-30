@@ -40,6 +40,9 @@ Existing integrations remain `GET/POST /api/institution-registry`, `GET/PATCH /a
 - Django system check passed; `makemigrations --check --dry-run` found no changes.
 - Runtime model remains `/models/minilm`, revision `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, threshold `0.603080153465271`. Active weights match the saved baseline checksum. No experimental embeddings were activated or backfilled.
 - Reproducible command logs are under ignored `tests/results/logs/institution-checklist-{backend,build,browser}.log`.
+- Graphify refreshed to 698 nodes and 1,790 edges: zero missing/dangling endpoints, three pre-existing self-loops. README evidence is distinguished from structural extraction; source and tests remain authoritative.
+
+Git source checkpoint: `06ec0a4`. Follow-up diff from `36268db`: 15 files (seven source/test/documentation files, this report, one directory screenshot and six generated graph artifacts). The source/test/report commit contains 136 inserted and four removed lines; most additions are focused regression coverage and acceptance evidence.
 
 Phase 1 institution frontend acceptance passes. Phase 2 remains pending. Historical verification reports describe their original checkpoints and are not rewritten.
 
