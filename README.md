@@ -156,3 +156,23 @@ For the prepared offline presentation, stop the Vite development server, then ru
 ## Dashboard crash fix and release checks
 
 `usePoll` accepts a disabled (`null`) URL, cancels obsolete requests and prevents prior-source data from rendering under a new URL. Import and report responses are checked before required fields are accessed. The dashboard API adds `attention` (up to eight active cases ordered by deadline/ID) and `active_categories`; overlap queries reuse case filters, including institution and dates. Existing database statuses and workflow rules are unchanged. See `reports/dashboard-verification.md` for current checks and screenshots.
+
+## Institution module — Phase 1 backend
+
+The institution backend extends the existing portal; React institution screens are a later milestone. Apply migrations with `docker compose exec api python manage.py migrate`, then restart API and worker. Migrations preserve existing identities and cases, add optional `address`, `official_email`, `official_phone` and `version` (initially 1), and enforce permanent-ID immutability in PostgreSQL. CaseAction and AuditEvent rows reject UPDATE/DELETE; corrections must append new records. These safeguards do not prevent database-administrator tampering.
+
+| Endpoint | Contract |
+|---|---|
+| `GET /api/institutions?q=...` | Existing array lookup, unchanged; identity fields only, maximum 100. |
+| `GET /api/institution-registry` | Paginated identity directory; ID/name search, region and existing case filters. Case filters select institutions through currently authorized cases. |
+| `POST /api/institution-registry` | Coordinator registration; required name, permanent ID, region, district and reason; optional official contacts. |
+| `GET /api/institutions/{id}` | Identity, contacts, version, all-time scoped totals, bureau breakdown and case/history links. Management date filters do not alter these profile totals. |
+| `PATCH /api/institutions/{id}` | Coordinator edit; reason and expected_version required. Stale edits return 409; permanent-ID changes return 400. |
+| `GET /api/institutions/{id}/cases` | Complete paginated cases, including closed cases; supports existing case filters. |
+| `GET /api/institutions/{id}/history` | All-time paginated authorized CaseAction records, newest first, including case ID and reference. |
+
+Paged responses use `count`, `next`, `previous`, `results`, with 20 rows per page. Institution metadata is shared with portal roles even where they have no cases; complaint counts, bureau breakdowns, pages and histories are scoped before aggregation. Officers see only cases owned by their current bureau. Coordinators and auditors see consolidated profiles; auditors cannot edit. Accounts without a portal role are denied the new endpoints. Membership and ownership are queried afresh rather than trusting cached user relations. Restricted relationship review reasons and identifiers are redacted on officer history paths.
+
+Institution creates/edits append `institution_created`/`institution_updated` AuditEvent records with actor, reason, version and changed before/after values, in the same transaction as the profile save. Django Admin uses the same audited save path, requires a reason, protects the permanent ID and rejects stale edits. Institution case timelines derive from CaseAction; they do not duplicate action history or incorporate institution edits into case records.
+
+Run `docker compose exec api python manage.py test cases --noinput` for institution and existing workflow regressions. See `reports/institution-phase1-verification.md` for the delivery checks and limitations.
