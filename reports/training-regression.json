@@ -1,0 +1,29 @@
+{
+  "source": "Original authored synthetic benchmark; regression only, not new held-out evidence. Original test reference corpus preserved. No threshold changes.",
+  "models": {
+    "baseline": {
+      "threshold": 0.603080153465271,
+      "precision": 0.9421487603305785,
+      "recall": 0.95,
+      "f1": 0.946058091286307,
+      "tp": 114,
+      "fp": 7,
+      "fn": 6,
+      "calibration_passed": true,
+      "recall_at_5": 1.0,
+      "retrieval_queries": 60
+    },
+    "domain": {
+      "threshold": 0.8691622018814087,
+      "precision": 0.9813084112149533,
+      "recall": 0.875,
+      "f1": 0.9251101321585904,
+      "tp": 105,
+      "fp": 2,
+      "fn": 15,
+      "calibration_passed": true,
+      "recall_at_5": 1.0,
+      "retrieval_queries": 60
+    }
+  }
+}

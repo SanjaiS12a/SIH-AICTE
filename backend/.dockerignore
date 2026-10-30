@@ -1,0 +1,4 @@
+private
+staticfiles
+**/__pycache__
+*.log

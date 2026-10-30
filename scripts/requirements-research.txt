@@ -1,0 +1,2 @@
+-r ../backend/requirements.txt
+pyarrow==26.0.0

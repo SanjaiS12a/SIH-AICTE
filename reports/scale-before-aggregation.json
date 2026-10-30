@@ -1,0 +1,101 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "database": "coordination_scale_387c82e1a94d",
+  "concurrent_clients": 10,
+  "transport": "In-process Django calls with separate thread-local PostgreSQL connections; HTTP measured separately by benchmark_import.py",
+  "limits": "Synthetic metadata and identical unit vectors; no overlap rows, attachments or histories. Measures dashboard/read/exact-search scaling only, not 100k upload or production matching accuracy.",
+  "results": [
+    {
+      "records": 10000,
+      "distribution": "distributed",
+      "setup_seconds": 0.7690604449999228,
+      "peak_process_rss_bytes": 86224896,
+      "metrics": {
+        "dashboard": {
+          "requests": 30,
+          "p50_ms": 183.5456005001106,
+          "p95_ms": 200.80032900000333
+        },
+        "read": {
+          "requests": 30,
+          "p50_ms": 20.21962449998682,
+          "p95_ms": 29.737075999946683
+        },
+        "exact_search": {
+          "requests": 30,
+          "p50_ms": 11.530462999985502,
+          "p95_ms": 29.130386999895563
+        }
+      }
+    },
+    {
+      "records": 10000,
+      "distribution": "concentrated",
+      "setup_seconds": 0.7690604449999228,
+      "peak_process_rss_bytes": 87404544,
+      "metrics": {
+        "dashboard": {
+          "requests": 30,
+          "p50_ms": 193.5915424999166,
+          "p95_ms": 232.91074499979914
+        },
+        "read": {
+          "requests": 30,
+          "p50_ms": 20.51261549991068,
+          "p95_ms": 54.86339499998394
+        },
+        "exact_search": {
+          "requests": 30,
+          "p50_ms": 18.522485500056973,
+          "p95_ms": 29.869349000136936
+        }
+      }
+    },
+    {
+      "records": 100000,
+      "distribution": "distributed",
+      "setup_seconds": 5.743800303999933,
+      "peak_process_rss_bytes": 87797760,
+      "metrics": {
+        "dashboard": {
+          "requests": 30,
+          "p50_ms": 4698.102996999978,
+          "p95_ms": 7056.646487999842
+        },
+        "read": {
+          "requests": 30,
+          "p50_ms": 17.370094499824518,
+          "p95_ms": 33.15429999997832
+        },
+        "exact_search": {
+          "requests": 30,
+          "p50_ms": 13.569069499908437,
+          "p95_ms": 43.41887800001132
+        }
+      }
+    },
+    {
+      "records": 100000,
+      "distribution": "concentrated",
+      "setup_seconds": 5.743800303999933,
+      "peak_process_rss_bytes": 89763840,
+      "metrics": {
+        "dashboard": {
+          "requests": 30,
+          "p50_ms": 6935.158895999962,
+          "p95_ms": 8230.924194999943
+        },
+        "read": {
+          "requests": 30,
+          "p50_ms": 15.812025999935031,
+          "p95_ms": 24.59862000000612
+        },
+        "exact_search": {
+          "requests": 30,
+          "p50_ms": 197.46191900003396,
+          "p95_ms": 452.47941799993896
+        }
+      }
+    }
+  ]
+}

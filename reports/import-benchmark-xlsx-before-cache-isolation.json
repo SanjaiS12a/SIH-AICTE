@@ -1,0 +1,535 @@
+{
+  "resources": [
+    {
+      "elapsed_seconds": 2.267554399999426,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "77.88%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.03%",
+          "MemUsage": "80.48MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "2.11MB / 1.12MB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.69%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "1.01%",
+          "MemUsage": "78.65MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "29.1kB / 37.4kB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "274MB / 7.59GB",
+          "CPUPerc": "36.75%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.12%",
+          "MemUsage": "321.1MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "218MB / 448MB",
+          "PIDs": "9"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 5.505043699999987,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "96.81%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.10%",
+          "MemUsage": "85.83MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "2.11MB / 1.98MB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "18.30%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "1.15%",
+          "MemUsage": "89.78MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "635kB / 254kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "274MB / 7.6GB",
+          "CPUPerc": "35.29%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.32%",
+          "MemUsage": "336.7MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "219MB / 450MB",
+          "PIDs": "18"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 8.69061739999961,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "20.53%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.46MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.09MB / 3.74MB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "57.68%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "1.22%",
+          "MemUsage": "95.18MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "3.98MB / 3.58MB",
+          "PIDs": "7"
+        },
+        {
+          "BlockIO": "274MB / 7.6GB",
+          "CPUPerc": "59.65%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.32%",
+          "MemUsage": "336.8MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "222MB / 455MB",
+          "PIDs": "18"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 11.865395499999977,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.07%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.69MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.17MB / 3.81MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "239.29%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "3.63%",
+          "MemUsage": "282.7MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "4.5MB / 4.31MB",
+          "PIDs": "22"
+        },
+        {
+          "BlockIO": "274MB / 7.6GB",
+          "CPUPerc": "6.38%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.13%",
+          "MemUsage": "321.7MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "224MB / 458MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 15.071973600000092,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.96%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.56MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.24MB / 3.88MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "93.83%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.63%",
+          "MemUsage": "438.8MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "5.3MB / 4.91MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.6GB",
+          "CPUPerc": "6.17%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.12%",
+          "MemUsage": "320.8MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "224MB / 458MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 18.291491799999676,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "3.08%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.71MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.31MB / 3.96MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "63.99%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.63%",
+          "MemUsage": "438.7MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "8.85MB / 7.41MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.61GB",
+          "CPUPerc": "27.69%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.14%",
+          "MemUsage": "323MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "226MB / 461MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 21.476538699999765,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.61%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.63MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.39MB / 4.03MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "89.93%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.65%",
+          "MemUsage": "440.3MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "13.2MB / 10.4MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.61GB",
+          "CPUPerc": "11.56%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.13%",
+          "MemUsage": "321.5MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "229MB / 465MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 24.671942999999374,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.80%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.54MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.46MB / 4.11MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "16.85%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.65%",
+          "MemUsage": "440.1MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "16.5MB / 12.6MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.61GB",
+          "CPUPerc": "24.78%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.13%",
+          "MemUsage": "322MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "232MB / 469MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 27.873166699999274,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.04%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.47MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.53MB / 4.18MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "89.81%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.65%",
+          "MemUsage": "440.1MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "22.6MB / 16.9MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.62GB",
+          "CPUPerc": "23.10%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.13%",
+          "MemUsage": "322.2MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "236MB / 476MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 31.07075480000003,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.28%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.13%",
+          "MemUsage": "88.4MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.61MB / 4.26MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "81.83%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.84%",
+          "MemUsage": "455MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "26.2MB / 19.2MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.62GB",
+          "CPUPerc": "27.89%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.14%",
+          "MemUsage": "322.7MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "239MB / 480MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 34.29094420000001,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.03%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.13%",
+          "MemUsage": "88.27MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.7MB / 4.36MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "86.36%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.85%",
+          "MemUsage": "456.2MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "31MB / 22.5MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.62GB",
+          "CPUPerc": "7.55%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.14%",
+          "MemUsage": "323MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "240MB / 482MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 37.543419300000096,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.45%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.68MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.78MB / 4.43MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "42.42%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.68%",
+          "MemUsage": "443MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "35.8MB / 25.8MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.62GB",
+          "CPUPerc": "10.14%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.14%",
+          "MemUsage": "322.7MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "244MB / 487MB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 40.73420039999928,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.96%",
+          "Container": "sih-api-1",
+          "ID": "0895b4a5c65f",
+          "MemPerc": "1.14%",
+          "MemUsage": "88.65MiB / 7.611GiB",
+          "Name": "sih-api-1",
+          "NetIO": "6.85MB / 4.51MB",
+          "PIDs": "16"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "81.74%",
+          "Container": "sih-worker-1",
+          "ID": "3d4741c56625",
+          "MemPerc": "5.67%",
+          "MemUsage": "441.8MiB / 7.611GiB",
+          "Name": "sih-worker-1",
+          "NetIO": "41.6MB / 29.9MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "274MB / 7.65GB",
+          "CPUPerc": "25.46%",
+          "Container": "sih-db-1",
+          "ID": "bbcccfcc470c",
+          "MemPerc": "4.14%",
+          "MemUsage": "322.9MiB / 7.611GiB",
+          "Name": "sih-db-1",
+          "NetIO": "247MB / 493MB",
+          "PIDs": "10"
+        }
+      ]
+    }
+  ],
+  "format": "xlsx",
+  "run": "8f054c98cb",
+  "kind": "complaints",
+  "rows": 1000,
+  "distribution": "distributed institutions",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "concurrent_sessions": 10,
+  "transport": "HTTP localhost with authenticated sessions; nine readers alongside importer",
+  "total_seconds": 41.9781267999997,
+  "results": [
+    {
+      "import_id": "8c69b325-7ce5-478d-aa89-a1993dba026a",
+      "rows": 1000,
+      "preview_seconds": 3.735294299999623,
+      "statistics_ready_seconds": 4.589832800000295,
+      "matching_and_report_seconds": 36.99651390000054,
+      "counts": {
+        "imported": 1000
+      },
+      "matching": {
+        "complete": 1000
+      },
+      "latency": {
+        "dashboard": {
+          "requests": 27,
+          "p50_ms": 110.71590000028664,
+          "p95_ms": 971.9651999994312
+        },
+        "read": {
+          "requests": 27,
+          "p50_ms": 779.9560000003112,
+          "p95_ms": 985.8594000006633
+        }
+      }
+    }
+  ],
+  "limits": "Synthetic performance data; no million-row claim. Shared laptop workload may affect results."
+}

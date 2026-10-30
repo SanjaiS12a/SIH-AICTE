@@ -1,0 +1,14 @@
+{
+  "import_id": "f78e420a-491f-4f6a-a65b-3db8abe34777",
+  "queued_while_worker_stopped": {
+    "ready": 2
+  },
+  "after_restart": {
+    "imported": 2
+  },
+  "matching": {
+    "complete": 2
+  },
+  "recovery_seconds": 14.72194010000021,
+  "real_worker_stop_start": true
+}

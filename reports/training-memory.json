@@ -1,0 +1,7 @@
+{
+  "peak_working_set_bytes": 1053335552,
+  "measured_at": "2026-10-30T19:30:25.0538478+05:30",
+  "sampled_working_set_bytes": 527859712,
+  "note": "Native training process; peak working set from Windows, excludes Docker processes.",
+  "process_id": 8468
+}

@@ -1,0 +1,36 @@
+{
+  "run": "b5e1c6e8ea",
+  "kind": "monthly",
+  "rows": 1000,
+  "distribution": "distributed institutions",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "concurrent_sessions": 10,
+  "transport": "HTTP localhost with authenticated sessions; nine readers alongside importer",
+  "total_seconds": 19.688955999999962,
+  "results": [
+    {
+      "import_id": "6040e592-3c26-4d34-b793-14f4fde842c0",
+      "rows": 1000,
+      "preview_seconds": 1.2305617000001803,
+      "statistics_ready_seconds": 17.73302909999984,
+      "matching_and_report_seconds": 17.844135499999993,
+      "counts": {
+        "imported": 1000
+      },
+      "matching": {},
+      "latency": {
+        "dashboard": {
+          "requests": 27,
+          "p50_ms": 218.280600000071,
+          "p95_ms": 253.62140000015643
+        },
+        "read": {
+          "requests": 27,
+          "p50_ms": 107.3287999997774,
+          "p95_ms": 132.0559000000685
+        }
+      }
+    }
+  ],
+  "limits": "Synthetic performance data; no million-row claim. Shared laptop workload may affect results."
+}

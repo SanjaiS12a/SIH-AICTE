@@ -1,0 +1,9 @@
+{
+  "worker_cycles": 2,
+  "queued_while_stopped": true,
+  "processed_after_restart": true,
+  "cases": [
+    "4b24be73-9e4a-44c3-aa04-3f0423138b67",
+    "3e82d1ca-b986-4f38-bfb7-30663c2d02b1"
+  ]
+}

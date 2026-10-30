@@ -1,0 +1,6 @@
+    kind    | count
+------------+-------
+ complaints |  4543
+ imports    |    13
+ summaries  |  1002
+(3 rows)

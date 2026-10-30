@@ -1,0 +1,25 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          charts: ["recharts"],
+          react: ["react", "react-dom", "react-router-dom"],
+        },
+      },
+    },
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
+    proxy: {
+      "/api": { target: "http://127.0.0.1:8000", changeOrigin: false },
+      "/accounts": { target: "http://127.0.0.1:8000", changeOrigin: false },
+      "/admin": { target: "http://127.0.0.1:8000", changeOrigin: false },
+      "/static": { target: "http://127.0.0.1:8000", changeOrigin: false },
+    },
+  },
+});

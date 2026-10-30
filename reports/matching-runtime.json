@@ -1,0 +1,25 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "matching_including_first_cold_load": {
+    "samples": 537,
+    "p50_ms": 26.390900000023976,
+    "p95_ms": 105.2361000001838
+  },
+  "matching_after_first_case": {
+    "samples": 536,
+    "p50_ms": 26.333399999884932,
+    "p95_ms": 90.86571599982562
+  },
+  "queue_wait": {
+    "samples": 537,
+    "p50_ms": 32738.315,
+    "p95_ms": 38999.082
+  },
+  "states": {
+    "pending": 0,
+    "complete": 537,
+    "failed": 0
+  },
+  "overlap_pairs": 1051,
+  "note": "Stored durations include native and container verification runs and worker cold starts. Seed batch waits are not online submission latency; queue wait is time since case creation, including downtime."
+}

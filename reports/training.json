@@ -1,0 +1,303 @@
+{
+  "run": "C:\\Users\\ashek\\Desktop\\SIH\\models\\experiments\\20261030T132816Z",
+  "dataset_sha256": "3dee5f7082998e9cf95279a6aa57b3b767b56d680063d2240682d930eb524334",
+  "provenance": "Authored synthetic education allegations; no independent human review or real-world accuracy claim. Entire allegation templates and incident families held within one partition. Different-institution controls belong to retrieval filtering, not text-only negative training.",
+  "device": "cpu",
+  "hardware": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "torch": "2.15.0+cpu",
+    "gpu": "CUDA unavailable in installed PyTorch; CPU fallback",
+    "physical": {
+      "measured_at": "2026-10-30T19:14:02.7325596+05:30",
+      "gpu": "NVIDIA GeForce RTX 3050 A Laptop GPU, 4094 MiB",
+      "cpu": "13th Gen Intel(R) Core(TM) i5-13450HX",
+      "ram_bytes": 16873545728
+    }
+  },
+  "batch_size": 8,
+  "gradient_accumulation": 4,
+  "epochs_limit": 3,
+  "learning_rate": 2e-05,
+  "splits": {
+    "train": 220,
+    "validation": 60,
+    "calibration": 40,
+    "test": 40
+  },
+  "pair_counts": {
+    "train": 880,
+    "validation": 240,
+    "calibration": 160,
+    "test": 160
+  },
+  "variants": {
+    "baseline": {
+      "epochs": [],
+      "path": "C:\\Users\\ashek\\Desktop\\SIH\\models\\minilm",
+      "validation": {
+        "threshold": 0.6341400146484375,
+        "precision": 0.9,
+        "recall": 1.0,
+        "f1": 0.9473684210526316,
+        "tp": 180,
+        "fp": 20,
+        "fn": 0,
+        "calibration_passed": true,
+        "recall_at_5": 0.6666666666666666,
+        "retrieval_queries": 60
+      },
+      "calibration": {
+        "threshold": 0.707274317741394,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 120,
+        "fp": 0,
+        "fn": 0,
+        "calibration_passed": true,
+        "recall_at_5": 0.75,
+        "retrieval_queries": 40
+      },
+      "test": {
+        "threshold": 0.707274317741394,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8,
+        "tp": 80,
+        "fp": 0,
+        "fn": 40,
+        "calibration_passed": true,
+        "recall_at_5": 0.7,
+        "retrieval_queries": 40
+      },
+      "checkpoint_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+      "relative_path": "minilm"
+    },
+    "domain": {
+      "epochs": [
+        {
+          "epoch": 1,
+          "seconds": 88.85263729999997,
+          "batches": 110,
+          "mean_loss": 0.008258837892208248,
+          "validation": {
+            "threshold": 0.7978519201278687,
+            "precision": 0.9,
+            "recall": 1.0,
+            "f1": 0.9473684210526316,
+            "tp": 180,
+            "fp": 20,
+            "fn": 0,
+            "calibration_passed": true,
+            "recall_at_5": 0.6333333333333333,
+            "retrieval_queries": 60
+          }
+        },
+        {
+          "epoch": 2,
+          "seconds": 158.89503349999995,
+          "batches": 110,
+          "mean_loss": 0.0025402142536635934,
+          "validation": {
+            "threshold": 0.8229687213897705,
+            "precision": 0.9,
+            "recall": 1.0,
+            "f1": 0.9473684210526316,
+            "tp": 180,
+            "fp": 20,
+            "fn": 0,
+            "calibration_passed": true,
+            "recall_at_5": 0.5333333333333333,
+            "retrieval_queries": 60
+          }
+        },
+        {
+          "epoch": 3,
+          "seconds": 99.9532164000002,
+          "batches": 110,
+          "mean_loss": 0.0009382830272608606,
+          "validation": {
+            "threshold": 0.7917718887329102,
+            "precision": 0.9,
+            "recall": 1.0,
+            "f1": 0.9473684210526316,
+            "tp": 180,
+            "fp": 20,
+            "fn": 0,
+            "calibration_passed": true,
+            "recall_at_5": 0.3,
+            "retrieval_queries": 60
+          }
+        }
+      ],
+      "path": "C:\\Users\\ashek\\Desktop\\SIH\\models\\experiments\\20261030T132816Z\\domain",
+      "validation": {
+        "threshold": 0.7978519201278687,
+        "precision": 0.9,
+        "recall": 1.0,
+        "f1": 0.9473684210526316,
+        "tp": 180,
+        "fp": 20,
+        "fn": 0,
+        "calibration_passed": true,
+        "recall_at_5": 0.6333333333333333,
+        "retrieval_queries": 60
+      },
+      "calibration": {
+        "threshold": 0.8691622018814087,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 120,
+        "fp": 0,
+        "fn": 0,
+        "calibration_passed": true,
+        "recall_at_5": 0.875,
+        "retrieval_queries": 40
+      },
+      "test": {
+        "threshold": 0.8691622018814087,
+        "precision": 1.0,
+        "recall": 0.6916666666666667,
+        "f1": 0.8177339901477833,
+        "tp": 83,
+        "fp": 0,
+        "fn": 37,
+        "calibration_passed": true,
+        "recall_at_5": 0.125,
+        "retrieval_queries": 40
+      },
+      "checkpoint_sha256": "0504dd6629ca6f85b12fa942235366da0686be96f6a3d9d24277a952d1325482",
+      "relative_path": "experiments/20261030T132816Z/domain"
+    },
+    "paws_domain": {
+      "epochs": [
+        {
+          "epoch": 1,
+          "seconds": 211.38195199999973,
+          "batches": 110,
+          "mean_loss": 0.013806811857714572,
+          "validation": {
+            "threshold": 0.8124760985374451,
+            "precision": 0.9,
+            "recall": 1.0,
+            "f1": 0.9473684210526316,
+            "tp": 180,
+            "fp": 20,
+            "fn": 0,
+            "calibration_passed": true,
+            "recall_at_5": 0.8833333333333333,
+            "retrieval_queries": 60
+          }
+        },
+        {
+          "epoch": 2,
+          "seconds": 344.8171996000001,
+          "batches": 110,
+          "mean_loss": 0.003398317075069909,
+          "validation": {
+            "threshold": 0.7852292060852051,
+            "precision": 0.9,
+            "recall": 1.0,
+            "f1": 0.9473684210526316,
+            "tp": 180,
+            "fp": 20,
+            "fn": 0,
+            "calibration_passed": true,
+            "recall_at_5": 0.4166666666666667,
+            "retrieval_queries": 60
+          }
+        },
+        {
+          "epoch": 3,
+          "seconds": 369.94272520000004,
+          "batches": 110,
+          "mean_loss": 0.0011570065070620993,
+          "validation": {
+            "threshold": 0.7824280261993408,
+            "precision": 0.9,
+            "recall": 1.0,
+            "f1": 0.9473684210526316,
+            "tp": 180,
+            "fp": 20,
+            "fn": 0,
+            "calibration_passed": true,
+            "recall_at_5": 0.36666666666666664,
+            "retrieval_queries": 60
+          }
+        }
+      ],
+      "auxiliary": {
+        "seconds": 316.10949409999967,
+        "batches": 128,
+        "mean_loss": 0.035983113179099746,
+        "pairs": 1024
+      },
+      "path": "C:\\Users\\ashek\\Desktop\\SIH\\models\\experiments\\20261030T132816Z\\paws_domain",
+      "validation": {
+        "threshold": 0.8124760985374451,
+        "precision": 0.9,
+        "recall": 1.0,
+        "f1": 0.9473684210526316,
+        "tp": 180,
+        "fp": 20,
+        "fn": 0,
+        "calibration_passed": true,
+        "recall_at_5": 0.8833333333333333,
+        "retrieval_queries": 60
+      },
+      "relative_path": "experiments/20261030T132816Z/paws_domain"
+    }
+  },
+  "cold_load_seconds": 1.4126169999999547,
+  "pilot": {
+    "seconds": 7.790635100000145,
+    "batches": 4,
+    "mean_loss": 0.024278857046738267
+  },
+  "estimated_domain_epoch_seconds": 214.242465250004,
+  "candidate_selected_on_validation": "domain",
+  "candidate_passes_synthetic_gate": false,
+  "active_model": "baseline",
+  "promotion": "No automatic promotion: independent human review remains pending even when synthetic gates pass.",
+  "total_seconds": 1929.0627297,
+  "peak_cuda_bytes": 0,
+  "selection_rule": "Highest validation F1; ties use fixed order domain then paws_domain. Test results never select variants.",
+  "human_review_completed": false,
+  "memory": {
+    "peak_working_set_bytes": 1053335552,
+    "measured_at": "2026-10-30T19:30:25.0538478+05:30",
+    "sampled_working_set_bytes": 527859712,
+    "note": "Native training process; peak working set from Windows, excludes Docker processes.",
+    "process_id": 8468
+  },
+  "regression": {
+    "source": "Original authored synthetic benchmark; regression only, not new held-out evidence. Original test reference corpus preserved. No threshold changes.",
+    "models": {
+      "baseline": {
+        "threshold": 0.603080153465271,
+        "precision": 0.9421487603305785,
+        "recall": 0.95,
+        "f1": 0.946058091286307,
+        "tp": 114,
+        "fp": 7,
+        "fn": 6,
+        "calibration_passed": true,
+        "recall_at_5": 1.0,
+        "retrieval_queries": 60
+      },
+      "domain": {
+        "threshold": 0.8691622018814087,
+        "precision": 0.9813084112149533,
+        "recall": 0.875,
+        "f1": 0.9251101321585904,
+        "tp": 105,
+        "fp": 2,
+        "fn": 15,
+        "calibration_passed": true,
+        "recall_at_5": 1.0,
+        "retrieval_queries": 60
+      }
+    }
+  }
+}

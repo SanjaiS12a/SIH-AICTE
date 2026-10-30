@@ -1,0 +1,5609 @@
+{
+  "label_provenance": "Authored synthetic scenario labels; independent human review pending.",
+  "records": [
+    {
+      "id": "0-a",
+      "family": 0,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college admitted students above its sanctioned intake in 2023. The matter concerns programme cohort 1."
+    },
+    {
+      "id": "0-b",
+      "family": 0,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "Enrolment exceeded the approved seat capacity during the 2023 admission cycle. This report concerns programme cohort 1."
+    },
+    {
+      "id": "0-n",
+      "family": 0,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "Admission was refused despite a valid allotment letter in 2023."
+    },
+    {
+      "id": "0-r",
+      "family": 0,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college admitted students above its sanctioned intake in 2022. This was a separate incident in the preceding year, cohort 1."
+    },
+    {
+      "id": "1-a",
+      "family": 1,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "Tuition fees were not returned after an admission cancellation in 2023. The matter concerns programme cohort 2."
+    },
+    {
+      "id": "1-b",
+      "family": 1,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "The institution has withheld the fee refund following withdrawal in 2023. This report concerns programme cohort 2."
+    },
+    {
+      "id": "1-n",
+      "family": 1,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "The hostel security deposit remains unpaid after checkout in 2023."
+    },
+    {
+      "id": "1-r",
+      "family": 1,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "Tuition fees were not returned after an admission cancellation in 2022. This was a separate incident in the preceding year, cohort 2."
+    },
+    {
+      "id": "2-a",
+      "family": 2,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "Original certificates were withheld after the student withdrew in 2023. The matter concerns programme cohort 3."
+    },
+    {
+      "id": "2-b",
+      "family": 2,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The institution refused to return original academic documents after withdrawal in 2023. This report concerns programme cohort 3."
+    },
+    {
+      "id": "2-n",
+      "family": 2,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The graduation transcript contains incorrect marks for 2023."
+    },
+    {
+      "id": "2-r",
+      "family": 2,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "Original certificates were withheld after the student withdrew in 2022. This was a separate incident in the preceding year, cohort 3."
+    },
+    {
+      "id": "3-a",
+      "family": 3,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Drinking water in the hostel was unsafe during 2023. The matter concerns programme cohort 4."
+    },
+    {
+      "id": "3-b",
+      "family": 3,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Residents reported contaminated potable water in the hostel in 2023. This report concerns programme cohort 4."
+    },
+    {
+      "id": "3-n",
+      "family": 3,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "The electrical engineering laboratory lacked working equipment in 2023."
+    },
+    {
+      "id": "3-r",
+      "family": 3,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Drinking water in the hostel was unsafe during 2022. This was a separate incident in the preceding year, cohort 4."
+    },
+    {
+      "id": "4-a",
+      "family": 4,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The merit scholarship approved for 2023 has not been disbursed. The matter concerns programme cohort 5."
+    },
+    {
+      "id": "4-b",
+      "family": 4,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "Students have not received the sanctioned merit financial award for 2023. This report concerns programme cohort 5."
+    },
+    {
+      "id": "4-n",
+      "family": 4,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The institution did not forward a scholarship application in 2023."
+    },
+    {
+      "id": "4-r",
+      "family": 4,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The merit scholarship approved for 2022 has not been disbursed. This was a separate incident in the preceding year, cohort 5."
+    },
+    {
+      "id": "5-a",
+      "family": 5,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Final semester results were delayed beyond the calendar in 2023. The matter concerns programme cohort 6."
+    },
+    {
+      "id": "5-b",
+      "family": 5,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Publication of the last semester examination outcome missed the academic schedule for 2023. This report concerns programme cohort 6."
+    },
+    {
+      "id": "5-n",
+      "family": 5,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "An examination revaluation appeal received no response in 2023."
+    },
+    {
+      "id": "5-r",
+      "family": 5,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Final semester results were delayed beyond the calendar in 2022. This was a separate incident in the preceding year, cohort 6."
+    },
+    {
+      "id": "6-a",
+      "family": 6,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "Admission was refused despite a valid allotment letter in 2023. The matter concerns programme cohort 7."
+    },
+    {
+      "id": "6-b",
+      "family": 6,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "A student holding an official seat allocation was denied enrolment for 2023. This report concerns programme cohort 7."
+    },
+    {
+      "id": "6-n",
+      "family": 6,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "The college demanded an undeclared admission payment in 2023."
+    },
+    {
+      "id": "6-r",
+      "family": 6,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "Admission was refused despite a valid allotment letter in 2022. This was a separate incident in the preceding year, cohort 7."
+    },
+    {
+      "id": "7-a",
+      "family": 7,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "The hostel security deposit remains unpaid after checkout in 2023. The matter concerns programme cohort 8."
+    },
+    {
+      "id": "7-b",
+      "family": 7,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "After leaving the hostel in 2023, the resident has not received the caution deposit. This report concerns programme cohort 8."
+    },
+    {
+      "id": "7-n",
+      "family": 7,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "An examination fee was charged twice and not reversed in 2023."
+    },
+    {
+      "id": "7-r",
+      "family": 7,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "The hostel security deposit remains unpaid after checkout in 2022. This was a separate incident in the preceding year, cohort 8."
+    },
+    {
+      "id": "8-a",
+      "family": 8,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The graduation transcript contains incorrect marks for 2023. The matter concerns programme cohort 9."
+    },
+    {
+      "id": "8-b",
+      "family": 8,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The academic record issued for 2023 lists erroneous examination scores. This report concerns programme cohort 9."
+    },
+    {
+      "id": "8-n",
+      "family": 8,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "A migration certificate requested in 2023 has not been issued."
+    },
+    {
+      "id": "8-r",
+      "family": 8,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The graduation transcript contains incorrect marks for 2022. This was a separate incident in the preceding year, cohort 9."
+    },
+    {
+      "id": "9-a",
+      "family": 9,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The electrical engineering laboratory lacked working equipment in 2023. The matter concerns programme cohort 10."
+    },
+    {
+      "id": "9-b",
+      "family": 9,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "Practical classes could not proceed because electrical lab instruments were broken in 2023. This report concerns programme cohort 10."
+    },
+    {
+      "id": "9-n",
+      "family": 9,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The library remained inaccessible to wheelchair users in 2023."
+    },
+    {
+      "id": "9-r",
+      "family": 9,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The electrical engineering laboratory lacked working equipment in 2022. This was a separate incident in the preceding year, cohort 10."
+    },
+    {
+      "id": "10-a",
+      "family": 10,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The institution did not forward a scholarship application in 2023. The matter concerns programme cohort 11."
+    },
+    {
+      "id": "10-b",
+      "family": 10,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "A financial assistance request was not submitted to the funding authority in 2023. This report concerns programme cohort 11."
+    },
+    {
+      "id": "10-n",
+      "family": 10,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The scholarship payment went to an incorrect account in 2023."
+    },
+    {
+      "id": "10-r",
+      "family": 10,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The institution did not forward a scholarship application in 2022. This was a separate incident in the preceding year, cohort 11."
+    },
+    {
+      "id": "11-a",
+      "family": 11,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "An examination revaluation appeal received no response in 2023. The matter concerns programme cohort 12."
+    },
+    {
+      "id": "11-b",
+      "family": 11,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "The request to review answer-script marks was left unanswered in 2023. This report concerns programme cohort 12."
+    },
+    {
+      "id": "11-n",
+      "family": 11,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "The college did not publish its grievance committee details in 2023."
+    },
+    {
+      "id": "11-r",
+      "family": 11,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "An examination revaluation appeal received no response in 2022. This was a separate incident in the preceding year, cohort 12."
+    },
+    {
+      "id": "12-a",
+      "family": 12,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "The college demanded an undeclared admission payment in 2023. The matter concerns programme cohort 13."
+    },
+    {
+      "id": "12-b",
+      "family": 12,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "Applicants were asked for additional unlisted charges to secure admission in 2023. This report concerns programme cohort 13."
+    },
+    {
+      "id": "12-n",
+      "family": 12,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "The college admitted students above its sanctioned intake in 2023."
+    },
+    {
+      "id": "12-r",
+      "family": 12,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "The college demanded an undeclared admission payment in 2022. This was a separate incident in the preceding year, cohort 13."
+    },
+    {
+      "id": "13-a",
+      "family": 13,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "An examination fee was charged twice and not reversed in 2023. The matter concerns programme cohort 14."
+    },
+    {
+      "id": "13-b",
+      "family": 13,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "A duplicate exam payment made in 2023 has not been reimbursed. This report concerns programme cohort 14."
+    },
+    {
+      "id": "13-n",
+      "family": 13,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "Tuition fees were not returned after an admission cancellation in 2023."
+    },
+    {
+      "id": "13-r",
+      "family": 13,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "An examination fee was charged twice and not reversed in 2022. This was a separate incident in the preceding year, cohort 14."
+    },
+    {
+      "id": "14-a",
+      "family": 14,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "A migration certificate requested in 2023 has not been issued. The matter concerns programme cohort 15."
+    },
+    {
+      "id": "14-b",
+      "family": 14,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "The college has delayed providing the transfer eligibility document requested in 2023. This report concerns programme cohort 15."
+    },
+    {
+      "id": "14-n",
+      "family": 14,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "Original certificates were withheld after the student withdrew in 2023."
+    },
+    {
+      "id": "14-r",
+      "family": 14,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "A migration certificate requested in 2022 has not been issued. This was a separate incident in the preceding year, cohort 15."
+    },
+    {
+      "id": "15-a",
+      "family": 15,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "The library remained inaccessible to wheelchair users in 2023. The matter concerns programme cohort 16."
+    },
+    {
+      "id": "15-b",
+      "family": 15,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "Wheelchair access to the campus library was unavailable throughout 2023. This report concerns programme cohort 16."
+    },
+    {
+      "id": "15-n",
+      "family": 15,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "Drinking water in the hostel was unsafe during 2023."
+    },
+    {
+      "id": "15-r",
+      "family": 15,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "The library remained inaccessible to wheelchair users in 2022. This was a separate incident in the preceding year, cohort 16."
+    },
+    {
+      "id": "16-a",
+      "family": 16,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The scholarship payment went to an incorrect account in 2023. The matter concerns programme cohort 17."
+    },
+    {
+      "id": "16-b",
+      "family": 16,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "Approved student financial support was credited to the wrong bank account in 2023. This report concerns programme cohort 17."
+    },
+    {
+      "id": "16-n",
+      "family": 16,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The merit scholarship approved for 2023 has not been disbursed."
+    },
+    {
+      "id": "16-r",
+      "family": 16,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The scholarship payment went to an incorrect account in 2022. This was a separate incident in the preceding year, cohort 17."
+    },
+    {
+      "id": "17-a",
+      "family": 17,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "The college did not publish its grievance committee details in 2023. The matter concerns programme cohort 18."
+    },
+    {
+      "id": "17-b",
+      "family": 17,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "Information about the student complaint committee was absent from the website in 2023. This report concerns programme cohort 18."
+    },
+    {
+      "id": "17-n",
+      "family": 17,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "Final semester results were delayed beyond the calendar in 2023."
+    },
+    {
+      "id": "17-r",
+      "family": 17,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "The college did not publish its grievance committee details in 2022. This was a separate incident in the preceding year, cohort 18."
+    },
+    {
+      "id": "18-a",
+      "family": 18,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "The college admitted students above its sanctioned intake in 2023. The matter concerns programme cohort 19."
+    },
+    {
+      "id": "18-b",
+      "family": 18,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "Enrolment exceeded the approved seat capacity during the 2023 admission cycle. This report concerns programme cohort 19."
+    },
+    {
+      "id": "18-n",
+      "family": 18,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "Admission was refused despite a valid allotment letter in 2023."
+    },
+    {
+      "id": "18-r",
+      "family": 18,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "The college admitted students above its sanctioned intake in 2022. This was a separate incident in the preceding year, cohort 19."
+    },
+    {
+      "id": "19-a",
+      "family": 19,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "Tuition fees were not returned after an admission cancellation in 2023. The matter concerns programme cohort 20."
+    },
+    {
+      "id": "19-b",
+      "family": 19,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "The institution has withheld the fee refund following withdrawal in 2023. This report concerns programme cohort 20."
+    },
+    {
+      "id": "19-n",
+      "family": 19,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "The hostel security deposit remains unpaid after checkout in 2023."
+    },
+    {
+      "id": "19-r",
+      "family": 19,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "Tuition fees were not returned after an admission cancellation in 2022. This was a separate incident in the preceding year, cohort 20."
+    },
+    {
+      "id": "20-a",
+      "family": 20,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "Original certificates were withheld after the student withdrew in 2023. The matter concerns programme cohort 21."
+    },
+    {
+      "id": "20-b",
+      "family": 20,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "The institution refused to return original academic documents after withdrawal in 2023. This report concerns programme cohort 21."
+    },
+    {
+      "id": "20-n",
+      "family": 20,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "The graduation transcript contains incorrect marks for 2023."
+    },
+    {
+      "id": "20-r",
+      "family": 20,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "Original certificates were withheld after the student withdrew in 2022. This was a separate incident in the preceding year, cohort 21."
+    },
+    {
+      "id": "21-a",
+      "family": 21,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "Drinking water in the hostel was unsafe during 2023. The matter concerns programme cohort 22."
+    },
+    {
+      "id": "21-b",
+      "family": 21,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "Residents reported contaminated potable water in the hostel in 2023. This report concerns programme cohort 22."
+    },
+    {
+      "id": "21-n",
+      "family": 21,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "The electrical engineering laboratory lacked working equipment in 2023."
+    },
+    {
+      "id": "21-r",
+      "family": 21,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "Drinking water in the hostel was unsafe during 2022. This was a separate incident in the preceding year, cohort 22."
+    },
+    {
+      "id": "22-a",
+      "family": 22,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The merit scholarship approved for 2023 has not been disbursed. The matter concerns programme cohort 23."
+    },
+    {
+      "id": "22-b",
+      "family": 22,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "Students have not received the sanctioned merit financial award for 2023. This report concerns programme cohort 23."
+    },
+    {
+      "id": "22-n",
+      "family": 22,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The institution did not forward a scholarship application in 2023."
+    },
+    {
+      "id": "22-r",
+      "family": 22,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The merit scholarship approved for 2022 has not been disbursed. This was a separate incident in the preceding year, cohort 23."
+    },
+    {
+      "id": "23-a",
+      "family": 23,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "Final semester results were delayed beyond the calendar in 2023. The matter concerns programme cohort 24."
+    },
+    {
+      "id": "23-b",
+      "family": 23,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "Publication of the last semester examination outcome missed the academic schedule for 2023. This report concerns programme cohort 24."
+    },
+    {
+      "id": "23-n",
+      "family": 23,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "An examination revaluation appeal received no response in 2023."
+    },
+    {
+      "id": "23-r",
+      "family": 23,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "Final semester results were delayed beyond the calendar in 2022. This was a separate incident in the preceding year, cohort 24."
+    },
+    {
+      "id": "24-a",
+      "family": 24,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "Admission was refused despite a valid allotment letter in 2023. The matter concerns programme cohort 25."
+    },
+    {
+      "id": "24-b",
+      "family": 24,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "A student holding an official seat allocation was denied enrolment for 2023. This report concerns programme cohort 25."
+    },
+    {
+      "id": "24-n",
+      "family": 24,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "The college demanded an undeclared admission payment in 2023."
+    },
+    {
+      "id": "24-r",
+      "family": 24,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "Admission was refused despite a valid allotment letter in 2022. This was a separate incident in the preceding year, cohort 25."
+    },
+    {
+      "id": "25-a",
+      "family": 25,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "The hostel security deposit remains unpaid after checkout in 2023. The matter concerns programme cohort 26."
+    },
+    {
+      "id": "25-b",
+      "family": 25,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "After leaving the hostel in 2023, the resident has not received the caution deposit. This report concerns programme cohort 26."
+    },
+    {
+      "id": "25-n",
+      "family": 25,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "An examination fee was charged twice and not reversed in 2023."
+    },
+    {
+      "id": "25-r",
+      "family": 25,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "The hostel security deposit remains unpaid after checkout in 2022. This was a separate incident in the preceding year, cohort 26."
+    },
+    {
+      "id": "26-a",
+      "family": 26,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "The graduation transcript contains incorrect marks for 2023. The matter concerns programme cohort 27."
+    },
+    {
+      "id": "26-b",
+      "family": 26,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "The academic record issued for 2023 lists erroneous examination scores. This report concerns programme cohort 27."
+    },
+    {
+      "id": "26-n",
+      "family": 26,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "A migration certificate requested in 2023 has not been issued."
+    },
+    {
+      "id": "26-r",
+      "family": 26,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "The graduation transcript contains incorrect marks for 2022. This was a separate incident in the preceding year, cohort 27."
+    },
+    {
+      "id": "27-a",
+      "family": 27,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "The electrical engineering laboratory lacked working equipment in 2023. The matter concerns programme cohort 28."
+    },
+    {
+      "id": "27-b",
+      "family": 27,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "Practical classes could not proceed because electrical lab instruments were broken in 2023. This report concerns programme cohort 28."
+    },
+    {
+      "id": "27-n",
+      "family": 27,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "The library remained inaccessible to wheelchair users in 2023."
+    },
+    {
+      "id": "27-r",
+      "family": 27,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "The electrical engineering laboratory lacked working equipment in 2022. This was a separate incident in the preceding year, cohort 28."
+    },
+    {
+      "id": "28-a",
+      "family": 28,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The institution did not forward a scholarship application in 2023. The matter concerns programme cohort 29."
+    },
+    {
+      "id": "28-b",
+      "family": 28,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "A financial assistance request was not submitted to the funding authority in 2023. This report concerns programme cohort 29."
+    },
+    {
+      "id": "28-n",
+      "family": 28,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The scholarship payment went to an incorrect account in 2023."
+    },
+    {
+      "id": "28-r",
+      "family": 28,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The institution did not forward a scholarship application in 2022. This was a separate incident in the preceding year, cohort 29."
+    },
+    {
+      "id": "29-a",
+      "family": 29,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "An examination revaluation appeal received no response in 2023. The matter concerns programme cohort 30."
+    },
+    {
+      "id": "29-b",
+      "family": 29,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "The request to review answer-script marks was left unanswered in 2023. This report concerns programme cohort 30."
+    },
+    {
+      "id": "29-n",
+      "family": 29,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "The college did not publish its grievance committee details in 2023."
+    },
+    {
+      "id": "29-r",
+      "family": 29,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "An examination revaluation appeal received no response in 2022. This was a separate incident in the preceding year, cohort 30."
+    },
+    {
+      "id": "30-a",
+      "family": 30,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college demanded an undeclared admission payment in 2023. The matter concerns programme cohort 31."
+    },
+    {
+      "id": "30-b",
+      "family": 30,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "Applicants were asked for additional unlisted charges to secure admission in 2023. This report concerns programme cohort 31."
+    },
+    {
+      "id": "30-n",
+      "family": 30,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college admitted students above its sanctioned intake in 2023."
+    },
+    {
+      "id": "30-r",
+      "family": 30,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college demanded an undeclared admission payment in 2022. This was a separate incident in the preceding year, cohort 31."
+    },
+    {
+      "id": "31-a",
+      "family": 31,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "An examination fee was charged twice and not reversed in 2023. The matter concerns programme cohort 32."
+    },
+    {
+      "id": "31-b",
+      "family": 31,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "A duplicate exam payment made in 2023 has not been reimbursed. This report concerns programme cohort 32."
+    },
+    {
+      "id": "31-n",
+      "family": 31,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "Tuition fees were not returned after an admission cancellation in 2023."
+    },
+    {
+      "id": "31-r",
+      "family": 31,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "An examination fee was charged twice and not reversed in 2022. This was a separate incident in the preceding year, cohort 32."
+    },
+    {
+      "id": "32-a",
+      "family": 32,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "A migration certificate requested in 2023 has not been issued. The matter concerns programme cohort 33."
+    },
+    {
+      "id": "32-b",
+      "family": 32,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The college has delayed providing the transfer eligibility document requested in 2023. This report concerns programme cohort 33."
+    },
+    {
+      "id": "32-n",
+      "family": 32,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "Original certificates were withheld after the student withdrew in 2023."
+    },
+    {
+      "id": "32-r",
+      "family": 32,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "A migration certificate requested in 2022 has not been issued. This was a separate incident in the preceding year, cohort 33."
+    },
+    {
+      "id": "33-a",
+      "family": 33,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "The library remained inaccessible to wheelchair users in 2023. The matter concerns programme cohort 34."
+    },
+    {
+      "id": "33-b",
+      "family": 33,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Wheelchair access to the campus library was unavailable throughout 2023. This report concerns programme cohort 34."
+    },
+    {
+      "id": "33-n",
+      "family": 33,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Drinking water in the hostel was unsafe during 2023."
+    },
+    {
+      "id": "33-r",
+      "family": 33,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "The library remained inaccessible to wheelchair users in 2022. This was a separate incident in the preceding year, cohort 34."
+    },
+    {
+      "id": "34-a",
+      "family": 34,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The scholarship payment went to an incorrect account in 2023. The matter concerns programme cohort 35."
+    },
+    {
+      "id": "34-b",
+      "family": 34,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "Approved student financial support was credited to the wrong bank account in 2023. This report concerns programme cohort 35."
+    },
+    {
+      "id": "34-n",
+      "family": 34,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The merit scholarship approved for 2023 has not been disbursed."
+    },
+    {
+      "id": "34-r",
+      "family": 34,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The scholarship payment went to an incorrect account in 2022. This was a separate incident in the preceding year, cohort 35."
+    },
+    {
+      "id": "35-a",
+      "family": 35,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "The college did not publish its grievance committee details in 2023. The matter concerns programme cohort 36."
+    },
+    {
+      "id": "35-b",
+      "family": 35,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Information about the student complaint committee was absent from the website in 2023. This report concerns programme cohort 36."
+    },
+    {
+      "id": "35-n",
+      "family": 35,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Final semester results were delayed beyond the calendar in 2023."
+    },
+    {
+      "id": "35-r",
+      "family": 35,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "The college did not publish its grievance committee details in 2022. This was a separate incident in the preceding year, cohort 36."
+    },
+    {
+      "id": "36-a",
+      "family": 36,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "The college admitted students above its sanctioned intake in 2024. The matter concerns programme cohort 37."
+    },
+    {
+      "id": "36-b",
+      "family": 36,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "Enrolment exceeded the approved seat capacity during the 2024 admission cycle. This report concerns programme cohort 37."
+    },
+    {
+      "id": "36-n",
+      "family": 36,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "Admission was refused despite a valid allotment letter in 2024."
+    },
+    {
+      "id": "36-r",
+      "family": 36,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "The college admitted students above its sanctioned intake in 2023. This was a separate incident in the preceding year, cohort 37."
+    },
+    {
+      "id": "37-a",
+      "family": 37,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "Tuition fees were not returned after an admission cancellation in 2024. The matter concerns programme cohort 38."
+    },
+    {
+      "id": "37-b",
+      "family": 37,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "The institution has withheld the fee refund following withdrawal in 2024. This report concerns programme cohort 38."
+    },
+    {
+      "id": "37-n",
+      "family": 37,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "The hostel security deposit remains unpaid after checkout in 2024."
+    },
+    {
+      "id": "37-r",
+      "family": 37,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "Tuition fees were not returned after an admission cancellation in 2023. This was a separate incident in the preceding year, cohort 38."
+    },
+    {
+      "id": "38-a",
+      "family": 38,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "Original certificates were withheld after the student withdrew in 2024. The matter concerns programme cohort 39."
+    },
+    {
+      "id": "38-b",
+      "family": 38,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The institution refused to return original academic documents after withdrawal in 2024. This report concerns programme cohort 39."
+    },
+    {
+      "id": "38-n",
+      "family": 38,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The graduation transcript contains incorrect marks for 2024."
+    },
+    {
+      "id": "38-r",
+      "family": 38,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "Original certificates were withheld after the student withdrew in 2023. This was a separate incident in the preceding year, cohort 39."
+    },
+    {
+      "id": "39-a",
+      "family": 39,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "Drinking water in the hostel was unsafe during 2024. The matter concerns programme cohort 40."
+    },
+    {
+      "id": "39-b",
+      "family": 39,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "Residents reported contaminated potable water in the hostel in 2024. This report concerns programme cohort 40."
+    },
+    {
+      "id": "39-n",
+      "family": 39,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The electrical engineering laboratory lacked working equipment in 2024."
+    },
+    {
+      "id": "39-r",
+      "family": 39,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "Drinking water in the hostel was unsafe during 2023. This was a separate incident in the preceding year, cohort 40."
+    },
+    {
+      "id": "40-a",
+      "family": 40,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The merit scholarship approved for 2024 has not been disbursed. The matter concerns programme cohort 41."
+    },
+    {
+      "id": "40-b",
+      "family": 40,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "Students have not received the sanctioned merit financial award for 2024. This report concerns programme cohort 41."
+    },
+    {
+      "id": "40-n",
+      "family": 40,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The institution did not forward a scholarship application in 2024."
+    },
+    {
+      "id": "40-r",
+      "family": 40,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The merit scholarship approved for 2023 has not been disbursed. This was a separate incident in the preceding year, cohort 41."
+    },
+    {
+      "id": "41-a",
+      "family": 41,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "Final semester results were delayed beyond the calendar in 2024. The matter concerns programme cohort 42."
+    },
+    {
+      "id": "41-b",
+      "family": 41,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "Publication of the last semester examination outcome missed the academic schedule for 2024. This report concerns programme cohort 42."
+    },
+    {
+      "id": "41-n",
+      "family": 41,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "An examination revaluation appeal received no response in 2024."
+    },
+    {
+      "id": "41-r",
+      "family": 41,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "Final semester results were delayed beyond the calendar in 2023. This was a separate incident in the preceding year, cohort 42."
+    },
+    {
+      "id": "42-a",
+      "family": 42,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "Admission was refused despite a valid allotment letter in 2024. The matter concerns programme cohort 43."
+    },
+    {
+      "id": "42-b",
+      "family": 42,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "A student holding an official seat allocation was denied enrolment for 2024. This report concerns programme cohort 43."
+    },
+    {
+      "id": "42-n",
+      "family": 42,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "The college demanded an undeclared admission payment in 2024."
+    },
+    {
+      "id": "42-r",
+      "family": 42,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "Admission was refused despite a valid allotment letter in 2023. This was a separate incident in the preceding year, cohort 43."
+    },
+    {
+      "id": "43-a",
+      "family": 43,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "The hostel security deposit remains unpaid after checkout in 2024. The matter concerns programme cohort 44."
+    },
+    {
+      "id": "43-b",
+      "family": 43,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "After leaving the hostel in 2024, the resident has not received the caution deposit. This report concerns programme cohort 44."
+    },
+    {
+      "id": "43-n",
+      "family": 43,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "An examination fee was charged twice and not reversed in 2024."
+    },
+    {
+      "id": "43-r",
+      "family": 43,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "The hostel security deposit remains unpaid after checkout in 2023. This was a separate incident in the preceding year, cohort 44."
+    },
+    {
+      "id": "44-a",
+      "family": 44,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "The graduation transcript contains incorrect marks for 2024. The matter concerns programme cohort 45."
+    },
+    {
+      "id": "44-b",
+      "family": 44,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "The academic record issued for 2024 lists erroneous examination scores. This report concerns programme cohort 45."
+    },
+    {
+      "id": "44-n",
+      "family": 44,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "A migration certificate requested in 2024 has not been issued."
+    },
+    {
+      "id": "44-r",
+      "family": 44,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "The graduation transcript contains incorrect marks for 2023. This was a separate incident in the preceding year, cohort 45."
+    },
+    {
+      "id": "45-a",
+      "family": 45,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "The electrical engineering laboratory lacked working equipment in 2024. The matter concerns programme cohort 46."
+    },
+    {
+      "id": "45-b",
+      "family": 45,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "Practical classes could not proceed because electrical lab instruments were broken in 2024. This report concerns programme cohort 46."
+    },
+    {
+      "id": "45-n",
+      "family": 45,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "The library remained inaccessible to wheelchair users in 2024."
+    },
+    {
+      "id": "45-r",
+      "family": 45,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "The electrical engineering laboratory lacked working equipment in 2023. This was a separate incident in the preceding year, cohort 46."
+    },
+    {
+      "id": "46-a",
+      "family": 46,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The institution did not forward a scholarship application in 2024. The matter concerns programme cohort 47."
+    },
+    {
+      "id": "46-b",
+      "family": 46,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "A financial assistance request was not submitted to the funding authority in 2024. This report concerns programme cohort 47."
+    },
+    {
+      "id": "46-n",
+      "family": 46,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The scholarship payment went to an incorrect account in 2024."
+    },
+    {
+      "id": "46-r",
+      "family": 46,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The institution did not forward a scholarship application in 2023. This was a separate incident in the preceding year, cohort 47."
+    },
+    {
+      "id": "47-a",
+      "family": 47,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "An examination revaluation appeal received no response in 2024. The matter concerns programme cohort 48."
+    },
+    {
+      "id": "47-b",
+      "family": 47,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "The request to review answer-script marks was left unanswered in 2024. This report concerns programme cohort 48."
+    },
+    {
+      "id": "47-n",
+      "family": 47,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "The college did not publish its grievance committee details in 2024."
+    },
+    {
+      "id": "47-r",
+      "family": 47,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "An examination revaluation appeal received no response in 2023. This was a separate incident in the preceding year, cohort 48."
+    },
+    {
+      "id": "48-a",
+      "family": 48,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "The college demanded an undeclared admission payment in 2024. The matter concerns programme cohort 49."
+    },
+    {
+      "id": "48-b",
+      "family": 48,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "Applicants were asked for additional unlisted charges to secure admission in 2024. This report concerns programme cohort 49."
+    },
+    {
+      "id": "48-n",
+      "family": 48,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "The college admitted students above its sanctioned intake in 2024."
+    },
+    {
+      "id": "48-r",
+      "family": 48,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "The college demanded an undeclared admission payment in 2023. This was a separate incident in the preceding year, cohort 49."
+    },
+    {
+      "id": "49-a",
+      "family": 49,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "An examination fee was charged twice and not reversed in 2024. The matter concerns programme cohort 50."
+    },
+    {
+      "id": "49-b",
+      "family": 49,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "A duplicate exam payment made in 2024 has not been reimbursed. This report concerns programme cohort 50."
+    },
+    {
+      "id": "49-n",
+      "family": 49,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "Tuition fees were not returned after an admission cancellation in 2024."
+    },
+    {
+      "id": "49-r",
+      "family": 49,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "An examination fee was charged twice and not reversed in 2023. This was a separate incident in the preceding year, cohort 50."
+    },
+    {
+      "id": "50-a",
+      "family": 50,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "A migration certificate requested in 2024 has not been issued. The matter concerns programme cohort 51."
+    },
+    {
+      "id": "50-b",
+      "family": 50,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "The college has delayed providing the transfer eligibility document requested in 2024. This report concerns programme cohort 51."
+    },
+    {
+      "id": "50-n",
+      "family": 50,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "Original certificates were withheld after the student withdrew in 2024."
+    },
+    {
+      "id": "50-r",
+      "family": 50,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "A migration certificate requested in 2023 has not been issued. This was a separate incident in the preceding year, cohort 51."
+    },
+    {
+      "id": "51-a",
+      "family": 51,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "The library remained inaccessible to wheelchair users in 2024. The matter concerns programme cohort 52."
+    },
+    {
+      "id": "51-b",
+      "family": 51,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "Wheelchair access to the campus library was unavailable throughout 2024. This report concerns programme cohort 52."
+    },
+    {
+      "id": "51-n",
+      "family": 51,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "Drinking water in the hostel was unsafe during 2024."
+    },
+    {
+      "id": "51-r",
+      "family": 51,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "The library remained inaccessible to wheelchair users in 2023. This was a separate incident in the preceding year, cohort 52."
+    },
+    {
+      "id": "52-a",
+      "family": 52,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The scholarship payment went to an incorrect account in 2024. The matter concerns programme cohort 53."
+    },
+    {
+      "id": "52-b",
+      "family": 52,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "Approved student financial support was credited to the wrong bank account in 2024. This report concerns programme cohort 53."
+    },
+    {
+      "id": "52-n",
+      "family": 52,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The merit scholarship approved for 2024 has not been disbursed."
+    },
+    {
+      "id": "52-r",
+      "family": 52,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The scholarship payment went to an incorrect account in 2023. This was a separate incident in the preceding year, cohort 53."
+    },
+    {
+      "id": "53-a",
+      "family": 53,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "The college did not publish its grievance committee details in 2024. The matter concerns programme cohort 54."
+    },
+    {
+      "id": "53-b",
+      "family": 53,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "Information about the student complaint committee was absent from the website in 2024. This report concerns programme cohort 54."
+    },
+    {
+      "id": "53-n",
+      "family": 53,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "Final semester results were delayed beyond the calendar in 2024."
+    },
+    {
+      "id": "53-r",
+      "family": 53,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "The college did not publish its grievance committee details in 2023. This was a separate incident in the preceding year, cohort 54."
+    },
+    {
+      "id": "54-a",
+      "family": 54,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "The college admitted students above its sanctioned intake in 2024. The matter concerns programme cohort 55."
+    },
+    {
+      "id": "54-b",
+      "family": 54,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "Enrolment exceeded the approved seat capacity during the 2024 admission cycle. This report concerns programme cohort 55."
+    },
+    {
+      "id": "54-n",
+      "family": 54,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "Admission was refused despite a valid allotment letter in 2024."
+    },
+    {
+      "id": "54-r",
+      "family": 54,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "The college admitted students above its sanctioned intake in 2023. This was a separate incident in the preceding year, cohort 55."
+    },
+    {
+      "id": "55-a",
+      "family": 55,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "Tuition fees were not returned after an admission cancellation in 2024. The matter concerns programme cohort 56."
+    },
+    {
+      "id": "55-b",
+      "family": 55,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "The institution has withheld the fee refund following withdrawal in 2024. This report concerns programme cohort 56."
+    },
+    {
+      "id": "55-n",
+      "family": 55,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "The hostel security deposit remains unpaid after checkout in 2024."
+    },
+    {
+      "id": "55-r",
+      "family": 55,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "Tuition fees were not returned after an admission cancellation in 2023. This was a separate incident in the preceding year, cohort 56."
+    },
+    {
+      "id": "56-a",
+      "family": 56,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "Original certificates were withheld after the student withdrew in 2024. The matter concerns programme cohort 57."
+    },
+    {
+      "id": "56-b",
+      "family": 56,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "The institution refused to return original academic documents after withdrawal in 2024. This report concerns programme cohort 57."
+    },
+    {
+      "id": "56-n",
+      "family": 56,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "The graduation transcript contains incorrect marks for 2024."
+    },
+    {
+      "id": "56-r",
+      "family": 56,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "Original certificates were withheld after the student withdrew in 2023. This was a separate incident in the preceding year, cohort 57."
+    },
+    {
+      "id": "57-a",
+      "family": 57,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "Drinking water in the hostel was unsafe during 2024. The matter concerns programme cohort 58."
+    },
+    {
+      "id": "57-b",
+      "family": 57,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "Residents reported contaminated potable water in the hostel in 2024. This report concerns programme cohort 58."
+    },
+    {
+      "id": "57-n",
+      "family": 57,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "The electrical engineering laboratory lacked working equipment in 2024."
+    },
+    {
+      "id": "57-r",
+      "family": 57,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "Drinking water in the hostel was unsafe during 2023. This was a separate incident in the preceding year, cohort 58."
+    },
+    {
+      "id": "58-a",
+      "family": 58,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The merit scholarship approved for 2024 has not been disbursed. The matter concerns programme cohort 59."
+    },
+    {
+      "id": "58-b",
+      "family": 58,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "Students have not received the sanctioned merit financial award for 2024. This report concerns programme cohort 59."
+    },
+    {
+      "id": "58-n",
+      "family": 58,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The institution did not forward a scholarship application in 2024."
+    },
+    {
+      "id": "58-r",
+      "family": 58,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The merit scholarship approved for 2023 has not been disbursed. This was a separate incident in the preceding year, cohort 59."
+    },
+    {
+      "id": "59-a",
+      "family": 59,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "Final semester results were delayed beyond the calendar in 2024. The matter concerns programme cohort 60."
+    },
+    {
+      "id": "59-b",
+      "family": 59,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "Publication of the last semester examination outcome missed the academic schedule for 2024. This report concerns programme cohort 60."
+    },
+    {
+      "id": "59-n",
+      "family": 59,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "An examination revaluation appeal received no response in 2024."
+    },
+    {
+      "id": "59-r",
+      "family": 59,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "Final semester results were delayed beyond the calendar in 2023. This was a separate incident in the preceding year, cohort 60."
+    },
+    {
+      "id": "60-a",
+      "family": 60,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "Admission was refused despite a valid allotment letter in 2024. The matter concerns programme cohort 61."
+    },
+    {
+      "id": "60-b",
+      "family": 60,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "A student holding an official seat allocation was denied enrolment for 2024. This report concerns programme cohort 61."
+    },
+    {
+      "id": "60-n",
+      "family": 60,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college demanded an undeclared admission payment in 2024."
+    },
+    {
+      "id": "60-r",
+      "family": 60,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "Admission was refused despite a valid allotment letter in 2023. This was a separate incident in the preceding year, cohort 61."
+    },
+    {
+      "id": "61-a",
+      "family": 61,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "The hostel security deposit remains unpaid after checkout in 2024. The matter concerns programme cohort 62."
+    },
+    {
+      "id": "61-b",
+      "family": 61,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "After leaving the hostel in 2024, the resident has not received the caution deposit. This report concerns programme cohort 62."
+    },
+    {
+      "id": "61-n",
+      "family": 61,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "An examination fee was charged twice and not reversed in 2024."
+    },
+    {
+      "id": "61-r",
+      "family": 61,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "The hostel security deposit remains unpaid after checkout in 2023. This was a separate incident in the preceding year, cohort 62."
+    },
+    {
+      "id": "62-a",
+      "family": 62,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The graduation transcript contains incorrect marks for 2024. The matter concerns programme cohort 63."
+    },
+    {
+      "id": "62-b",
+      "family": 62,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The academic record issued for 2024 lists erroneous examination scores. This report concerns programme cohort 63."
+    },
+    {
+      "id": "62-n",
+      "family": 62,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "A migration certificate requested in 2024 has not been issued."
+    },
+    {
+      "id": "62-r",
+      "family": 62,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The graduation transcript contains incorrect marks for 2023. This was a separate incident in the preceding year, cohort 63."
+    },
+    {
+      "id": "63-a",
+      "family": 63,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "The electrical engineering laboratory lacked working equipment in 2024. The matter concerns programme cohort 64."
+    },
+    {
+      "id": "63-b",
+      "family": 63,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Practical classes could not proceed because electrical lab instruments were broken in 2024. This report concerns programme cohort 64."
+    },
+    {
+      "id": "63-n",
+      "family": 63,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "The library remained inaccessible to wheelchair users in 2024."
+    },
+    {
+      "id": "63-r",
+      "family": 63,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "The electrical engineering laboratory lacked working equipment in 2023. This was a separate incident in the preceding year, cohort 64."
+    },
+    {
+      "id": "64-a",
+      "family": 64,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The institution did not forward a scholarship application in 2024. The matter concerns programme cohort 65."
+    },
+    {
+      "id": "64-b",
+      "family": 64,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "A financial assistance request was not submitted to the funding authority in 2024. This report concerns programme cohort 65."
+    },
+    {
+      "id": "64-n",
+      "family": 64,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The scholarship payment went to an incorrect account in 2024."
+    },
+    {
+      "id": "64-r",
+      "family": 64,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The institution did not forward a scholarship application in 2023. This was a separate incident in the preceding year, cohort 65."
+    },
+    {
+      "id": "65-a",
+      "family": 65,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "An examination revaluation appeal received no response in 2024. The matter concerns programme cohort 66."
+    },
+    {
+      "id": "65-b",
+      "family": 65,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "The request to review answer-script marks was left unanswered in 2024. This report concerns programme cohort 66."
+    },
+    {
+      "id": "65-n",
+      "family": 65,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "The college did not publish its grievance committee details in 2024."
+    },
+    {
+      "id": "65-r",
+      "family": 65,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "An examination revaluation appeal received no response in 2023. This was a separate incident in the preceding year, cohort 66."
+    },
+    {
+      "id": "66-a",
+      "family": 66,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "The college demanded an undeclared admission payment in 2024. The matter concerns programme cohort 67."
+    },
+    {
+      "id": "66-b",
+      "family": 66,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "Applicants were asked for additional unlisted charges to secure admission in 2024. This report concerns programme cohort 67."
+    },
+    {
+      "id": "66-n",
+      "family": 66,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "The college admitted students above its sanctioned intake in 2024."
+    },
+    {
+      "id": "66-r",
+      "family": 66,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "The college demanded an undeclared admission payment in 2023. This was a separate incident in the preceding year, cohort 67."
+    },
+    {
+      "id": "67-a",
+      "family": 67,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "An examination fee was charged twice and not reversed in 2024. The matter concerns programme cohort 68."
+    },
+    {
+      "id": "67-b",
+      "family": 67,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "A duplicate exam payment made in 2024 has not been reimbursed. This report concerns programme cohort 68."
+    },
+    {
+      "id": "67-n",
+      "family": 67,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "Tuition fees were not returned after an admission cancellation in 2024."
+    },
+    {
+      "id": "67-r",
+      "family": 67,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "An examination fee was charged twice and not reversed in 2023. This was a separate incident in the preceding year, cohort 68."
+    },
+    {
+      "id": "68-a",
+      "family": 68,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "A migration certificate requested in 2024 has not been issued. The matter concerns programme cohort 69."
+    },
+    {
+      "id": "68-b",
+      "family": 68,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The college has delayed providing the transfer eligibility document requested in 2024. This report concerns programme cohort 69."
+    },
+    {
+      "id": "68-n",
+      "family": 68,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "Original certificates were withheld after the student withdrew in 2024."
+    },
+    {
+      "id": "68-r",
+      "family": 68,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "A migration certificate requested in 2023 has not been issued. This was a separate incident in the preceding year, cohort 69."
+    },
+    {
+      "id": "69-a",
+      "family": 69,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The library remained inaccessible to wheelchair users in 2024. The matter concerns programme cohort 70."
+    },
+    {
+      "id": "69-b",
+      "family": 69,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "Wheelchair access to the campus library was unavailable throughout 2024. This report concerns programme cohort 70."
+    },
+    {
+      "id": "69-n",
+      "family": 69,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "Drinking water in the hostel was unsafe during 2024."
+    },
+    {
+      "id": "69-r",
+      "family": 69,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The library remained inaccessible to wheelchair users in 2023. This was a separate incident in the preceding year, cohort 70."
+    },
+    {
+      "id": "70-a",
+      "family": 70,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The scholarship payment went to an incorrect account in 2024. The matter concerns programme cohort 71."
+    },
+    {
+      "id": "70-b",
+      "family": 70,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "Approved student financial support was credited to the wrong bank account in 2024. This report concerns programme cohort 71."
+    },
+    {
+      "id": "70-n",
+      "family": 70,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The merit scholarship approved for 2024 has not been disbursed."
+    },
+    {
+      "id": "70-r",
+      "family": 70,
+      "split": "calibration",
+      "institution": "DEMO-0011",
+      "text": "The scholarship payment went to an incorrect account in 2023. This was a separate incident in the preceding year, cohort 71."
+    },
+    {
+      "id": "71-a",
+      "family": 71,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "The college did not publish its grievance committee details in 2024. The matter concerns programme cohort 72."
+    },
+    {
+      "id": "71-b",
+      "family": 71,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "Information about the student complaint committee was absent from the website in 2024. This report concerns programme cohort 72."
+    },
+    {
+      "id": "71-n",
+      "family": 71,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "Final semester results were delayed beyond the calendar in 2024."
+    },
+    {
+      "id": "71-r",
+      "family": 71,
+      "split": "calibration",
+      "institution": "DEMO-0012",
+      "text": "The college did not publish its grievance committee details in 2023. This was a separate incident in the preceding year, cohort 72."
+    },
+    {
+      "id": "72-a",
+      "family": 72,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "The college admitted students above its sanctioned intake in 2025. The matter concerns programme cohort 73."
+    },
+    {
+      "id": "72-b",
+      "family": 72,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "Enrolment exceeded the approved seat capacity during the 2025 admission cycle. This report concerns programme cohort 73."
+    },
+    {
+      "id": "72-n",
+      "family": 72,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "Admission was refused despite a valid allotment letter in 2025."
+    },
+    {
+      "id": "72-r",
+      "family": 72,
+      "split": "test",
+      "institution": "DEMO-0013",
+      "text": "The college admitted students above its sanctioned intake in 2024. This was a separate incident in the preceding year, cohort 73."
+    },
+    {
+      "id": "73-a",
+      "family": 73,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "Tuition fees were not returned after an admission cancellation in 2025. The matter concerns programme cohort 74."
+    },
+    {
+      "id": "73-b",
+      "family": 73,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "The institution has withheld the fee refund following withdrawal in 2025. This report concerns programme cohort 74."
+    },
+    {
+      "id": "73-n",
+      "family": 73,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "The hostel security deposit remains unpaid after checkout in 2025."
+    },
+    {
+      "id": "73-r",
+      "family": 73,
+      "split": "test",
+      "institution": "DEMO-0014",
+      "text": "Tuition fees were not returned after an admission cancellation in 2024. This was a separate incident in the preceding year, cohort 74."
+    },
+    {
+      "id": "74-a",
+      "family": 74,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "Original certificates were withheld after the student withdrew in 2025. The matter concerns programme cohort 75."
+    },
+    {
+      "id": "74-b",
+      "family": 74,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "The institution refused to return original academic documents after withdrawal in 2025. This report concerns programme cohort 75."
+    },
+    {
+      "id": "74-n",
+      "family": 74,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "The graduation transcript contains incorrect marks for 2025."
+    },
+    {
+      "id": "74-r",
+      "family": 74,
+      "split": "test",
+      "institution": "DEMO-0015",
+      "text": "Original certificates were withheld after the student withdrew in 2024. This was a separate incident in the preceding year, cohort 75."
+    },
+    {
+      "id": "75-a",
+      "family": 75,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "Drinking water in the hostel was unsafe during 2025. The matter concerns programme cohort 76."
+    },
+    {
+      "id": "75-b",
+      "family": 75,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "Residents reported contaminated potable water in the hostel in 2025. This report concerns programme cohort 76."
+    },
+    {
+      "id": "75-n",
+      "family": 75,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "The electrical engineering laboratory lacked working equipment in 2025."
+    },
+    {
+      "id": "75-r",
+      "family": 75,
+      "split": "calibration",
+      "institution": "DEMO-0016",
+      "text": "Drinking water in the hostel was unsafe during 2024. This was a separate incident in the preceding year, cohort 76."
+    },
+    {
+      "id": "76-a",
+      "family": 76,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The merit scholarship approved for 2025 has not been disbursed. The matter concerns programme cohort 77."
+    },
+    {
+      "id": "76-b",
+      "family": 76,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "Students have not received the sanctioned merit financial award for 2025. This report concerns programme cohort 77."
+    },
+    {
+      "id": "76-n",
+      "family": 76,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The institution did not forward a scholarship application in 2025."
+    },
+    {
+      "id": "76-r",
+      "family": 76,
+      "split": "calibration",
+      "institution": "DEMO-0017",
+      "text": "The merit scholarship approved for 2024 has not been disbursed. This was a separate incident in the preceding year, cohort 77."
+    },
+    {
+      "id": "77-a",
+      "family": 77,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "Final semester results were delayed beyond the calendar in 2025. The matter concerns programme cohort 78."
+    },
+    {
+      "id": "77-b",
+      "family": 77,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "Publication of the last semester examination outcome missed the academic schedule for 2025. This report concerns programme cohort 78."
+    },
+    {
+      "id": "77-n",
+      "family": 77,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "An examination revaluation appeal received no response in 2025."
+    },
+    {
+      "id": "77-r",
+      "family": 77,
+      "split": "test",
+      "institution": "DEMO-0018",
+      "text": "Final semester results were delayed beyond the calendar in 2024. This was a separate incident in the preceding year, cohort 78."
+    },
+    {
+      "id": "78-a",
+      "family": 78,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "Admission was refused despite a valid allotment letter in 2025. The matter concerns programme cohort 79."
+    },
+    {
+      "id": "78-b",
+      "family": 78,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "A student holding an official seat allocation was denied enrolment for 2025. This report concerns programme cohort 79."
+    },
+    {
+      "id": "78-n",
+      "family": 78,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "The college demanded an undeclared admission payment in 2025."
+    },
+    {
+      "id": "78-r",
+      "family": 78,
+      "split": "test",
+      "institution": "DEMO-0019",
+      "text": "Admission was refused despite a valid allotment letter in 2024. This was a separate incident in the preceding year, cohort 79."
+    },
+    {
+      "id": "79-a",
+      "family": 79,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "The hostel security deposit remains unpaid after checkout in 2025. The matter concerns programme cohort 80."
+    },
+    {
+      "id": "79-b",
+      "family": 79,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "After leaving the hostel in 2025, the resident has not received the caution deposit. This report concerns programme cohort 80."
+    },
+    {
+      "id": "79-n",
+      "family": 79,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "An examination fee was charged twice and not reversed in 2025."
+    },
+    {
+      "id": "79-r",
+      "family": 79,
+      "split": "test",
+      "institution": "DEMO-0020",
+      "text": "The hostel security deposit remains unpaid after checkout in 2024. This was a separate incident in the preceding year, cohort 80."
+    },
+    {
+      "id": "80-a",
+      "family": 80,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "The graduation transcript contains incorrect marks for 2025. The matter concerns programme cohort 81."
+    },
+    {
+      "id": "80-b",
+      "family": 80,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "The academic record issued for 2025 lists erroneous examination scores. This report concerns programme cohort 81."
+    },
+    {
+      "id": "80-n",
+      "family": 80,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "A migration certificate requested in 2025 has not been issued."
+    },
+    {
+      "id": "80-r",
+      "family": 80,
+      "split": "calibration",
+      "institution": "DEMO-0021",
+      "text": "The graduation transcript contains incorrect marks for 2024. This was a separate incident in the preceding year, cohort 81."
+    },
+    {
+      "id": "81-a",
+      "family": 81,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "The electrical engineering laboratory lacked working equipment in 2025. The matter concerns programme cohort 82."
+    },
+    {
+      "id": "81-b",
+      "family": 81,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "Practical classes could not proceed because electrical lab instruments were broken in 2025. This report concerns programme cohort 82."
+    },
+    {
+      "id": "81-n",
+      "family": 81,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "The library remained inaccessible to wheelchair users in 2025."
+    },
+    {
+      "id": "81-r",
+      "family": 81,
+      "split": "calibration",
+      "institution": "DEMO-0022",
+      "text": "The electrical engineering laboratory lacked working equipment in 2024. This was a separate incident in the preceding year, cohort 82."
+    },
+    {
+      "id": "82-a",
+      "family": 82,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The institution did not forward a scholarship application in 2025. The matter concerns programme cohort 83."
+    },
+    {
+      "id": "82-b",
+      "family": 82,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "A financial assistance request was not submitted to the funding authority in 2025. This report concerns programme cohort 83."
+    },
+    {
+      "id": "82-n",
+      "family": 82,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The scholarship payment went to an incorrect account in 2025."
+    },
+    {
+      "id": "82-r",
+      "family": 82,
+      "split": "test",
+      "institution": "DEMO-0023",
+      "text": "The institution did not forward a scholarship application in 2024. This was a separate incident in the preceding year, cohort 83."
+    },
+    {
+      "id": "83-a",
+      "family": 83,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "An examination revaluation appeal received no response in 2025. The matter concerns programme cohort 84."
+    },
+    {
+      "id": "83-b",
+      "family": 83,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "The request to review answer-script marks was left unanswered in 2025. This report concerns programme cohort 84."
+    },
+    {
+      "id": "83-n",
+      "family": 83,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "The college did not publish its grievance committee details in 2025."
+    },
+    {
+      "id": "83-r",
+      "family": 83,
+      "split": "test",
+      "institution": "DEMO-0024",
+      "text": "An examination revaluation appeal received no response in 2024. This was a separate incident in the preceding year, cohort 84."
+    },
+    {
+      "id": "84-a",
+      "family": 84,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "The college demanded an undeclared admission payment in 2025. The matter concerns programme cohort 85."
+    },
+    {
+      "id": "84-b",
+      "family": 84,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "Applicants were asked for additional unlisted charges to secure admission in 2025. This report concerns programme cohort 85."
+    },
+    {
+      "id": "84-n",
+      "family": 84,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "The college admitted students above its sanctioned intake in 2025."
+    },
+    {
+      "id": "84-r",
+      "family": 84,
+      "split": "test",
+      "institution": "DEMO-0025",
+      "text": "The college demanded an undeclared admission payment in 2024. This was a separate incident in the preceding year, cohort 85."
+    },
+    {
+      "id": "85-a",
+      "family": 85,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "An examination fee was charged twice and not reversed in 2025. The matter concerns programme cohort 86."
+    },
+    {
+      "id": "85-b",
+      "family": 85,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "A duplicate exam payment made in 2025 has not been reimbursed. This report concerns programme cohort 86."
+    },
+    {
+      "id": "85-n",
+      "family": 85,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "Tuition fees were not returned after an admission cancellation in 2025."
+    },
+    {
+      "id": "85-r",
+      "family": 85,
+      "split": "calibration",
+      "institution": "DEMO-0026",
+      "text": "An examination fee was charged twice and not reversed in 2024. This was a separate incident in the preceding year, cohort 86."
+    },
+    {
+      "id": "86-a",
+      "family": 86,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "A migration certificate requested in 2025 has not been issued. The matter concerns programme cohort 87."
+    },
+    {
+      "id": "86-b",
+      "family": 86,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "The college has delayed providing the transfer eligibility document requested in 2025. This report concerns programme cohort 87."
+    },
+    {
+      "id": "86-n",
+      "family": 86,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "Original certificates were withheld after the student withdrew in 2025."
+    },
+    {
+      "id": "86-r",
+      "family": 86,
+      "split": "calibration",
+      "institution": "DEMO-0027",
+      "text": "A migration certificate requested in 2024 has not been issued. This was a separate incident in the preceding year, cohort 87."
+    },
+    {
+      "id": "87-a",
+      "family": 87,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "The library remained inaccessible to wheelchair users in 2025. The matter concerns programme cohort 88."
+    },
+    {
+      "id": "87-b",
+      "family": 87,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "Wheelchair access to the campus library was unavailable throughout 2025. This report concerns programme cohort 88."
+    },
+    {
+      "id": "87-n",
+      "family": 87,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "Drinking water in the hostel was unsafe during 2025."
+    },
+    {
+      "id": "87-r",
+      "family": 87,
+      "split": "test",
+      "institution": "DEMO-0028",
+      "text": "The library remained inaccessible to wheelchair users in 2024. This was a separate incident in the preceding year, cohort 88."
+    },
+    {
+      "id": "88-a",
+      "family": 88,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The scholarship payment went to an incorrect account in 2025. The matter concerns programme cohort 89."
+    },
+    {
+      "id": "88-b",
+      "family": 88,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "Approved student financial support was credited to the wrong bank account in 2025. This report concerns programme cohort 89."
+    },
+    {
+      "id": "88-n",
+      "family": 88,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The merit scholarship approved for 2025 has not been disbursed."
+    },
+    {
+      "id": "88-r",
+      "family": 88,
+      "split": "test",
+      "institution": "DEMO-0029",
+      "text": "The scholarship payment went to an incorrect account in 2024. This was a separate incident in the preceding year, cohort 89."
+    },
+    {
+      "id": "89-a",
+      "family": 89,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "The college did not publish its grievance committee details in 2025. The matter concerns programme cohort 90."
+    },
+    {
+      "id": "89-b",
+      "family": 89,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "Information about the student complaint committee was absent from the website in 2025. This report concerns programme cohort 90."
+    },
+    {
+      "id": "89-n",
+      "family": 89,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "Final semester results were delayed beyond the calendar in 2025."
+    },
+    {
+      "id": "89-r",
+      "family": 89,
+      "split": "test",
+      "institution": "DEMO-0030",
+      "text": "The college did not publish its grievance committee details in 2024. This was a separate incident in the preceding year, cohort 90."
+    },
+    {
+      "id": "90-a",
+      "family": 90,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college admitted students above its sanctioned intake in 2025. The matter concerns programme cohort 91."
+    },
+    {
+      "id": "90-b",
+      "family": 90,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "Enrolment exceeded the approved seat capacity during the 2025 admission cycle. This report concerns programme cohort 91."
+    },
+    {
+      "id": "90-n",
+      "family": 90,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "Admission was refused despite a valid allotment letter in 2025."
+    },
+    {
+      "id": "90-r",
+      "family": 90,
+      "split": "calibration",
+      "institution": "DEMO-0001",
+      "text": "The college admitted students above its sanctioned intake in 2024. This was a separate incident in the preceding year, cohort 91."
+    },
+    {
+      "id": "91-a",
+      "family": 91,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "Tuition fees were not returned after an admission cancellation in 2025. The matter concerns programme cohort 92."
+    },
+    {
+      "id": "91-b",
+      "family": 91,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "The institution has withheld the fee refund following withdrawal in 2025. This report concerns programme cohort 92."
+    },
+    {
+      "id": "91-n",
+      "family": 91,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "The hostel security deposit remains unpaid after checkout in 2025."
+    },
+    {
+      "id": "91-r",
+      "family": 91,
+      "split": "calibration",
+      "institution": "DEMO-0002",
+      "text": "Tuition fees were not returned after an admission cancellation in 2024. This was a separate incident in the preceding year, cohort 92."
+    },
+    {
+      "id": "92-a",
+      "family": 92,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "Original certificates were withheld after the student withdrew in 2025. The matter concerns programme cohort 93."
+    },
+    {
+      "id": "92-b",
+      "family": 92,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The institution refused to return original academic documents after withdrawal in 2025. This report concerns programme cohort 93."
+    },
+    {
+      "id": "92-n",
+      "family": 92,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "The graduation transcript contains incorrect marks for 2025."
+    },
+    {
+      "id": "92-r",
+      "family": 92,
+      "split": "test",
+      "institution": "DEMO-0003",
+      "text": "Original certificates were withheld after the student withdrew in 2024. This was a separate incident in the preceding year, cohort 93."
+    },
+    {
+      "id": "93-a",
+      "family": 93,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Drinking water in the hostel was unsafe during 2025. The matter concerns programme cohort 94."
+    },
+    {
+      "id": "93-b",
+      "family": 93,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Residents reported contaminated potable water in the hostel in 2025. This report concerns programme cohort 94."
+    },
+    {
+      "id": "93-n",
+      "family": 93,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "The electrical engineering laboratory lacked working equipment in 2025."
+    },
+    {
+      "id": "93-r",
+      "family": 93,
+      "split": "test",
+      "institution": "DEMO-0004",
+      "text": "Drinking water in the hostel was unsafe during 2024. This was a separate incident in the preceding year, cohort 94."
+    },
+    {
+      "id": "94-a",
+      "family": 94,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The merit scholarship approved for 2025 has not been disbursed. The matter concerns programme cohort 95."
+    },
+    {
+      "id": "94-b",
+      "family": 94,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "Students have not received the sanctioned merit financial award for 2025. This report concerns programme cohort 95."
+    },
+    {
+      "id": "94-n",
+      "family": 94,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The institution did not forward a scholarship application in 2025."
+    },
+    {
+      "id": "94-r",
+      "family": 94,
+      "split": "test",
+      "institution": "DEMO-0005",
+      "text": "The merit scholarship approved for 2024 has not been disbursed. This was a separate incident in the preceding year, cohort 95."
+    },
+    {
+      "id": "95-a",
+      "family": 95,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Final semester results were delayed beyond the calendar in 2025. The matter concerns programme cohort 96."
+    },
+    {
+      "id": "95-b",
+      "family": 95,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Publication of the last semester examination outcome missed the academic schedule for 2025. This report concerns programme cohort 96."
+    },
+    {
+      "id": "95-n",
+      "family": 95,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "An examination revaluation appeal received no response in 2025."
+    },
+    {
+      "id": "95-r",
+      "family": 95,
+      "split": "calibration",
+      "institution": "DEMO-0006",
+      "text": "Final semester results were delayed beyond the calendar in 2024. This was a separate incident in the preceding year, cohort 96."
+    },
+    {
+      "id": "96-a",
+      "family": 96,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "Admission was refused despite a valid allotment letter in 2025. The matter concerns programme cohort 97."
+    },
+    {
+      "id": "96-b",
+      "family": 96,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "A student holding an official seat allocation was denied enrolment for 2025. This report concerns programme cohort 97."
+    },
+    {
+      "id": "96-n",
+      "family": 96,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "The college demanded an undeclared admission payment in 2025."
+    },
+    {
+      "id": "96-r",
+      "family": 96,
+      "split": "calibration",
+      "institution": "DEMO-0007",
+      "text": "Admission was refused despite a valid allotment letter in 2024. This was a separate incident in the preceding year, cohort 97."
+    },
+    {
+      "id": "97-a",
+      "family": 97,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "The hostel security deposit remains unpaid after checkout in 2025. The matter concerns programme cohort 98."
+    },
+    {
+      "id": "97-b",
+      "family": 97,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "After leaving the hostel in 2025, the resident has not received the caution deposit. This report concerns programme cohort 98."
+    },
+    {
+      "id": "97-n",
+      "family": 97,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "An examination fee was charged twice and not reversed in 2025."
+    },
+    {
+      "id": "97-r",
+      "family": 97,
+      "split": "test",
+      "institution": "DEMO-0008",
+      "text": "The hostel security deposit remains unpaid after checkout in 2024. This was a separate incident in the preceding year, cohort 98."
+    },
+    {
+      "id": "98-a",
+      "family": 98,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The graduation transcript contains incorrect marks for 2025. The matter concerns programme cohort 99."
+    },
+    {
+      "id": "98-b",
+      "family": 98,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The academic record issued for 2025 lists erroneous examination scores. This report concerns programme cohort 99."
+    },
+    {
+      "id": "98-n",
+      "family": 98,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "A migration certificate requested in 2025 has not been issued."
+    },
+    {
+      "id": "98-r",
+      "family": 98,
+      "split": "test",
+      "institution": "DEMO-0009",
+      "text": "The graduation transcript contains incorrect marks for 2024. This was a separate incident in the preceding year, cohort 99."
+    },
+    {
+      "id": "99-a",
+      "family": 99,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The electrical engineering laboratory lacked working equipment in 2025. The matter concerns programme cohort 100."
+    },
+    {
+      "id": "99-b",
+      "family": 99,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "Practical classes could not proceed because electrical lab instruments were broken in 2025. This report concerns programme cohort 100."
+    },
+    {
+      "id": "99-n",
+      "family": 99,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The library remained inaccessible to wheelchair users in 2025."
+    },
+    {
+      "id": "99-r",
+      "family": 99,
+      "split": "test",
+      "institution": "DEMO-0010",
+      "text": "The electrical engineering laboratory lacked working equipment in 2024. This was a separate incident in the preceding year, cohort 100."
+    }
+  ],
+  "pairs": [
+    {
+      "left": "0-a",
+      "right": "0-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "0-a",
+      "right": "0-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "0-a",
+      "right": "0-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "1-a",
+      "right": "1-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "1-a",
+      "right": "1-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "1-a",
+      "right": "1-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "2-a",
+      "right": "2-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "2-a",
+      "right": "2-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "2-a",
+      "right": "2-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "3-a",
+      "right": "3-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "3-a",
+      "right": "3-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "3-a",
+      "right": "3-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "4-a",
+      "right": "4-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "4-a",
+      "right": "4-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "4-a",
+      "right": "4-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "5-a",
+      "right": "5-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "5-a",
+      "right": "5-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "5-a",
+      "right": "5-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "6-a",
+      "right": "6-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "6-a",
+      "right": "6-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "6-a",
+      "right": "6-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "7-a",
+      "right": "7-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "7-a",
+      "right": "7-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "7-a",
+      "right": "7-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "8-a",
+      "right": "8-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "8-a",
+      "right": "8-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "8-a",
+      "right": "8-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "9-a",
+      "right": "9-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "9-a",
+      "right": "9-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "9-a",
+      "right": "9-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "10-a",
+      "right": "10-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "10-a",
+      "right": "10-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "10-a",
+      "right": "10-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "11-a",
+      "right": "11-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "11-a",
+      "right": "11-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "11-a",
+      "right": "11-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "12-a",
+      "right": "12-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "12-a",
+      "right": "12-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "12-a",
+      "right": "12-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "13-a",
+      "right": "13-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "13-a",
+      "right": "13-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "13-a",
+      "right": "13-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "14-a",
+      "right": "14-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "14-a",
+      "right": "14-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "14-a",
+      "right": "14-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "15-a",
+      "right": "15-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "15-a",
+      "right": "15-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "15-a",
+      "right": "15-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "16-a",
+      "right": "16-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "16-a",
+      "right": "16-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "16-a",
+      "right": "16-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "17-a",
+      "right": "17-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "17-a",
+      "right": "17-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "17-a",
+      "right": "17-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "18-a",
+      "right": "18-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "18-a",
+      "right": "18-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "18-a",
+      "right": "18-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "19-a",
+      "right": "19-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "19-a",
+      "right": "19-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "19-a",
+      "right": "19-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "20-a",
+      "right": "20-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "20-a",
+      "right": "20-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "20-a",
+      "right": "20-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "21-a",
+      "right": "21-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "21-a",
+      "right": "21-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "21-a",
+      "right": "21-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "22-a",
+      "right": "22-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "22-a",
+      "right": "22-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "22-a",
+      "right": "22-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "23-a",
+      "right": "23-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "23-a",
+      "right": "23-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "23-a",
+      "right": "23-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "24-a",
+      "right": "24-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "24-a",
+      "right": "24-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "24-a",
+      "right": "24-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "25-a",
+      "right": "25-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "25-a",
+      "right": "25-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "25-a",
+      "right": "25-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "26-a",
+      "right": "26-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "26-a",
+      "right": "26-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "26-a",
+      "right": "26-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "27-a",
+      "right": "27-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "27-a",
+      "right": "27-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "27-a",
+      "right": "27-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "28-a",
+      "right": "28-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "28-a",
+      "right": "28-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "28-a",
+      "right": "28-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "29-a",
+      "right": "29-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "29-a",
+      "right": "29-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "29-a",
+      "right": "29-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "30-a",
+      "right": "30-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "30-a",
+      "right": "30-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "30-a",
+      "right": "30-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "31-a",
+      "right": "31-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "31-a",
+      "right": "31-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "31-a",
+      "right": "31-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "32-a",
+      "right": "32-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "32-a",
+      "right": "32-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "32-a",
+      "right": "32-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "33-a",
+      "right": "33-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "33-a",
+      "right": "33-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "33-a",
+      "right": "33-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "34-a",
+      "right": "34-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "34-a",
+      "right": "34-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "34-a",
+      "right": "34-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "35-a",
+      "right": "35-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "35-a",
+      "right": "35-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "35-a",
+      "right": "35-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "36-a",
+      "right": "36-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "36-a",
+      "right": "36-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "36-a",
+      "right": "36-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "37-a",
+      "right": "37-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "37-a",
+      "right": "37-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "37-a",
+      "right": "37-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "38-a",
+      "right": "38-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "38-a",
+      "right": "38-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "38-a",
+      "right": "38-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "39-a",
+      "right": "39-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "39-a",
+      "right": "39-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "39-a",
+      "right": "39-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "40-a",
+      "right": "40-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "40-a",
+      "right": "40-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "40-a",
+      "right": "40-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "41-a",
+      "right": "41-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "41-a",
+      "right": "41-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "41-a",
+      "right": "41-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "42-a",
+      "right": "42-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "42-a",
+      "right": "42-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "42-a",
+      "right": "42-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "43-a",
+      "right": "43-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "43-a",
+      "right": "43-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "43-a",
+      "right": "43-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "44-a",
+      "right": "44-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "44-a",
+      "right": "44-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "44-a",
+      "right": "44-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "45-a",
+      "right": "45-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "45-a",
+      "right": "45-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "45-a",
+      "right": "45-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "46-a",
+      "right": "46-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "46-a",
+      "right": "46-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "46-a",
+      "right": "46-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "47-a",
+      "right": "47-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "47-a",
+      "right": "47-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "47-a",
+      "right": "47-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "48-a",
+      "right": "48-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "48-a",
+      "right": "48-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "48-a",
+      "right": "48-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "49-a",
+      "right": "49-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "49-a",
+      "right": "49-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "49-a",
+      "right": "49-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "50-a",
+      "right": "50-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "50-a",
+      "right": "50-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "50-a",
+      "right": "50-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "51-a",
+      "right": "51-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "51-a",
+      "right": "51-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "51-a",
+      "right": "51-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "52-a",
+      "right": "52-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "52-a",
+      "right": "52-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "52-a",
+      "right": "52-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "53-a",
+      "right": "53-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "53-a",
+      "right": "53-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "53-a",
+      "right": "53-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "54-a",
+      "right": "54-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "54-a",
+      "right": "54-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "54-a",
+      "right": "54-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "55-a",
+      "right": "55-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "55-a",
+      "right": "55-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "55-a",
+      "right": "55-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "56-a",
+      "right": "56-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "56-a",
+      "right": "56-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "56-a",
+      "right": "56-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "57-a",
+      "right": "57-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "57-a",
+      "right": "57-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "57-a",
+      "right": "57-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "58-a",
+      "right": "58-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "58-a",
+      "right": "58-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "58-a",
+      "right": "58-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "59-a",
+      "right": "59-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "59-a",
+      "right": "59-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "59-a",
+      "right": "59-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "60-a",
+      "right": "60-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "60-a",
+      "right": "60-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "60-a",
+      "right": "60-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "61-a",
+      "right": "61-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "61-a",
+      "right": "61-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "61-a",
+      "right": "61-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "62-a",
+      "right": "62-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "62-a",
+      "right": "62-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "62-a",
+      "right": "62-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "63-a",
+      "right": "63-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "63-a",
+      "right": "63-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "63-a",
+      "right": "63-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "64-a",
+      "right": "64-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "64-a",
+      "right": "64-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "64-a",
+      "right": "64-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "65-a",
+      "right": "65-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "65-a",
+      "right": "65-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "65-a",
+      "right": "65-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "66-a",
+      "right": "66-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "66-a",
+      "right": "66-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "66-a",
+      "right": "66-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "67-a",
+      "right": "67-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "67-a",
+      "right": "67-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "67-a",
+      "right": "67-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "68-a",
+      "right": "68-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "68-a",
+      "right": "68-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "68-a",
+      "right": "68-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "69-a",
+      "right": "69-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "69-a",
+      "right": "69-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "69-a",
+      "right": "69-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "70-a",
+      "right": "70-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "70-a",
+      "right": "70-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "70-a",
+      "right": "70-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "71-a",
+      "right": "71-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "71-a",
+      "right": "71-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "71-a",
+      "right": "71-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "72-a",
+      "right": "72-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "72-a",
+      "right": "72-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "72-a",
+      "right": "72-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "73-a",
+      "right": "73-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "73-a",
+      "right": "73-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "73-a",
+      "right": "73-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "74-a",
+      "right": "74-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "74-a",
+      "right": "74-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "74-a",
+      "right": "74-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "75-a",
+      "right": "75-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "75-a",
+      "right": "75-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "75-a",
+      "right": "75-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "76-a",
+      "right": "76-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "76-a",
+      "right": "76-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "76-a",
+      "right": "76-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "77-a",
+      "right": "77-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "77-a",
+      "right": "77-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "77-a",
+      "right": "77-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "78-a",
+      "right": "78-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "78-a",
+      "right": "78-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "78-a",
+      "right": "78-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "79-a",
+      "right": "79-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "79-a",
+      "right": "79-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "79-a",
+      "right": "79-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "80-a",
+      "right": "80-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "80-a",
+      "right": "80-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "80-a",
+      "right": "80-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "81-a",
+      "right": "81-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "81-a",
+      "right": "81-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "81-a",
+      "right": "81-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "82-a",
+      "right": "82-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "82-a",
+      "right": "82-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "82-a",
+      "right": "82-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "83-a",
+      "right": "83-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "83-a",
+      "right": "83-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "83-a",
+      "right": "83-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "84-a",
+      "right": "84-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "84-a",
+      "right": "84-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "84-a",
+      "right": "84-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "85-a",
+      "right": "85-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "85-a",
+      "right": "85-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "85-a",
+      "right": "85-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "86-a",
+      "right": "86-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "86-a",
+      "right": "86-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "86-a",
+      "right": "86-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "87-a",
+      "right": "87-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "87-a",
+      "right": "87-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "87-a",
+      "right": "87-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "88-a",
+      "right": "88-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "88-a",
+      "right": "88-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "88-a",
+      "right": "88-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "89-a",
+      "right": "89-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "89-a",
+      "right": "89-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "89-a",
+      "right": "89-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "90-a",
+      "right": "90-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "90-a",
+      "right": "90-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "90-a",
+      "right": "90-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "91-a",
+      "right": "91-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "91-a",
+      "right": "91-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "91-a",
+      "right": "91-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "92-a",
+      "right": "92-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "92-a",
+      "right": "92-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "92-a",
+      "right": "92-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "93-a",
+      "right": "93-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "93-a",
+      "right": "93-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "93-a",
+      "right": "93-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "94-a",
+      "right": "94-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "94-a",
+      "right": "94-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "94-a",
+      "right": "94-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "95-a",
+      "right": "95-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "95-a",
+      "right": "95-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "95-a",
+      "right": "95-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "96-a",
+      "right": "96-b",
+      "label": "same_incident",
+      "split": "calibration",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "96-a",
+      "right": "96-n",
+      "label": "unrelated",
+      "split": "calibration",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "96-a",
+      "right": "96-r",
+      "label": "related_issue",
+      "split": "calibration",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "97-a",
+      "right": "97-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "97-a",
+      "right": "97-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "97-a",
+      "right": "97-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "98-a",
+      "right": "98-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "98-a",
+      "right": "98-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "98-a",
+      "right": "98-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    },
+    {
+      "left": "99-a",
+      "right": "99-b",
+      "label": "same_incident",
+      "split": "test",
+      "rationale": "Same structured scenario, year and cohort; paraphrased allegation."
+    },
+    {
+      "left": "99-a",
+      "right": "99-n",
+      "label": "unrelated",
+      "split": "test",
+      "rationale": "Same institution and category, different alleged incident and requested remedy."
+    },
+    {
+      "left": "99-a",
+      "right": "99-r",
+      "label": "related_issue",
+      "split": "test",
+      "rationale": "Similar allegation at the same institution, explicitly a different year and incident. Review-worthy, not proof of duplicate."
+    }
+  ],
+  "retrieval": [
+    {
+      "query": "0-b",
+      "relevant": [
+        "0-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "1-b",
+      "relevant": [
+        "1-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "2-b",
+      "relevant": [
+        "2-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "3-b",
+      "relevant": [
+        "3-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "4-b",
+      "relevant": [
+        "4-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "5-b",
+      "relevant": [
+        "5-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "6-b",
+      "relevant": [
+        "6-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "7-b",
+      "relevant": [
+        "7-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "8-b",
+      "relevant": [
+        "8-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "9-b",
+      "relevant": [
+        "9-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "10-b",
+      "relevant": [
+        "10-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "11-b",
+      "relevant": [
+        "11-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "12-b",
+      "relevant": [
+        "12-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "13-b",
+      "relevant": [
+        "13-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "14-b",
+      "relevant": [
+        "14-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "15-b",
+      "relevant": [
+        "15-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "16-b",
+      "relevant": [
+        "16-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "17-b",
+      "relevant": [
+        "17-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "18-b",
+      "relevant": [
+        "18-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "19-b",
+      "relevant": [
+        "19-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "20-b",
+      "relevant": [
+        "20-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "21-b",
+      "relevant": [
+        "21-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "22-b",
+      "relevant": [
+        "22-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "23-b",
+      "relevant": [
+        "23-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "24-b",
+      "relevant": [
+        "24-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "25-b",
+      "relevant": [
+        "25-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "26-b",
+      "relevant": [
+        "26-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "27-b",
+      "relevant": [
+        "27-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "28-b",
+      "relevant": [
+        "28-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "29-b",
+      "relevant": [
+        "29-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "30-b",
+      "relevant": [
+        "30-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "31-b",
+      "relevant": [
+        "31-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "32-b",
+      "relevant": [
+        "32-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "33-b",
+      "relevant": [
+        "33-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "34-b",
+      "relevant": [
+        "34-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "35-b",
+      "relevant": [
+        "35-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "36-b",
+      "relevant": [
+        "36-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "37-b",
+      "relevant": [
+        "37-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "38-b",
+      "relevant": [
+        "38-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "39-b",
+      "relevant": [
+        "39-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "40-b",
+      "relevant": [
+        "40-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "41-b",
+      "relevant": [
+        "41-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "42-b",
+      "relevant": [
+        "42-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "43-b",
+      "relevant": [
+        "43-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "44-b",
+      "relevant": [
+        "44-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "45-b",
+      "relevant": [
+        "45-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "46-b",
+      "relevant": [
+        "46-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "47-b",
+      "relevant": [
+        "47-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "48-b",
+      "relevant": [
+        "48-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "49-b",
+      "relevant": [
+        "49-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "50-b",
+      "relevant": [
+        "50-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "51-b",
+      "relevant": [
+        "51-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "52-b",
+      "relevant": [
+        "52-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "53-b",
+      "relevant": [
+        "53-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "54-b",
+      "relevant": [
+        "54-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "55-b",
+      "relevant": [
+        "55-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "56-b",
+      "relevant": [
+        "56-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "57-b",
+      "relevant": [
+        "57-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "58-b",
+      "relevant": [
+        "58-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "59-b",
+      "relevant": [
+        "59-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "60-b",
+      "relevant": [
+        "60-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "61-b",
+      "relevant": [
+        "61-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "62-b",
+      "relevant": [
+        "62-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "63-b",
+      "relevant": [
+        "63-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "64-b",
+      "relevant": [
+        "64-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "65-b",
+      "relevant": [
+        "65-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "66-b",
+      "relevant": [
+        "66-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "67-b",
+      "relevant": [
+        "67-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "68-b",
+      "relevant": [
+        "68-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "69-b",
+      "relevant": [
+        "69-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "70-b",
+      "relevant": [
+        "70-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "71-b",
+      "relevant": [
+        "71-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "72-b",
+      "relevant": [
+        "72-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "73-b",
+      "relevant": [
+        "73-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "74-b",
+      "relevant": [
+        "74-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "75-b",
+      "relevant": [
+        "75-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "76-b",
+      "relevant": [
+        "76-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "77-b",
+      "relevant": [
+        "77-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "78-b",
+      "relevant": [
+        "78-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "79-b",
+      "relevant": [
+        "79-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "80-b",
+      "relevant": [
+        "80-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "81-b",
+      "relevant": [
+        "81-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "82-b",
+      "relevant": [
+        "82-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "83-b",
+      "relevant": [
+        "83-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "84-b",
+      "relevant": [
+        "84-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "85-b",
+      "relevant": [
+        "85-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "86-b",
+      "relevant": [
+        "86-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "87-b",
+      "relevant": [
+        "87-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "88-b",
+      "relevant": [
+        "88-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "89-b",
+      "relevant": [
+        "89-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "90-b",
+      "relevant": [
+        "90-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "91-b",
+      "relevant": [
+        "91-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "92-b",
+      "relevant": [
+        "92-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "93-b",
+      "relevant": [
+        "93-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "94-b",
+      "relevant": [
+        "94-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "95-b",
+      "relevant": [
+        "95-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "96-b",
+      "relevant": [
+        "96-a"
+      ],
+      "split": "calibration"
+    },
+    {
+      "query": "97-b",
+      "relevant": [
+        "97-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "98-b",
+      "relevant": [
+        "98-a"
+      ],
+      "split": "test"
+    },
+    {
+      "query": "99-b",
+      "relevant": [
+        "99-a"
+      ],
+      "split": "test"
+    }
+  ]
+}
