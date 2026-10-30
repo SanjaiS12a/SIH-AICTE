@@ -49,6 +49,6 @@ def main():
  for source in register['sources']:
   if source['name'].startswith('IIIT'):source.update(profile);source.pop('error',None)
  (dest/'source_register.json').write_text(json.dumps(register,indent=2),encoding='utf-8')
- (ROOT/'reports/source-register.json').write_text(json.dumps(register,indent=2),encoding='utf-8')
+ (ROOT/'tests/results/source-register.json').write_text(json.dumps(register,indent=2),encoding='utf-8')
  print(json.dumps({k:profile[k] for k in ['status','tables','annotated_records','missing_text','duplicate_text','class_counts','language_counts']},indent=2))
 if __name__=='__main__':main()

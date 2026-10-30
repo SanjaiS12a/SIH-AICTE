@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+RESULTS_DIR = BASE_DIR / 'tests/results' if (BASE_DIR / 'tests/results').is_dir() else BASE_DIR.parent / 'tests/results'
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'local-demo-change-before-sharing')
 DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']

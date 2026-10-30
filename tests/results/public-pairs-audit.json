@@ -1,0 +1,71 @@
+{
+  "purpose": "Public paraphrase candidate, not AICTE incident matching training",
+  "publisher": "Google Research",
+  "source": "https://github.com/google-research-datasets/paws",
+  "licence": "Google PAWS licence: freely usable for any purpose, preserve attribution and disclaimer",
+  "sources": [
+    {
+      "name": "final_train",
+      "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_final/train-00000-of-00001.parquet",
+      "sha256": "8dc9ad3e5f30ad9a86b290fe236d528ef23a5751fec9a35d99cbacf68ba277cf",
+      "rows": 49401,
+      "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+    },
+    {
+      "name": "dev",
+      "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_final/validation-00000-of-00001.parquet",
+      "sha256": "7760d829453764ba342a6f562809a8ed21c2c3eec3fd9ffa544089f145d42f6d",
+      "rows": 8000,
+      "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+    },
+    {
+      "name": "test",
+      "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_final/test-00000-of-00001.parquet",
+      "sha256": "ae342ff12bb84b84b95f468abf5db6cb7c7bd578271299fe9c99be75b8132f4d",
+      "rows": 8000,
+      "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+    },
+    {
+      "name": "swap_train",
+      "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_swap/train-00000-of-00001.parquet",
+      "sha256": "21b9b68cd9398f01e6c766a9b12bc9a31cee11a6170a5acc5fa87ba853033a9b",
+      "rows": 30397,
+      "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+    }
+  ],
+  "splits": {
+    "train": {
+      "rows": 79656,
+      "positive": 24659,
+      "sha256": "86d99eb659ec7daaf1e1630c0e27329183167d0621d469e8fdc222ac4c7b2d94"
+    },
+    "validation": {
+      "rows": 3727,
+      "positive": 1652,
+      "sha256": "a6176d97d2b6706845cb447d22b69c24f6bc5d167437968b0f4cc798f4a11337"
+    },
+    "calibration": {
+      "rows": 4273,
+      "positive": 1887,
+      "sha256": "38876ed6039fa76882154fbd74a1382cfa83e32b3100ae59d2a59970cd5bf68c"
+    },
+    "test": {
+      "rows": 8000,
+      "positive": 3536,
+      "sha256": "50f7de4588a6887d7472bb1ac1ae576a5b7ee8b66b8118974e50bd0033b95635"
+    }
+  },
+  "removed": {
+    "duplicate_pair": 112,
+    "conflicting_pair_groups_removed": 30
+  },
+  "max_wordpieces": 86,
+  "partition_policy": "Official test untouched; official dev partitioned by connected normalized-sentence components into validation and calibration. All dev/test texts excluded from training. No extra artificial pairs, automatic complaint labels or test-driven checkpoint selection.",
+  "privacy": "Wikipedia source entities; no complaint identities. Public complaint text is collected and audited separately.",
+  "base_model_license": {
+    "name": "Apache-2.0",
+    "source": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+    "text_url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  }
+}

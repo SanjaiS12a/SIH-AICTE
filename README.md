@@ -56,7 +56,7 @@ The home screen prioritizes **Open complaints**, **Overdue complaints** (include
 
 The home charts show monthly receipts/closures and active workload. Their links preserve the current permission scope and intersect selected dates, so the case list agrees with the displayed count. Detailed technical diagnostics remain in Reports. The 30-day deadline is a clearly labelled demo policy, not an AICTE rule.
 
-![Action-first AICTE dashboard](reports/dashboard-simple.png)
+![Action-first AICTE dashboard](tests/results/dashboard-simple.png)
 
 ## Contract and limits
 
@@ -79,11 +79,11 @@ npm run build
 npm run test:e2e
 ```
 
-Browser tests use installed Microsoft Edge; change Playwright's `channel` if testing on another platform. Matching evaluation: `python backend/manage.py evaluate_matching`. `data/evaluation.json` contains labels and incident-family splits outside runtime tables. TF-IDF is fitted only on calibration text. MiniLM threshold selection uses calibration pairs only; held-out test results do not change the threshold. Precision/recall count both same-incident and related-issue pairs as review-worthy; Recall@5 measures same-incident retrieval. `reports/matching.json` records metrics and timing. Scenario labels are authored synthetic labels, **independent human review is pending**. Synthetic results cannot establish deployment accuracy.
+Browser tests use installed Microsoft Edge; change Playwright's `channel` if testing on another platform. Matching evaluation: `python backend/manage.py evaluate_matching`. `data/evaluation.json` contains labels and incident-family splits outside runtime tables. TF-IDF is fitted only on calibration text. MiniLM threshold selection uses calibration pairs only; held-out test results do not change the threshold. Precision/recall count both same-incident and related-issue pairs as review-worthy; Recall@5 measures same-incident retrieval. `tests/results/matching.json` records metrics and timing. Scenario labels are authored synthetic labels, **independent human review is pending**. Synthetic results cannot establish deployment accuracy.
 
 Browser acceptance tests reject external HTTP requests and wait for a real worker scan to complete. `verify_queue_recovery` starts and stops two controlled worker clusters and asserts jobs queued while stopped finish after restart; run it only when the regular worker is stopped. `runtime_report` records actual stored matching durations and queue waits. Verification commands retain clearly marked synthetic complaints, so the live database grows beyond the original 500 seed records.
 
-Run `python scripts/benchmark.py` while the API and worker are running for ten concurrent simulated sessions. It measures actual HTTP reads and creates synthetic benchmark complaints; these remain in the database and are clearly identified by source. Reports separate API response latency from worker matching time. Targets: API reads/creation p95 <500 ms, dashboard p95 <1 s, warm matching <3 s, synthetic precision >=85%, Recall@5 >=90%. Targets are not guarantees. See generated `reports/` for actual measurements.
+Run `python scripts/benchmark.py` while the API and worker are running for ten concurrent simulated sessions. It measures actual HTTP reads and creates synthetic benchmark complaints; these remain in the database and are clearly identified by source. Reports separate API response latency from worker matching time. Targets: API reads/creation p95 <500 ms, dashboard p95 <1 s, warm matching <3 s, synthetic precision >=85%, Recall@5 >=90%. Targets are not guarantees. See generated `tests/results/` for actual measurements.
 
 ## Backup and restore
 
@@ -134,11 +134,11 @@ Native research tooling (separate from the application dependencies):
 .venv/Scripts/python scripts/train_matching.py
 ```
 
-The collector downloads PAWS from its publisher mirror if the original archive is inaccessible, verifies publisher checksums, preserves published partitions, and audits the Indian government-tweet SQL **without executing SQL**. Raw research files and experimental weights are ignored by Git and Graphify. The derived tweet file removes direct metadata columns and replaces handles/emails/URLs/phone-like strings, but still requires manual privacy review; it is excluded from pair training. DARPG is an authorized-access lead, not a bundled dataset. See `reports/source-register.json` for actual acquisition status.
+The collector downloads PAWS from its publisher mirror if the original archive is inaccessible, verifies publisher checksums, preserves published partitions, and audits the Indian government-tweet SQL **without executing SQL**. Raw research files and experimental weights are ignored by Git and Graphify. The derived tweet file removes direct metadata columns and replaces handles/emails/URLs/phone-like strings, but still requires manual privacy review; it is excluded from pair training. DARPG is an authorized-access lead, not a bundled dataset. See `tests/results/source-register.json` for actual acquisition status.
 
-The education corpus contains 1,440 authored pairs across 360 families, with entire allegation templates held within one partition. `data/research/education_pair_review.csv` is the independent-review worksheet. Fine-tuning compares unchanged MiniLM, domain training, and a bounded PAWS-then-domain experiment using ContrastiveLoss, batch size 8, accumulation 4 and at most three epochs. It uses CUDA if available, otherwise CPU. Candidate selection uses validation, threshold selection uses calibration, and only the frozen selected candidate and baseline are tested. F1 ties use the fixed variant order (domain before PAWS-domain). The existing benchmark remains separate; run `python scripts/check_matching_regression.py` after training to check it without recalibration. Reports and checkpoint hashes are written to `reports/training.json`; **nothing is automatically promoted** and synthetic results cannot validate real AICTE use.
+The education corpus contains 1,440 authored pairs across 360 families, with entire allegation templates held within one partition. `data/research/education_pair_review.csv` is the independent-review worksheet. Fine-tuning compares unchanged MiniLM, domain training, and a bounded PAWS-then-domain experiment using ContrastiveLoss, batch size 8, accumulation 4 and at most three epochs. It uses CUDA if available, otherwise CPU. Candidate selection uses validation, threshold selection uses calibration, and only the frozen selected candidate and baseline are tested. F1 ties use the fixed variant order (domain before PAWS-domain). The existing benchmark remains separate; run `python tests/research/check_matching_regression.py` after training to check it without recalibration. Reports and checkpoint hashes are written to `tests/results/training.json`; **nothing is automatically promoted** and synthetic results cannot validate real AICTE use.
 
-Versioned deployment uses `python manage.py model_release stage --revision NAME --path experiments/RUN/domain --threshold VALUE --report reports/training.json` in the native environment. Paths must stay inside the models directory. Staging preserves current embeddings for rollback and writes separate candidate vectors. Approval requires the evaluation gate and a documented completed human review in the experiment report; the current authored labels are not independently reviewed. `model_release activate --revision NAME` and `model_release rollback --revision PREVIOUS` reject unapproved or incomplete releases, change vectors and active revision atomically, and refresh pending suggestions while preserving reviewed evidence. A rollback after additional cases requires staging the old model for those cases first. Containers use model paths relative to `/models`; pass reports mounted under `/reports`.
+Versioned deployment uses `python manage.py model_release stage --revision NAME --path experiments/RUN/domain --threshold VALUE --report tests/results/training.json` in the native environment. Paths must stay inside the models directory. Staging preserves current embeddings for rollback and writes separate candidate vectors. Approval requires the evaluation gate and a documented completed human review in the experiment report; the current authored labels are not independently reviewed. `model_release activate --revision NAME` and `model_release rollback --revision PREVIOUS` reject unapproved or incomplete releases, change vectors and active revision atomically, and refresh pending suggestions while preserving reviewed evidence. A rollback after additional cases requires staging the old model for those cases first. Containers use model paths relative to `/models`; pass reports mounted under `/reports`.
 
 Reproduce performance checks while the prepared API and worker run:
 
@@ -149,13 +149,13 @@ Reproduce performance checks while the prepared API and worker run:
 .venv/Scripts/python scripts/benchmark_scale.py
 ```
 
-HTTP benchmarks retain explicitly synthetic source-labelled records and measure nine readers alongside the importer. XLSX runs also sample container resource use. The scale script creates its own disposable `coordination_scale_*` database, measures 10,000/100,000-record reads, dashboards and exact vector queries, then removes only that database. Its unit vectors and absent histories/overlap rows make it a **read/search benchmark, not proof of full 100,000-row ingestion or production capacity**. Do not claim a million-record deployment from these results. See `reports/upgrade-verification.md` for measured timings and remaining limits.
+HTTP benchmarks retain explicitly synthetic source-labelled records and measure nine readers alongside the importer. XLSX runs also sample container resource use. The scale script creates its own disposable `coordination_scale_*` database, measures 10,000/100,000-record reads, dashboards and exact vector queries, then removes only that database. Its unit vectors and absent histories/overlap rows make it a **read/search benchmark, not proof of full 100,000-row ingestion or production capacity**. Do not claim a million-record deployment from these results. See `tests/results/upgrade-verification.md` for measured timings and remaining limits.
 
 For the prepared offline presentation, stop the Vite development server, then run `npm run build` and `npm run preview` inside `frontend`. The preview serves bundled assets on port 5173 and reuses the same-origin API proxy. Development remains available through `npm run dev`.
 
 ## Dashboard crash fix and release checks
 
-`usePoll` accepts a disabled (`null`) URL, cancels obsolete requests and prevents prior-source data from rendering under a new URL. Import and report responses are checked before required fields are accessed. The dashboard API adds `attention` (up to eight active cases ordered by deadline/ID) and `active_categories`; overlap queries reuse case filters, including institution and dates. Existing database statuses and workflow rules are unchanged. See `reports/dashboard-verification.md` for current checks and screenshots.
+`usePoll` accepts a disabled (`null`) URL, cancels obsolete requests and prevents prior-source data from rendering under a new URL. Import and report responses are checked before required fields are accessed. The dashboard API adds `attention` (up to eight active cases ordered by deadline/ID) and `active_categories`; overlap queries reuse case filters, including institution and dates. Existing database statuses and workflow rules are unchanged. See `tests/results/dashboard-verification.md` for current checks and screenshots.
 
 ## Institution module — Phase 1
 
@@ -175,7 +175,7 @@ Paged responses use `count`, `next`, `previous`, `results`, with 20 rows per pag
 
 Institution creates/edits append `institution_created`/`institution_updated` AuditEvent records with actor, reason, version and changed before/after values, in the same transaction as the profile save. Django Admin uses the same audited save path, requires a reason, protects the permanent ID and rejects stale edits. Institution case timelines derive from CaseAction; they do not duplicate action history or incorporate institution edits into case records.
 
-Run `docker compose exec api python manage.py test cases --noinput` for institution and existing workflow regressions. See `reports/institution-phase1-verification.md` for the delivery checks and limitations.
+Run `docker compose exec api python manage.py test cases --noinput` for institution and existing workflow regressions. See `tests/results/institution-phase1-verification.md` for the delivery checks and limitations.
 
 ### Institution frontend
 
@@ -185,4 +185,30 @@ Profiles at `/institutions/{id}` have Overview, Cases, History, Coordination and
 
 Officers see current-bureau case totals and histories and do not request cross-bureau coordination data. Coordinators and auditors can inspect current-owner notices and paginated suggestions/relationships; decisions still use the existing coordination queue, with auditor read-only access. Reports reuse institution-scoped analytics, CSV exports and print/PDF output. Every data request remains protected by the existing backend permissions; UI visibility does not grant access.
 
-Existing portal controls, status labels, responsive styles and local assets are reused. To verify the bundled UI, run `npm run build` and `npm run preview` inside `frontend`, then `npx playwright test`. Institution browser tests create explicitly synthetic institutions and 25-case fixtures; repeated runs retain these test records. The verified backend recovery branch is `checkpoint/institution-backend-dfa6e5d`. See `reports/institution-frontend-verification.md` for final acceptance evidence and file/API details.
+Existing portal controls, status labels, responsive styles and local assets are reused. To verify the bundled UI, run `npm run build` and `npm run preview` inside `frontend`, then `npx playwright test`. Institution browser tests create explicitly synthetic institutions and 25-case fixtures; repeated runs retain these test records. The verified backend recovery branch is `checkpoint/institution-backend-dfa6e5d`. See `tests/results/institution-frontend-verification.md` for final acceptance evidence and file/API details.
+
+## Tests, evidence and database environment
+
+All test bodies and evidence are centralized under `tests/`: Django checks in `backend/`, Playwright in `browser/`, research checks in `research/`, and reports/metrics/screenshots in `results/`. Logs, traces and HTML reports live in ignored subdirectories of `tests/results/`. See `tests/README.md` for commands. The existing `manage.py test cases` command remains supported through a small discovery entrypoint. Compose mounts `tests/` into the application and keeps `/reports` as a container alias for the same result folder.
+
+Use the existing **PostgreSQL 17 + pgvector** service for this project. `.env.example` documents its variables; copy it to the ignored `.env` before first startup. Docker Compose reads `.env` automatically. Host tools connect to `127.0.0.1:5438` by default; API/worker connect to `db:5432`. Native Django uses process environment variables and defaults, not automatic dotenv loading. Existing PostgreSQL volumes keep their initialized database credentials: changing a password string in `.env` alone does not rotate the existing database password. The local environment preserves those credentials. Secrets, uploads, raw datasets, model files, training environments and large model bundles stay out of Git.
+
+## Public-data MiniLM candidate experiment
+
+The public-pair upgrade uses Google Research PAWS-Wiki Final plus its human-labelled Swap-only auxiliary training split. After duplicate/conflicting-pair removal, **79,656** training pairs remain. Official dev is divided by connected sentence groups into validation/calibration; official test stays separate. Prepared files are publisher-checksum verified; no normalized sentence crosses training/evaluation or validation/calibration boundaries. These are paraphrase/different-meaning labels, **not AICTE same-incident labels**. Source/provenance and token-limit audits are in `tests/results/public-pairs-audit.json` and `source-register.json`.
+
+The separate complaint-language audit includes the previously acquired Indian government tweets and published CFPB student-loan narratives. These have no incident-overlap labels, so they are not silently converted into supervised pairs. Raw/derived complaint text remains excluded from Git and needs privacy review before sharing. No verified open AICTE complaint-text corpus was found; DARPG records remain an authorized-access lead.
+
+GPU training is isolated from the working CPU application environment. From the repository root, after the existing `.venv` research dependencies and baseline model are installed:
+
+```powershell
+.venv/Scripts/python -m venv .venv-training
+.venv-training/Scripts/python -m pip install torch==2.9.1 --index-url https://download.pytorch.org/whl/cu128
+.venv/Scripts/python -c "from pathlib import Path; Path('.venv-training/Lib/site-packages/project_dependencies.pth').write_text(str(Path('.venv/Lib/site-packages').resolve())+'\n',encoding='utf-8')"
+.venv/Scripts/python scripts/collect_training_data.py
+.venv/Scripts/python scripts/prepare_public_pairs.py
+.venv/Scripts/python scripts/collect_complaint_context.py
+.venv-training/Scripts/python -u scripts/train_public_paraphrase.py
+```
+
+This Windows setup shadows only the training environment's PyTorch and reuses the pinned project dependencies; it does not replace application PyTorch. The trainer checks CUDA, pilots memory/throughput, uses mixed precision and an effective batch of 32, discards pilot updates, trains a fresh baseline copy for one predeclared epoch, calibrates separately and evaluates the frozen candidate once. It retains the deployed baseline. Progress is in ignored `tests/results/public-paraphrase-progress.json`; final measurements are in `public-paraphrase-training.json`. `artifacts/minilm-public-paraphrase-candidate.zip` is the teammate bundle, including weights, tokenizer, configuration, licences, evaluation and offline CPU-loading instructions. Share the complete folder/ZIP, not only the `.safetensors` file. Model promotion still requires domain validation and the existing release/backfill gates.

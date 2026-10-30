@@ -1,0 +1,18 @@
+{
+  "source": "CFPB Consumer Complaint Narratives Archive, January-February 2025",
+  "url": "https://files.consumerfinance.gov/f/documents/CCDB_Export_9_January_2025_through_February_2025.zip",
+  "publisher_policy": "https://www.consumerfinance.gov/data-research/consumer-complaints/",
+  "archive_sha256": "11c18bb0973eed8f5e4f66e2979346af0671a3aefcb5a6b9eec73009d53cff64",
+  "archive_bytes": 75475199,
+  "total_rows": 811019,
+  "student_loan_rows": 4100,
+  "missing_narrative": 1899,
+  "duplicate_narratives": 10,
+  "retained_records": 2191,
+  "derived_sha256": "4e5ebfb5dd06218845a2918d1af311718ed7c7a5752251847542511e5285f08c",
+  "access": "Official public archive; publisher describes public complaint data as freely available for use, analysis and building on",
+  "labels": "Issue/product classifications, not same-incident or related-issue pairs",
+  "training_use": "Excluded from supervised overlap/paraphrase training; context/review material only",
+  "privacy": "Derived file omits complaint IDs, locations and company metadata and applies identifier masking. This is pseudonymization, not a guarantee that names/context are anonymous; manual review remains required.",
+  "domain_limit": "Student lending, not AICTE institutional complaints. Do not resolve companies to institutions or fabricate relationship labels."
+}

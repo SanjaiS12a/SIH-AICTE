@@ -25,7 +25,7 @@ class Command(BaseCommand):
     help = 'Calibrate on incident-separated synthetic labels and evaluate a frozen threshold on held-out families.'
     def add_arguments(self,parser):
         parser.add_argument('--data',default=str(settings.BASE_DIR.parent/'data'/'evaluation.json'))
-        parser.add_argument('--output',default=str(settings.BASE_DIR.parent/'reports'/'matching.json'))
+        parser.add_argument('--output',default=str(settings.RESULTS_DIR/'matching.json'))
     def handle(self,*args,**options):
         corpus = json.loads(Path(options['data']).read_text(encoding='utf-8'))
         rows,pairs=corpus['records'],corpus['pairs']

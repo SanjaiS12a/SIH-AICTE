@@ -1,0 +1,195 @@
+{
+  "collected_at": "2026-10-30T13:23:45.363717+00:00",
+  "sources": [
+    {
+      "name": "Synthetic education pairs",
+      "status": "generated",
+      "license": "Project-authored synthetic data",
+      "personal_identifiers": "none; fictional cohorts",
+      "label_meaning": [
+        "same_incident",
+        "related_issue",
+        "unrelated"
+      ],
+      "human_review": "pending",
+      "records": 1800,
+      "pairs": 1440,
+      "incident_families": 360,
+      "missing_text": 0,
+      "language": "English",
+      "duplicate_text": 0
+    },
+    {
+      "name": "PAWS-Wiki Labeled Final",
+      "status": "downloaded",
+      "source": "https://huggingface.co/datasets/google-research-datasets/paws",
+      "original_archive_error": "HTTP Error 403: Forbidden",
+      "sha256": {
+        "test": "ae342ff12bb84b84b95f468abf5db6cb7c7bd578271299fe9c99be75b8132f4d",
+        "train": "8dc9ad3e5f30ad9a86b290fe236d528ef23a5751fec9a35d99cbacf68ba277cf",
+        "validation": "7760d829453764ba342a6f562809a8ed21c2c3eec3fd9ffa544089f145d42f6d"
+      },
+      "counts": {
+        "test": 8000,
+        "train": 49401,
+        "dev": 8000
+      },
+      "profile": {
+        "test": {
+          "missing_text": 0,
+          "duplicate_pairs": 18
+        },
+        "train": {
+          "missing_text": 0,
+          "duplicate_pairs": 52
+        },
+        "dev": {
+          "missing_text": 0,
+          "duplicate_pairs": 6
+        }
+      },
+      "license": "See PAWS-LICENSE.txt; preserve acknowledgement",
+      "fields": [
+        "id",
+        "sentence1",
+        "sentence2",
+        "label"
+      ],
+      "language": "English",
+      "labels": "1 paraphrase, 0 different meaning; not complaint incident labels",
+      "access": "Public publisher dataset mirror; original train/validation/test partitions retained",
+      "personal_identifiers": "Wikipedia entities; not an anonymized grievance corpus",
+      "token_profile": {
+        "train": {
+          "pairs": 49401,
+          "max_wordpieces": 72,
+          "p50_wordpieces": 27,
+          "p95_wordpieces": 39,
+          "over_256": 0,
+          "note": "Padding and truncation disabled for length audit; includes special tokens."
+        },
+        "dev": {
+          "pairs": 8000,
+          "max_wordpieces": 54,
+          "p50_wordpieces": 27.0,
+          "p95_wordpieces": 40,
+          "over_256": 0,
+          "note": "Padding and truncation disabled for length audit; includes special tokens."
+        },
+        "test": {
+          "pairs": 8000,
+          "max_wordpieces": 56,
+          "p50_wordpieces": 27.0,
+          "p95_wordpieces": 39,
+          "over_256": 0,
+          "note": "Padding and truncation disabled for length audit; includes special tokens."
+        }
+      }
+    },
+    {
+      "name": "IIIT Delhi Indian complaint tweets",
+      "url": "https://data.mendeley.com/datasets/w2cp7h53s5/1",
+      "status": "downloaded_audited",
+      "license": "CC BY 4.0",
+      "fields": [
+        "text",
+        "class",
+        "category",
+        "organization"
+      ],
+      "labels": "Complaint classification, not same-incident/related/unrelated labels",
+      "language": "must inspect after access",
+      "record_count": null,
+      "personal_identifiers": "Raw dump includes users, coordinates and tweet IDs. Derived file excludes those columns and replaces handles, URLs, emails and phone-like numbers. Names and contextual identifiers may remain; manual privacy review pending.",
+      "training_use": "excluded from pair fine-tuning; privacy review and pair annotation required",
+      "source": "https://data.mendeley.com/datasets/w2cp7h53s5/1",
+      "sha256": "7dd285cfc98ec95e2fb4e78512901ca2083b5cfacdce4d96e7b046c14a639ed5",
+      "access": "Public publisher SQL download, verified against publisher SHA256",
+      "tables": {
+        "annotated": 3700,
+        "hashtags": 986,
+        "posts": 3700,
+        "pre1": 3700,
+        "pre3": 3700,
+        "pre4": 3700,
+        "user_mentions": 7331,
+        "users": 3474
+      },
+      "annotated_records": 3700,
+      "missing_text": 0,
+      "duplicate_text": 23,
+      "class_counts": {
+        "0": 2047,
+        "1": 1653
+      },
+      "language_counts": {
+        "en": 3700
+      },
+      "attribution": "Swati Agarwal, Nitish Mittal, Ashish Sureka; Enhanced Dataset of Citizen Centric Complaints and Grievances on Twitter (2016), DOI 10.17632/w2cp7h53s5.1"
+    },
+    {
+      "name": "DARPG 2024",
+      "url": "https://innovateindia.mygov.in/darpg-challenge-2024/",
+      "status": "restricted_access_not_collected",
+      "access": "Challenge registrants; 2024 registration closed",
+      "record_count": null,
+      "license": "No public training license verified",
+      "training_use": "excluded; obtain authorized sample separately"
+    }
+  ],
+  "public_pair_upgrade": {
+    "audit": "tests/results/public-pairs-audit.json",
+    "usable_train_pairs": 79656,
+    "source": "https://github.com/google-research-datasets/paws",
+    "purpose": "Human-labelled public paraphrase candidate; not AICTE incident labels",
+    "model_promotion": "Not automatic"
+  },
+  "additional_complaint_context": [
+    {
+      "source": "CFPB Consumer Complaint Narratives Archive, January-February 2025",
+      "url": "https://files.consumerfinance.gov/f/documents/CCDB_Export_9_January_2025_through_February_2025.zip",
+      "publisher_policy": "https://www.consumerfinance.gov/data-research/consumer-complaints/",
+      "archive_sha256": "11c18bb0973eed8f5e4f66e2979346af0671a3aefcb5a6b9eec73009d53cff64",
+      "archive_bytes": 75475199,
+      "total_rows": 811019,
+      "student_loan_rows": 4100,
+      "missing_narrative": 1899,
+      "duplicate_narratives": 10,
+      "retained_records": 2191,
+      "derived_sha256": "4e5ebfb5dd06218845a2918d1af311718ed7c7a5752251847542511e5285f08c",
+      "access": "Official public archive; publisher describes public complaint data as freely available for use, analysis and building on",
+      "labels": "Issue/product classifications, not same-incident or related-issue pairs",
+      "training_use": "Excluded from supervised overlap/paraphrase training; context/review material only",
+      "privacy": "Derived file omits complaint IDs, locations and company metadata and applies identifier masking. This is pseudonymization, not a guarantee that names/context are anonymous; manual review remains required.",
+      "domain_limit": "Student lending, not AICTE institutional complaints. Do not resolve companies to institutions or fabricate relationship labels."
+    },
+    {
+      "source": "CFPB Consumer Complaint Narratives Archive, August 2026",
+      "url": "https://files.consumerfinance.gov/f/documents/CCDB_Export_21_August_2026.zip",
+      "publisher_policy": "https://www.consumerfinance.gov/data-research/consumer-complaints/",
+      "archive_sha256": "c64b8147b499d6236d7d591bfdbe8db45af80694a1afb6bd6a739f2789b8b2b1",
+      "archive_bytes": 10501839,
+      "total_rows": 667140,
+      "student_loan_rows": 1407,
+      "missing_narrative": 1407,
+      "duplicate_narratives": 0,
+      "retained_records": 0,
+      "derived_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "access": "Official public archive; publisher describes public complaint data as freely available for use, analysis and building on",
+      "labels": "Issue/product classifications, not same-incident or related-issue pairs",
+      "training_use": "Excluded from supervised overlap/paraphrase training; context/review material only",
+      "privacy": "Derived file omits complaint IDs, locations and company metadata and applies identifier masking. This is pseudonymization, not a guarantee that names/context are anonymous; manual review remains required.",
+      "domain_limit": "Student lending, not AICTE institutional complaints. Do not resolve companies to institutions or fabricate relationship labels."
+    }
+  ],
+  "aicte_public_text_status": {
+    "status": "No verified downloadable institution complaint-text corpus found in this search",
+    "official_reference": "https://www.aicte.gov.in/sites/default/files/Press%20Release%20AICTE%20Centralized%20Support%20System%2016%20Dec%202021.pdf",
+    "scope": "Official CSS grievance service description, not a complaint dataset"
+  },
+  "darpg_access_status": {
+    "source": "https://innovateindia.mygov.in/darpg-challenge-2024/",
+    "status": "Dataset access described for registered participants; no restricted records acquired"
+  },
+  "updated_at": "2026-10-30T17:46:56.216819+00:00"
+}

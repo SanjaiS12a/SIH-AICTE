@@ -1,9 +1,13 @@
 .venv/
+.venv-training/
 node_modules/
 dist/
 __pycache__/
 *.pyc
 .env
+.env.*
+!.env.example
+artifacts/
 backend/private/
 models/
 backups/
@@ -24,5 +28,10 @@ data/benchmarks/
 
 # Keep only current graph outputs and completed verification results.
 graphify-out/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
-reports/training-progress.json
-reports/matching-profile*.txt
+tests/results/logs/
+tests/results/playwright/
+tests/results/playwright-report/
+tests/results/legacy-playwright/
+tests/results/training-progress.json
+tests/results/*-progress.json
+tests/results/matching-profile*.txt

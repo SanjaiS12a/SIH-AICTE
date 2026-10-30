@@ -86,5 +86,5 @@ def main():
    'latency':{kind:{'requests':len(v:=sorted(ms for k,ms in latencies if k==kind)),'p50_ms':statistics.median(v),'p95_ms':v[min(len(v)-1,int(.95*len(v)))]} for kind in ['dashboard','read']}})
  stop.set();monitor.join(timeout=12)
  output={'resources':resources,'format':args.format,'run':run,'kind':args.kind,'rows':args.rows,'distribution':'one institution' if args.concentrated else 'distributed institutions','platform':platform.platform(),'concurrent_sessions':10,'transport':'HTTP localhost with authenticated sessions; nine readers alongside importer','total_seconds':time.perf_counter()-start_all,'results':results,'limits':'Synthetic performance data; no million-row claim. Shared laptop workload may affect results.'}
- path=ROOT/'reports'/f"import-benchmark-{args.kind}-{args.rows}-{'concentrated' if args.concentrated else 'distributed'}.json";path.write_text(json.dumps(output,indent=2),encoding='utf-8');print(json.dumps(output,indent=2))
+ path=ROOT/'tests'/'results'/f"import-benchmark-{args.kind}-{args.rows}-{'concentrated' if args.concentrated else 'distributed'}.json";path.write_text(json.dumps(output,indent=2),encoding='utf-8');print(json.dumps(output,indent=2))
 if __name__=='__main__':main()

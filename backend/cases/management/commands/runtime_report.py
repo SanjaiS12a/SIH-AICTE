@@ -20,6 +20,6 @@ class Command(BaseCommand):
                 'states':{s:Complaint.objects.filter(matching_state=s).count() for s in ['pending','complete','failed']},
                 'overlap_pairs':OverlapCandidate.objects.count(),
                 'note':'Stored durations include native and container verification runs and worker cold starts. Seed batch waits are not online submission latency; queue wait is time since case creation, including downtime.'}
-        dest=Path('/reports') if Path('/reports').exists() else settings.BASE_DIR.parent/'reports'
+        dest=settings.RESULTS_DIR
         dest.mkdir(exist_ok=True);(dest/'matching-runtime.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
         self.stdout.write(json.dumps(result,indent=2))

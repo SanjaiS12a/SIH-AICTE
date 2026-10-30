@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 cases.append(str(case_id))
             finally:
                 cluster.stop()
-        dest=Path('/reports') if Path('/reports').exists() else settings.BASE_DIR.parent/'reports'
+        dest=settings.RESULTS_DIR
         dest.mkdir(exist_ok=True)
         report={'worker_cycles':2,'queued_while_stopped':True,'processed_after_restart':True,'cases':cases}
         (dest/'queue-recovery.json').write_text(json.dumps(report,indent=2),encoding='utf-8')

@@ -1,0 +1,230 @@
+{
+  "purpose": "Public PAWS paraphrase candidate; not trained on AICTE incident labels",
+  "run": "C:\\Users\\ashek\\Desktop\\SIH\\models\\experiments\\public-paws-20261030T172811Z",
+  "data_audit": {
+    "purpose": "Public paraphrase candidate, not AICTE incident matching training",
+    "publisher": "Google Research",
+    "source": "https://github.com/google-research-datasets/paws",
+    "licence": "Google PAWS licence: freely usable for any purpose, preserve attribution and disclaimer",
+    "sources": [
+      {
+        "name": "final_train",
+        "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_final/train-00000-of-00001.parquet",
+        "sha256": "8dc9ad3e5f30ad9a86b290fe236d528ef23a5751fec9a35d99cbacf68ba277cf",
+        "rows": 49401,
+        "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+      },
+      {
+        "name": "dev",
+        "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_final/validation-00000-of-00001.parquet",
+        "sha256": "7760d829453764ba342a6f562809a8ed21c2c3eec3fd9ffa544089f145d42f6d",
+        "rows": 8000,
+        "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+      },
+      {
+        "name": "test",
+        "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_final/test-00000-of-00001.parquet",
+        "sha256": "ae342ff12bb84b84b95f468abf5db6cb7c7bd578271299fe9c99be75b8132f4d",
+        "rows": 8000,
+        "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+      },
+      {
+        "name": "swap_train",
+        "url": "https://huggingface.co/datasets/google-research-datasets/paws/resolve/main/labeled_swap/train-00000-of-00001.parquet",
+        "sha256": "21b9b68cd9398f01e6c766a9b12bc9a31cee11a6170a5acc5fa87ba853033a9b",
+        "rows": 30397,
+        "labels": "1 paraphrase, 0 different meaning; NOT complaint incident labels"
+      }
+    ],
+    "splits": {
+      "train": {
+        "rows": 79656,
+        "positive": 24659,
+        "sha256": "86d99eb659ec7daaf1e1630c0e27329183167d0621d469e8fdc222ac4c7b2d94"
+      },
+      "validation": {
+        "rows": 3727,
+        "positive": 1652,
+        "sha256": "a6176d97d2b6706845cb447d22b69c24f6bc5d167437968b0f4cc798f4a11337"
+      },
+      "calibration": {
+        "rows": 4273,
+        "positive": 1887,
+        "sha256": "38876ed6039fa76882154fbd74a1382cfa83e32b3100ae59d2a59970cd5bf68c"
+      },
+      "test": {
+        "rows": 8000,
+        "positive": 3536,
+        "sha256": "50f7de4588a6887d7472bb1ac1ae576a5b7ee8b66b8118974e50bd0033b95635"
+      }
+    },
+    "removed": {
+      "duplicate_pair": 112,
+      "conflicting_pair_groups_removed": 30
+    },
+    "max_wordpieces": 86,
+    "partition_policy": "Official test untouched; official dev partitioned by connected normalized-sentence components into validation and calibration. All dev/test texts excluded from training. No extra artificial pairs, automatic complaint labels or test-driven checkpoint selection.",
+    "privacy": "Wikipedia source entities; no complaint identities. Public complaint text is collected and audited separately.",
+    "base_model_license": {
+      "name": "Apache-2.0",
+      "source": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+      "text_url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  },
+  "torch": "2.9.1+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 3050 A Laptop GPU",
+  "gpu_total_bytes": 4292345856,
+  "seed": 26264,
+  "epochs": 1,
+  "learning_rate": 1e-05,
+  "gradient_accumulation": 1,
+  "precision": "CUDA AMP float16 with FP32 model weights",
+  "loss": "ContrastiveLoss, cosine distance, margin 0.5",
+  "active_model": "unchanged baseline",
+  "approval": "Experimental candidate only; no automatic portal promotion",
+  "pilot": {
+    "seconds": 4.703881400000682,
+    "batches": 8,
+    "pairs": 256,
+    "mean_loss": 0.056680763605982065
+  },
+  "batch_size": 32,
+  "effective_batch_size": 32,
+  "estimated_epoch_seconds": 1464.0830857502124,
+  "baseline_validation": {
+    "threshold": 0.9991517066955566,
+    "precision": 0.8571428571428571,
+    "recall": 0.025423728813559324,
+    "f1": 0.04938271604938272,
+    "tp": 42,
+    "fp": 7,
+    "fn": 1610,
+    "precision_target_met": true
+  },
+  "training": {
+    "seconds": 798.6263522000008,
+    "batches": 2490,
+    "pairs": 79656,
+    "mean_loss": 0.024476493138401025
+  },
+  "candidate_validation": {
+    "threshold": 0.9745193719863892,
+    "precision": 0.8509454949944383,
+    "recall": 0.46307506053268765,
+    "f1": 0.599764798118385,
+    "tp": 765,
+    "fp": 134,
+    "fn": 887,
+    "precision_target_met": true
+  },
+  "checkpoint_selected_on": "Validation only; one predeclared epoch, no test-driven hyperparameter or checkpoint changes",
+  "peak_cuda_bytes": 911909888,
+  "baseline": {
+    "calibration": {
+      "threshold": 0.9988844990730286,
+      "precision": 0.8513513513513513,
+      "recall": 0.033386327503974564,
+      "f1": 0.06425293217746049,
+      "tp": 63,
+      "fp": 11,
+      "fn": 1824,
+      "precision_target_met": true
+    },
+    "test": {
+      "threshold": 0.9988844990730286,
+      "precision": 0.8113207547169812,
+      "recall": 0.03648190045248869,
+      "f1": 0.06982408660351828,
+      "tp": 129,
+      "fp": 30,
+      "fn": 3407,
+      "precision_target_met": null
+    },
+    "synthetic_domain_regression": {
+      "calibration": {
+        "threshold": 0.707274317741394,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 120,
+        "fp": 0,
+        "fn": 0,
+        "calibration_passed": true,
+        "recall_at_5": 0.75,
+        "retrieval_queries": 40
+      },
+      "test": {
+        "threshold": 0.707274317741394,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8,
+        "tp": 80,
+        "fp": 0,
+        "fn": 40,
+        "calibration_passed": true,
+        "recall_at_5": 0.7,
+        "retrieval_queries": 40
+      },
+      "limitation": "Previously used authored synthetic regression, not new real-world evidence"
+    }
+  },
+  "candidate": {
+    "calibration": {
+      "threshold": 0.9723374247550964,
+      "precision": 0.8500931098696461,
+      "recall": 0.48383677795442503,
+      "f1": 0.6166835528537657,
+      "tp": 913,
+      "fp": 161,
+      "fn": 974,
+      "precision_target_met": true
+    },
+    "test": {
+      "threshold": 0.9723374247550964,
+      "precision": 0.8382936507936508,
+      "recall": 0.47794117647058826,
+      "f1": 0.6087896253602306,
+      "tp": 1690,
+      "fp": 326,
+      "fn": 1846,
+      "precision_target_met": null
+    },
+    "synthetic_domain_regression": {
+      "calibration": {
+        "threshold": 0.5108500719070435,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 120,
+        "fp": 0,
+        "fn": 0,
+        "calibration_passed": true,
+        "recall_at_5": 0.55,
+        "retrieval_queries": 40
+      },
+      "test": {
+        "threshold": 0.5108500719070435,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8,
+        "tp": 80,
+        "fp": 0,
+        "fn": 40,
+        "calibration_passed": true,
+        "recall_at_5": 0.825,
+        "retrieval_queries": 40
+      },
+      "limitation": "Previously used authored synthetic regression, not new real-world evidence"
+    }
+  },
+  "checkpoint_sha256": "b659cc5c17e28a05320c9359a0fbe7f913109707cdfb068926a3938e4170757b",
+  "seconds_before_packaging": 864.0884835000015,
+  "package": {
+    "path": "C:\\Users\\ashek\\Desktop\\SIH\\artifacts\\minilm-public-paraphrase-candidate.zip",
+    "sha256": "ce4e232f7fa668d639c14d1aebe1c6998741d6a7f618ea63734128477a79b461",
+    "bytes": 83488294
+  },
+  "total_seconds": 887.4431041000007
+}

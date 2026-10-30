@@ -52,7 +52,7 @@ def main():
         values=sorted(value for name,value in rows if name==kind)
         output['results'][kind]={'requests':len(values),'p50_ms':statistics.median(values),'p95_ms':values[min(len(values)-1,int(.95*len(values)))],
                                  'target_p95_ms':1000 if kind=='dashboard' else 500}
-    dest=Path(__file__).resolve().parent.parent/'reports'/'latency.json';dest.parent.mkdir(exist_ok=True)
+    dest=Path(__file__).resolve().parent.parent/'tests/results'/'latency.json';dest.parent.mkdir(exist_ok=True)
     dest.write_text(json.dumps(output,indent=2),encoding='utf-8')
     print(json.dumps(output,indent=2))
 

@@ -1,6 +1,8 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
-  testDir: "./tests",
+  testDir: "../tests/browser",
+  tsconfig: "../tests/tsconfig.json",
+  outputDir: "../tests/results/playwright",
   fullyParallel: false,
   workers: 1,
   expect: { timeout: 15000 },
@@ -10,5 +12,5 @@ export default defineConfig({
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: [["list"], ["html", { open: "never", outputFolder: "../tests/results/playwright-report" }]],
 });

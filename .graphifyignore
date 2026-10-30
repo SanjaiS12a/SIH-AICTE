@@ -11,10 +11,13 @@ backend/staticfiles/**
 backend/.wheels/**
 backend/**/__pycache__/**
 backups/**
-reports/**
+tests/results/**
 data/**
 *.log
 *.lock
 *-lock.json
 graphify-out/**
 .env*
+
+.venv-training/**
+artifacts/**

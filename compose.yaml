@@ -5,7 +5,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-coordination}
       POSTGRES_USER: ${POSTGRES_USER:-coordination}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-demo-only}
-    ports: ["127.0.0.1:5438:5432"]
+    ports: ["127.0.0.1:${DB_PORT:-5438}:5432"]
     volumes: ["postgres_data:/var/lib/postgresql/data"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
@@ -29,9 +29,10 @@ services:
     ports: ["127.0.0.1:8000:8000"]
     volumes: &volumes
       - ./backend:/app
+      - ./tests:/app/tests
       - ./models:/models
       - ./data:/data
-      - ./reports:/reports
+      - ./tests/results:/reports
     depends_on:
       db: {condition: service_healthy}
   worker:

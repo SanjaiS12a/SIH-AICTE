@@ -1,0 +1,33 @@
+{
+  "offline_bundle_check": {
+    "network": "none",
+    "device": "cpu",
+    "package_sha256": "ce4e232f7fa668d639c14d1aebe1c6998741d6a7f618ea63734128477a79b461",
+    "embedding_shape": [
+      2,
+      384
+    ],
+    "normalized": true,
+    "seconds": 4.633
+  },
+  "baseline_weights_unchanged": true,
+  "candidate_weights_different": true,
+  "baseline_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+  "candidate_sha256": "b659cc5c17e28a05320c9359a0fbe7f913109707cdfb068926a3938e4170757b",
+  "training_source_sha256": "a6726606be713f446e4ada4114cd5bd928dee4fd9ad56d59a6ab8177f7d3e5c7",
+  "quality_gate": {
+    "public_test_precision_target": 0.85,
+    "public_test_precision": 0.8382936507936508,
+    "synthetic_recall5_target": 0.9,
+    "synthetic_recall5": 0.825,
+    "synthetic_f1_improved": false,
+    "approved_for_portal": false,
+    "reason": "Public test precision and synthetic retrieval fall below targets; independent real AICTE incident-pair validation is absent."
+  },
+  "versions": {
+    "torch": "2.9.1+cu128",
+    "sentence_transformers": "5.7.0",
+    "transformers": "5.22.0",
+    "numpy": "2.5.4"
+  }
+}

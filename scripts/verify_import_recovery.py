@@ -25,5 +25,5 @@ def main():
   time.sleep(1)
  assert after['counts']=={'imported':2} and after['matching']=={'complete':2},after
  result={'import_id':job['id'],'queued_while_worker_stopped':stopped['counts'],'after_restart':after['counts'],'matching':after['matching'],'recovery_seconds':time.perf_counter()-started,'real_worker_stop_start':True}
- (ROOT/'reports/import-queue-recovery.json').write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps(result,indent=2))
+ (ROOT/'tests/results/import-queue-recovery.json').write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps(result,indent=2))
 if __name__=='__main__':main()

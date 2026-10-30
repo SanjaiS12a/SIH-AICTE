@@ -91,7 +91,7 @@ def main():
    timing=train_epoch(model,train,device,batch_size);model.eval();matrix=vectors(model,rows)
    val=evaluate(matrix,rows,pairs,'validation');variant['epochs'].append({'epoch':epoch+1,**timing,'validation':val})
    if val['f1']>best:best=val['f1'];model.save(str(dest))
-   save(ROOT/'reports/training-progress.json',{'current_variant':name,'results':output,'current':variant})
+   save(ROOT/'tests/results/training-progress.json',{'current_variant':name,'results':output,'current':variant})
    print(name,'epoch',epoch+1,'validation_f1',round(val['f1'],4),flush=True)
   if name=='baseline':dest=base_path
   del model;gc.collect();model=SentenceTransformer(str(dest),device=device,local_files_only=True);matrix=vectors(model,rows)
@@ -109,6 +109,6 @@ def main():
  base=output['variants']['baseline'].get('test',{});test=output['variants'][candidate].get('test',{})
  passes=bool(test and test['precision']>=.85 and test['recall_at_5']>=.90 and test['f1']>base.get('f1',1))
  output.update(candidate_passes_synthetic_gate=passes,active_model='baseline',promotion='No automatic promotion: independent human review remains pending even when synthetic gates pass.',total_seconds=time.perf_counter()-started,peak_cuda_bytes=torch.cuda.max_memory_allocated() if device=='cuda' else 0)
- save(run/'experiment.json',output);save(ROOT/'reports/training.json',output)
+ save(run/'experiment.json',output);save(ROOT/'tests/results/training.json',output)
  print(json.dumps({'candidate':candidate,'passes_synthetic_gate':passes,'active_model':'baseline','seconds':output['total_seconds']}),flush=True)
 if __name__=='__main__':main()
