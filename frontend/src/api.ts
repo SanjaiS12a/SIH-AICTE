@@ -12,6 +12,22 @@ export type Institution = {
   region: string;
   district: string;
 };
+export type InstitutionProfile = Institution & {
+  address: string;
+  official_email: string;
+  official_phone: string;
+  version: number;
+  overview: { total: number; open: number; closed: number; overdue: number };
+  scope: "all_bureaus" | "current_bureau";
+  history_period: "all_time";
+  bureaus: { bureau__code: string; bureau__name: string; count: number }[];
+  cases_url: string;
+  history_url: string;
+};
+export type InstitutionAction = CaseAction & {
+  case_id: string;
+  reference: string;
+};
 export type Case = {
   id: string;
   reference: string;
@@ -162,6 +178,15 @@ export function errorText(value: unknown): string {
       .join(" ");
   return "The request could not be completed.";
 }
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
 export async function api<T>(url: string, init: RequestInit = {}): Promise<T> {
   const response = await fetch(url, {
     credentials: "same-origin",
@@ -177,6 +202,6 @@ export async function api<T>(url: string, init: RequestInit = {}): Promise<T> {
   const data = await response
     .json()
     .catch(() => ({ error: "The server returned an unexpected response." }));
-  if (!response.ok) throw new Error(errorText(data));
+  if (!response.ok) throw new ApiError(errorText(data), response.status);
   return data;
 }

@@ -42,6 +42,7 @@ type Summary = {
   totals: Record<string, number>;
   rows: {
     institution: string;
+    institution_id?: string;
     bureau: string;
     category: string;
     period: string;
@@ -618,7 +619,14 @@ function Bars({
     </section>
   );
 }
-export function Report({ filters }: { filters: string }) {
+export function Report({
+  filters,
+  embedded = false,
+}: {
+  filters: string;
+  embedded?: boolean;
+}) {
+  const ReportHeading = embedded ? "h2" : "h1";
   const params = new URLSearchParams(filters),
     id = params.get("import_id");
   const [period, setPeriod] = useState("");
@@ -640,7 +648,7 @@ export function Report({ filters }: { filters: string }) {
       <div className="page-heading">
         <div>
           <div className="eyebrow">AICTE · FACTUAL ANALYSIS</div>
-          <h1>Data report</h1>
+          <ReportHeading>Data report</ReportHeading>
           <p>
             {id
               ? job?.filename ||
@@ -822,7 +830,18 @@ export function Report({ filters }: { filters: string }) {
                   {summary.rows.map((x, i) => (
                     <tr key={i}>
                       <td>{x.period}</td>
-                      <td>{x.institution}</td>
+                      <td>
+                        {x.institution_id ? (
+                          <Link
+                            className="institution-link"
+                            to={`/institutions/${x.institution_id}`}
+                          >
+                            {x.institution}
+                          </Link>
+                        ) : (
+                          x.institution
+                        )}
+                      </td>
                       <td>{x.bureau}</td>
                       <td>{x.category}</td>
                       <td>

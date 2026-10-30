@@ -22,7 +22,7 @@ import { date, categories } from "./api";
 import type { Dashboard, Options, User } from "./api";
 import { usePoll } from "./imports";
 
-function validDashboard(value: unknown): boolean {
+export function validDashboard(value: unknown): boolean {
   if (!value || typeof value !== "object") return false;
   const d = value as Dashboard;
   const count = (n: unknown) =>
@@ -335,7 +335,14 @@ export function DashboardHome({
                             {c.summary}
                           </span>
                         </td>
-                        <td>{c.institution.name}</td>
+                        <td>
+                          <Link
+                            className="institution-link"
+                            to={`/institutions/${c.institution.id}`}
+                          >
+                            {c.institution.name}
+                          </Link>
+                        </td>
                         <td>{bureauName(c.bureau)}</td>
                         <td>
                           <span className={c.overdue ? "deadline-overdue" : ""}>
@@ -390,7 +397,14 @@ export function DashboardHome({
                         <Intersect size={22} />
                       </div>
                       <div>
-                        <h3>{n.institution__name}</h3>
+                        <h3>
+                          <Link
+                            className="institution-link"
+                            to={`/institutions/${n.institution_id}`}
+                          >
+                            {n.institution__name}
+                          </Link>
+                        </h3>
                         <p>
                           {n.count} open complaints · {n.bureaus} bureaus
                         </p>

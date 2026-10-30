@@ -2702,3 +2702,109 @@ progress::-webkit-progress-value {
     flex-shrink: 1;
   }
 }
+
+/* Institution profiles reuse the portal panels, tables, forms and timeline. */
+.institution-link {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.institution-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 14px;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.institution-filters label {
+  display: grid;
+  gap: 7px;
+  font-size: 12px;
+  flex: 1 1 150px;
+  min-width: 0;
+}
+.institution-filters .institution-search {
+  flex: 2 1 240px;
+}
+.institution-filters input,
+.institution-filters select {
+  width: 100%;
+  min-width: 0;
+}
+.institution-tabs {
+  margin-bottom: 20px;
+}
+.institution-tabs a {
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 5px;
+}
+.institution-tabs a.active {
+  background: #f1f8f1;
+  color: #145526;
+  font-weight: 700;
+  box-shadow: inset 0 -2px #138808;
+}
+.institution-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.institution-stats .home-stat {
+  min-width: 0;
+}
+.institution-overview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.institution-overview .panel,
+.institution-report {
+  min-width: 0;
+}
+.institution-overview dd {
+  overflow-wrap: anywhere;
+}
+.institution-timeline {
+  padding: 24px;
+}
+.institution-timeline p,
+.institution-timeline .change-details {
+  overflow-wrap: anywhere;
+}
+.institution-report .report-heading {
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.institution-report .report-heading > div {
+  min-width: 0;
+}
+.institution-report .report-filter {
+  overflow-wrap: anywhere;
+}
+.institution-report h2 {
+  font-size: 20px;
+}
+@media (max-width: 1000px) {
+  .institution-overview {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 760px) {
+  .institution-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .institution-tabs a {
+    padding: 9px 11px;
+  }
+  .institution-filters {
+    padding: 15px;
+  }
+  .institution-stats .home-stat strong {
+    font-size: 28px;
+  }
+  .institution-timeline {
+    padding: 18px;
+  }
+}

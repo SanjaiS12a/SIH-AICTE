@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { FormEvent, ReactNode } from "react";
+import type { FormEvent } from "react";
 import { createRoot } from "react-dom/client";
 import {
   BrowserRouter,
@@ -23,8 +23,6 @@ import {
   ArrowRight,
   ArrowLeft,
   CheckCircle,
-  Clock,
-  WarningCircle,
   DownloadSimple,
   ShieldCheck,
   SignOut,
@@ -34,7 +32,6 @@ import {
   Paperclip,
   ArrowsLeftRight,
   FunnelSimple,
-  CircleNotch,
 } from "@phosphor-icons/react";
 
 import { api, csrf, date, labels, categories, statuses } from "./api";
@@ -46,11 +43,24 @@ import type {
   Page,
   Options,
   Overlap,
-  Dashboard,
 } from "./api";
 import "./style.css";
 import { DashboardHome } from "./dashboard";
+import {
+  ErrorBox,
+  Loading,
+  Empty,
+  Badge,
+  Heading,
+  CaseTable,
+  Pagination,
+} from "./ui";
 import { Imports, ImportDetail, Report, ExportButton } from "./imports";
+import {
+  InstitutionDirectory,
+  InstitutionEditor,
+  InstitutionProfilePage,
+} from "./institutions";
 
 const emptyOptions: Options = { bureaus: [], officers: [], regions: [] };
 function GovernmentHeader() {
@@ -90,38 +100,6 @@ function GovernmentHeader() {
         </span>
       </div>
     </header>
-  );
-}
-function ErrorBox({ message }: { message: string }) {
-  return message ? (
-    <div className="error" role="alert">
-      <WarningCircle size={20} />
-      {message}
-    </div>
-  ) : null;
-}
-function Loading() {
-  return (
-    <div className="empty" role="status">
-      <CircleNotch className="spin" size={26} /> Loading workspace…
-    </div>
-  );
-}
-function Empty({ children }: { children: ReactNode }) {
-  return (
-    <div className="empty">
-      <Tray size={34} />
-      <p>{children}</p>
-    </div>
-  );
-}
-function Badge({ status }: { status: string }) {
-  return (
-    <span className={`badge ${status}`}>
-      {typeof status === "string"
-        ? labels[status] || status.replaceAll("_", " ")
-        : "Unknown status"}
-    </span>
   );
 }
 function useLoad<T>(url: string, refresh = 0) {
@@ -232,6 +210,10 @@ function Shell({ user }: { user: User }) {
             <Files size={21} />
             Case registry
           </NavLink>
+          <NavLink to="/institutions">
+            <Buildings size={21} />
+            Institutions
+          </NavLink>
           <NavLink to="/imports">
             <Tray size={21} />
             Import data
@@ -285,9 +267,11 @@ function Shell({ user }: { user: User }) {
             <strong>
               {location.pathname === "/coordination"
                 ? "Coordination queue"
-                : location.pathname.startsWith("/cases")
-                  ? "Case registry"
-                  : "Dashboard"}
+                : location.pathname.startsWith("/institutions")
+                  ? "Institutions"
+                  : location.pathname.startsWith("/cases")
+                    ? "Case registry"
+                    : "Dashboard"}
             </strong>
           </div>
           <div className="top-actions">
@@ -346,6 +330,32 @@ function Shell({ user }: { user: User }) {
         </header>
         <main id="main">
           <Routes>
+            <Route
+              path="/institutions"
+              element={
+                <InstitutionDirectory
+                  user={user}
+                  options={options || emptyOptions}
+                />
+              }
+            />
+            <Route
+              path="/institutions/new"
+              element={<InstitutionEditor user={user} />}
+            />
+            <Route
+              path="/institutions/:id/edit"
+              element={<InstitutionEditor user={user} />}
+            />
+            <Route
+              path="/institutions/:id"
+              element={
+                <InstitutionProfilePage
+                  user={user}
+                  options={options || emptyOptions}
+                />
+              }
+            />
             <Route path="/imports" element={<Imports user={user} />} />
             <Route path="/imports/:id" element={<ImportDetail user={user} />} />
             <Route
@@ -404,86 +414,6 @@ function Shell({ user }: { user: User }) {
           </footer>
         </main>
       </div>
-    </div>
-  );
-}
-function Heading({
-  eyebrow,
-  title,
-  subtitle,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  children?: ReactNode;
-}) {
-  return (
-    <div className="page-heading">
-      <div>
-        <div className="eyebrow">{eyebrow}</div>
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
-      </div>
-      <div className="heading-actions">{children}</div>
-    </div>
-  );
-}
-function CaseTable({ rows }: { rows: Case[] }) {
-  return (
-    <div
-      className="table-scroll"
-      role="region"
-      aria-label="Complaint list"
-      tabIndex={0}
-    >
-      <table>
-        <thead>
-          <tr>
-            <th>CASE / INSTITUTION</th>
-            <th>CATEGORY</th>
-            <th>BUREAU</th>
-            <th>STATUS</th>
-            <th>DUE DATE</th>
-            <th>
-              <span className="sr-only">Open</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((c) => (
-            <tr key={c.id}>
-              <td>
-                <Link className="case-ref" to={`/cases/${c.id}`}>
-                  {c.reference}
-                </Link>
-                <span className="table-sub">{c.institution.name}</span>
-              </td>
-              <td className="capitalize">{c.category}</td>
-              <td>
-                <span className="bureau-tag">{c.bureau}</span>
-              </td>
-              <td>
-                <Badge status={c.status} />
-              </td>
-              <td className={c.overdue ? "overdue-text" : ""}>
-                {date(c.due_at)}
-                {c.overdue && <span className="table-sub">Overdue</span>}
-              </td>
-              <td>
-                <Link
-                  className="icon-link"
-                  aria-label={`Open ${c.reference}`}
-                  to={`/cases/${c.id}`}
-                >
-                  <ArrowUpRight size={19} />
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {!rows.length && <Empty>No cases match these filters.</Empty>}
     </div>
   );
 }
@@ -627,51 +557,6 @@ function Registry({ user, options }: { user: User; options: Options }) {
         )}
       </section>
     </>
-  );
-}
-function Pagination({
-  data,
-  params,
-  setParams,
-}: {
-  data: Page<unknown>;
-  params: URLSearchParams;
-  setParams: (p: URLSearchParams) => void;
-}) {
-  const current = Number(params.get("page") || 1);
-  return (
-    <div className="pagination">
-      <span>
-        {data.count} records · Page {current} of{" "}
-        {Math.max(1, Math.ceil(data.count / 20))}
-      </span>
-      <div>
-        <button
-          className="button secondary small"
-          disabled={!data.previous}
-          onClick={() => {
-            const p = new URLSearchParams(params);
-            p.set("page", String(current - 1));
-            setParams(p);
-          }}
-        >
-          <ArrowLeft size={15} />
-          Previous
-        </button>
-        <button
-          className="button secondary small"
-          disabled={!data.next}
-          onClick={() => {
-            const p = new URLSearchParams(params);
-            p.set("page", String(current + 1));
-            setParams(p);
-          }}
-        >
-          Next
-          <ArrowRight size={15} />
-        </button>
-      </div>
-    </div>
   );
 }
 function NewCase({ options, user }: { options: Options; user: User }) {
@@ -899,7 +784,14 @@ function Detail({ user, options }: { user: User; options: Options }) {
         <>
           <Heading
             eyebrow={`${c.reference} · ${c.bureau}`}
-            title={c.institution.name}
+            title={
+              <Link
+                className="institution-link"
+                to={`/institutions/${c.institution.id}`}
+              >
+                {c.institution.name}
+              </Link>
+            }
             subtitle={`${c.institution.permanent_id} · ${c.institution.region} · ${c.institution.district}`}
           >
             <Badge status={c.status} />
@@ -1001,6 +893,18 @@ function Detail({ user, options }: { user: User; options: Options }) {
                 <div className="panel-heading">
                   <h2>Institution history</h2>
                   <span className="muted">Within your access</span>
+                </div>
+                <div className="card-body">
+                  <Link
+                    className="text-button"
+                    to={`/institutions/${c.institution.id}?section=cases`}
+                  >
+                    View complete institution case list →
+                  </Link>
+                  <p className="muted">
+                    Recent preview below. Open the complete list for every page
+                    of authorized cases.
+                  </p>
                 </div>
                 {c.institution_history.length ? (
                   <CaseTable rows={c.institution_history} />
@@ -1218,7 +1122,16 @@ function Coordination({ user }: { user: User }) {
         <div className="info-note">
           <span>
             Institution filter:{" "}
-            {pair?.left.institution.name || params.get("institution")}
+            {pair ? (
+              <Link
+                className="institution-link"
+                to={`/institutions/${pair.left.institution.id}`}
+              >
+                {pair.left.institution.name}
+              </Link>
+            ) : (
+              params.get("institution")
+            )}
           </span>
           <button
             className="text-button"
@@ -1273,10 +1186,9 @@ function Coordination({ user }: { user: User }) {
                 tabIndex={0}
               >
                 {data.results.map((o) => (
-                  <button
+                  <article
                     key={o.id}
                     className={`pair-item ${pair?.id === o.id ? "selected" : ""}`}
-                    onClick={() => setSelected(o.id)}
                   >
                     <span className="pair-top">
                       <span>
@@ -1285,12 +1197,21 @@ function Coordination({ user }: { user: User }) {
                       </span>
                       <strong>{o.score.toFixed(3)} cosine</strong>
                     </span>
-                    <strong>{o.left.institution.name}</strong>
-                    <span>
+                    <Link
+                      className="institution-link"
+                      to={`/institutions/${o.left.institution.id}`}
+                    >
+                      {o.left.institution.name}
+                    </Link>
+                    <button
+                      className="text-button"
+                      onClick={() => setSelected(o.id)}
+                      aria-pressed={pair?.id === o.id}
+                    >
                       {o.left.reference} / {o.right.reference}
-                    </span>
+                    </button>
                     <Badge status={o.decision} />
-                  </button>
+                  </article>
                 ))}
               </section>
               {pair && (
@@ -1354,7 +1275,14 @@ function PairReview({
       <div className="panel-heading">
         <div>
           <h2>Review potential relationship</h2>
-          <p>{p.evidence.institution}</p>
+          <p>
+            <Link
+              className="institution-link"
+              to={`/institutions/${p.left.institution.id}`}
+            >
+              {p.evidence.institution}
+            </Link>
+          </p>
         </div>
         <Badge status={p.decision} />
       </div>
