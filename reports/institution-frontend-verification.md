@@ -71,3 +71,5 @@ One exploratory run exposed an exact-label test selector issue, corrected to use
 Phase 1 frontend acceptance is complete, with no known blocking issue from these checks. Repeated browser runs retain labelled synthetic institutions/cases; their global dashboard totals are not a clean seed benchmark. The earlier backend verification report records the backend-only milestone and its then-current UI limitation; this report covers its frontend completion.
 
 Skipped: Phase 2 workflows, model fine-tuning, new scale benchmarks, public hosting and physical network-adapter disconnection. Official AICTE workflow compliance and real grievance accuracy remain unvalidated. Database-owner tampering remains outside the demonstrated audit guarantees.
+
+Follow-up: `reports/recovery-offline-followup.md` records a successful full restore into a separate database, migrated/API-checked recovery, and a cold tokenizer/model check in a network-disabled container. Physical-disconnection rehearsal remains unverified.
