@@ -135,6 +135,16 @@ export function InstitutionDirectory({
             </select>
           </label>
           <label>
+            District
+            <input
+              type="search"
+              placeholder="Search district"
+              value={params.get("district") || ""}
+              maxLength={80}
+              onChange={(e) => change("district", e.target.value)}
+            />
+          </label>
+          <label>
             Responsible bureau
             <select
               value={params.get("bureau") || ""}

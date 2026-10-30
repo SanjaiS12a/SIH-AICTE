@@ -109,6 +109,39 @@ class InstitutionTests(TestCase):
         self.assertEqual(self.client.get('/api/institution-registry?pending=false').data['count'], 26)
         self.assertEqual(self.client.get('/api/institution-registry?from=bad').status_code, 400)
 
+    def test_district_directory_search_includes_institutions_without_cases(self):
+        institution = Institution.objects.create(name='Coastal Registry College', permanent_id='DISTRICT-ONLY',
+                                                 region='West', district='Coastal North')
+        for user in [self.coordinator, self.auditor, self.officer]:
+            self.client.force_authenticate(user)
+            response = self.client.get('/api/institution-registry', {'district': 'coASTal'})
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.data['count'], 1)
+            self.assertEqual(response.data['results'][0]['id'], str(institution.pk))
+        self.assertEqual(self.client.get('/api/institution-registry?district=missing').data['count'], 0)
+        self.assertEqual(self.client.get('/api/institution-registry', {'district': 'x' * 81}).status_code, 400)
+        lookup = self.client.get('/api/institutions?q=DISTRICT-ONLY').data
+        self.assertIsInstance(lookup, list)
+        self.assertEqual(set(lookup[0]), {'id', 'name', 'permanent_id', 'region', 'district'})
+
+    def test_district_case_counts_exports_and_current_membership_share_scope(self):
+        other = Institution.objects.create(name='Other District College', permanent_id='DISTRICT-OTHER',
+                                           region='West', district='Other District')
+        self.hidden.institution = other
+        self.hidden.save()
+        self.assertEqual(self.client.get('/api/cases?district=fictional').data['count'], 1)
+        self.assertEqual(self.client.get('/api/dashboard?district=fictional').data['total'], 1)
+        self.client.force_authenticate(self.officer)
+        self.assertEqual(self.client.get('/api/cases?district=other').data['count'], 0)
+        self.assertEqual(self.client.get('/api/dashboard?district=other').data['total'], 0)
+        self.assertEqual(self.client.get('/api/institution-registry?district=other&bureau=PGRC').data['count'], 0)
+        exported = b''.join(self.client.get('/api/reports.csv?district=other').streaming_content).decode()
+        self.assertNotIn(other.name, exported)
+        Membership.objects.filter(user=self.officer).update(bureau=self.pg)
+        result = self.client.get('/api/cases?district=other').data
+        self.assertEqual(result['count'], 1)
+        self.assertEqual(result['results'][0]['id'], str(self.hidden.pk))
+
     def test_profile_and_case_pages_include_closed_and_more_than_twenty_cases(self):
         for i in range(23):
             self.make_case(self.rb, f'PAGE-{i}')

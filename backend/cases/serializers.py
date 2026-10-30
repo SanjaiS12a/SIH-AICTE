@@ -90,6 +90,7 @@ class FilterSerializer(serializers.Serializer):
     institution = serializers.UUIDField(required=False)
     bureau = serializers.CharField(max_length=20, required=False, allow_blank=True)
     region = serializers.CharField(max_length=60, required=False, allow_blank=True)
+    district = serializers.CharField(max_length=80, required=False, allow_blank=True)
     category = serializers.ChoiceField(choices=[''] + [x[0] for x in Complaint.CATEGORIES], required=False)
     status = serializers.ChoiceField(choices=[''] + [x[0] for x in Complaint.STATUSES], required=False)
     overdue = serializers.BooleanField(required=False)

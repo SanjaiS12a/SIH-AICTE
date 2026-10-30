@@ -36,9 +36,9 @@ def filtered_cases(request):
     if p.get('q'):
         q = p['q']
         qs = qs.filter(Q(reference__icontains=q) | Q(source_reference__icontains=q) | Q(institution__name__icontains=q) | Q(institution__permanent_id__icontains=q) | Q(summary__icontains=q))
-    for key in ('institution', 'bureau', 'region', 'category', 'status'):
+    for key in ('institution', 'bureau', 'region', 'district', 'category', 'status'):
         if p.get(key):
-            field = {'institution': 'institution_id', 'bureau': 'bureau__code', 'region': 'institution__region'}.get(key, key)
+            field = {'institution': 'institution_id', 'bureau': 'bureau__code', 'region': 'institution__region', 'district': 'institution__district__icontains'}.get(key, key)
             qs = qs.filter(**{field: p[key]})
     if p.get('from'):
         qs = qs.filter(received_at__date__gte=p['from'])

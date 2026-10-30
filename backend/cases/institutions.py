@@ -108,7 +108,9 @@ def registry(request):
         qs = qs.filter(pk=params['institution'])
     filters = FilterSerializer(data=params)
     filters.is_valid(raise_exception=True)
-    case_filters = set(filters.fields) - {'q', 'region', 'institution'}
+    if filters.validated_data.get('district'):
+        qs = qs.filter(district__icontains=filters.validated_data['district'])
+    case_filters = set(filters.fields) - {'q', 'region', 'district', 'institution'}
     if any(filters.validated_data.get(key) for key in case_filters):
         qs = qs.filter(pk__in=cases.values('institution_id'))
     return page(request, qs, InstitutionSerializer)

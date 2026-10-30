@@ -188,6 +188,42 @@ test("all-time overview, case pagination beyond twenty, filter reset and full ac
   );
 });
 
+test("district search is server-side, includes empty institutions and resets pagination", async ({
+  page,
+}) => {
+  const record = await post("/api/institution-registry", {
+    name: `District-only browser institution ${stamp}`,
+    permanent_id: `DIST-${stamp}`,
+    region: "Southern",
+    district: `Coastal ${stamp} North`,
+    reason: "Synthetic district search acceptance fixture",
+  });
+  await login(page);
+  await page.goto("/institutions?page=2");
+  await expect(page.getByText(/records · Page 2/)).toBeVisible();
+  const response = page.waitForResponse(
+    (r) =>
+      r.url().includes("/api/institution-registry?") &&
+      r.url().includes("district="),
+  );
+  await page.getByLabel("District", { exact: true }).fill(`${stamp} nOrTh`);
+  expect((await (await response).json()).count).toBe(1);
+  await expect(page).not.toHaveURL(/page=2/);
+  await expect(
+    page.getByRole("link", { name: record.name, exact: true }),
+  ).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.getByLabel("District", { exact: true })).toBeVisible();
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(392);
+  await page
+    .getByRole("button", { name: "Clear filters", exact: true })
+    .click();
+  await expect(page.getByLabel("District", { exact: true })).toHaveValue("");
+  await expect(page).not.toHaveURL(/district=/);
+});
+
 test("coordinator registration and audited editing use real APIs", async ({
   page,
 }) => {
