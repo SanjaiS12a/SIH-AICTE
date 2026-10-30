@@ -54,8 +54,7 @@ class Command(BaseCommand):
                     'disposed_at':min(received+timedelta(days=10),now) if row['status']=='disposed' else None,
                     'assigned_to':users[['officer_rb','officer_pgrc','officer_demo'][n%3]]})
                 if created:
-                    initial = CaseAction.objects.create(case=case, actor=users['coordinator'], kind='registered', reason='Synthetic complaint imported for demonstration.', changes={'bureau':case.bureau.code})
-                    CaseAction.objects.filter(pk=initial.pk).update(created_at=received)
+                    CaseAction.objects.create(created_at=received, case=case, actor=users['coordinator'], kind='registered', reason='Synthetic complaint imported for demonstration.', changes={'bureau':case.bureau.code})
                     if n % 11 == 0:
                         CaseAction.objects.create(case=case, actor=users['coordinator'], kind='note', reason='Demo scrutiny note: request supporting evidence before determining the allegation.')
                     if n % 17 == 0:
@@ -64,8 +63,7 @@ class Command(BaseCommand):
                             reason='Synthetic historical transfer for cross-bureau coordination.',
                             changes={'bureau':{'before':previous_bureau.code,'after':case.bureau.code}})
                     if row['status']=='disposed':
-                        action = CaseAction.objects.create(case=case, actor=users['coordinator'], kind='status', reason='Synthetic resolution: written response recorded for demonstration.', changes={'status':{'before':'under_review','after':'disposed'}})
-                        CaseAction.objects.filter(pk=action.pk).update(created_at=case.disposed_at)
+                        CaseAction.objects.create(created_at=case.disposed_at, case=case, actor=users['coordinator'], kind='status', reason='Synthetic resolution: written response recorded for demonstration.', changes={'status':{'before':'under_review','after':'disposed'}})
             Schedule.objects.get_or_create(name='deadline-reminders', defaults={'func':'cases.tasks.send_reminders','schedule_type':Schedule.MINUTES,'minutes':5,'repeats':-1})
         out = Path('/data') if Path('/data').exists() else settings.BASE_DIR.parent/'data'
         out.mkdir(exist_ok=True)

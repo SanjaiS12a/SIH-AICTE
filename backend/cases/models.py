@@ -1,5 +1,6 @@
 import uuid
 from django.conf import settings
+from django.utils import timezone
 from django.db import models
 from django.db.models import Q
 from pgvector.django import VectorField
@@ -10,6 +11,10 @@ class Institution(models.Model):
     permanent_id = models.CharField(max_length=40, unique=True)
     region = models.CharField(max_length=60)
     district = models.CharField(max_length=80)
+    address = models.CharField(max_length=500, blank=True)
+    official_email = models.EmailField(blank=True)
+    official_phone = models.CharField(max_length=30, blank=True)
+    version = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return self.name
@@ -73,7 +78,7 @@ class CaseAction(models.Model):
     kind = models.CharField(max_length=30)
     reason = models.TextField(max_length=4000)
     changes = models.JSONField(default=dict)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     class Meta:
         ordering = ['created_at', 'id']
