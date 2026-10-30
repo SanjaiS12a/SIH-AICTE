@@ -68,6 +68,13 @@ class ActionSerializer(serializers.Serializer):
 
 class ActionReadSerializer(serializers.ModelSerializer):
     actor = serializers.CharField(source='actor.get_full_name')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if self.context.get('restricted') and instance.kind == 'overlap_review':
+            data.update(reason='Restricted coordination review recorded.', changes={})
+        return data
+
     class Meta:
         model = CaseAction
         fields = ['id', 'kind', 'actor', 'reason', 'changes', 'created_at']

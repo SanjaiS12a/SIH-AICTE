@@ -19,7 +19,7 @@ from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
-from .access import role, scoped_cases, writable, coordination
+from .access import role, scoped_cases, writable, coordination, current_bureau_id
 from .models import ImportJob, ImportRow, SummaryRecord, Institution, Bureau, Complaint, CaseAction, AuditEvent
 from .serializers import CreateCaseSerializer
 
@@ -93,9 +93,9 @@ def accessible_jobs(user):
  if coordination(user): return qs
  if role(user) != 'officer': return qs.none()
  # A transferred case must not remain readable through its original import.
- if not user.membership.bureau_id:return qs.none()
- forbidden=ImportRow.objects.filter(data__has_key='bureau_id').exclude(data__bureau_id=user.membership.bureau_id).values('job_id')
- return qs.filter(owner=user).exclude(pk__in=forbidden).exclude(rows__case__in=Complaint.objects.exclude(bureau_id=user.membership.bureau_id)).distinct()
+ if not current_bureau_id(user):return qs.none()
+ forbidden=ImportRow.objects.filter(data__has_key='bureau_id').exclude(data__bureau_id=current_bureau_id(user)).values('job_id')
+ return qs.filter(owner=user).exclude(pk__in=forbidden).exclude(rows__case__in=Complaint.objects.exclude(bureau_id=current_bureau_id(user))).distinct()
 
 def get_job(user,job_id):
  return get_object_or_404(accessible_jobs(user),pk=job_id)
@@ -121,7 +121,7 @@ def validate_rows(job, mapping):
    inst=institutions.get(data['institution_permanent_id']); bureau=bureaus.get(data['bureau'])
    if not inst: raise ValidationError('Unknown institution permanent ID; select a canonical institution.')
    if not bureau: raise ValidationError('Unknown bureau code.')
-   if role(job.owner)=='officer' and bureau.pk!=job.owner.membership.bureau_id: raise PermissionDenied('Officer imports must belong to their own bureau.')
+   if role(job.owner)=='officer' and bureau.pk!=current_bureau_id(job.owner): raise PermissionDenied('Officer imports must belong to their own bureau.')
    if data['category'] not in dict(Complaint.CATEGORIES): raise ValidationError('Unknown category.')
    if job.kind=='complaints':
     payload={key:value for key,value in data.items() if key in CreateCaseSerializer().fields and value}
@@ -250,7 +250,7 @@ def process_import(job_id):
    rows=list(job.rows.filter(state='ready').order_by('number')[:250]); ids=[]
    for row in rows:
     data=dict(row.data); fingerprint=data.pop('fingerprint')
-    if role(job.owner)=='officer' and data['bureau_id']!=job.owner.membership.bureau_id: raise ValueError('Import owner bureau changed; coordinator review required.')
+    if role(job.owner)=='officer' and data['bureau_id']!=current_bureau_id(job.owner): raise ValueError('Import owner bureau changed; coordinator review required.')
     try:
      with transaction.atomic():
       if job.kind=='complaints':

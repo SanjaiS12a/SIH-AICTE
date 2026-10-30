@@ -1,9 +1,12 @@
 from django.db.models import Q
 from rest_framework.exceptions import PermissionDenied
-from .models import Complaint
+from .models import Complaint, Membership
 
 def role(user):
-    return user.membership.role if hasattr(user, 'membership') else ''
+    return Membership.objects.filter(user_id=user.pk).values_list('role', flat=True).first() or ''
+
+def current_bureau_id(user):
+    return Membership.objects.filter(user_id=user.pk).values_list('bureau_id', flat=True).first()
 
 def coordination(user):
     return role(user) in ('coordinator', 'auditor')
@@ -16,8 +19,8 @@ def scoped_cases(user):
     qs = Complaint.objects.select_related('institution', 'bureau', 'assigned_to', 'created_by')
     if coordination(user):
         return qs
-    if role(user) == 'officer' and user.membership.bureau_id:
-        return qs.filter(bureau_id=user.membership.bureau_id)
+    if role(user) == 'officer':
+        return qs.filter(bureau_id__in=Membership.objects.filter(user_id=user.pk, role='officer', bureau__isnull=False).values('bureau_id'))
     return qs.none()
 
 def filtered_cases(request):

@@ -1,7 +1,11 @@
 from django.urls import path
-from . import api, imports, exports
+from . import api, imports, exports, institutions
 
 urlpatterns = [
+    path('institution-registry', institutions.registry),
+    path('institutions/<uuid:institution_id>', institutions.detail),
+    path('institutions/<uuid:institution_id>/cases', institutions.institution_cases),
+    path('institutions/<uuid:institution_id>/history', institutions.history),
     path('imports', imports.imports), path('imports/templates/<str:kind>', imports.template),
     path('imports/<uuid:job_id>', imports.import_detail), path('imports/<uuid:job_id>/errors.csv', imports.import_errors),
     path('imports/<uuid:job_id>/report', imports.import_report), path('imports/<uuid:job_id>/report.csv', imports.import_summary_csv),

@@ -22,7 +22,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import exception_handler as drf_exception_handler
-from .access import role, coordination, writable, scoped_cases, filtered_cases
+from .access import role, coordination, writable, scoped_cases, filtered_cases, current_bureau_id
 from .models import Institution, Bureau, Complaint, CaseAction, OverlapCandidate, Attachment, Notification, AuditEvent
 from .serializers import (InstitutionSerializer, CaseSerializer, CreateCaseSerializer, ActionSerializer,
                           ActionReadSerializer, AttachmentSerializer, ReviewSerializer)
@@ -37,10 +37,10 @@ def exception_handler(exc, context):
         response.data = {'error': response.data}
     return response
 
-def page(request, qs, serializer):
+def page(request, qs, serializer, context=None):
     paginator = PageNumberPagination()
     rows = paginator.paginate_queryset(qs, request)
-    return paginator.get_paginated_response(serializer(rows, many=True).data)
+    return paginator.get_paginated_response(serializer(rows, many=True, context=context or {}).data)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -48,9 +48,10 @@ def session(request):
     get_token(request)
     if not request.user.is_authenticated:
         return Response({'user': None})
+    bureau = Bureau.objects.filter(pk=current_bureau_id(request.user)).values_list('code', flat=True).first()
     return Response({'user': {'id': request.user.id, 'name': request.user.get_full_name() or request.user.username,
                              'username': request.user.username, 'role': role(request.user),
-                             'bureau': request.user.membership.bureau.code if hasattr(request.user, 'membership') and request.user.membership.bureau else None},
+                             'bureau': bureau},
                      'policy': {'deadline_days': settings.DEMO_DEADLINE_DAYS, 'label': 'Demonstration policy, not an AICTE rule'}})
 
 @api_view(['GET'])
@@ -65,8 +66,8 @@ def options(request):
     bureaus = Bureau.objects.order_by('code')
     users = User.objects.filter(is_active=True, membership__role='officer')
     if not coordination(request.user):
-        bureaus = bureaus.filter(id=request.user.membership.bureau_id) if role(request.user) == 'officer' else bureaus.none()
-        users = users.filter(membership__bureau_id=request.user.membership.bureau_id) if role(request.user) == 'officer' else users.none()
+        bureaus = bureaus.filter(id=current_bureau_id(request.user)) if role(request.user) == 'officer' else bureaus.none()
+        users = users.filter(membership__bureau_id=current_bureau_id(request.user)) if role(request.user) == 'officer' else users.none()
     return Response({'bureaus': list(bureaus.values('code', 'name')),
                      'officers': [{'id': u.id, 'name': u.get_full_name(), 'bureau': u.membership.bureau.code} for u in users.select_related('membership__bureau')],
                      'regions': list(Institution.objects.order_by('region').values_list('region', flat=True).distinct())})
@@ -83,7 +84,7 @@ def cases(request):
     if 'received_at' not in request.data:
         original.pop('received_at', None)
     fingerprint = hashlib.sha256(json.dumps(original, sort_keys=True).encode()).hexdigest()
-    if role(request.user) == 'officer' and d['bureau'].id != request.user.membership.bureau_id:
+    if role(request.user) == 'officer' and d['bureau'].id != current_bureau_id(request.user):
         raise PermissionDenied('Officers can register cases only in their own bureau.')
 
     def replay(existing):
@@ -115,7 +116,8 @@ def cases(request):
 def case_detail(request, case_id):
     case = get_object_or_404(scoped_cases(request.user), pk=case_id)
     data = CaseSerializer(case).data
-    data['actions'] = ActionReadSerializer(case.actions.select_related('actor'), many=True).data
+    data['actions'] = ActionReadSerializer(case.actions.select_related('actor'), many=True,
+                                         context={'restricted': not coordination(request.user)}).data
     data['attachments'] = AttachmentSerializer(case.attachments.all(), many=True).data
     history = scoped_cases(request.user).filter(institution=case.institution).exclude(pk=case.id)[:20]
     data['institution_history'] = CaseSerializer(history, many=True).data
@@ -149,7 +151,7 @@ def actions(request, case_id):
             case.bureau, case.assigned_to = d['bureau'], None
         elif kind == 'assign':
             officer = d['assigned_to']
-            if officer and (role(officer) != 'officer' or officer.membership.bureau_id != case.bureau_id):
+            if officer and (role(officer) != 'officer' or current_bureau_id(officer) != case.bureau_id):
                 raise ValidationError('Select an active officer from the case bureau.')
             changes = {'assigned_to': {'before': case.assigned_to_id, 'after': officer.id if officer else None}}
             case.assigned_to = officer
