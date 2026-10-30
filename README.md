@@ -157,9 +157,9 @@ For the prepared offline presentation, stop the Vite development server, then ru
 
 `usePoll` accepts a disabled (`null`) URL, cancels obsolete requests and prevents prior-source data from rendering under a new URL. Import and report responses are checked before required fields are accessed. The dashboard API adds `attention` (up to eight active cases ordered by deadline/ID) and `active_categories`; overlap queries reuse case filters, including institution and dates. Existing database statuses and workflow rules are unchanged. See `reports/dashboard-verification.md` for current checks and screenshots.
 
-## Institution module — Phase 1 backend
+## Institution module — Phase 1
 
-The institution backend extends the existing portal; React institution screens are a later milestone. Apply migrations with `docker compose exec api python manage.py migrate`, then restart API and worker. Migrations preserve existing identities and cases, add optional `address`, `official_email`, `official_phone` and `version` (initially 1), and enforce permanent-ID immutability in PostgreSQL. CaseAction and AuditEvent rows reject UPDATE/DELETE; corrections must append new records. These safeguards do not prevent database-administrator tampering.
+The institution module extends the existing portal with a React directory, coordinator forms and consolidated profiles. Apply migrations with `docker compose exec api python manage.py migrate`, then restart API and worker. Migrations preserve existing identities and cases, add optional `address`, `official_email`, `official_phone` and `version` (initially 1), and enforce permanent-ID immutability in PostgreSQL. CaseAction and AuditEvent rows reject UPDATE/DELETE; corrections must append new records. These safeguards do not prevent database-administrator tampering.
 
 | Endpoint | Contract |
 |---|---|
@@ -176,3 +176,13 @@ Paged responses use `count`, `next`, `previous`, `results`, with 20 rows per pag
 Institution creates/edits append `institution_created`/`institution_updated` AuditEvent records with actor, reason, version and changed before/after values, in the same transaction as the profile save. Django Admin uses the same audited save path, requires a reason, protects the permanent ID and rejects stale edits. Institution case timelines derive from CaseAction; they do not duplicate action history or incorporate institution edits into case records.
 
 Run `docker compose exec api python manage.py test cases --noinput` for institution and existing workflow regressions. See `reports/institution-phase1-verification.md` for the delivery checks and limitations.
+
+### Institution frontend
+
+Open **Institutions** in the primary navigation (`/institutions`). The directory uses server-side name/Permanent-ID search, region/bureau filters and pagination. Coordinators can register an institution at `/institutions/new` and edit one at `/institutions/{id}/edit`; permanent IDs are read-only after registration. Profile editing sends the loaded version and a reason. HTTP 409 preserves the draft and offers an explicit reload that discards unsaved entries; it never silently overwrites a newer profile.
+
+Profiles at `/institutions/{id}` have Overview, Cases, History, Coordination and Reports sections. Overview always displays all-time scoped figures regardless of management-dashboard dates. Cases and CaseAction history load every page from the backend; the client holds only the requested page. The Case detail's existing limited institution preview now links to the complete paginated profile. Canonical institution names link to profiles from case tables/details, dashboard attention/notices, coordination and imported summary reports.
+
+Officers see current-bureau case totals and histories and do not request cross-bureau coordination data. Coordinators and auditors can inspect current-owner notices and paginated suggestions/relationships; decisions still use the existing coordination queue, with auditor read-only access. Reports reuse institution-scoped analytics, CSV exports and print/PDF output. Every data request remains protected by the existing backend permissions; UI visibility does not grant access.
+
+Existing portal controls, status labels, responsive styles and local assets are reused. To verify the bundled UI, run `npm run build` and `npm run preview` inside `frontend`, then `npx playwright test`. Institution browser tests create explicitly synthetic institutions and 25-case fixtures; repeated runs retain these test records. The verified backend recovery branch is `checkpoint/institution-backend-dfa6e5d`. See `reports/institution-frontend-verification.md` for final acceptance evidence and file/API details.

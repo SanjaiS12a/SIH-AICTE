@@ -180,15 +180,15 @@
     "semantic_hash": ""
   },
   "frontend/src/api.ts": {
-    "mtime": 1793371845.8173978,
-    "seen": 1793372972.9545228,
-    "ast_hash": "0b61ae79b7e3e8ef46a14292525018b6",
+    "mtime": 1793376872.6241932,
+    "seen": 1793377750.1007588,
+    "ast_hash": "eaecbc6bbe29b0be9d1240a87205589a",
     "semantic_hash": ""
   },
   "frontend/src/main.tsx": {
-    "mtime": 1793371845.703794,
-    "seen": 1793372972.954539,
-    "ast_hash": "42b22d4ed6d830a952d0527baca2065c",
+    "mtime": 1793377334.87184,
+    "seen": 1793377750.1007833,
+    "ast_hash": "574a59a34951e224e596a399374c6485",
     "semantic_hash": ""
   },
   "frontend/tests/workflow.spec.ts": {
@@ -228,9 +228,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793376051.7541828,
-    "seen": 1793376161.5457945,
-    "ast_hash": "0e782eddd3acb0cff7fd26e183aa9a89",
+    "mtime": 1793377420.9558873,
+    "seen": 1793377750.1008837,
+    "ast_hash": "804253e3a50331103d97df412892da9f",
     "semantic_hash": ""
   },
   "backend/requirements.txt": {
@@ -312,9 +312,9 @@
     "semantic_hash": ""
   },
   "frontend/src/imports.tsx": {
-    "mtime": 1793372100.7766964,
-    "seen": 1793372972.9545343,
-    "ast_hash": "d3cc17449a52813c4914c77ba260245d",
+    "mtime": 1793376872.8695707,
+    "seen": 1793377750.1007717,
+    "ast_hash": "bb4457b39f8b741141741fe5acaaabfb",
     "semantic_hash": ""
   },
   "frontend/tests/imports.spec.ts": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "frontend/src/dashboard.tsx": {
-    "mtime": 1793372404.6323144,
-    "seen": 1793372972.9545286,
-    "ast_hash": "457fd0f3db71217e2add71a7433545ec",
+    "mtime": 1793377334.8617678,
+    "seen": 1793377750.1007662,
+    "ast_hash": "de7db1cee210f58bfdf6cc090b6e3aee",
     "semantic_hash": ""
   },
   "frontend/tests/dashboard.spec.ts": {
@@ -417,6 +417,24 @@
     "mtime": 1793376051.750187,
     "seen": 1793376161.54574,
     "ast_hash": "75596fb677bd9edbaabcc2b0084abbfe",
+    "semantic_hash": ""
+  },
+  "frontend/src/institutions.tsx": {
+    "mtime": 1793377420.945826,
+    "seen": 1793377750.1007774,
+    "ast_hash": "2a229cd458f552b5d2d19ac1c61d7cf2",
+    "semantic_hash": ""
+  },
+  "frontend/src/ui.tsx": {
+    "mtime": 1793376872.6035903,
+    "seen": 1793377750.1007886,
+    "ast_hash": "4d8ad38927ae71f061b855e8aaeb8462",
+    "semantic_hash": ""
+  },
+  "frontend/tests/institutions.spec.ts": {
+    "mtime": 1793377466.4100533,
+    "seen": 1793377750.1008067,
+    "ast_hash": "635bd80ff009de18fb1d5aa87e53e80b",
     "semantic_hash": ""
   }
 }
