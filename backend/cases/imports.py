@@ -17,11 +17,12 @@ from django.utils import timezone
 from django_q.tasks import async_task
 from rest_framework import serializers
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import PermissionDenied, ValidationError
+from rest_framework.exceptions import PermissionDenied, ValidationError, NotFound
 from rest_framework.response import Response
 from .access import role, scoped_cases, writable, coordination, current_bureau_id
 from .models import ImportJob, ImportRow, SummaryRecord, Institution, Bureau, Complaint, CaseAction, AuditEvent
 from .serializers import CreateCaseSerializer
+from .source_intake import configuration, SourceConflict
 
 FIELDS = {
  'complaints': ['source_reference','institution_permanent_id','bureau','category','summary','description','received_at','status','incident_date','due_at','disposed_at','resolution_note','source_system','classification'],
@@ -98,7 +99,9 @@ def accessible_jobs(user):
  return qs.filter(owner=user).exclude(pk__in=forbidden).exclude(rows__case__in=Complaint.objects.exclude(bureau_id=current_bureau_id(user))).distinct()
 
 def get_job(user,job_id):
- return get_object_or_404(accessible_jobs(user),pk=job_id)
+ job=accessible_jobs(user).filter(pk=job_id).first()
+ if not job: raise NotFound('This import is unavailable in your current permission scope.')
+ return job
 
 def parse_date(value, label):
  try: return date.fromisoformat(value)
@@ -116,7 +119,7 @@ def validate_rows(job, mapping):
  seen=set(); output=[]
  for row in job.rows.order_by('number'):
   data={key:row.raw[value] for key,value in mapping.items()}
-  row.case=None; row.error=''; row.state='ready'
+  row.case=None; row.error=''; row.state='ready'; row.data={}
   try:
    inst=institutions.get(data['institution_permanent_id']); bureau=bureaus.get(data['bureau'])
    if not inst: raise ValidationError('Unknown institution permanent ID; select a canonical institution.')
@@ -124,6 +127,10 @@ def validate_rows(job, mapping):
    if role(job.owner)=='officer' and bureau.pk!=current_bureau_id(job.owner): raise PermissionDenied('Officer imports must belong to their own bureau.')
    if data['category'] not in dict(Complaint.CATEGORIES): raise ValidationError('Unknown category.')
    if job.kind=='complaints':
+    if job.source_system:
+     if bureau.pk != job.source_bureau_id: raise ValidationError('Row Bureau does not match this declared source Bureau.')
+     if data.get('source_system') and data['source_system'] != job.source_system: raise ValidationError('Row source system does not match this upload source.')
+     data['source_system']=job.source_system
     payload={key:value for key,value in data.items() if key in CreateCaseSerializer().fields and value}
     payload.update(submission_id=str(uuid.uuid5(job.id,str(row.number))),institution=str(inst.pk),bureau=bureau.code)
     payload.setdefault('source_system','spreadsheet')
@@ -133,9 +140,12 @@ def validate_rows(job, mapping):
     form.is_valid(raise_exception=True)
     normal=json.loads(json.dumps(form.validated_data,default=str)); normal.pop('submission_id')
     normal['bureau_id']=bureau.pk; normal['institution_id']=normal.pop('institution'); normal.pop('bureau')
-    status=data['status']
+    status=job.status_mapping.get(data['status'],data['status']) if job.source_system else data['status']
     if status not in dict(Complaint.STATUSES): raise ValidationError('Unknown status.')
     normal['status']=status
+    if job.source_system:
+     if len(data['status'])>80: raise ValidationError('Original source status must not exceed 80 characters.')
+     normal.update(source_status=data['status'],source_bureau_id=job.source_bureau_id)
     due=serializers.DateTimeField().run_validation(data['due_at']) if data.get('due_at') else form.validated_data['received_at']+timedelta(days=settings.DEMO_DEADLINE_DAYS)
     if due<form.validated_data['received_at']: raise ValidationError('Deadline must not precede receipt.')
     normal['due_at']=due.isoformat()
@@ -150,11 +160,12 @@ def validate_rows(job, mapping):
     if key in seen: raise ValidationError('Repeated source reference within this file; remove or reconcile it.')
     seen.add(key)
     old=existing.get(key)
-    if old:
-     if old.submission_fingerprint!=fingerprint: raise ValidationError('Source reference already exists with different content; review the conflict.')
-     if not scoped_cases(job.owner).filter(pk=old.pk).exists(): raise ValidationError('Source reference is unavailable for import.')
-     row.state='duplicate'; row.case=old
     row.data={**normal,'fingerprint':fingerprint}
+    if old:
+     if not scoped_cases(job.owner).filter(pk=old.pk).exists(): raise ValidationError('Source reference is unavailable for import.')
+     row.case=old
+     if old.submission_fingerprint!=fingerprint: raise SourceConflict('Source reference already exists with different content; review the conflict. Portal data is unchanged.')
+     row.state='duplicate'; row.case=old
    else:
     field='month' if job.kind=='monthly' else 'snapshot_date'
     value=data[field]
@@ -175,14 +186,15 @@ def validate_rows(job, mapping):
      row.state='duplicate'
     row.data={'institution_id':str(inst.pk),'bureau_id':bureau.pk,'category':data['category'],'period':str(period),'counts':counts,'fingerprint':key}
   except (ValidationError,PermissionDenied) as exc:
-   row.state='rejected'; row.error=str(exc.detail)[:1000]; row.data={}
+   row.state='conflict' if job.source_system and isinstance(exc,SourceConflict) else 'rejected'; row.error=str(exc.detail)[:1000]
+   if row.state!='conflict': row.data={};row.case=None
   output.append(row)
  ImportRow.objects.bulk_update(output,['data','state','error','case'],batch_size=100)
  job.mapping=mapping; job.error=''; job.save(update_fields=['mapping','error','updated_at'])
 
 def job_data(job):
  counts=dict(job.rows.values_list('state').annotate(n=Count('id')).values_list('state','n'))
- cases=Complaint.objects.filter(importrow__job=job).distinct()
+ cases=Complaint.objects.filter(importrow__job=job,importrow__state__in=['imported','duplicate']).distinct()
  matching=dict(cases.order_by().values_list('matching_state').annotate(n=Count('id')).values_list('matching_state','n'))
  state=job.state
  if state=='matching' and not matching.get('pending',0): state='complete' if not matching.get('failed',0) else 'matching_failed'
@@ -190,7 +202,8 @@ def job_data(job):
  timings={}
  for name,start,end in [('queue_seconds','import_confirmed','import_started'),('registration_seconds','import_started','import_registered'),('matching_queue_seconds','import_registered','import_matching_started'),('matching_seconds','import_matching_started','import_matching_finished')]:
   if start in events and end in events:timings[name]=max(0,(events[end]-events[start]).total_seconds())
- return {'timings':timings,'id':str(job.pk),'kind':job.kind,'filename':job.filename,'headers':job.headers,'mapping':job.mapping,'fields':FIELDS[job.kind],'required':REQUIRED[job.kind],
+ return {'source_system':job.source_system,'source_bureau':job.source_bureau.code if job.source_bureau_id else None,'status_mapping':job.status_mapping,'registered_at':job.registered_at,
+  'timings':timings,'id':str(job.pk),'kind':job.kind,'filename':job.filename,'headers':job.headers,'mapping':job.mapping,'fields':FIELDS[job.kind],'required':REQUIRED[job.kind],
   'state':state,'error':job.error,'created_at':job.created_at,'counts':counts,'total':sum(counts.values()),'matching':matching,
   'preview':list(job.rows.order_by('number').values('number','raw','state','error')[:20])}
 
@@ -202,9 +215,10 @@ def imports(request):
  if kind not in FIELDS: raise ValidationError('Unknown import type.')
  file=request.FILES.get('file')
  if not file: raise ValidationError('Choose a spreadsheet.')
+ source=configuration(request,kind)
  headers,rows=parse_file(file)
  with transaction.atomic():
-  job=ImportJob.objects.create(owner=request.user,kind=kind,filename=Path(file.name).name[:180],headers=headers)
+  job=ImportJob.objects.create(owner=request.user,kind=kind,filename=Path(file.name).name[:180],headers=headers,**source)
   ImportRow.objects.bulk_create([ImportRow(job=job,number=n,raw=raw) for n,raw in rows],batch_size=100)
   mapping={k:k for k in FIELDS[kind] if k in headers}
   if all(k in mapping for k in REQUIRED[kind]): validate_rows(job,mapping)
@@ -233,7 +247,7 @@ def import_detail(request,job_id):
    if job.state not in ('failed','matching','complete'): raise ValidationError('This job cannot be retried yet.')
    job.state='importing'; job.error=''; job.save(update_fields=['state','error','updated_at'])
    async_task('cases.imports.process_import',str(job.pk))
-   ids=list(job.rows.filter(case__matching_state='failed').values_list('case_id',flat=True))
+   ids=list(job.rows.filter(state__in=['imported','duplicate'],case__matching_state='failed').values_list('case_id',flat=True))
    Complaint.objects.filter(pk__in=ids).update(matching_state='pending')
    for offset in range(0,len(ids),32): async_task('cases.matching.match_batch',[str(x) for x in ids[offset:offset+32]])
   else: raise ValidationError('Use preview, confirm or retry.')
@@ -258,8 +272,9 @@ def process_import(job_id):
        case,created=Complaint.objects.get_or_create(source_system=data['source_system'],source_reference=data['source_reference'],defaults={**data,
         'submission_id':uuid.uuid5(job.id,str(row.number)),'submission_fingerprint':fingerprint,'created_by':job.owner,
         'reference':f'C-{timezone.now():%y%m}-{uuid.uuid4().hex[:12].upper()}'})
-       if case.submission_fingerprint!=fingerprint: raise ValueError('Concurrent source conflict; existing content preserved.')
        if not scoped_cases(job.owner).filter(pk=case.pk).exists(): raise ValueError('Source record unavailable in current permission scope.')
+       row.case=case
+       if case.submission_fingerprint!=fingerprint: raise SourceConflict('Concurrent source conflict; existing content preserved.')
        row.case=case; row.state='imported' if created else 'duplicate'
        if created:
         CaseAction.objects.create(case=case,actor=job.owner,kind='imported',reason=note or 'Spreadsheet registration',changes={'import':str(job.pk),'row':row.number,'status':case.status,'classification':case.classification})
@@ -268,15 +283,19 @@ def process_import(job_id):
        obj,created=SummaryRecord.objects.get_or_create(fingerprint=fingerprint,defaults={**data,'job':job})
        if obj.counts!=data['counts']: raise ValueError('Concurrent summary conflict; existing counts preserved.')
        row.state='imported' if created else 'duplicate'
-    except (IntegrityError,ValueError) as exc:
-     row.state='rejected';row.error=str(exc)[:1000]
+    except (IntegrityError,ValueError,SourceConflict) as exc:
+     row.state='conflict' if job.source_system and isinstance(exc,SourceConflict) else 'rejected';row.error=str(exc)[:1000]
     row.save(update_fields=['state','error','case'])
    if job.rows.filter(state='ready').exists(): async_task('cases.imports.process_import',str(job.pk))
    else:
     job.state='matching' if job.kind=='complaints' else 'complete'
+    job.registered_at=timezone.now()
+    if job.source_system:
+     accepted=job.rows.filter(state__in=['imported','duplicate']).values('case_id')
+     Complaint.objects.filter(pk__in=accepted).update(source_last_seen_at=job.registered_at,source_import=job)
     AuditEvent.objects.create(actor=job.owner,kind='import_registered',detail={'import':str(job.pk)})
     if job.kind=='complaints': async_task('cases.imports.process_import_matching',str(job.pk))
-   job.save(update_fields=['state','updated_at'])
+   job.save(update_fields=['state','updated_at','registered_at'])
    from django.core.cache import caches
    caches['dashboard'].clear()
  except Exception:
@@ -287,7 +306,7 @@ def process_import(job_id):
 def import_errors(request,job_id):
  job=get_job(request.user,job_id)
  out=io.StringIO(); writer=csv.writer(out);writer.writerow(['row','error'])
- for row in job.rows.filter(state='rejected').order_by('number'): writer.writerow([row.number,"'"+row.error])
+ for row in job.rows.filter(state__in=['rejected','conflict']).order_by('number'): writer.writerow([row.number,"'"+row.error])
  AuditEvent.objects.create(actor=request.user,kind='import_errors_export',detail={'import':str(job.pk)})
  return HttpResponse(out.getvalue(),content_type='text/csv',headers={'Content-Disposition':'attachment; filename="import-errors.csv"'})
 
@@ -336,7 +355,8 @@ def import_summary_csv(request,job_id):
 def process_import_matching(job_id):
  from .matching import match_batch
  job=ImportJob.objects.get(pk=job_id)
- ids=list(job.rows.filter(case__matching_state='pending').order_by('number').values_list('case_id',flat=True)[:64])
+ accepted=job.rows.filter(state__in=['imported','duplicate'])
+ ids=list(accepted.filter(case__matching_state='pending').order_by('number').values_list('case_id',flat=True)[:64])
  if not ids:return
  if not AuditEvent.objects.filter(kind='import_matching_started',detail__import=str(job.pk)).exists():
   AuditEvent.objects.create(actor=job.owner,kind='import_matching_started',detail={'import':str(job.pk)})
@@ -344,5 +364,5 @@ def process_import_matching(job_id):
   match_batch([str(pk) for pk in ids])
  finally:
   # A failed batch cannot strand later records; failures remain explicitly retryable.
-  if job.rows.filter(case__matching_state='pending').exists():async_task('cases.imports.process_import_matching',str(job.pk))
+  if accepted.filter(case__matching_state='pending').exists():async_task('cases.imports.process_import_matching',str(job.pk))
   else:AuditEvent.objects.create(actor=job.owner,kind='import_matching_finished',detail={'import':str(job.pk)})

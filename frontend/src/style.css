@@ -2811,3 +2811,14 @@ progress::-webkit-progress-value {
     padding: 18px;
   }
 }
+
+.import-form fieldset {
+  flex-basis: 100%;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+}
+.import-form input[type="checkbox"] {
+  width: auto;
+  align-self: flex-start;
+}

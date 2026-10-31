@@ -57,6 +57,7 @@ import "./style.css";
 import { DashboardHome } from "./dashboard";
 import { CaseEscalations, EscalationQueue } from "./escalations";
 import { ManualRelationship } from "./relationships";
+import { SourceIntake, SourceRows } from "./source-intake";
 import {
   CoordinationWorkspace,
   CoordinationRecordPage,
@@ -453,7 +454,17 @@ function Shell({ user }: { user: User }) {
                 />
               }
             />
-            <Route path="/imports" element={<Imports user={user} />} />
+            <Route
+              path="/imports"
+              element={
+                <Imports user={user} options={options || emptyOptions} />
+              }
+            />
+            <Route path="/imports/sources" element={<SourceIntake />} />
+            <Route
+              path="/imports/:id/rows"
+              element={<SourceRows user={user} />}
+            />
             <Route path="/imports/:id" element={<ImportDetail user={user} />} />
             <Route
               path="/reports"
@@ -989,6 +1000,18 @@ function Detail({ user, options }: { user: User; options: Options }) {
                       <dt>Source</dt>
                       <dd>
                         {c.source_system} · {c.source_reference}
+                        {c.source_status && (
+                          <span className="table-sub">
+                            Original source status: {c.source_status} · Source
+                            Bureau: {c.source_bureau}
+                          </span>
+                        )}
+                        {c.source_last_seen_at && (
+                          <span className="table-sub">
+                            Last accepted source upload:{" "}
+                            {new Date(c.source_last_seen_at).toLocaleString()}
+                          </span>
+                        )}
                       </dd>
                     </div>
                     <div>

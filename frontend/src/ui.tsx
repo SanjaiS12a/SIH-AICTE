@@ -109,6 +109,9 @@ export function CaseTable({ rows }: { rows: Case[] }) {
                 >
                   {c.institution.name}
                 </Link>
+                <span className="table-sub">
+                  Source: {c.source_system} · {c.source_reference}
+                </span>
               </td>
               <td className="capitalize">
                 {c.category}

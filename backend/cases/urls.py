@@ -1,7 +1,10 @@
 from django.urls import path
-from . import api, imports, exports, institutions, escalations, relationships, coordination, analytics, coordination_workflow
+from . import api, imports, exports, institutions, escalations, relationships, coordination, analytics, coordination_workflow, source_intake
 
 urlpatterns = [
+    path('source-intake', source_intake.sources),
+    path('imports/<uuid:job_id>/rows', source_intake.rows),
+    path('imports/<uuid:job_id>/rows/<int:number>/resolve', source_intake.resolve),
     path('coordination-records', coordination_workflow.registry),
     path('coordination-records/<uuid:record_id>', coordination_workflow.detail),
     path('coordination-records/<uuid:record_id>/history', coordination_workflow.history),

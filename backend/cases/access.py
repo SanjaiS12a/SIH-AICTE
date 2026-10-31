@@ -16,7 +16,7 @@ def writable(user):
         raise PermissionDenied('Your account has read-only access.')
 
 def scoped_cases(user):
-    qs = Complaint.objects.select_related('institution', 'bureau', 'assigned_to', 'created_by').annotate(
+    qs = Complaint.objects.select_related('institution', 'bureau', 'source_bureau', 'assigned_to', 'created_by').annotate(
         has_unresolved_escalation=Exists(Escalation.objects.filter(case_id=OuterRef('pk'), status='pending')))
     if coordination(user):
         return qs
@@ -33,7 +33,7 @@ def filtered_cases(request):
     if p.get('import_id'):
         from .imports import get_job
         job = get_job(request.user, p['import_id'])
-        qs = qs.filter(importrow__job=job)
+        qs = qs.filter(importrow__job=job, importrow__state__in=['imported', 'duplicate'])
     if p.get('q'):
         q = p['q']
         qs = qs.filter(Q(reference__icontains=q) | Q(source_reference__icontains=q) | Q(institution__name__icontains=q) | Q(institution__permanent_id__icontains=q) | Q(summary__icontains=q))

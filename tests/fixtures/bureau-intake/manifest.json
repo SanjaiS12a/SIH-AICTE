@@ -1,0 +1,66 @@
+{
+  "provenance": "Entirely synthetic fixtures created for this project; no real institution, person or AICTE source system.",
+  "institution": {
+    "permanent_id": "SIH-BUREAU-DEMO",
+    "name": "Sahaya Technical Institute (fictional)",
+    "region": "Southern",
+    "district": "Demonstration district"
+  },
+  "sources": {
+    "rb": {
+      "filename": "rb.csv",
+      "source_system": "fictional-rb",
+      "source_bureau": "RB",
+      "status_mapping": {
+        "Received": "registered",
+        "Scrutiny": "under_review"
+      },
+      "mapping": {
+        "source_reference": "RB File",
+        "institution_permanent_id": "AICTE Permanent ID",
+        "bureau": "Owning Cell",
+        "category": "Issue Type",
+        "summary": "Allegation",
+        "description": "Details",
+        "received_at": "Received On",
+        "status": "Source State"
+      }
+    },
+    "pgrc": {
+      "filename": "pgrc.csv",
+      "source_system": "fictional-pgrc",
+      "source_bureau": "PGRC",
+      "status_mapping": {
+        "Pending": "registered"
+      },
+      "mapping": {
+        "source_reference": "Grievance Ref",
+        "institution_permanent_id": "Institution ID",
+        "bureau": "Cell",
+        "category": "Category",
+        "summary": "Summary",
+        "description": "Description",
+        "received_at": "Receipt Date",
+        "status": "Grievance Status"
+      }
+    },
+    "other": {
+      "filename": "other.csv",
+      "source_system": "fictional-other",
+      "source_bureau": "DEMO",
+      "status_mapping": {
+        "Open file": "awaiting_response"
+      },
+      "mapping": {
+        "source_reference": "Record No",
+        "institution_permanent_id": "Institute Permanent ID",
+        "bureau": "Bureau",
+        "category": "Category",
+        "summary": "Summary",
+        "description": "Description",
+        "received_at": "Receipt Date",
+        "status": "Record Status"
+      }
+    }
+  }
+}

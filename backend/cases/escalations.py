@@ -41,7 +41,7 @@ def records(request, cases, default_state):
     state = request.query_params.get('state', default_state)
     if state not in ('pending', 'resolved', 'all'):
         raise ValidationError('Choose pending, resolved or all escalation states.')
-    qs = Escalation.objects.filter(case__in=cases).select_related('case__institution', 'case__bureau', 'case__assigned_to', 'created_by', 'resolved_by')
+    qs = Escalation.objects.filter(case__in=cases).select_related('case__institution', 'case__bureau', 'case__source_bureau', 'case__assigned_to', 'created_by', 'resolved_by')
     qs = qs.prefetch_related(Prefetch('case__escalations',queryset=Escalation.objects.filter(status='pending'),to_attr='pending_escalations'))
     return qs if state == 'all' else qs.filter(status=state)
 

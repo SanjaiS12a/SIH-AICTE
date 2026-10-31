@@ -54,6 +54,9 @@ export type Case = {
   description: string;
   source_system: string;
   source_reference: string;
+  source_status: string;
+  source_bureau: string | null;
+  source_last_seen_at: string | null;
   incident_date: string | null;
   status: string;
   received_at: string;

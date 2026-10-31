@@ -13,6 +13,7 @@ class InstitutionSerializer(serializers.ModelSerializer):
 class CaseSerializer(serializers.ModelSerializer):
     institution = InstitutionSerializer(read_only=True)
     bureau = serializers.CharField(source='bureau.code', read_only=True)
+    source_bureau = serializers.CharField(source='source_bureau.code', default=None, read_only=True)
     assigned_name = serializers.CharField(source='assigned_to.get_full_name', default='', read_only=True)
     overdue = serializers.SerializerMethodField()
     has_unresolved_escalation = serializers.SerializerMethodField()
@@ -30,7 +31,7 @@ class CaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
         fields = ['id', 'reference', 'institution', 'bureau', 'category', 'classification', 'next_action', 'next_action_date', 'summary', 'description',
-                  'source_system', 'source_reference', 'incident_date', 'status', 'received_at', 'due_at',
+                  'source_system', 'source_reference', 'source_status', 'source_bureau', 'source_last_seen_at', 'incident_date', 'status', 'received_at', 'due_at',
                   'disposed_at', 'assigned_to', 'assigned_name', 'matching_state', 'matching_error', 'matched_at',
                   'model_revision', 'version', 'overdue', 'created_at', 'matching_duration_ms', 'matching_queue_ms', 'has_unresolved_escalation']
 

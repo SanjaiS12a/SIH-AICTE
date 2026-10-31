@@ -38,8 +38,8 @@ class Command(BaseCommand):
    with connection.cursor() as cursor:
     # Synthetic setup is deliberately server-side; the application import path is benchmarked separately.
     cursor.execute('''INSERT INTO cases_complaint
-     (id, reference,submission_id,submission_fingerprint,institution_id,source_system,source_reference,category,classification,next_action,summary,description,incident_date,bureau_id,assigned_to_id,created_by_id,received_at,created_at,due_at,disposed_at,status,version,embedding,model_revision,matching_state,matching_error)
-     SELECT gen_random_uuid(),'SCALE-'||i,gen_random_uuid(),'',(%s::uuid[])[1+(i %% 100)],'scale','SCALE-'||i,
+     (id, reference,submission_id,submission_fingerprint,institution_id,source_system,source_reference,source_status,category,classification,next_action,summary,description,incident_date,bureau_id,assigned_to_id,created_by_id,received_at,created_at,due_at,disposed_at,status,version,embedding,model_revision,matching_state,matching_error)
+     SELECT gen_random_uuid(),'SCALE-'||i,gen_random_uuid(),'',(%s::uuid[])[1+(i %% 100)],'scale','SCALE-'||i,'',
      (ARRAY['refunds','admissions','documents','facilities','scholarships','administration'])[1+(i %% 6)],'unclassified','',
      'Synthetic fee refund allegation for load measurement.','Synthetic scale record; no real allegations.',NULL,(%s::bigint[])[1+(i %% 3)],NULL,%s,
      CURRENT_TIMESTAMP - make_interval(days => (i %% 120)::int),CURRENT_TIMESTAMP,

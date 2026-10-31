@@ -28,6 +28,11 @@ def safe(value):
  value=str(value)
  return "'"+value if value.lstrip().startswith(('=','+','-','@','\t','\r')) else value
 
+CASE_COLUMNS = ['Reference','Institution','Permanent ID','Bureau','Category','Status','Received','Due','Classification','Next action','Expected action date','Source system','Source reference','Original source status','Source Bureau','Last accepted source upload']
+
+def case_values(c):
+ return [safe(x) for x in [c.reference,c.institution.name,c.institution.permanent_id,c.bureau.code,c.category,c.status,c.received_at.isoformat(),c.due_at.isoformat(),c.classification,c.next_action,c.next_action_date.isoformat() if c.next_action_date else '',c.source_system,c.source_reference,c.source_status,c.source_bureau.code if c.source_bureau_id else '',c.source_last_seen_at.isoformat() if c.source_last_seen_at else '']]
+
 @api_view(['POST'])
 def exports(request):
  form=FilterSerializer(data=request.data);form.is_valid(raise_exception=True)
@@ -46,8 +51,8 @@ def build_export(export_id):
  try:
   qs=query(job); initial=scope_hash(qs)
   with path.open('w',encoding='utf-8-sig',newline='') as f:
-   writer=csv.writer(f);writer.writerow(['Reference','Institution','Permanent ID','Bureau','Category','Status','Received','Due','Classification','Next action','Expected action date'])
-   for c in qs.iterator(chunk_size=1000): writer.writerow([safe(x) for x in [c.reference,c.institution.name,c.institution.permanent_id,c.bureau.code,c.category,c.status,c.received_at.isoformat(),c.due_at.isoformat(),c.classification,c.next_action,c.next_action_date.isoformat() if c.next_action_date else '']])
+   writer=csv.writer(f);writer.writerow(CASE_COLUMNS)
+   for c in qs.select_related('source_bureau').iterator(chunk_size=1000): writer.writerow(case_values(c))
   if scope_hash(query(job))!=initial: raise ValueError('Case access changed during export; request a new report.')
   job.scope_hash=initial;job.file.name=f'reports/{job.pk}.csv';job.state='complete';job.error='';job.save()
  except Exception:

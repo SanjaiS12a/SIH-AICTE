@@ -43,6 +43,10 @@ class Complaint(models.Model):
     institution = models.ForeignKey(Institution, on_delete=models.PROTECT, related_name='complaints')
     source_system = models.CharField(max_length=40, default='manual')
     source_reference = models.CharField(max_length=100)
+    source_status = models.CharField(max_length=80, blank=True)
+    source_bureau = models.ForeignKey(Bureau, on_delete=models.PROTECT, null=True, blank=True, related_name='source_cases')
+    source_last_seen_at = models.DateTimeField(null=True, blank=True)
+    source_import = models.ForeignKey('ImportJob', on_delete=models.PROTECT, null=True, blank=True, related_name='last_seen_cases')
     category = models.CharField(max_length=30, choices=CATEGORIES)
     classification = models.CharField(max_length=24, choices=CLASSIFICATIONS, default='unclassified', db_index=True)
     next_action = models.CharField(max_length=1000, blank=True, default='')
@@ -210,6 +214,10 @@ class ImportJob(models.Model):
     filename = models.CharField(max_length=180)
     headers = models.JSONField(default=list)
     mapping = models.JSONField(default=dict)
+    source_system = models.CharField(max_length=40, blank=True)
+    source_bureau = models.ForeignKey(Bureau, on_delete=models.PROTECT, null=True, blank=True)
+    status_mapping = models.JSONField(default=dict)
+    registered_at = models.DateTimeField(null=True, blank=True)
     state = models.CharField(max_length=20, default='preview')
     error = models.CharField(max_length=300, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -223,6 +231,10 @@ class ImportRow(models.Model):
     state = models.CharField(max_length=20, default='pending')
     error = models.CharField(max_length=1000, blank=True)
     case = models.ForeignKey(Complaint, null=True, on_delete=models.PROTECT)
+    version = models.PositiveIntegerField(default=1)
+    resolution_reason = models.CharField(max_length=2000, blank=True)
+    resolved_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=['job', 'number'], name='unique_import_row')]

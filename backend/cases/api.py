@@ -204,7 +204,7 @@ def overlaps(request):
 def overlap_queryset(request):
     if not coordination(request.user):
         raise PermissionDenied('Cross-bureau review requires coordination access.')
-    qs = OverlapCandidate.objects.select_related('left__institution', 'right__institution', 'left__bureau', 'right__bureau', 'left__assigned_to', 'right__assigned_to', 'reviewer')
+    qs = OverlapCandidate.objects.select_related('left__institution', 'right__institution', 'left__bureau', 'right__bureau', 'left__assigned_to', 'right__assigned_to', 'left__source_bureau', 'right__source_bureau', 'reviewer')
     qs = qs.prefetch_related(*[Prefetch(f'{side}__escalations',queryset=Escalation.objects.filter(status='pending'),to_attr='pending_escalations') for side in ['left','right']])
     decision = request.query_params.get('decision', 'pending')
     if decision != 'all':
@@ -310,15 +310,15 @@ def compute_dashboard(request):
 def report(request):
     qs = filtered_cases(request)
     AuditEvent.objects.create(actor=request.user, kind='export', detail={'count': qs.count(), 'filters': dict(request.query_params)})
-    from .exports import safe
+    from .exports import CASE_COLUMNS, case_values
     def chunks():
         stream = io.StringIO()
         writer = csv.writer(stream)
-        writer.writerow(['Reference', 'Institution', 'Permanent ID', 'Bureau', 'Category', 'Status', 'Received', 'Due', 'Classification', 'Next action', 'Expected action date'])
+        writer.writerow(CASE_COLUMNS)
         yield stream.getvalue()
-        for c in qs.iterator(chunk_size=1000):
+        for c in qs.select_related('source_bureau').iterator(chunk_size=1000):
             stream.seek(0); stream.truncate(0)
-            writer.writerow([safe(x) for x in [c.reference, c.institution.name, c.institution.permanent_id, c.bureau.code, c.category, c.status, c.received_at.isoformat(), c.due_at.isoformat(), c.classification, c.next_action, c.next_action_date.isoformat() if c.next_action_date else '']])
+            writer.writerow(case_values(c))
             yield stream.getvalue()
     return StreamingHttpResponse(chunks(), content_type='text/csv', headers={'Content-Disposition': 'attachment; filename="case-report.csv"'})
 

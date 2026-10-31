@@ -11,9 +11,13 @@ import {
   Tooltip,
 } from "recharts";
 import { api } from "./api";
-import type { User } from "./api";
+import type { User, Options } from "./api";
 
 type Job = {
+  source_system?: string;
+  source_bureau?: string | null;
+  registered_at?: string | null;
+  status_mapping?: Record<string, string>;
   id: string;
   kind: string;
   filename: string;
@@ -286,11 +290,15 @@ export function ExportButton({ filters }: { filters: string }) {
     </>
   );
 }
-export function Imports({ user }: { user: User }) {
+export function Imports({ user, options }: { user: User; options: Options }) {
   const { data: jobs, error } = usePoll<Job[]>("/api/imports", 5000, 0, isJobs);
   const [kind, setKind] = useState("complaints"),
     [busy, setBusy] = useState(false),
     [failure, setFailure] = useState("");
+  const [sourceMode, setSourceMode] = useState(false);
+  const [statusPairs, setStatusPairs] = useState([
+    { source: "", target: "registered" },
+  ]);
   async function upload(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
@@ -298,6 +306,17 @@ export function Imports({ user }: { user: User }) {
     try {
       const form = new FormData(event.currentTarget);
       form.set("kind", kind);
+      if (sourceMode && kind === "complaints") {
+        const mapped = statusPairs.filter((p) => p.source.trim());
+        if (new Set(mapped.map((p) => p.source.trim())).size !== mapped.length)
+          throw new Error("Use each source status label only once.");
+        form.set(
+          "status_mapping",
+          JSON.stringify(
+            Object.fromEntries(mapped.map((p) => [p.source.trim(), p.target])),
+          ),
+        );
+      }
       const job = await api<Job>("/api/imports", {
         method: "POST",
         body: form,
@@ -320,6 +339,9 @@ export function Imports({ user }: { user: User }) {
         </div>
       </div>
       <ErrorNotice text={failure || error} />
+      <Link className="button secondary" to="/imports/sources">
+        Bureau-source uploads and reconciliation
+      </Link>
       {["officer", "coordinator"].includes(user.role) && (
         <section className="panel import-upload">
           <h2>Upload a spreadsheet</h2>
@@ -339,6 +361,116 @@ export function Imports({ user }: { user: User }) {
               Spreadsheet
               <input name="file" type="file" accept=".xlsx,.csv" required />
             </label>
+            {kind === "complaints" && (
+              <>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={sourceMode}
+                    onChange={(e) => setSourceMode(e.target.checked)}
+                  />
+                  This is a Bureau source upload
+                </label>
+                {sourceMode && (
+                  <fieldset className="wide">
+                    <legend>Source identity and status mapping</legend>
+                    <label>
+                      Source ID
+                      <input
+                        required
+                        name="source_system"
+                        maxLength={40}
+                        pattern="[A-Za-z0-9._-]+"
+                        placeholder="e.g. demo-rb"
+                      />
+                    </label>
+                    <label>
+                      Source Bureau
+                      <select
+                        name="source_bureau"
+                        required
+                        aria-label="Source Bureau"
+                        defaultValue={user.bureau || ""}
+                      >
+                        <option value="">Choose Bureau</option>
+                        {options.bureaus.map((b) => (
+                          <option key={b.code} value={b.code}>
+                            {b.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <p>
+                      Keep the same Source ID on repeat uploads. Source
+                      references identify records within that source. Unknown
+                      institutions must be corrected; changed records are
+                      reviewed without overwriting portal data.
+                    </p>
+                    <p>
+                      Map source status labels to portal statuses. Canonical
+                      status values also work without a mapping. A source status
+                      does not change case ownership.
+                    </p>
+                    {statusPairs.map((p, i) => (
+                      <div className="form-grid" key={i}>
+                        <label>
+                          Source status {i + 1}
+                          <input
+                            value={p.source}
+                            maxLength={80}
+                            onChange={(e) =>
+                              setStatusPairs((old) =>
+                                old.map((p, n) =>
+                                  n === i
+                                    ? { ...p, source: e.target.value }
+                                    : p,
+                                ),
+                              )
+                            }
+                          />
+                        </label>
+                        <label>
+                          Portal status {i + 1}
+                          <select
+                            aria-label={`Portal status ${i + 1}`}
+                            value={p.target}
+                            onChange={(e) =>
+                              setStatusPairs((old) =>
+                                old.map((p, n) =>
+                                  n === i
+                                    ? { ...p, target: e.target.value }
+                                    : p,
+                                ),
+                              )
+                            }
+                          >
+                            <option value="registered">Registered</option>
+                            <option value="under_review">Under review</option>
+                            <option value="awaiting_response">
+                              Awaiting response
+                            </option>
+                            <option value="disposed">Closed</option>
+                          </select>
+                        </label>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="secondary"
+                      disabled={statusPairs.length >= 50}
+                      onClick={() =>
+                        setStatusPairs((old) => [
+                          ...old,
+                          { source: "", target: "registered" },
+                        ])
+                      }
+                    >
+                      Add status mapping
+                    </button>
+                  </fieldset>
+                )}
+              </>
+            )}
             <button disabled={busy}>
               {busy ? "Validating…" : "Upload and preview"}
             </button>
@@ -429,6 +561,8 @@ export function ImportDetail({ user }: { user: User }) {
   const processed =
     (job.counts.imported || 0) +
     (job.counts.duplicate || 0) +
+    (job.counts.conflict || 0) +
+    (job.counts.resolved || 0) +
     (job.counts.rejected || 0);
   return (
     <>
@@ -449,6 +583,26 @@ export function ImportDetail({ user }: { user: User }) {
         </Link>
       </div>
       <ErrorNotice text={error || loadError || job.error} />
+      {job.source_system && (
+        <section className="panel card-body">
+          <h2>Bureau source: {job.source_system}</h2>
+          <p>
+            Original Bureau: {job.source_bureau}. Status labels are normalized
+            using the recorded upload mapping; source references and original
+            statuses remain preserved.
+          </p>
+          <p>
+            Intake completed:{" "}
+            {job.registered_at
+              ? new Date(job.registered_at).toLocaleString()
+              : "Not yet completed"}
+            . This is a file upload, not a live connection to a Bureau system.
+          </p>
+        </section>
+      )}
+      <Link className="button secondary" to={`/imports/${id}/rows`}>
+        View all rows and source conflicts
+      </Link>
       <div className="import-stats" aria-live="polite">
         {[
           ["Validated", job.total - (job.counts.pending || 0)],
@@ -456,6 +610,8 @@ export function ImportDetail({ user }: { user: User }) {
           ["Imported", job.counts.imported || 0],
           ["Duplicates", job.counts.duplicate || 0],
           ["Rejected", job.counts.rejected || 0],
+          ["Source conflicts", job.counts.conflict || 0],
+          ["Conflicts reviewed", job.counts.resolved || 0],
           ["Matched", job.matching.complete || 0],
         ].map(([label, value]) => (
           <div key={label}>
@@ -519,7 +675,10 @@ export function ImportDetail({ user }: { user: User }) {
                 !!mapping ||
                 !job.mapping ||
                 Object.keys(job.mapping).length === 0 ||
-                (job.counts.ready || 0) + (job.counts.duplicate || 0) === 0
+                (job.counts.ready || 0) +
+                  (job.counts.duplicate || 0) +
+                  (job.counts.conflict || 0) ===
+                  0
               }
               onClick={() => act("confirm")}
             >
