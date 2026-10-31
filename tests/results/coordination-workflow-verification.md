@@ -5,8 +5,8 @@ Verified 31 October 2026 on the local Windows laptop, PostgreSQL 17/pgvector and
 | Check | Actual result |
 |---|---|
 | Django complete regression suite | **108 passed**, 42.731 seconds |
-| Edge/Playwright complete suite | **41 passed**, 3.7 minutes |
-| Production build | **Passed**, TypeScript plus Vite; final build 6.53 seconds |
+| Edge/Playwright complete suite | **41 passed**, 4.8 minutes |
+| Production build | **Passed**, TypeScript plus Vite; final build 24.08 seconds |
 | Migration drift | **No changes detected** |
 | Working database | Additive migration 0011 applied successfully after a new ignored backup |
 | Source recovery | `checkpoint/pre-accountable-coordination-2af2ddf` retains the pre-correction commit |
@@ -40,3 +40,5 @@ The new backup has not undergone a separate full restore. Earlier baseline resto
 The user subsequently authorized publishing the verified work to `main`, superseding the earlier keep-main-unchanged instruction. Publication must preserve recovery branches and use an ordinary non-force push, with local/remote commit comparison.
 
 Graphify refreshed source structure and README evidence: **966 nodes, 2,722 edges, 56 communities**. Diagnostics found no unverified code nodes or missing/dangling endpoints; seven self-loop edges remain reported rather than suppressed. Seven unsupported source/config/style files are not structurally classified. Structural extraction used no model tokens; host semantic token usage is unavailable. The graph is a navigation aid and source/tests remain authoritative.
+
+The final frozen-source browser rerun also verifies that a stale outcome draft remains until the user explicitly selects **Reload record and discard draft**, after which the draft clears. An intervening tracing run failed while source files were being edited; the final complete rerun used stable source/assets and passed all 41 tests.
