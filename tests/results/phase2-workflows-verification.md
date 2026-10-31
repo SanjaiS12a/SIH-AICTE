@@ -56,7 +56,7 @@ Tests: new `tests/backend/test_phase2.py` and `tests/browser/phase2.spec.ts`; ex
 - **TypeScript/Vite production build passed**, final Vite build 6.48 seconds. Django system check passed; `makemigrations --check --dry-run` found no pending changes.
 - **Production model verified unchanged** by weights checksum against the saved baseline; path `/models/minilm`, revision above, threshold `0.603080153465271`. No new training, candidate activation, existing-vector backfill or matching configuration changes.
 - Commands: `docker compose exec -T api python manage.py test cases --noinput`; `python manage.py check` and `makemigrations --check --dry-run` inside the API container; `npm run build` and `npx playwright test` from frontend. Detailed logs are ignored under `tests/results/logs/phase2-{backend,build,browser}.log`.
-- Graphify refreshed to **745 nodes / 1,915 edges**, with zero missing/dangling endpoints and three existing self-loops. README evidence is distinguished from structural extraction; source and tests remain authoritative. Code/test/delivery checkpoint: `1f9e5d7` (25 files, 926 insertions and 31 deletions); six generated source-map artifacts are recorded separately.
+- Graphify refreshed to **745 nodes / 1,915 edges**, with zero missing/dangling endpoints and four self-loops. README evidence is distinguished from structural extraction; source and tests remain authoritative. Code/test/delivery checkpoint: `1f9e5d7` (25 files, 926 insertions and 31 deletions); six generated source-map artifacts are recorded separately.
 
 ## Limits and remaining work
 
