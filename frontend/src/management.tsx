@@ -1,3 +1,10 @@
+/**
+ * Management Command Centre — Milestone 3
+ *
+ * All metrics come from the authoritative /api/dashboard response.
+ * No client-side reconstruction of totals.
+ * Every KPI has a corresponding drill-down link.
+ */
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -8,11 +15,14 @@ import {
   ResponsiveContainer,
   LabelList,
   Tooltip,
+  CartesianGrid,
 } from "recharts";
 import { date, classifications } from "./api";
 import type { Dashboard, Case, Page, Movement } from "./api";
 import { usePoll } from "./imports";
 import { Heading, ErrorBox, Loading, Empty, Pagination, Badge } from "./ui";
+
+// ── Types ──────────────────────────────────────────────────────────────────
 
 type Notice = {
   institution_id: string;
@@ -22,11 +32,14 @@ type Notice = {
   institution__district: string;
   count: number;
   bureaus: number;
-  bureau_details: { name: string; count: number }[];
+  bureau_details: { code: string; name: string; count: number }[];
   officers: { name: string; count: number }[];
   cases: Case[];
   reviewed_relationships: number;
 };
+
+// ── CoordinationNotices (all-time cross-bureau panel) ─────────────────────
+
 export function CoordinationNotices({ filters = "" }: { filters?: string }) {
   const [params, setParams] = useState(new URLSearchParams(filters));
   const { data, error } = usePoll<Page<Notice>>(
@@ -141,72 +154,526 @@ export function CoordinationNotices({ filters = "" }: { filters?: string }) {
   );
 }
 
+// ── Distribution chart (horizontal bar) ──────────────────────────────────
+
 type ChartRow = { name: string; count: number; url: string };
-function Distribution({ title, rows }: { title: string; rows: ChartRow[] }) {
+function HorizontalDistribution({
+  title,
+  rows,
+  color = "#2F7658",
+  caption,
+}: {
+  title: string;
+  rows: ChartRow[];
+  color?: string;
+  caption?: string;
+}) {
   const navigate = useNavigate();
+  if (!rows.length) {
+    return (
+      <section className="mgmt-chart-section">
+        <div className="panel-heading">
+          <h2>{title}</h2>
+        </div>
+        <div className="mgmt-chart-body">
+          <Empty>No data in this cohort.</Empty>
+        </div>
+      </section>
+    );
+  }
   return (
-    <section className="panel home-chart">
+    <section className="mgmt-chart-section">
       <div className="panel-heading">
         <h2>{title}</h2>
       </div>
-      {rows.length ? (
-        <>
-          <div style={{ height: 240 }} aria-hidden="true">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={rows}
-                margin={{ top: 25, right: 20, bottom: 15, left: 0 }}
-              >
-                <XAxis dataKey="name" />
-                <YAxis allowDecimals={false} />
-                <Tooltip />
-                <Bar
-                  dataKey="count"
-                  fill="#147b3b"
-                  cursor="pointer"
-                  onClick={(value) => {
-                    const row =
-                      (value as unknown as { payload?: ChartRow }).payload ||
-                      (value as unknown as ChartRow);
-                    if (row.url) navigate(row.url);
-                  }}
-                >
-                  <LabelList dataKey="count" position="top" />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          <div
-            className="table-scroll"
-            role="region"
-            aria-label={`${title} data`}
-            tabIndex={0}
+      <div aria-hidden="true" style={{ height: Math.max(160, rows.length * 36 + 40) }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={rows}
+            layout="vertical"
+            margin={{ top: 8, right: 50, left: 8, bottom: 4 }}
           >
-            <table>
-              <caption>{title} — selected receipt cohort</caption>
-              <thead>
-                <tr>
-                  <th>Group</th>
-                  <th>Cases</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((r) => (
-                  <tr key={r.name}>
-                    <th>{r.name}</th>
-                    <td>{r.count ? <Link to={r.url}>{r.count}</Link> : 0}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ) : (
-        <Empty>No cases in this cohort.</Empty>
-      )}
+            <CartesianGrid stroke="#e2e8e4" horizontal={false} />
+            <XAxis type="number" allowDecimals={false} />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={150}
+              tick={{ fontSize: 11, fill: "#1F2D26" }}
+              tickFormatter={(name) =>
+                String(name).length > 26
+                  ? String(name).slice(0, 24) + "…"
+                  : String(name)
+              }
+            />
+            <Tooltip />
+            <Bar
+              isAnimationActive={false}
+              name={title}
+              dataKey="count"
+              fill={color}
+              radius={[0, 4, 4, 0]}
+              onClick={(entry) => {
+                const row = (
+                  (entry as unknown as { payload?: ChartRow }).payload ||
+                  (entry as unknown as ChartRow)
+                );
+                if (row.url) navigate(row.url);
+              }}
+            >
+              <LabelList
+                dataKey="count"
+                position="right"
+                fill="#1F2D26"
+                fontSize={11}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      <div
+        className="table-scroll mgmt-chart-body"
+        role="region"
+        aria-label={`${title} data`}
+        tabIndex={0}
+      >
+        <table>
+          <caption>{caption || title}</caption>
+          <thead>
+            <tr>
+              <th>Group</th>
+              <th>Cases</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.name}>
+                <th scope="row">{r.name}</th>
+                <td>{r.count ? <Link to={r.url}>{r.count}</Link> : 0}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }
+
+// ── Ageing distribution — inline horizontal bars ──────────────────────────
+
+function AgeingPanel({
+  ageing,
+  totalPending,
+  cases,
+}: {
+  ageing: { name: string; count: number }[];
+  totalPending: number;
+  cases: (extra?: Record<string, string>) => string;
+}) {
+  // Map dashboard band names to filter values accepted by the API.
+  const bandFilter: Record<string, string> = {
+    "0-7 days": "0-7",
+    "8-15 days": "8-15",
+    "16-30 days": "16-30",
+    "More than 30 days": "30+",
+    // Legacy bands (still accepted by access.py).
+    "0-7": "0-7",
+    "8-30": "8-30",
+    "31-60": "31-60",
+    "61+": "61+",
+  };
+  const maxCount = Math.max(...ageing.map((a) => a.count), 1);
+  return (
+    <section className="mgmt-chart-section">
+      <div className="panel-heading">
+        <h2>Pending case ageing — by receipt date</h2>
+      </div>
+      <div className="mgmt-chart-body">
+        <p style={{ fontSize: 11, color: "#69776E", marginBottom: 12 }}>
+          Age calculated from received_at timestamp. Pending cases only. Does
+          not imply an SLA breach unless the due date has also passed.
+        </p>
+        <div role="list" aria-label="Pending case ageing distribution">
+          {ageing.map((a, i) => {
+            const pct = totalPending > 0 ? (a.count / maxCount) * 100 : 0;
+            const filterVal = bandFilter[a.name] || "";
+            const isLast = i === ageing.length - 1;
+            return (
+              <div
+                key={a.name}
+                className={`ageing-row${isLast ? " overdue-row" : ""}`}
+                role="listitem"
+              >
+                <span className="age-label">{a.name}</span>
+                <div className="age-bar-wrap" aria-hidden="true">
+                  <div
+                    className="age-bar"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+                <span className="age-count">
+                  {filterVal && a.count > 0 ? (
+                    <Link to={cases({ age: filterVal })}>{a.count}</Link>
+                  ) : (
+                    a.count
+                  )}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Executive KPI strip ───────────────────────────────────────────────────
+
+function KpiCard({
+  label,
+  value,
+  sub,
+  to,
+  alert = false,
+}: {
+  label: string;
+  value: number;
+  sub?: string;
+  to: string;
+  alert?: boolean;
+}) {
+  return (
+    <Link
+      className={`mgmt-kpi-card${alert ? " alert" : ""}`}
+      to={to}
+      aria-label={`${label}: ${value.toLocaleString("en-IN")}. Click to view list.`}
+    >
+      <span className="kpi-label">{label}</span>
+      <strong className="kpi-value">{value.toLocaleString("en-IN")}</strong>
+      {sub && <span className="kpi-sub">{sub}</span>}
+    </Link>
+  );
+}
+
+// ── Bureau workload panel with overdue column ─────────────────────────────
+
+function BureauWorkloadPanel({
+  workload,
+  cases,
+}: {
+  workload: {
+    bureau__code: string;
+    bureau__name?: string;
+    count: number;
+    overdue: number;
+    approaching?: number;
+    institutions?: number;
+  }[];
+  cases: (extra?: Record<string, string>) => string;
+}) {
+  if (!workload.length) {
+    return (
+      <section className="mgmt-chart-section">
+        <div className="panel-heading">
+          <h2>Current Bureau workload — open cases</h2>
+        </div>
+        <div className="mgmt-chart-body">
+          <Empty>No open cases in this cohort.</Empty>
+        </div>
+      </section>
+    );
+  }
+  return (
+    <section className="mgmt-chart-section">
+      <div className="panel-heading">
+        <h2>Current Bureau workload — open cases</h2>
+        <span style={{ fontSize: 11, color: "#69776E" }}>
+          Current owning Bureau, not source Bureau
+        </span>
+      </div>
+      <div
+        aria-hidden="true"
+        style={{ height: Math.max(120, workload.length * 36 + 40) }}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={workload.map((b) => ({
+              name: b.bureau__name || b.bureau__code,
+              count: b.count,
+              href: cases({ bureau: b.bureau__code, pending: "true" }),
+            }))}
+            layout="vertical"
+            margin={{ top: 8, right: 50, left: 8, bottom: 4 }}
+          >
+            <CartesianGrid stroke="#e2e8e4" horizontal={false} />
+            <XAxis type="number" allowDecimals={false} />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={150}
+              tick={{ fontSize: 11, fill: "#1F2D26" }}
+            />
+            <Tooltip />
+            <Bar
+              isAnimationActive={false}
+              name="Open cases"
+              dataKey="count"
+              fill="#2F7658"
+              radius={[0, 4, 4, 0]}
+              onClick={(entry) => {
+                const row = (
+                  (entry as unknown as { payload?: { href: string } }).payload
+                );
+                if (row?.href) window.location.assign(row.href);
+              }}
+            >
+              <LabelList
+                dataKey="count"
+                position="right"
+                fill="#1F2D26"
+                fontSize={11}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      <div
+        className="table-scroll mgmt-chart-body"
+        role="region"
+        aria-label="Bureau workload detail"
+        tabIndex={0}
+      >
+        <table>
+          <caption>Open cases by current Bureau</caption>
+          <thead>
+            <tr>
+              <th>Bureau</th>
+              <th>Open</th>
+              <th>Overdue</th>
+              <th>Approaching</th>
+              <th>Institutions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {workload.map((b) => (
+              <tr key={b.bureau__code}>
+                <th scope="row">{b.bureau__name || b.bureau__code}</th>
+                <td>
+                  <Link to={cases({ bureau: b.bureau__code, pending: "true" })}>
+                    {b.count}
+                  </Link>
+                </td>
+                <td>
+                  {b.overdue > 0 ? (
+                    <Link
+                      to={cases({ bureau: b.bureau__code, overdue: "true" })}
+                      style={{ color: "#a85f1a" }}
+                    >
+                      {b.overdue}
+                    </Link>
+                  ) : (
+                    <span style={{ color: "#69776E" }}>0</span>
+                  )}
+                </td>
+                <td>
+                  {b.approaching != null && b.approaching > 0 ? (
+                    <Link
+                      to={cases({
+                        bureau: b.bureau__code,
+                        approaching: "true",
+                      })}
+                    >
+                      {b.approaching}
+                    </Link>
+                  ) : (
+                    <span style={{ color: "#69776E" }}>
+                      {b.approaching ?? "—"}
+                    </span>
+                  )}
+                </td>
+                <td style={{ color: "#69776E" }}>{b.institutions ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+// ── Institution monitoring table ──────────────────────────────────────────
+
+type InstitutionRow = {
+  institution_id: string;
+  institution__name: string;
+  institution__permanent_id: string;
+  institution__region: string;
+  institution__district?: string;
+  count: number;
+  /** Number of distinct bureaus with active cases — may be absent in some API versions */
+  bureaus?: number;
+  bureau_names: string[];
+  bureau_details?: { code: string; name: string; count: number }[];
+  overdue: number;
+  approaching?: number;
+  escalations?: number;
+  unresolved_escalations?: number;
+  coordination: boolean;
+};
+
+function InstitutionMonitoringPanel({
+  institutions,
+  cases,
+}: {
+  institutions: InstitutionRow[];
+  cases: (extra?: Record<string, string>, path?: string) => string;
+}) {
+  if (!institutions.length) {
+    return (
+      <section className="panel detail-card">
+        <div className="panel-heading">
+          <h2>Institution monitoring</h2>
+        </div>
+        <div className="card-body">
+          <Empty>No institutions with active cases in this cohort.</Empty>
+        </div>
+      </section>
+    );
+  }
+  return (
+    <section className="panel detail-card">
+      <div className="panel-heading">
+        <h2>Institution monitoring</h2>
+      </div>
+      <p className="card-body muted">
+        Highest active workloads in the selected receipt cohort. Coordination
+        state uses all-time active ownership.
+      </p>
+      <div
+        className="table-scroll"
+        role="region"
+        aria-label="Institution workload"
+        tabIndex={0}
+      >
+        <table>
+          <caption className="sr-only">Institution monitoring — pending workload</caption>
+          <thead>
+            <tr>
+              <th>Institution / Permanent ID</th>
+              <th>Region</th>
+              <th>Active</th>
+              <th>Current Bureaus</th>
+              <th>Overdue</th>
+              <th>Approaching</th>
+              <th>Escalations</th>
+              <th>Coordination</th>
+            </tr>
+          </thead>
+          <tbody>
+            {institutions.map((i) => {
+              const esc = i.unresolved_escalations ?? i.escalations ?? 0;
+              const approaching = i.approaching ?? 0;
+              return (
+                <tr key={i.institution_id}>
+                  <td>
+                    <Link to={`/institutions/${i.institution_id}`}>
+                      {i.institution__name}
+                    </Link>
+                    <span className="table-sub">{i.institution__permanent_id}</span>
+                  </td>
+                  <td>
+                    {i.institution__region}
+                    {i.institution__district && (
+                      <span className="table-sub">{i.institution__district}</span>
+                    )}
+                  </td>
+                  <td>
+                    <Link
+                      to={cases({
+                        institution: i.institution_id,
+                        pending: "true",
+                      })}
+                    >
+                      {i.count}
+                    </Link>
+                  </td>
+                  <td>
+                    {i.bureau_details
+                      ? i.bureau_details.map((b) => `${b.code} (${b.count})`).join(" · ")
+                      : i.bureau_names.join(" · ")}
+                  </td>
+                  <td>
+                    {i.overdue > 0 ? (
+                      <Link
+                        to={cases({
+                          institution: i.institution_id,
+                          overdue: "true",
+                        })}
+                        style={{ color: "#a85f1a", fontWeight: 600 }}
+                      >
+                        {i.overdue}
+                      </Link>
+                    ) : (
+                      <span style={{ color: "#69776E" }}>0</span>
+                    )}
+                  </td>
+                  <td>
+                    {approaching > 0 ? (
+                      <Link
+                        to={cases({
+                          institution: i.institution_id,
+                          approaching: "true",
+                        })}
+                      >
+                        {approaching}
+                      </Link>
+                    ) : (
+                      <span style={{ color: "#69776E" }}>0</span>
+                    )}
+                  </td>
+                  <td>
+                    {esc > 0 ? (
+                      <Link
+                        to={cases(
+                          { institution: i.institution_id, state: "pending" },
+                          "/escalations",
+                        )}
+                        style={{ color: "#a85f1a" }}
+                      >
+                        {esc}
+                      </Link>
+                    ) : (
+                      <span style={{ color: "#69776E" }}>0</span>
+                    )}
+                  </td>
+                  <td>
+                    {i.coordination ? (
+                      <Link
+                        to={`/coordination/activity?institution=${i.institution_id}`}
+                        style={{ color: "#a85f1a", fontWeight: 600 }}
+                      >
+                        Multi-Bureau ↗
+                      </Link>
+                    ) : (
+                      <span style={{ color: "#69776E" }}>Single Bureau</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="card-body" style={{ paddingTop: 6 }}>
+        <Link to="/institutions?with_cases=true">
+          View full institution directory →
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+// ── Management panels (coordinator/auditor only) ──────────────────────────
 
 export function ManagementPanels({
   data: d,
@@ -217,16 +684,37 @@ export function ManagementPanels({
 }) {
   const m = d.management;
   if (!m) return null;
+
   function cases(extra: Record<string, string> = {}, path = "/cases") {
     const p = new URLSearchParams(filters);
     p.delete("page");
     Object.entries(extra).forEach(([k, v]) => (v ? p.set(k, v) : p.delete(k)));
     return `${path}?${p}`;
   }
+
   const geo = new URLSearchParams();
   const current = new URLSearchParams(filters);
   for (const k of ["institution", "region", "district", "district_exact"])
     if (current.get(k)) geo.set(k, current.get(k)!);
+
+  function quarter(start: string, closed = false) {
+    const endDate = new Date(`${start}T00:00:00Z`);
+    endDate.setUTCMonth(endDate.getUTCMonth() + 3);
+    endDate.setUTCDate(endDate.getUTCDate() - 1);
+    const end = endDate.toISOString().slice(0, 10);
+    return closed
+      ? cases({
+          disposed_from: [current.get("disposed_from") || start, start]
+            .sort()
+            .at(-1)!,
+          disposed_to: [current.get("disposed_to") || end, end].sort()[0],
+        })
+      : cases({
+          from: [current.get("from") || start, start].sort().at(-1)!,
+          to: [current.get("to") || end, end].sort()[0],
+        });
+  }
+
   const cards: [string, number, string][] = [
     [
       "Institutions with cases",
@@ -247,23 +735,7 @@ export function ManagementPanels({
       `/coordination/activity?${geo}`,
     ],
   ];
-  function quarter(start: string, closed = false) {
-    const endDate = new Date(`${start}T00:00:00Z`);
-    endDate.setUTCMonth(endDate.getUTCMonth() + 3);
-    endDate.setUTCDate(endDate.getUTCDate() - 1);
-    const end = endDate.toISOString().slice(0, 10);
-    return closed
-      ? cases({
-          disposed_from: [current.get("disposed_from") || start, start]
-            .sort()
-            .at(-1)!,
-          disposed_to: [current.get("disposed_to") || end, end].sort()[0],
-        })
-      : cases({
-          from: [current.get("from") || start, start].sort().at(-1)!,
-          to: [current.get("to") || end, end].sort()[0],
-        });
-  }
+
   return (
     <>
       <div className="home-summary">
@@ -276,93 +748,33 @@ export function ManagementPanels({
       </div>
       <p className="card-body muted">
         Selected receipt cohort. Closed share:{" "}
-        {(d.closed_share * 100).toFixed(1)}%. This is not SLA compliance.
-        Approaching: open deadlines from now through seven days; overdue cases
-        are excluded.
+        {(d.closed_share * 100).toFixed(1)}%. Under process (under review +
+        awaiting response): {(d.under_process ?? 0).toLocaleString("en-IN")}.
+        This is not SLA compliance. Approaching: open deadlines from now through
+        seven days; overdue cases are excluded.
       </p>
-      <section className="panel detail-card">
-        <div className="panel-heading">
-          <h2>Institution monitoring</h2>
-        </div>
-        <p className="card-body muted">
-          Highest active workloads in the selected receipt cohort. Coordination
-          state uses all-time active ownership.
-        </p>
-        <div
-          className="table-scroll"
-          role="region"
-          aria-label="Institution workload"
-          tabIndex={0}
-        >
-          <table>
-            <thead>
-              <tr>
-                <th>Institution / Permanent ID</th>
-                <th>Region</th>
-                <th>Active cases</th>
-                <th>Current Bureaus</th>
-                <th>Overdue</th>
-                <th>Unresolved escalations</th>
-                <th>Coordination</th>
-              </tr>
-            </thead>
-            <tbody>
-              {m.institutions.map((i) => (
-                <tr key={i.institution_id}>
-                  <td>
-                    <Link to={`/institutions/${i.institution_id}`}>
-                      {i.institution__name}
-                    </Link>
-                    <span className="table-sub">
-                      {i.institution__permanent_id}
-                    </span>
-                  </td>
-                  <td>{i.institution__region}</td>
-                  <td>
-                    <Link
-                      to={cases({
-                        institution: i.institution_id,
-                        pending: "true",
-                      })}
-                    >
-                      {i.count}
-                    </Link>
-                  </td>
-                  <td>{i.bureau_names.join(" · ")}</td>
-                  <td>
-                    <Link
-                      to={cases({
-                        institution: i.institution_id,
-                        overdue: "true",
-                      })}
-                    >
-                      {i.overdue}
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={cases(
-                        { institution: i.institution_id, state: "pending" },
-                        "/escalations",
-                      )}
-                    >
-                      {i.escalations}
-                    </Link>
-                  </td>
-                  <td>
-                    {i.coordination
-                      ? "Review required (all time)"
-                      : "Single active Bureau"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+
+      {/* Institution monitoring table */}
+      <InstitutionMonitoringPanel
+        institutions={m.institutions}
+        cases={cases}
+      />
+
+      {/* Charts row: Bureau workload + ageing */}
       <div className="home-charts">
-        <Distribution
+        {/* Bureau workload */}
+        <BureauWorkloadPanel workload={d.workload} cases={cases} />
+
+        {/* Ageing distribution */}
+        <AgeingPanel
+          ageing={d.ageing}
+          totalPending={d.pending}
+          cases={cases}
+        />
+
+        <HorizontalDistribution
           title="Cases by region and district"
+          caption="Received cases by region — selected cohort"
           rows={m.regions.map((r) => ({
             name: `${r.institution__region} / ${r.institution__district} (${r.institutions} institutions)`,
             count: r.count,
@@ -373,8 +785,9 @@ export function ManagementPanels({
             }),
           }))}
         />
-        <Distribution
+        <HorizontalDistribution
           title="Case classifications — Unclassified included"
+          caption="Classification distribution — selected cohort"
           rows={Object.entries(classifications).map(([value, name]) => ({
             name,
             count:
@@ -383,36 +796,36 @@ export function ManagementPanels({
             url: cases({ classification: value }),
           }))}
         />
-        <Distribution
-          title="Complaint categories"
-          rows={d.categories.map((r) => ({
-            name: r.category,
-            count: r.count,
-            url: cases({ category: r.category }),
-          }))}
-        />
-        <section className="panel home-chart">
-          <div className="panel-heading">
-            <h2>Calendar-quarter receipts and closures</h2>
-          </div>
-          <div
-            className="table-scroll"
-            role="region"
-            aria-label="Quarter trends"
-            tabIndex={0}
-          >
+      </div>
+
+      {/* Quarterly table */}
+      <section className="panel detail-card" style={{ marginTop: 16 }}>
+        <div className="panel-heading">
+          <h2>Calendar-quarter receipts and closures</h2>
+        </div>
+        <div
+          className="table-scroll card-body"
+          role="region"
+          aria-label="Quarterly trends"
+          tabIndex={0}
+        >
+          {m.quarters.length ? (
             <table>
+              <caption className="sr-only">
+                Quarterly received and closed — date semantics differ between
+                columns
+              </caption>
               <thead>
                 <tr>
                   <th>Quarter</th>
-                  <th>Received</th>
-                  <th>Closed</th>
+                  <th>Received (receipt date)</th>
+                  <th>Closed (disposal date)</th>
                 </tr>
               </thead>
               <tbody>
                 {m.quarters.map((q) => (
                   <tr key={q.start}>
-                    <th>{q.label}</th>
+                    <th scope="row">{q.label}</th>
                     <td>
                       {q.received ? (
                         <Link to={quarter(q.start)}>{q.received}</Link>
@@ -431,67 +844,95 @@ export function ManagementPanels({
                 ))}
               </tbody>
             </table>
-          </div>
-        </section>
-      </div>
-      <section className="panel detail-card">
+          ) : (
+            <Empty>No quarterly data in this cohort.</Empty>
+          )}
+        </div>
+        <p style={{ fontSize: 11, color: "#69776E", padding: "6px 20px 14px" }}>
+          Received: cases whose receipt date falls in the quarter. Closed:
+          cases whose disposal date falls in the quarter. These are independent
+          date dimensions.
+        </p>
+      </section>
+
+      {/* Movement analytics */}
+      <section className="panel detail-card" style={{ marginTop: 16 }}>
         <div className="panel-heading">
           <h2>Case movements — action period</h2>
-          <Link to={`/movements?${filters}`}>
+          <Link to={`/movements?${filters}`} style={{ fontSize: 12 }}>
             View complete action history / CSV →
           </Link>
         </div>
-        <p className="card-body muted">
+        <p style={{ fontSize: 11, color: "#69776E", padding: "8px 20px 0" }}>
           Date filters apply to action timestamps here, not case receipt dates.
           Relationship decisions have one action record per linked case.
         </p>
-        <div
-          className="table-scroll"
-          role="region"
-          aria-label="Movement totals"
-          tabIndex={0}
-        >
-          <table>
-            <thead>
-              <tr>
-                <th>Event</th>
-                <th>Action records</th>
-              </tr>
-            </thead>
-            <tbody>
-              {m.movement_counts.map((r) => (
-                <tr key={r.event}>
-                  <th>{r.event.replaceAll("_", " ")}</th>
-                  <td>
-                    {r.count ? (
-                      <Link to={cases({ event: r.event }, "/movements")}>
-                        {r.count}
-                      </Link>
-                    ) : (
-                      0
-                    )}
-                  </td>
+        <div className="home-charts" style={{ padding: "12px 20px 16px" }}>
+          <div
+            className="table-scroll"
+            role="region"
+            aria-label="Movement event totals"
+            tabIndex={0}
+          >
+            <table>
+              <caption>Movement event counts — action timestamps</caption>
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Action records</th>
                 </tr>
+              </thead>
+              <tbody>
+                {m.movement_counts.map((r) => (
+                  <tr key={r.event}>
+                    <th scope="row">{r.event.replaceAll("_", " ")}</th>
+                    <td>
+                      {r.count ? (
+                        <Link to={cases({ event: r.event }, "/movements")}>
+                          {r.count}
+                        </Link>
+                      ) : (
+                        0
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <p
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                color: "#174B38",
+                marginBottom: 8,
+              }}
+            >
+              Recent actions
+            </p>
+            <ol className="timeline" style={{ paddingLeft: 16 }}>
+              {m.recent_movements.map((a) => (
+                <li key={a.id} style={{ marginBottom: 8 }}>
+                  <div style={{ fontSize: 12 }}>
+                    <Link to={`/cases/${a.case_id}`}>{a.reference}</Link> ·{" "}
+                    {a.event.replaceAll("_", " ")} ·{" "}
+                    {new Date(a.created_at).toLocaleString("en-IN")}
+                    <p style={{ color: "#69776E", fontSize: 11, margin: "2px 0 0" }}>
+                      {a.reason}
+                    </p>
+                  </div>
+                </li>
               ))}
-            </tbody>
-          </table>
+            </ol>
+          </div>
         </div>
-        <ol className="timeline">
-          {m.recent_movements.map((a) => (
-            <li key={a.id}>
-              <div>
-                <Link to={`/cases/${a.case_id}`}>{a.reference}</Link> ·{" "}
-                {a.event.replaceAll("_", " ")} ·{" "}
-                {new Date(a.created_at).toLocaleString("en-IN")}
-                <p>{a.reason}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
       </section>
     </>
   );
 }
+
+// ── Movements page ────────────────────────────────────────────────────────
 
 export function MovementsPage() {
   const [params, setParams] = useSearchParams();

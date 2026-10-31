@@ -117,11 +117,24 @@ class FilterSerializer(serializers.Serializer):
     with_cases = serializers.BooleanField(required=False)
     closed = serializers.BooleanField(required=False)
     district_exact = serializers.BooleanField(required=False)
-    age = serializers.ChoiceField(choices=['0-7', '8-30', '31-60', '61+'], required=False)
+    age = serializers.CharField(max_length=10, required=False)
     locals()['from'] = serializers.DateField(required=False)
     to = serializers.DateField(required=False)
     disposed_from = serializers.DateField(required=False)
     disposed_to = serializers.DateField(required=False)
+
+    def validate_age(self, value):
+        if not value:
+            return value
+        cleaned = value.strip().replace(' ', '+')
+        if cleaned in ('30', '30+'):
+            return '30+'
+        if cleaned in ('61', '61+'):
+            return '61+'
+        valid = ['0-7', '8-15', '16-30', '30+', '8-30', '31-60', '61+']
+        if cleaned not in valid:
+            raise serializers.ValidationError('Invalid age band.')
+        return cleaned
 
     def validate(self, data):
         for start, end in [('from', 'to'), ('disposed_from', 'disposed_to')]:

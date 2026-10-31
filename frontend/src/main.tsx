@@ -268,6 +268,23 @@ function Shell({ user }: { user: User }) {
               </NavLink>
             </>
           )}
+          {/* Management-only links for coordinator/auditor */}
+          {isCoord && (
+            <>
+              <NavLink to="/coordination/activity">
+                <ArrowsLeftRight size={21} />
+                Cross-bureau activity
+              </NavLink>
+              <NavLink to="/movements">
+                <ArrowsLeftRight size={21} />
+                Case movements
+              </NavLink>
+              <NavLink to="/imports/sources">
+                <Tray size={21} />
+                Source intake
+              </NavLink>
+            </>
+          )}
         </nav>
         <div className="sidebar-bottom">
           <div className="demo-note">

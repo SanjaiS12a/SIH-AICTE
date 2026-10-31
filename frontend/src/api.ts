@@ -138,6 +138,7 @@ export type Dashboard = {
   institutions: number;
   approaching: number;
   unresolved_escalations: number;
+  under_process: number;
   coordination_institutions?: number;
   closed_share: number;
   management?: {
@@ -153,10 +154,18 @@ export type Dashboard = {
       institution__name: string;
       institution__permanent_id: string;
       institution__region: string;
+      institution__district?: string;
       count: number;
+      /** bureaus is returned by the analytics function */
+      bureaus?: number;
       overdue: number;
-      escalations: number;
+      approaching?: number;
+      /** unresolved_escalations is returned by Milestone 3 analytics */
+      unresolved_escalations?: number;
+      /** Legacy field name still returned by older analytics path */
+      escalations?: number;
       bureau_names: string[];
+      bureau_details?: { code: string; name: string; count: number }[];
       coordination: boolean;
     }[];
     quarters: {
@@ -171,7 +180,7 @@ export type Dashboard = {
   attention: Case[];
   active_categories: { category: string; count: number }[];
   categories: { category: string; count: number }[];
-  overdue_bureaus: { bureau__code: string; count: number }[];
+  overdue_bureaus: { bureau__code: string; bureau__name?: string; count: number }[];
   matching: Record<string, number>;
   total: number;
   pending: number;
@@ -180,7 +189,14 @@ export type Dashboard = {
   overlap_reviews?: number;
   generated_at: string;
   recent: Case[];
-  workload: { bureau__code: string; count: number }[];
+  workload: {
+    bureau__code: string;
+    bureau__name?: string;
+    count: number;
+    overdue: number;
+    approaching?: number;
+    institutions?: number;
+  }[];
   statuses: { status: string; count: number }[];
   ageing: { name: string; count: number }[];
   trend: { month: string; received: number; disposed: number }[];

@@ -67,7 +67,11 @@ def filtered_cases(request):
     if p.get('age'):
         from datetime import timedelta
         from django.utils import timezone
-        lo, hi = {'0-7': (0, 7), '8-30': (8, 30), '31-60': (31, 60), '61+': (61, None)}[p['age']]
+        # Non-overlapping ageing bands based on received_at; pending cases only.
+        # '30+' is equivalent to the original '31+' bucket.
+        lo, hi = {'0-7': (0, 7), '8-15': (8, 15), '16-30': (16, 30), '30+': (31, None),
+                  # Legacy aliases kept for backward compatibility with existing filter links.
+                  '8-30': (8, 30), '31-60': (31, 60), '61+': (61, None)}[p['age']]
         now = timezone.now()
         qs = qs.exclude(status='disposed').filter(received_at__lte=now - timedelta(days=lo))
         if hi is not None:

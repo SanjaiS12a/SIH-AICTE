@@ -75,14 +75,23 @@ def analytics(request,qs,pending,now):
     from .coordination import groups
     regions=list(qs.order_by().values('institution__region','institution__district').annotate(count=Count('id'),institutions=Count('institution',distinct=True)).order_by('institution__region','institution__district'))
     classifications=list(qs.order_by().values('classification').annotate(count=Count('id')).order_by('classification'))
-    institutions=list(pending.order_by().values('institution_id','institution__name','institution__permanent_id','institution__region').annotate(count=Count('id'),bureaus=Count('bureau',distinct=True),overdue=Count('id',filter=Q(due_at__lt=now))).order_by('-count','institution_id')[:10])
+    # Top-10 institutions by pending workload in the selected cohort.
+    # Overdue and approaching use real due_at timestamps, not estimated.
+    from datetime import timedelta
+    institutions=list(pending.order_by().values('institution_id','institution__name','institution__permanent_id','institution__region','institution__district').annotate(
+        count=Count('id'),
+        bureaus=Count('bureau',distinct=True),
+        overdue=Count('id',filter=Q(due_at__lt=now)),
+        approaching=Count('id',filter=Q(due_at__gte=now,due_at__lte=now+timedelta(days=7))),
+        unresolved_escalations=Count('id',filter=Q(has_unresolved_escalation=True)),
+    ).order_by('-count','institution_id')[:10])
     ids=[i['institution_id'] for i in institutions]
-    bureau_rows=list(pending.filter(institution_id__in=ids).order_by().values('institution_id','bureau__name').annotate(count=Count('id')))
-    escalations={r['institution_id']:r['count'] for r in qs.filter(institution_id__in=ids,has_unresolved_escalation=True).order_by().values('institution_id').annotate(count=Count('id'))}
+    bureau_rows=list(pending.filter(institution_id__in=ids).order_by().values('institution_id','bureau__code','bureau__name').annotate(count=Count('id')))
     notices=set(groups(request).filter(institution_id__in=ids).values_list('institution_id',flat=True))
     for row in institutions:
-        row['bureau_names']=[b['bureau__name'] for b in bureau_rows if b['institution_id']==row['institution_id']]
-        row['escalations']=escalations.get(row['institution_id'],0);row['coordination']=row['institution_id'] in notices
+        row['bureau_names']=[b['bureau__code'] for b in bureau_rows if b['institution_id']==row['institution_id']]
+        row['bureau_details']=[{'code':b['bureau__code'],'name':b['bureau__name'],'count':b['count']} for b in bureau_rows if b['institution_id']==row['institution_id']]
+        row['coordination']=row['institution_id'] in notices
     quarters={}
     for field,key in [('received_at','received'),('disposed_at','disposed')]:
         for row in qs.filter(**{field+'__isnull':False}).annotate(period=TruncQuarter(field)).values('period').annotate(count=Count('id')).order_by('period'):

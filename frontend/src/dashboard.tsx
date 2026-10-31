@@ -30,6 +30,8 @@ export function validDashboard(value: unknown): boolean {
     typeof n === "number" && Number.isFinite(n) && n >= 0;
   return (
     [d.pending, d.overdue, d.total].every(count) &&
+    // under_process is optional for backward compat with cached responses
+    (d.under_process === undefined || count(d.under_process)) &&
     typeof d.generated_at === "string" &&
     Array.isArray(d.attention) &&
     d.attention.every(
@@ -129,7 +131,7 @@ export function DashboardHome({
   }
   const work = coordinator
     ? d?.workload.map((b) => ({
-        name: bureauName(b.bureau__code),
+        name: b.bureau__name || bureauName(b.bureau__code),
         count: b.count,
         href: cases({ bureau: b.bureau__code, pending: "true", status: "" }),
       }))

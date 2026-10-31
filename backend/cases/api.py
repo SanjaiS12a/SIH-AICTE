@@ -272,21 +272,29 @@ def compute_dashboard(request):
                  'institutions': Count('institution',distinct=True),
                  'approaching': Count('id',filter=~Q(status='disposed') & Q(due_at__gte=now,due_at__lte=now+timedelta(days=7))),
                  'unresolved_escalations': Count('id',filter=Q(has_unresolved_escalation=True)),
-                 'overdue': Count('id', filter=~Q(status='disposed') & Q(due_at__lt=now))}
+                 'overdue': Count('id', filter=~Q(status='disposed') & Q(due_at__lt=now)),
+                 'under_process': Count('id', filter=Q(status__in=['under_review','awaiting_response']))}
     for status in dict(Complaint.STATUSES):
         aggregate[status] = Count('id', filter=Q(status=status))
-    ranges = [('0-7', 0, 7), ('8-30', 8, 30), ('31-60', 31, 60), ('61+', 61, None)]
-    for index, (label, lo, hi) in enumerate(ranges):
+    # Ageing bands for pending cases — based on actual received_at timestamps.
+    # Bands are: 0-7, 8-15, 16-30, 30+ days. Non-overlapping, non-disposed only.
+    age_ranges = [('0-7 days', 0, 7), ('8-15 days', 8, 15), ('16-30 days', 16, 30), ('More than 30 days', 31, None)]
+    for index, (label, lo, hi) in enumerate(age_ranges):
         condition = ~Q(status='disposed') & Q(received_at__lte=now-timedelta(days=lo))
         if hi is not None:
             condition &= Q(received_at__gt=now-timedelta(days=hi+1))
         aggregate[f'age_{index}'] = Count('id', filter=condition)
     totals = qs.aggregate(**aggregate)
-    workload = list(pending.values('bureau__code').annotate(count=Count('id'), overdue=Count('id',filter=Q(due_at__lt=now))).order_by('bureau__code'))
-    data = {k: totals[k] for k in ['total', 'pending', 'overdue', 'disposed','institutions','approaching','unresolved_escalations']}
+    workload = list(pending.values('bureau__code','bureau__name').annotate(
+        count=Count('id'),
+        overdue=Count('id',filter=Q(due_at__lt=now)),
+        approaching=Count('id',filter=Q(due_at__gte=now,due_at__lte=now+timedelta(days=7))),
+        institutions=Count('institution',distinct=True),
+    ).order_by('bureau__code'))
+    data = {k: totals[k] for k in ['total', 'pending', 'overdue', 'disposed','institutions','approaching','unresolved_escalations','under_process']}
     data['closed_share']=totals['disposed']/totals['total'] if totals['total'] else 0
     data.update({'workload': workload, 'statuses': [{'status': status, 'count': totals[status]} for status in dict(Complaint.STATUSES)],
-                 'ageing': [{'name': row[0], 'count': totals[f'age_{i}']} for i, row in enumerate(ranges)],
+                 'ageing': [{'name': row[0], 'count': totals[f'age_{i}']} for i, row in enumerate(age_ranges)],
                  'trend': [month_map[k] for k in sorted(month_map)], 'generated_at': now,
                  'recent': CaseSerializer(qs[:5], many=True).data,
                  'attention': CaseSerializer(pending.order_by('due_at','id')[:8], many=True).data,
@@ -301,7 +309,7 @@ def compute_dashboard(request):
         from .analytics import analytics
         data['management']=analytics(request,qs,pending,now)
     data['categories'] = list(qs.values('category').annotate(count=Count('id')).order_by('-count'))
-    data['overdue_bureaus'] = sorted([{'bureau__code': b['bureau__code'], 'count': b['overdue']} for b in workload if b['overdue']], key=lambda b: -b['count'])
+    data['overdue_bureaus'] = sorted([{'bureau__code': b['bureau__code'], 'bureau__name': b.get('bureau__name',''), 'count': b['overdue']} for b in workload if b['overdue']], key=lambda b: -b['count'])
     data['matching'] = dict(qs.order_by().values_list('matching_state').annotate(n=Count('id')).values_list('matching_state','n'))
     data['filters'] = dict(request.query_params)
     return data

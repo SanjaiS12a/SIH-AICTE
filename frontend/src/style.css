@@ -1,26 +1,328 @@
 @import url("/fonts.css");
 :root {
-  --orange: #b84f00;
-  --saffron: #ff9933;
+  /* AICTE brand palette — Milestone 3 */
+  --deep-green: #174B38;
+  --secondary-green: #2F7658;
+  --orange: #D9852B;
+  --orange-dark: #a85f1a;
+  --bg: #F4F6F2;
+  --paper: #FFFFFF;
+  --text: #1F2D26;
+  --muted-text: #69776E;
+  /* Legacy aliases — preserved for backward-compat with existing CSS rules */
+  --green: #2F7658;
+  --dark: #174B38;
+  --border: #d3ddd6;
+  --muted: #69776E;
+  --saffron: #D9852B;
+
   font-family: "Segoe UI", Arial, sans-serif;
-  color: #145526;
-  background: #ffffff;
+  color: var(--text);
+  background: var(--bg);
   font-synthesis: none;
   font-size: 14px;
   line-height: 1.5;
-  --green: #138808;
-  --dark: #145526;
-  --border: #d0e6d2;
-  --muted: #346b3d;
-  --paper: #ffffff;
 }
 
 * {
   box-sizing: border-box;
 }
+
+/* ── Milestone 3: Apply AICTE government design system ── */
+/* Override structural colors to the new palette. Hardcoded #145526 values
+   in legacy rules are intentionally preserved; the selectors below take
+   precedence for the key structural elements. */
 body {
-  margin: 0;
+  background: var(--bg);
+  color: var(--text);
 }
+button,
+.button {
+  background: var(--deep-green);
+}
+button.secondary,
+.button.secondary {
+  color: var(--deep-green);
+  border-color: #e2e8e4;
+}
+button.text-button {
+  color: var(--secondary-green);
+}
+.sidebar {
+  background: var(--deep-green);
+  border-right: none;
+}
+.brand,
+.brand-sub,
+.workspace-label,
+nav a {
+  color: rgba(255,255,255,0.85);
+}
+.brand {
+  color: #ffffff;
+}
+.brand-mark {
+  background: rgba(255,255,255,0.15);
+  color: #ffffff;
+}
+nav a.active {
+  background: rgba(255,255,255,0.14);
+  color: #ffffff;
+  box-shadow: inset 3px 0 rgba(255,255,255,0.7);
+}
+nav a:hover:not(.active) {
+  background: rgba(255,255,255,0.09);
+  color: #ffffff;
+}
+.home-stat {
+  border-color: #e2e8e4;
+  background: var(--paper);
+  color: var(--deep-green);
+}
+.home-stat:hover {
+  border-color: var(--secondary-green);
+}
+.home-stat.overdue {
+  border-color: var(--orange);
+  color: var(--orange-dark);
+}
+.home-stat strong {
+  color: var(--deep-green);
+}
+.home-stat.overdue strong {
+  color: var(--orange-dark);
+}
+.panel {
+  background: var(--paper);
+}
+.panel-heading {
+  border-bottom-color: var(--border);
+}
+.eyebrow {
+  color: var(--secondary-green);
+}
+.section-label {
+  color: var(--secondary-green);
+}
+.government-header {
+  background: var(--deep-green);
+}
+.topbar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+}
+.scope {
+  color: var(--secondary-green);
+}
+.demo-note {
+  color: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.15);
+}
+.demo-note .live-dot {
+  background: #7ecf9f;
+}
+.profile {
+  border-top-color: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+}
+.avatar {
+  background: rgba(255,255,255,0.2);
+  color: #ffffff;
+}
+.icon-button {
+  color: rgba(255,255,255,0.85);
+}
+.icon-button:hover {
+  background: rgba(255,255,255,0.1);
+}
+footer {
+  color: var(--muted-text);
+  border-top: 1px solid var(--border);
+}
+/* KPI strip: government enterprise look */
+.home-summary {
+  gap: 14px;
+}
+.home-stat span {
+  color: var(--secondary-green);
+}
+/* Ageing chart */
+.ageing-bar-fill { background: var(--secondary-green); }
+.ageing-bar-fill.overdue { background: var(--orange); }
+/* Action queue */
+.action-queue-item {
+  border-left: 3px solid var(--secondary-green);
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+.action-queue-item.urgent {
+  border-left-color: var(--orange);
+}
+/* Under-process badge */
+.badge-under-process { background: #e8f4ef; color: var(--deep-green); }
+/* Focus ring — accessible, high-contrast */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
+}
+/* Table improvements */
+th {
+  color: var(--deep-green);
+}
+.table-sub {
+  color: var(--muted-text);
+}
+/* Management-specific panels */
+.mgmt-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.mgmt-kpi-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+.mgmt-kpi-card:hover {
+  border-color: var(--secondary-green);
+}
+.mgmt-kpi-card.alert {
+  border-left: 4px solid var(--orange);
+}
+.mgmt-kpi-card .kpi-label {
+  font-size: 11px;
+  color: var(--muted-text);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.mgmt-kpi-card .kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--deep-green);
+  line-height: 1.1;
+}
+.mgmt-kpi-card.alert .kpi-value {
+  color: var(--orange-dark);
+}
+.mgmt-kpi-card .kpi-sub {
+  font-size: 10px;
+  color: var(--muted-text);
+}
+/* Horizontal bar chart section */
+.mgmt-chart-section {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.mgmt-chart-section .panel-heading {
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.mgmt-chart-section .panel-heading h2 {
+  font-size: 13px;
+  color: var(--deep-green);
+}
+.mgmt-chart-body {
+  padding: 16px 20px;
+}
+/* Ageing distribution inline bars */
+.ageing-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.ageing-row .age-label {
+  width: 90px;
+  color: var(--text);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.ageing-row .age-bar-wrap {
+  flex: 1;
+  background: #eef1ee;
+  border-radius: 4px;
+  height: 14px;
+  overflow: hidden;
+}
+.ageing-row .age-bar {
+  height: 100%;
+  background: var(--secondary-green);
+  border-radius: 4px;
+  transition: width 0.3s;
+  min-width: 2px;
+}
+.ageing-row.overdue-row .age-bar {
+  background: var(--orange);
+}
+.ageing-row .age-count {
+  width: 40px;
+  text-align: right;
+  color: var(--muted-text);
+  font-size: 11px;
+}
+/* Action queue */
+.action-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.action-queue-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--paper);
+  border-left: 3px solid var(--secondary-green);
+}
+.action-queue-row.urgent {
+  border-left-color: var(--orange);
+}
+.action-queue-row .aq-meta {
+  flex: 1;
+  min-width: 0;
+}
+.action-queue-row .aq-title {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--deep-green);
+}
+.action-queue-row .aq-sub {
+  font-size: 11px;
+  color: var(--muted-text);
+  margin-top: 2px;
+}
+@media (max-width: 390px) {
+  .mgmt-kpi-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .mgmt-kpi-card .kpi-value {
+    font-size: 22px;
+  }
+}
+
+
 button,
 input,
 select,
