@@ -21,6 +21,7 @@ import {
 import { date, categories, classifications } from "./api";
 import type { Dashboard, Options, User } from "./api";
 import { usePoll } from "./imports";
+import { ManagementPanels } from "./management";
 
 export function validDashboard(value: unknown): boolean {
   if (!value || typeof value !== "object") return false;
@@ -99,7 +100,9 @@ export function DashboardHome({
   function cases(values: Record<string, string> = {}) {
     const q = new URLSearchParams(params);
     q.delete("page");
-    Object.entries(values).forEach(([k, v]) => (v ? q.set(k, v) : q.delete(k)));
+    Object.entries(values).forEach(([k, v]) => {
+      if (v) q.set(k, v);
+    });
     return `/cases?${q}`;
   }
   function reviews(institution?: string) {
@@ -303,6 +306,9 @@ export function DashboardHome({
               </button>
             )}
           </div>
+          {coordinator && (
+            <ManagementPanels data={d} filters={params.toString()} />
+          )}
           <section
             className="panel home-attention"
             aria-labelledby="attention-title"
@@ -395,12 +401,15 @@ export function DashboardHome({
                 <div>
                   <h2 id="coordination-title">Needs coordination</h2>
                   <p>
-                    These institutions have open complaints with more than one
-                    bureau.
+                    All-time active cases across current Bureaus. Receipt dates,
+                    categories and Bureau filters do not suppress these notices.
                   </p>
                 </div>
                 <Link className="text-button" to={reviews()}>
                   Review possible overlaps <ArrowRight size={16} />
+                </Link>
+                <Link className="text-button" to="/coordination/activity">
+                  View all cross-Bureau activity →
                 </Link>
               </div>
               {d.coordination_notices?.length ? (
@@ -424,15 +433,13 @@ export function DashboardHome({
                         </p>
                         <div className="actions">
                           <Link
-                            to={cases({
-                              institution: n.institution_id,
-                              pending: "true",
-                              status: "",
-                            })}
+                            to={`/cases?institution=${n.institution_id}&pending=true`}
                           >
                             View complaints →
                           </Link>
-                          <Link to={reviews(n.institution_id)}>
+                          <Link
+                            to={`/coordination?institution=${n.institution_id}&decision=all`}
+                          >
                             Review overlaps →
                           </Link>
                         </div>

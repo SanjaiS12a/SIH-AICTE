@@ -1,0 +1,10 @@
+{
+  "/api/overlaps": {
+    "queries": 6,
+    "rows": 20
+  },
+  "/api/escalations": {
+    "queries": 5,
+    "rows": 5
+  }
+}

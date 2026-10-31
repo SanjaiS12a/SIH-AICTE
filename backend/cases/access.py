@@ -40,6 +40,7 @@ def filtered_cases(request):
     for key in ('institution', 'bureau', 'region', 'district', 'category', 'classification', 'status'):
         if p.get(key):
             field = {'institution': 'institution_id', 'bureau': 'bureau__code', 'region': 'institution__region', 'district': 'institution__district__icontains'}.get(key, key)
+            if key == 'district' and p.get('district_exact'): field = 'institution__district'
             qs = qs.filter(**{field: p[key]})
     if p.get('from'):
         qs = qs.filter(received_at__date__gte=p['from'])
@@ -54,8 +55,15 @@ def filtered_cases(request):
         qs = qs.filter(due_at__lt=timezone.now()).exclude(status='disposed')
     if p.get('pending'):
         qs = qs.exclude(status='disposed')
+    if p.get('closed'):
+        qs = qs.filter(status='disposed')
     if p.get('escalated'):
         qs = qs.filter(has_unresolved_escalation=True)
+    if p.get('approaching'):
+        from datetime import timedelta
+        from django.utils import timezone
+        now = timezone.now()
+        qs = qs.exclude(status='disposed').filter(due_at__gte=now, due_at__lte=now + timedelta(days=7))
     if p.get('age'):
         from datetime import timedelta
         from django.utils import timezone

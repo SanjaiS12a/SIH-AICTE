@@ -177,6 +177,9 @@ class WorkflowTests(TestCase):
         self.assertEqual(self.client.post(url,payload,format='json').status_code,200)
         self.assertEqual(Complaint.objects.count(),2)
         self.assertEqual(CaseAction.objects.filter(kind='overlap_review').count(),2)
+        self.assertEqual(self.client.post(url,payload,format='json').status_code,200)
+        self.assertEqual(CaseAction.objects.filter(kind='overlap_review').count(),2)
+        payload['reason']='A different stale decision'
         self.assertEqual(self.client.post(url,payload,format='json').status_code,409)
         self.client.force_authenticate(self.auditor)
         self.assertEqual(self.client.post(url,payload,format='json').status_code,403)

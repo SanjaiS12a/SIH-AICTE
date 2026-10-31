@@ -115,7 +115,8 @@ export type Overlap = {
   id: number;
   left: Case;
   right: Case;
-  score: number;
+  score: number | null;
+  origin: "semantic" | "manual";
   evidence: {
     institution: string;
     shared_reference: boolean;
@@ -131,6 +132,39 @@ export type Overlap = {
   reviewed_at: string | null;
 };
 export type Dashboard = {
+  institutions: number;
+  approaching: number;
+  unresolved_escalations: number;
+  coordination_institutions?: number;
+  closed_share: number;
+  management?: {
+    regions: {
+      institution__region: string;
+      institution__district: string;
+      count: number;
+      institutions: number;
+    }[];
+    classifications: { classification: string; count: number }[];
+    institutions: {
+      institution_id: string;
+      institution__name: string;
+      institution__permanent_id: string;
+      institution__region: string;
+      count: number;
+      overdue: number;
+      escalations: number;
+      bureau_names: string[];
+      coordination: boolean;
+    }[];
+    quarters: {
+      start: string;
+      label: string;
+      received: number;
+      disposed: number;
+    }[];
+    movement_counts: { event: string; count: number }[];
+    recent_movements: Movement[];
+  };
   attention: Case[];
   active_categories: { category: string; count: number }[];
   categories: { category: string; count: number }[];
@@ -153,6 +187,12 @@ export type Dashboard = {
     bureaus: number;
     count: number;
   }[];
+};
+export type Movement = CaseAction & {
+  case_id: string;
+  reference: string;
+  institution: string;
+  event: string;
 };
 export const labels: Record<string, string> = {
   registered: "Registered",

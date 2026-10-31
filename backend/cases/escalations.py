@@ -1,5 +1,6 @@
 """Manual supervisory requests, independent of ownership and disposal decisions."""
 from django.db import transaction, IntegrityError
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django_q.tasks import async_task
@@ -41,6 +42,7 @@ def records(request, cases, default_state):
     if state not in ('pending', 'resolved', 'all'):
         raise ValidationError('Choose pending, resolved or all escalation states.')
     qs = Escalation.objects.filter(case__in=cases).select_related('case__institution', 'case__bureau', 'case__assigned_to', 'created_by', 'resolved_by')
+    qs = qs.prefetch_related(Prefetch('case__escalations',queryset=Escalation.objects.filter(status='pending'),to_attr='pending_escalations'))
     return qs if state == 'all' else qs.filter(status=state)
 
 

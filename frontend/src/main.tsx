@@ -56,6 +56,8 @@ import type {
 import "./style.css";
 import { DashboardHome } from "./dashboard";
 import { CaseEscalations, EscalationQueue } from "./escalations";
+import { ManualRelationship } from "./relationships";
+import { CoordinationNotices, MovementsPage } from "./management";
 import {
   ErrorBox,
   Loading,
@@ -366,6 +368,21 @@ function Shell({ user }: { user: User }) {
         </header>
         <main id="main">
           <Routes>
+            <Route path="/movements" element={<MovementsPage />} />
+            <Route
+              path="/coordination/activity"
+              element={
+                isCoord ? (
+                  <CoordinationNotices filters={location.search.slice(1)} />
+                ) : (
+                  <ErrorBox message="Coordination access is required." />
+                )
+              }
+            />
+            <Route
+              path="/relationships/new"
+              element={<ManualRelationship user={user} />}
+            />
             <Route
               path="/escalations"
               element={<EscalationQueue user={user} />}
@@ -1336,7 +1353,20 @@ function Coordination({ user }: { user: User }) {
         eyebrow="CONNECT THE CONTEXT"
         title="Coordination queue"
         subtitle="Potential overlaps, explained. Review the evidence before deciding the relationship."
-      />
+      >
+        {user.role === "coordinator" && (
+          <Link
+            className="button"
+            to={
+              params.get("institution")
+                ? `/relationships/new?institution=${params.get("institution")}`
+                : "/institutions"
+            }
+          >
+            Create manual relationship
+          </Link>
+        )}
+      </Heading>
       <div className="info-note">
         <ShieldCheck size={21} />
         <span>
@@ -1373,6 +1403,12 @@ function Coordination({ user }: { user: User }) {
         </div>
       )}
       <div className="queue-toolbar">
+        <a
+          className="button secondary"
+          href={`/api/relationships.csv?${params}`}
+        >
+          Download relationship CSV
+        </a>
         <div className="tabs">
           {[
             "pending",
@@ -1421,7 +1457,11 @@ function Coordination({ user }: { user: User }) {
                         {o.left.bureau} <ArrowsLeftRight size={13} />{" "}
                         {o.right.bureau}
                       </span>
-                      <strong>{o.score.toFixed(3)} cosine</strong>
+                      <strong>
+                        {typeof o.score === "number"
+                          ? `${o.score.toFixed(3)} cosine`
+                          : "Not model-scored"}
+                      </strong>
                     </span>
                     <Link
                       className="institution-link"
@@ -1479,7 +1519,8 @@ function PairReview({
     ),
     [reason, setReason] = useState(p.reason),
     [busy, setBusy] = useState(false),
-    [error, setError] = useState("");
+    [error, setError] = useState(""),
+    [conflict, setConflict] = useState(false);
   async function save(e: FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -1492,6 +1533,7 @@ function PairReview({
       onSaved();
     } catch (e) {
       setError((e as Error).message);
+      if (e instanceof ApiError && e.status === 409) setConflict(true);
     } finally {
       setBusy(false);
     }
@@ -1548,7 +1590,9 @@ function PairReview({
           </span>
           <span>
             <Intersect size={17} />
-            Cosine similarity: {p.score.toFixed(3)}
+            {typeof p.score === "number"
+              ? `Cosine similarity: ${p.score.toFixed(3)}`
+              : "Not model-scored"}
           </span>
           {p.evidence.shared_reference && (
             <span>Shared explicit source reference</span>
@@ -1562,6 +1606,11 @@ function PairReview({
         <form className="review-form" onSubmit={save}>
           <h3>Your coordination decision</h3>
           <ErrorBox message={error} />
+          {conflict && (
+            <button type="button" className="secondary" onClick={onSaved}>
+              Reload relationship and discard draft
+            </button>
+          )}
           <div className="decision-options">
             {["same_incident", "related_issue", "unrelated"].map((d) => (
               <label key={d} className={decision === d ? "selected" : ""}>
@@ -1589,7 +1638,7 @@ function PairReview({
           </label>
           <div className="form-actions">
             <small>No records will be merged or closed.</small>
-            <button disabled={busy}>
+            <button disabled={busy || conflict}>
               {busy ? "Recording…" : "Record decision"}
               <CheckCircle size={18} />
             </button>

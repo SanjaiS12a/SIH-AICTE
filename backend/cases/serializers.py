@@ -20,6 +20,8 @@ class CaseSerializer(serializers.ModelSerializer):
     def get_has_unresolved_escalation(self, obj):
         if hasattr(obj, 'has_unresolved_escalation'):
             return obj.has_unresolved_escalation
+        if hasattr(obj, 'pending_escalations'):
+            return bool(obj.pending_escalations)
         return Escalation.objects.filter(case=obj, status='pending').exists()
 
     def get_overdue(self, obj):
@@ -110,6 +112,10 @@ class FilterSerializer(serializers.Serializer):
     overdue = serializers.BooleanField(required=False)
     pending = serializers.BooleanField(required=False)
     escalated = serializers.BooleanField(required=False)
+    approaching = serializers.BooleanField(required=False)
+    with_cases = serializers.BooleanField(required=False)
+    closed = serializers.BooleanField(required=False)
+    district_exact = serializers.BooleanField(required=False)
     age = serializers.ChoiceField(choices=['0-7', '8-30', '31-60', '61+'], required=False)
     locals()['from'] = serializers.DateField(required=False)
     to = serializers.DateField(required=False)

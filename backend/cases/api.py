@@ -8,7 +8,7 @@ from pathlib import Path
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import transaction, IntegrityError
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Prefetch
 from django.db.models.functions import TruncMonth
 from django.http import FileResponse, HttpResponse, StreamingHttpResponse
 from django.middleware.csrf import get_token
@@ -23,7 +23,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import exception_handler as drf_exception_handler
 from .access import role, coordination, writable, scoped_cases, filtered_cases, current_bureau_id
-from .models import Institution, Bureau, Complaint, CaseAction, OverlapCandidate, Attachment, Notification, AuditEvent
+from .models import Institution, Bureau, Complaint, CaseAction, OverlapCandidate, Attachment, Notification, AuditEvent, Escalation
 from .serializers import (InstitutionSerializer, CaseSerializer, CreateCaseSerializer, ActionSerializer,
                           ActionReadSerializer, AttachmentSerializer, ReviewSerializer)
 
@@ -189,15 +189,23 @@ def actions(request, case_id):
 
 def overlap_data(obj):
     return {'id': obj.id, 'left': CaseSerializer(obj.left).data, 'right': CaseSerializer(obj.right).data,
-            'score': obj.score, 'evidence': obj.evidence, 'decision': obj.decision,
+            'score': obj.score, 'origin': obj.origin, 'evidence': obj.evidence, 'decision': obj.decision,
             'reason': obj.reason, 'model_revision': obj.model_revision, 'version': obj.version,
             'reviewed_at': obj.reviewed_at, 'reviewer': obj.reviewer.get_full_name() if obj.reviewer else None}
 
 @api_view(['GET'])
 def overlaps(request):
+    qs = overlap_queryset(request)
+    paginator = PageNumberPagination()
+    rows = paginator.paginate_queryset(qs, request)
+    return paginator.get_paginated_response([overlap_data(o) for o in rows])
+
+
+def overlap_queryset(request):
     if not coordination(request.user):
         raise PermissionDenied('Cross-bureau review requires coordination access.')
     qs = OverlapCandidate.objects.select_related('left__institution', 'right__institution', 'left__bureau', 'right__bureau', 'left__assigned_to', 'right__assigned_to', 'reviewer')
+    qs = qs.prefetch_related(*[Prefetch(f'{side}__escalations',queryset=Escalation.objects.filter(status='pending'),to_attr='pending_escalations') for side in ['left','right']])
     decision = request.query_params.get('decision', 'pending')
     if decision != 'all':
         if decision not in ('pending', 'same_incident', 'related_issue', 'unrelated'):
@@ -205,9 +213,10 @@ def overlaps(request):
         qs = qs.filter(decision=decision)
     ids = filtered_cases(request).values('pk')
     qs = qs.filter(Q(left_id__in=ids) | Q(right_id__in=ids))
-    paginator = PageNumberPagination()
-    rows = paginator.paginate_queryset(qs, request)
-    return paginator.get_paginated_response([overlap_data(o) for o in rows])
+    if request.query_params.get('pair'):
+        from rest_framework import serializers
+        qs = qs.filter(pk=serializers.IntegerField(min_value=1).run_validation(request.query_params['pair']))
+    return qs
 
 @api_view(['POST'])
 def review(request, overlap_id):
@@ -216,19 +225,12 @@ def review(request, overlap_id):
     form = ReviewSerializer(data=request.data)
     form.is_valid(raise_exception=True)
     d = form.validated_data
+    record = get_object_or_404(OverlapCandidate.objects.select_related('left'), pk=overlap_id)
     with transaction.atomic():
+        Institution.objects.select_for_update().get(pk=record.left.institution_id)
         obj = get_object_or_404(OverlapCandidate.objects.select_for_update(), pk=overlap_id)
-        if obj.version != d.pop('expected_version'):
-            raise Conflict()
-        previous = obj.decision
-        for key, value in d.items():
-            setattr(obj, key, value)
-        obj.reviewer, obj.reviewed_at = request.user, timezone.now()
-        obj.version += 1
-        obj.save()
-        for case_id in [obj.left_id, obj.right_id]:
-            CaseAction.objects.create(case_id=case_id, actor=request.user, kind='overlap_review', reason=obj.reason,
-                changes={'overlap_id': obj.id, 'decision': {'before': previous, 'after': obj.decision}})
+        from .relationships import decide
+        decide(obj, request.user, d['decision'], d['reason'], d['expected_version'])
     return Response({'id': obj.id, 'decision': obj.decision, 'version': obj.version})
 
 @api_view(['GET'])
@@ -267,6 +269,9 @@ def compute_dashboard(request):
     for month, count in disposal_map.items():
         month_map.setdefault(month, {'month': month, 'received': 0, 'disposed': 0})['disposed'] = count
     aggregate = {'total': Count('id'), 'pending': Count('id', filter=~Q(status='disposed')),
+                 'institutions': Count('institution',distinct=True),
+                 'approaching': Count('id',filter=~Q(status='disposed') & Q(due_at__gte=now,due_at__lte=now+timedelta(days=7))),
+                 'unresolved_escalations': Count('id',filter=Q(has_unresolved_escalation=True)),
                  'overdue': Count('id', filter=~Q(status='disposed') & Q(due_at__lt=now))}
     for status in dict(Complaint.STATUSES):
         aggregate[status] = Count('id', filter=Q(status=status))
@@ -278,7 +283,8 @@ def compute_dashboard(request):
         aggregate[f'age_{index}'] = Count('id', filter=condition)
     totals = qs.aggregate(**aggregate)
     workload = list(pending.values('bureau__code').annotate(count=Count('id'), overdue=Count('id',filter=Q(due_at__lt=now))).order_by('bureau__code'))
-    data = {k: totals[k] for k in ['total', 'pending', 'overdue', 'disposed']}
+    data = {k: totals[k] for k in ['total', 'pending', 'overdue', 'disposed','institutions','approaching','unresolved_escalations']}
+    data['closed_share']=totals['disposed']/totals['total'] if totals['total'] else 0
     data.update({'workload': workload, 'statuses': [{'status': status, 'count': totals[status]} for status in dict(Complaint.STATUSES)],
                  'ageing': [{'name': row[0], 'count': totals[f'age_{i}']} for i, row in enumerate(ranges)],
                  'trend': [month_map[k] for k in sorted(month_map)], 'generated_at': now,
@@ -288,8 +294,12 @@ def compute_dashboard(request):
     if coordination(request.user):
         ids = qs.values('pk')
         data['overlap_reviews'] = OverlapCandidate.objects.filter(decision='pending').filter(Q(left_id__in=ids) | Q(right_id__in=ids)).count()
-        multi = pending.values('institution_id', 'institution__name').annotate(bureaus=Count('bureau', distinct=True), count=Count('id')).filter(bureaus__gt=1)
-        data['coordination_notices'] = list(multi.order_by('-count')[:10])
+        from .coordination import groups
+        multi = groups(request)
+        data['coordination_institutions'] = multi.count()
+        data['coordination_notices'] = list(multi[:10])
+        from .analytics import analytics
+        data['management']=analytics(request,qs,pending,now)
     data['categories'] = list(qs.values('category').annotate(count=Count('id')).order_by('-count'))
     data['overdue_bureaus'] = sorted([{'bureau__code': b['bureau__code'], 'count': b['overdue']} for b in workload if b['overdue']], key=lambda b: -b['count'])
     data['matching'] = dict(qs.order_by().values_list('matching_state').annotate(n=Count('id')).values_list('matching_state','n'))

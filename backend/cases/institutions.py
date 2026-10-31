@@ -100,7 +100,7 @@ def registry(request):
     qs = Institution.objects.order_by('name', 'id')
     params = request.query_params
     cases = filtered_cases(request)
-    if params.get('q'):
+    if params.get('q') and params.get('with_cases') != 'true':
         qs = qs.filter(Q(name__icontains=params['q']) | Q(permanent_id__icontains=params['q']))
     if params.get('region'):
         qs = qs.filter(region=params['region'])
@@ -109,7 +109,7 @@ def registry(request):
     filters = FilterSerializer(data=params)
     filters.is_valid(raise_exception=True)
     if filters.validated_data.get('district'):
-        qs = qs.filter(district__icontains=filters.validated_data['district'])
+        qs = qs.filter(**{('district' if filters.validated_data.get('district_exact') else 'district__icontains'):filters.validated_data['district']})
     case_filters = set(filters.fields) - {'q', 'region', 'district', 'institution'}
     if any(filters.validated_data.get(key) for key in case_filters):
         qs = qs.filter(pk__in=cases.values('institution_id'))

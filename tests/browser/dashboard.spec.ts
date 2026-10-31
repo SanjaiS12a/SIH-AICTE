@@ -150,7 +150,7 @@ test("home prioritizes active cases and keeps filter-aware drilldowns working", 
   page,
 }) => {
   await login(page);
-  await expect(page.locator(".home-stat")).toHaveCount(3);
+  await expect(page.locator(".home-stat")).toHaveCount(9);
   await expect(
     page.getByRole("heading", { name: "Cases needing attention" }),
   ).toBeVisible();
@@ -263,7 +263,7 @@ test("auditor can inspect attention cases but cannot change them", async ({
   page,
 }) => {
   await login(page, "auditor");
-  await expect(page.locator(".home-stat")).toHaveCount(3);
+  await expect(page.locator(".home-stat")).toHaveCount(9);
   await expect(
     page.getByRole("heading", { name: "Needs coordination" }),
   ).toBeVisible();

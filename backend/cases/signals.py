@@ -2,6 +2,7 @@ from django.core.cache import caches
 cache = caches['dashboard']
 from django.db.models.signals import post_save,post_delete
 from django.dispatch import receiver
+from django.db import transaction
 from .models import Complaint,OverlapCandidate,Institution,Bureau
 
 @receiver(post_save,sender=Complaint)
@@ -11,3 +12,4 @@ from .models import Complaint,OverlapCandidate,Institution,Bureau
 @receiver(post_delete,sender=Complaint)
 def invalidate_dashboard(sender,**kwargs):
  cache.clear()
+ transaction.on_commit(cache.clear)

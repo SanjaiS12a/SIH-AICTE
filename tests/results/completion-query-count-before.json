@@ -1,0 +1,18 @@
+{
+  "/api/overlaps": {
+    "queries": 44,
+    "rows": 20
+  },
+  "/api/escalations": {
+    "queries": 8,
+    "rows": 4
+  },
+  "/api/institution-registry": {
+    "queries": 4,
+    "rows": 20
+  },
+  "/api/coordination-notices": {
+    "queries": 9,
+    "rows": 20
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "database": "coordination_completion_restore_20261031",
+  "snapshot": {
+    "cases_institution": {
+      "count": 78,
+      "checksum": "8855738e4a508916805dbb5267b08d8f"
+    },
+    "cases_bureau": {
+      "count": 3,
+      "checksum": "425ea593519abe8dba4fb9a4e493b4c6"
+    },
+    "cases_membership": {
+      "count": 5,
+      "checksum": "18aaf5ee9e4fda64d464164fe8723418"
+    },
+    "cases_complaint": {
+      "count": 7880,
+      "checksum": "5d70ddac9d6a86b3ab19bb52d9277f79"
+    },
+    "cases_caseaction": {
+      "count": 8228,
+      "checksum": "2a55f848d944139c8a2bcc570ae01a53"
+    },
+    "cases_overlapcandidate": {
+      "count": 37224,
+      "checksum": "18286e3c6864bb738ae0e35adcc6c0d0"
+    },
+    "cases_notification": {
+      "count": 12632,
+      "checksum": "3ee34210d6faa06a44dacb1b37a59a10"
+    },
+    "cases_escalation": {
+      "count": 8,
+      "checksum": "d2c83e6cdc879879546fc55917bb372a"
+    }
+  },
+  "full_restore": true
+}

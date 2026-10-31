@@ -93,9 +93,10 @@ class CaseAction(models.Model):
 class OverlapCandidate(models.Model):
     left = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='left_overlaps')
     right = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='right_overlaps')
-    score = models.FloatField()
+    score = models.FloatField(null=True, blank=True)
+    origin = models.CharField(max_length=12, choices=[('semantic', 'Model-scored'), ('manual', 'Manual')], default='semantic')
     evidence = models.JSONField(default=dict)
-    model_revision = models.CharField(max_length=150)
+    model_revision = models.CharField(max_length=150, blank=True, default='')
     decision = models.CharField(max_length=24, default='pending', choices=[(x, x) for x in ['pending', 'same_incident', 'related_issue', 'unrelated']])
     reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True)
     reason = models.TextField(blank=True, max_length=4000)
@@ -105,7 +106,8 @@ class OverlapCandidate(models.Model):
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=['left', 'right'], name='unique_ordered_pair'),
-                       models.CheckConstraint(condition=Q(left__lt=models.F('right')), name='ordered_pair')]
+                       models.CheckConstraint(condition=Q(left__lt=models.F('right')), name='ordered_pair'),
+                       models.CheckConstraint(condition=Q(origin='semantic', score__isnull=False) | (Q(origin='manual', score__isnull=True) & ~Q(decision='pending')), name='relationship_origin_score')]
         ordering = ['-created_at', '-id']
 
 class Attachment(models.Model):

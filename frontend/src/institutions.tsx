@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CoordinationNotices } from "./management";
 import type { FormEvent } from "react";
 import {
   Link,
@@ -927,6 +928,14 @@ function InstitutionCoordination({
     <section className="panel">
       <div className="panel-heading">
         <h2>Institution coordination</h2>
+        {user.role === "coordinator" && (
+          <Link
+            className="button secondary"
+            to={`/relationships/new?institution=${id}`}
+          >
+            Create manual relationship
+          </Link>
+        )}
         <Link className="text-button" to={`/coordination?institution=${id}`}>
           {user.role === "coordinator"
             ? "Review suggestions"
@@ -935,6 +944,7 @@ function InstitutionCoordination({
         </Link>
       </div>
       <ErrorBox message={dashboardError || error} />
+      <CoordinationNotices filters={`institution=${id}`} />
       {!dashboard && !dashboardError && <Loading />}
       {dashboard && (
         <div className="card-body">
@@ -999,7 +1009,9 @@ function InstitutionCoordination({
                         <Badge status={pair.decision} />
                       </td>
                       <td>
-                        Cosine similarity {pair.score.toFixed(3)}
+                        {typeof pair.score === "number"
+                          ? `Cosine similarity ${pair.score.toFixed(3)}`
+                          : "Not model-scored"}
                         <span className="table-sub">Human review required</span>
                       </td>
                       <td>
