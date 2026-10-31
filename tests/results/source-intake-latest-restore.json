@@ -1,0 +1,84 @@
+{
+  "source_commit": "a4bf156cf1d00f3e658d066db819308d6c91ca28",
+  "migration": "0012",
+  "restore_database": "coordination_source_restore_f4940a6807",
+  "dump": "source-intake-latest-f4940a6807.dump",
+  "scope": "Database only; files/models and physical offline startup are not tested here.",
+  "full_restore_verified": true,
+  "working_database_unchanged": true,
+  "snapshot": {
+    "auth_user": {
+      "count": 6,
+      "checksum": "e6cbd628f71da571e298e8010960fcce"
+    },
+    "cases_institution": {
+      "count": 131,
+      "checksum": "3ca5bb1ef946946975c997dcbf1061c3"
+    },
+    "cases_bureau": {
+      "count": 3,
+      "checksum": "425ea593519abe8dba4fb9a4e493b4c6"
+    },
+    "cases_membership": {
+      "count": 5,
+      "checksum": "18aaf5ee9e4fda64d464164fe8723418"
+    },
+    "cases_complaint": {
+      "count": 9300,
+      "checksum": "6b6e274466007d1c519d374f29aa031c"
+    },
+    "cases_caseaction": {
+      "count": 10190,
+      "checksum": "f81b83893481208478ae292825e84a22"
+    },
+    "cases_overlapcandidate": {
+      "count": 43004,
+      "checksum": "015e4b08c4ab7b9da452098d799ec6f0"
+    },
+    "cases_escalation": {
+      "count": 28,
+      "checksum": "221e399e86fecc701b107c6ac6cbba47"
+    },
+    "cases_notification": {
+      "count": 14408,
+      "checksum": "78d6fcce74bf6c66134b47016957eacb"
+    },
+    "cases_coordinationrecord": {
+      "count": 21,
+      "checksum": "5ade6ed330292adc0c9f6aee598149e7"
+    },
+    "cases_coordinationparticipant": {
+      "count": 42,
+      "checksum": "16fa3955e5c4fcbbd6fa05a61531daee"
+    },
+    "cases_coordinationrecord_cases": {
+      "count": 346,
+      "checksum": "7cbca359a908f3bf29ddae2ecff469b1"
+    },
+    "cases_importjob": {
+      "count": 79,
+      "checksum": "336655737dc0ca21b33e9eee6fc730c7"
+    },
+    "cases_importrow": {
+      "count": 9185,
+      "checksum": "244082dc9e33fc635e291533097f118c"
+    },
+    "cases_summaryrecord": {
+      "count": 1002,
+      "checksum": "9cbc5b0e7870eacff5faecb72e3e0ec7"
+    },
+    "cases_attachment": {
+      "count": 1,
+      "checksum": "d31978c82cf26722c2d8aa83ebd48f86"
+    },
+    "cases_auditevent": {
+      "count": 513,
+      "checksum": "8a11fef64efded5e89c1f93c2d9a5122"
+    },
+    "cases_modelrelease": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  "dump_sha256": "6890626efd4652db349ef2e7d8ac2af86a2f489c10bfb3c46898d81c27d13607"
+}
