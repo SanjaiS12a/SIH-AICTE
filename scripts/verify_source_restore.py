@@ -1,7 +1,6 @@
 """Restore a fresh database backup separately, retaining both recovery artifacts."""
 import json
 import uuid
-from pathlib import Path
 from verify_delivery import run, digest, ROOT
 
 TABLES = ['auth_user', 'cases_institution', 'cases_bureau', 'cases_membership', 'cases_complaint',
@@ -26,6 +25,7 @@ def main():
     dump = ROOT / 'backups' / ('source-intake-latest-' + nonce + '.dump')
     assert restored.startswith('coordination_source_restore_') and dump.resolve().is_relative_to((ROOT / 'backups').resolve())
     assert not dump.exists()
+    dump.parent.mkdir(parents=True, exist_ok=True)
     entries = json.loads(run('docker', 'inspect', 'sih-db-1'))[0]['Config']['Env']
     original = next(e.split('=', 1)[1] for e in entries if e.startswith('POSTGRES_DB='))
     assert original != restored

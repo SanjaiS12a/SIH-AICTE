@@ -131,3 +131,24 @@ class SourceIntakeTests(TestCase):
             result = self.client.get('/api/overlaps')
         self.assertEqual(len(result.data['results']), 20)
         self.assertLessEqual(len(queries), 7)
+
+    def test_queued_duplicate_cannot_update_provenance_after_transfer(self):
+        self.client.force_authenticate(self.officer)
+        first = self.upload(); self.finish(first)
+        case = Complaint.objects.get(source_system='demo-rb'); seen = case.source_last_seen_at
+        repeat = self.upload()
+        self.assertEqual(self.client.post(f'/api/imports/{repeat["id"]}', {'action':'confirm'}, format='json').status_code, 200)
+        Complaint.objects.filter(pk=case.pk).update(bureau=self.pg)
+        with self.assertRaises(ValueError): process_import(repeat['id'])
+        case.refresh_from_db()
+        self.assertEqual(case.source_last_seen_at, seen)
+        self.assertEqual(case.source_import_id, uuid.UUID(first['id']))
+        self.assertEqual(ImportJob.objects.get(pk=repeat['id']).state, 'failed')
+
+    def test_deactivated_import_owner_cannot_continue_queued_registration(self):
+        self.client.force_authenticate(self.officer)
+        job = self.upload()
+        self.assertEqual(self.client.post(f'/api/imports/{job["id"]}', {'action':'confirm'}, format='json').status_code, 200)
+        type(self.officer).objects.filter(pk=self.officer.pk).update(is_active=False)
+        with self.assertRaises(ValueError): process_import(job['id'])
+        self.assertFalse(Complaint.objects.filter(source_system='demo-rb').exists())

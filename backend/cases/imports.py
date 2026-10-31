@@ -258,7 +258,7 @@ def process_import(job_id):
   with transaction.atomic():
    job=ImportJob.objects.select_for_update(of=('self',)).select_related('owner__membership').get(pk=job_id)
    if job.state!='importing': return
-   if role(job.owner) not in ('officer','coordinator'): raise ValueError('Import owner no longer has write access.')
+   if not job.owner.is_active or role(job.owner) not in ('officer','coordinator'): raise ValueError('Import owner no longer has write access.')
    if not AuditEvent.objects.filter(kind='import_started',detail__import=str(job.pk)).exists():
     AuditEvent.objects.create(actor=job.owner,kind='import_started',detail={'import':str(job.pk)})
    rows=list(job.rows.filter(state='ready').order_by('number')[:250]); ids=[]
@@ -292,7 +292,10 @@ def process_import(job_id):
     job.registered_at=timezone.now()
     if job.source_system:
      accepted=job.rows.filter(state__in=['imported','duplicate']).values('case_id')
-     Complaint.objects.filter(pk__in=accepted).update(source_last_seen_at=job.registered_at,source_import=job)
+     authorized=list(scoped_cases(job.owner).filter(pk__in=accepted).select_for_update(of=('self',)).values_list('pk',flat=True))
+     if job.rows.filter(state__in=['imported','duplicate']).exclude(case_id__in=authorized).exists():
+      raise ValueError('Import owner case access changed; coordinator review required.')
+     Complaint.objects.filter(pk__in=authorized).update(source_last_seen_at=job.registered_at,source_import=job)
     AuditEvent.objects.create(actor=job.owner,kind='import_registered',detail={'import':str(job.pk)})
     if job.kind=='complaints': async_task('cases.imports.process_import_matching',str(job.pk))
    job.save(update_fields=['state','updated_at','registered_at'])
