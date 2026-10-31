@@ -9,7 +9,7 @@
 - Token cost: structural extraction 0; host semantic extraction usage unavailable.
 
 ## Graph Freshness
-- Built from commit: `d69b5c76`
+- Built from commit: `b992600f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

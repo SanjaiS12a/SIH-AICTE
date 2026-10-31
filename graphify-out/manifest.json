@@ -606,9 +606,9 @@
     "semantic_hash": ""
   },
   "frontend/src/coordination-workflow.tsx": {
-    "mtime": 1793433962.4237175,
-    "seen": 1793438319.1203325,
-    "ast_hash": "b98c4b430400d7e6f1dbe6615870c197",
+    "mtime": 1793438641.1401494,
+    "seen": 1793438871.728314,
+    "ast_hash": "6d1ffd078f05c9aa798f07634f2e5848",
     "semantic_hash": ""
   },
   "frontend/src/management.tsx": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "tests/browser/coordination-workflow.spec.ts": {
-    "mtime": 1793434064.4885004,
-    "seen": 1793438319.1205554,
-    "ast_hash": "94157af918ccf9d3ad765b2f99e3cb2e",
+    "mtime": 1793438911.8001885,
+    "seen": 1793439339.5635393,
+    "ast_hash": "2fa01722f63b9bf537cf43155209a773",
     "semantic_hash": ""
   }
 }
