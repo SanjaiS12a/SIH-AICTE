@@ -1,0 +1,216 @@
+{
+  "date": "2026-10-31",
+  "protocol": "No training, new calibration, threshold search or checkpoint selection. Previously frozen PAWS thresholds for MRPC; previously frozen synthetic-domain thresholds for education.",
+  "mrpc": {
+    "source": "https://huggingface.co/datasets/nyu-mll/glue/resolve/bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c/mrpc/test-00000-of-00001.parquet",
+    "sha256": "a623ed1cbdf445b11f8e249acbf649d7d3a5ee58c918554c40cbd8307e488693",
+    "downloaded_pairs": 1725,
+    "labels": "Human paraphrase labels from news; not complaint incident labels",
+    "licence": "GLUE card: other; original MRPC terms apply. Raw source text is not redistributed in Git."
+  },
+  "education": {
+    "sha256": "49d983d1ef9a9377ffcae2e95f3a3bfe94553da2dddee69d90a1f44239ff4b61",
+    "provenance": "Authored synthetic diagnostic on 31 October 2026, before scoring either model. Fictional institution; not independently reviewed or real AICTE data.",
+    "label_definition": "Positive means the same explicitly identified incident. Different references or dates are distinct incidents for this diagnostic, even if they would still merit a related-issue coordination review.",
+    "institution": "Fictional Marigold Institute",
+    "families": [
+      {
+        "id": "refund",
+        "anchor": "Refund application RF-731 submitted on 12 July 2026 remains unpaid after withdrawal from the diploma course.",
+        "paraphrase": "The diploma applicant who withdrew is still waiting for payment against refund request RF-731 filed on July 12, 2026.",
+        "distinct": "Refund application RF-932 submitted on 12 July 2025 remains unpaid after withdrawal from the diploma course."
+      },
+      {
+        "id": "documents",
+        "anchor": "The registrar retained the original certificates of student ST-842 after her transfer request dated 3 August 2026.",
+        "paraphrase": "Following ST-842's August 3, 2026 transfer application, her original academic documents have not been returned by the registrar.",
+        "distinct": "The registrar retained the original certificates of student ST-915 after her transfer request dated 3 August 2025."
+      },
+      {
+        "id": "lab",
+        "anchor": "Inspection IN-653 on 8 September 2026 found exposed electrical wiring in the chemistry laboratory.",
+        "paraphrase": "Unsafe uncovered wires were recorded inside the chemistry lab during the September 8, 2026 inspection numbered IN-653.",
+        "distinct": "Inspection IN-654 on 8 September 2025 found exposed electrical wiring in the chemistry laboratory."
+      },
+      {
+        "id": "scholarship",
+        "anchor": "Scholarship claim SC-276 for the 2026 spring term was credited to the wrong bank account.",
+        "paraphrase": "The spring 2026 scholarship payment identified as SC-276 went to an incorrect account rather than the beneficiary's bank account.",
+        "distinct": "Scholarship claim SC-277 for the 2025 spring term was credited to the wrong bank account."
+      },
+      {
+        "id": "faculty",
+        "anchor": "Visit VT-483 on 17 June 2026 recorded no appointed mathematics lecturer for the first-year civil engineering class.",
+        "paraphrase": "The first-year civil class lacked an appointed maths teacher when officials visited on June 17, 2026 under reference VT-483.",
+        "distinct": "Visit VT-484 on 17 June 2025 recorded no appointed mathematics lecturer for the first-year civil engineering class."
+      },
+      {
+        "id": "admissions",
+        "anchor": "Admission AD-519 was cancelled on 21 July 2026 despite the student's completed fee payment and verified eligibility.",
+        "paraphrase": "Although fees had been paid and eligibility confirmed, the institution revoked admission AD-519 on July 21, 2026.",
+        "distinct": "Admission AD-520 was cancelled on 21 July 2025 despite the student's completed fee payment and verified eligibility."
+      },
+      {
+        "id": "hostel",
+        "anchor": "Hostel complaint HS-368 reports that the drinking-water supply in Block C stopped on 14 October 2026.",
+        "paraphrase": "Residents of Block C lost access to drinking water on October 14, 2026, as recorded in hostel report HS-368.",
+        "distinct": "Hostel complaint HS-369 reports that the drinking-water supply in Block C stopped on 14 October 2025."
+      },
+      {
+        "id": "accessibility",
+        "anchor": "Accessibility inspection AC-627 on 9 March 2026 found that the library wheelchair ramp was blocked by stored furniture.",
+        "paraphrase": "Furniture obstructed wheelchair access along the library ramp during the March 9, 2026 assessment AC-627.",
+        "distinct": "Accessibility inspection AC-628 on 9 March 2025 found that the library wheelchair ramp was blocked by stored furniture."
+      },
+      {
+        "id": "examination",
+        "anchor": "Exam complaint EX-745 concerns a missing answer script for the electronics examination held on 22 April 2026.",
+        "paraphrase": "The answer booklet from the April 22, 2026 electronics paper cannot be located; the student's complaint reference is EX-745.",
+        "distinct": "Exam complaint EX-746 concerns a missing answer script for the electronics examination held on 22 April 2025."
+      },
+      {
+        "id": "salary",
+        "anchor": "Staff petition SP-854 states that laboratory technicians did not receive their salaries for February 2026.",
+        "paraphrase": "Laboratory technicians report unpaid February 2026 wages in the staff representation numbered SP-854.",
+        "distinct": "Staff petition SP-855 states that laboratory technicians did not receive their salaries for February 2025."
+      },
+      {
+        "id": "fee",
+        "anchor": "Fee complaint FE-963 records an unauthorized transport charge added to invoice IV-214 in August 2026.",
+        "paraphrase": "An unapproved bus-service fee appears on August 2026 invoice IV-214, according to grievance FE-963.",
+        "distinct": "Fee complaint FE-964 records an unauthorized transport charge added to invoice IV-215 in August 2025."
+      },
+      {
+        "id": "fire",
+        "anchor": "Safety report FS-182 dated 6 May 2026 identifies a locked emergency exit in the mechanical workshop.",
+        "paraphrase": "The mechanical workshop's escape door was locked when checked on May 6, 2026; the safety finding is FS-182.",
+        "distinct": "Safety report FS-183 dated 6 May 2025 identifies a locked emergency exit in the mechanical workshop."
+      }
+    ]
+  },
+  "overlap_exclusions": {
+    "mrpc": 0,
+    "education": 0
+  },
+  "overlap_rule": "Exclude any pair sharing an NFKC/casefold/whitespace-normalized sentence with any prior PAWS split or education regression record. Does not establish absence from upstream pretraining or detect all near-duplicates.",
+  "hardware": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "torch": "2.9.1+cu128",
+    "device": "cuda"
+  },
+  "models": {
+    "baseline": {
+      "sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+      "load_seconds": 1.2306848999999147,
+      "datasets": {
+        "mrpc": {
+          "precision": 0,
+          "recall": 0.0,
+          "f1": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1147,
+          "threshold": 0.9988844990730286,
+          "pairs": 1725,
+          "positives": 1147,
+          "accuracy": 0.33507246376811595,
+          "tn": 578,
+          "roc_auc": 0.7362579679802584,
+          "average_precision": 0.836910309720619,
+          "embedding_and_scoring_seconds": 2.809734400000025,
+          "unique_texts": 3393,
+          "max_wordpieces": 54
+        },
+        "education": {
+          "precision": 0.45454545454545453,
+          "recall": 0.8333333333333334,
+          "f1": 0.5882352941176471,
+          "tp": 10,
+          "fp": 12,
+          "fn": 2,
+          "threshold": 0.707274317741394,
+          "pairs": 36,
+          "positives": 12,
+          "accuracy": 0.6111111111111112,
+          "tn": 12,
+          "roc_auc": 0.5069444444444444,
+          "average_precision": 0.3287024394071103,
+          "embedding_and_scoring_seconds": 0.04065979999995761,
+          "unique_texts": 36,
+          "max_wordpieces": 32,
+          "by_kind": {
+            "different_issue": {
+              "pairs": 12,
+              "correct": 12
+            },
+            "distinct_incident": {
+              "pairs": 12,
+              "correct": 0
+            },
+            "same_incident": {
+              "pairs": 12,
+              "correct": 10
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "sha256": "b659cc5c17e28a05320c9359a0fbe7f913109707cdfb068926a3938e4170757b",
+      "load_seconds": 0.5743074000001798,
+      "datasets": {
+        "mrpc": {
+          "precision": 0.8947368421052632,
+          "recall": 0.05928509154315606,
+          "f1": 0.11120196238757153,
+          "tp": 68,
+          "fp": 8,
+          "fn": 1079,
+          "threshold": 0.9723374247550964,
+          "pairs": 1725,
+          "positives": 1147,
+          "accuracy": 0.36985507246376814,
+          "tn": 570,
+          "roc_auc": 0.6623582506493546,
+          "average_precision": 0.7789697483302455,
+          "embedding_and_scoring_seconds": 2.5523653000000195,
+          "unique_texts": 3393,
+          "max_wordpieces": 54
+        },
+        "education": {
+          "precision": 0.25,
+          "recall": 0.3333333333333333,
+          "f1": 0.28571428571428575,
+          "tp": 4,
+          "fp": 12,
+          "fn": 8,
+          "threshold": 0.5108500719070435,
+          "pairs": 36,
+          "positives": 12,
+          "accuracy": 0.4444444444444444,
+          "tn": 12,
+          "roc_auc": 0.4236111111111111,
+          "average_precision": 0.2973674835500405,
+          "embedding_and_scoring_seconds": 0.04088600000000042,
+          "unique_texts": 36,
+          "max_wordpieces": 32,
+          "by_kind": {
+            "different_issue": {
+              "pairs": 12,
+              "correct": 12
+            },
+            "distinct_incident": {
+              "pairs": 12,
+              "correct": 0
+            },
+            "same_incident": {
+              "pairs": 12,
+              "correct": 4
+            }
+          }
+        }
+      }
+    }
+  },
+  "active_model": "unchanged baseline"
+}

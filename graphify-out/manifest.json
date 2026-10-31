@@ -492,9 +492,27 @@
     "semantic_hash": ""
   },
   "tests/README.md": {
-    "mtime": 1793380472.615821,
-    "seen": 1793383422.4648652,
-    "ast_hash": "5a0b98451b045ddbbe4047ac628ee4fd",
-    "semantic_hash": "5a0b98451b045ddbbe4047ac628ee4fd"
+    "mtime": 1793419827.0018685,
+    "seen": 1793419929.597298,
+    "ast_hash": "72b3a1596f8ccd554a3c195828b1059a",
+    "semantic_hash": "72b3a1596f8ccd554a3c195828b1059a"
+  },
+  "scripts/compare_fresh_models.py": {
+    "mtime": 1793419800.7182076,
+    "seen": 1793419848.912628,
+    "ast_hash": "e1d7cb7865775b8ca3155d154c4de06d",
+    "semantic_hash": ""
+  },
+  "tests/research/fresh_education_incidents.json": {
+    "mtime": 1793419700.076717,
+    "seen": 1793419848.9126935,
+    "ast_hash": "1a2982bff73c77ec59bcfee57d4ea7da",
+    "semantic_hash": ""
+  },
+  "tests/research/test_fresh_comparison.py": {
+    "mtime": 1793419712.5621812,
+    "seen": 1793419848.912697,
+    "ast_hash": "ed23fbc80b3040e22237e547bd56713b",
+    "semantic_hash": ""
   }
 }
