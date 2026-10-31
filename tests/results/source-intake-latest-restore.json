@@ -1,19 +1,19 @@
 {
-  "source_commit": "a4bf156cf1d00f3e658d066db819308d6c91ca28",
+  "source_commit": "305f12476e9c761b47e0a2d4dca3ce291d7eec8e",
   "migration": "0012",
-  "restore_database": "coordination_source_restore_f4940a6807",
-  "dump": "source-intake-latest-f4940a6807.dump",
+  "restore_database": "coordination_source_restore_3310abeb3e",
+  "dump": "source-intake-latest-3310abeb3e.dump",
   "scope": "Database only; files/models and physical offline startup are not tested here.",
   "full_restore_verified": true,
   "working_database_unchanged": true,
   "snapshot": {
     "auth_user": {
       "count": 6,
-      "checksum": "e6cbd628f71da571e298e8010960fcce"
+      "checksum": "86ddf741f537f95cd45f5939143207eb"
     },
     "cases_institution": {
-      "count": 131,
-      "checksum": "3ca5bb1ef946946975c997dcbf1061c3"
+      "count": 167,
+      "checksum": "d8de1cd36934937dbf24f428c32aed4c"
     },
     "cases_bureau": {
       "count": 3,
@@ -24,44 +24,44 @@
       "checksum": "18aaf5ee9e4fda64d464164fe8723418"
     },
     "cases_complaint": {
-      "count": 9300,
-      "checksum": "6b6e274466007d1c519d374f29aa031c"
+      "count": 9511,
+      "checksum": "f5540eca0839e824833214f2ddf92472"
     },
     "cases_caseaction": {
-      "count": 10190,
-      "checksum": "f81b83893481208478ae292825e84a22"
+      "count": 10738,
+      "checksum": "91dc62a17cd06248289bfda29961ecdb"
     },
     "cases_overlapcandidate": {
-      "count": 43004,
-      "checksum": "015e4b08c4ab7b9da452098d799ec6f0"
+      "count": 43717,
+      "checksum": "60bfaa3ad0bda06efa58650bd4a2794b"
     },
     "cases_escalation": {
-      "count": 28,
-      "checksum": "221e399e86fecc701b107c6ac6cbba47"
+      "count": 44,
+      "checksum": "4eff6508ec6903d488e01f442a51d716"
     },
     "cases_notification": {
-      "count": 14408,
-      "checksum": "78d6fcce74bf6c66134b47016957eacb"
+      "count": 14474,
+      "checksum": "acb25d68e520f583e545fde12e8a845b"
     },
     "cases_coordinationrecord": {
-      "count": 21,
-      "checksum": "5ade6ed330292adc0c9f6aee598149e7"
+      "count": 34,
+      "checksum": "50e5d683fa5d16e95f852ff0eddf9f85"
     },
     "cases_coordinationparticipant": {
-      "count": 42,
-      "checksum": "16fa3955e5c4fcbbd6fa05a61531daee"
+      "count": 68,
+      "checksum": "11e4d872c32ca68961062e69923d0c86"
     },
     "cases_coordinationrecord_cases": {
-      "count": 346,
-      "checksum": "7cbca359a908f3bf29ddae2ecff469b1"
+      "count": 543,
+      "checksum": "32faa4909c1d83d71b00e2965671394a"
     },
     "cases_importjob": {
-      "count": 79,
-      "checksum": "336655737dc0ca21b33e9eee6fc730c7"
+      "count": 106,
+      "checksum": "ae989e4e69547a9aa2be3cc89dc0bd96"
     },
     "cases_importrow": {
-      "count": 9185,
-      "checksum": "244082dc9e33fc635e291533097f118c"
+      "count": 9284,
+      "checksum": "86f0b0c62ca1ae4fee7c2a8ee37171e4"
     },
     "cases_summaryrecord": {
       "count": 1002,
@@ -72,13 +72,13 @@
       "checksum": "d31978c82cf26722c2d8aa83ebd48f86"
     },
     "cases_auditevent": {
-      "count": 513,
-      "checksum": "8a11fef64efded5e89c1f93c2d9a5122"
+      "count": 701,
+      "checksum": "b176a450331bb951df894d932e4d8fb7"
     },
     "cases_modelrelease": {
       "count": 0,
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     }
   },
-  "dump_sha256": "6890626efd4652db349ef2e7d8ac2af86a2f489c10bfb3c46898d81c27d13607"
+  "dump_sha256": "f947bedb27070e04695019d557b48d64261478d6fb7b04dbff45b7f7613d1580"
 }
