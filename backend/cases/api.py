@@ -81,6 +81,8 @@ def cases(request):
     data.is_valid(raise_exception=True)
     d = data.validated_data
     original = {key: str(value.pk if hasattr(value, 'pk') else value) for key, value in d.items()}
+    if d['classification'] == 'unclassified':
+        original.pop('classification', None)  # Preserve pre-classification submission fingerprints.
     if 'received_at' not in request.data:
         original.pop('received_at', None)
     fingerprint = hashlib.sha256(json.dumps(original, sort_keys=True).encode()).hexdigest()
@@ -108,7 +110,7 @@ def cases(request):
             if existing:
                 return replay(existing)
             raise Conflict('The source reference or submission ID already exists.')
-        CaseAction.objects.create(case=case, actor=request.user, kind='registered', reason='Complaint registered', changes={'bureau': case.bureau.code})
+        CaseAction.objects.create(case=case, actor=request.user, kind='registered', reason='Complaint registered', changes={'bureau': case.bureau.code, 'classification': case.classification})
         async_task('cases.matching.match_case', str(case.id))
     return Response(CaseSerializer(case).data, status=status.HTTP_201_CREATED)
 
@@ -134,7 +136,7 @@ def actions(request, case_id):
         if case.version != d['expected_version']:
             raise Conflict()
         kind, changes = d['kind'], {}
-        if kind in ('transfer', 'assign', 'deadline', 'retry_matching') and role(request.user) != 'coordinator':
+        if kind in ('transfer', 'assign', 'deadline', 'retry_matching', 'classification') and role(request.user) != 'coordinator':
             raise PermissionDenied('This action requires a coordinator.')
         if kind == 'status':
             if case.status == d['status']:
@@ -144,6 +146,23 @@ def actions(request, case_id):
             changes = {'status': {'before': case.status, 'after': d['status']}}
             case.status = d['status']
             case.disposed_at = timezone.now() if case.status == 'disposed' else None
+            if case.status == 'disposed':
+                changes.update(next_action={'before': case.next_action, 'after': ''},
+                               next_action_date={'before': case.next_action_date.isoformat() if case.next_action_date else None, 'after': None})
+                case.next_action, case.next_action_date = '', None
+        elif kind == 'classification':
+            if case.classification == d['classification']:
+                raise ValidationError('Choose a different classification.')
+            changes = {'classification': {'before': case.classification, 'after': d['classification']}}
+            case.classification = d['classification']
+        elif kind == 'next_action':
+            if case.status == 'disposed':
+                raise ValidationError('Reopen the case before setting its next action.')
+            expected_date = d.get('next_action_date')
+            changes = {'next_action': {'before': case.next_action, 'after': d['next_action']},
+                       'next_action_date': {'before': case.next_action_date.isoformat() if case.next_action_date else None,
+                                            'after': expected_date.isoformat() if expected_date else None}}
+            case.next_action, case.next_action_date = d['next_action'], expected_date
         elif kind == 'transfer':
             if case.bureau_id == d['bureau'].id:
                 raise ValidationError('Choose a different bureau.')
@@ -285,11 +304,11 @@ def report(request):
     def chunks():
         stream = io.StringIO()
         writer = csv.writer(stream)
-        writer.writerow(['Reference', 'Institution', 'Permanent ID', 'Bureau', 'Category', 'Status', 'Received', 'Due'])
+        writer.writerow(['Reference', 'Institution', 'Permanent ID', 'Bureau', 'Category', 'Status', 'Received', 'Due', 'Classification', 'Next action', 'Expected action date'])
         yield stream.getvalue()
         for c in qs.iterator(chunk_size=1000):
             stream.seek(0); stream.truncate(0)
-            writer.writerow([safe(x) for x in [c.reference, c.institution.name, c.institution.permanent_id, c.bureau.code, c.category, c.status, c.received_at.isoformat(), c.due_at.isoformat()]])
+            writer.writerow([safe(x) for x in [c.reference, c.institution.name, c.institution.permanent_id, c.bureau.code, c.category, c.status, c.received_at.isoformat(), c.due_at.isoformat(), c.classification, c.next_action, c.next_action_date.isoformat() if c.next_action_date else '']])
             yield stream.getvalue()
     return StreamingHttpResponse(chunks(), content_type='text/csv', headers={'Content-Disposition': 'attachment; filename="case-report.csv"'})
 

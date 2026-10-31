@@ -21,7 +21,7 @@ class CaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Complaint
-        fields = ['id', 'reference', 'institution', 'bureau', 'category', 'summary', 'description',
+        fields = ['id', 'reference', 'institution', 'bureau', 'category', 'classification', 'next_action', 'next_action_date', 'summary', 'description',
                   'source_system', 'source_reference', 'incident_date', 'status', 'received_at', 'due_at',
                   'disposed_at', 'assigned_to', 'assigned_name', 'matching_state', 'matching_error', 'matched_at',
                   'model_revision', 'version', 'overdue', 'created_at', 'matching_duration_ms', 'matching_queue_ms']
@@ -33,6 +33,7 @@ class CreateCaseSerializer(serializers.Serializer):
     source_system = serializers.CharField(max_length=40, default='manual')
     source_reference = serializers.CharField(max_length=100)
     category = serializers.ChoiceField(choices=Complaint.CATEGORIES)
+    classification = serializers.ChoiceField(choices=Complaint.CLASSIFICATIONS, default='unclassified')
     summary = serializers.CharField(max_length=2000)
     description = serializers.CharField(max_length=10000)
     incident_date = serializers.DateField(required=False, allow_null=True)
@@ -51,19 +52,25 @@ class CreateCaseSerializer(serializers.Serializer):
         return value
 
 class ActionSerializer(serializers.Serializer):
-    kind = serializers.ChoiceField(choices=['note', 'status', 'transfer', 'assign', 'deadline', 'retry_matching'])
+    kind = serializers.ChoiceField(choices=['note', 'status', 'transfer', 'assign', 'deadline', 'retry_matching', 'classification', 'next_action'])
     expected_version = serializers.IntegerField(min_value=1)
     reason = serializers.CharField(max_length=4000)
     status = serializers.ChoiceField(choices=Complaint.STATUSES, required=False)
     bureau = serializers.SlugRelatedField(slug_field='code', queryset=Bureau.objects.all(), required=False)
     assigned_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(is_active=True), required=False, allow_null=True)
     due_at = serializers.DateTimeField(required=False)
+    classification = serializers.ChoiceField(choices=Complaint.CLASSIFICATIONS, required=False)
+    next_action = serializers.CharField(max_length=1000, required=False, allow_blank=True)
+    next_action_date = serializers.DateField(required=False, allow_null=True)
 
     def validate(self, data):
-        required = {'status': 'status', 'transfer': 'bureau', 'assign': 'assigned_to', 'deadline': 'due_at'}
+        required = {'status': 'status', 'transfer': 'bureau', 'assign': 'assigned_to', 'deadline': 'due_at',
+                    'classification': 'classification', 'next_action': 'next_action'}
         key = required.get(data['kind'])
         if key and key not in data:
             raise serializers.ValidationError({key: 'This field is required for this action.'})
+        if data['kind'] == 'next_action' and data.get('next_action_date') and not data['next_action']:
+            raise serializers.ValidationError({'next_action': 'An expected action date requires a description.'})
         return data
 
 class ActionReadSerializer(serializers.ModelSerializer):
@@ -92,6 +99,7 @@ class FilterSerializer(serializers.Serializer):
     region = serializers.CharField(max_length=60, required=False, allow_blank=True)
     district = serializers.CharField(max_length=80, required=False, allow_blank=True)
     category = serializers.ChoiceField(choices=[''] + [x[0] for x in Complaint.CATEGORIES], required=False)
+    classification = serializers.ChoiceField(choices=[''] + [x[0] for x in Complaint.CLASSIFICATIONS], required=False)
     status = serializers.ChoiceField(choices=[''] + [x[0] for x in Complaint.STATUSES], required=False)
     overdue = serializers.BooleanField(required=False)
     pending = serializers.BooleanField(required=False)

@@ -8,7 +8,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "@phosphor-icons/react";
-import { date, labels } from "./api";
+import { date, labels, classifications } from "./api";
 import type { Case, Page } from "./api";
 
 export function ErrorBox({ message }: { message: string }) {
@@ -105,7 +105,12 @@ export function CaseTable({ rows }: { rows: Case[] }) {
                   {c.institution.name}
                 </Link>
               </td>
-              <td className="capitalize">{c.category}</td>
+              <td className="capitalize">
+                {c.category}
+                <span className="table-sub">
+                  {classifications[c.classification]}
+                </span>
+              </td>
               <td>
                 <span className="bureau-tag">{c.bureau}</span>
               </td>

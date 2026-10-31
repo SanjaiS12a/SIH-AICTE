@@ -5,6 +5,11 @@ export type User = {
   role: string;
   bureau: string | null;
 };
+export const classifications: Record<string, string> = {
+  grievance: "Grievance",
+  regulatory_compliance: "Regulatory / Compliance",
+  unclassified: "Unclassified",
+};
 export type Institution = {
   id: string;
   name: string;
@@ -18,6 +23,7 @@ export type InstitutionProfile = Institution & {
   official_phone: string;
   version: number;
   overview: { total: number; open: number; closed: number; overdue: number };
+  classifications: { classification: string; count: number }[];
   scope: "all_bureaus" | "current_bureau";
   history_period: "all_time";
   bureaus: { bureau__code: string; bureau__name: string; count: number }[];
@@ -34,6 +40,9 @@ export type Case = {
   institution: Institution;
   bureau: string;
   category: string;
+  classification: string;
+  next_action: string;
+  next_action_date: string | null;
   summary: string;
   description: string;
   source_system: string;

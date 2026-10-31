@@ -36,6 +36,19 @@ test("register, annotate, transfer and verify the audit history", async ({
     .getByRole("combobox", { name: "Institution", exact: true })
     .selectOption({ label: "Aster Institute of Technology · DEMO-0001" });
   await page.getByLabel("Receiving bureau").selectOption("RB");
+  const classification = page.getByRole("combobox", {
+    name: "Classification",
+    exact: true,
+  });
+  await expect(classification).toHaveAttribute("required", "");
+  expect(
+    await classification.evaluate(
+      (el: HTMLSelectElement) => el.validity.valueMissing,
+    ),
+  ).toBe(true);
+  await page
+    .getByRole("combobox", { name: "Classification", exact: true })
+    .selectOption("grievance");
   await page
     .getByRole("combobox", { name: "Category", exact: true })
     .selectOption("refunds");
@@ -77,14 +90,20 @@ test("register, annotate, transfer and verify the audit history", async ({
     .fill("Transferred for grievance coordination.");
   await page.getByRole("button", { name: "Record action" }).click();
   await expect(page.getByText("RB → PGRC", { exact: false })).toBeVisible();
-  await page.screenshot({ path: "../tests/results/case-detail.png", fullPage: true });
+  await page.screenshot({
+    path: "../tests/results/case-detail.png",
+    fullPage: true,
+  });
 });
 test("dashboard, drill-down and coordination review", async ({ page }) => {
   await login(page);
   await expect(
     page.getByRole("button", { name: /Open complaints/ }),
   ).toBeVisible();
-  await page.screenshot({ path: "../tests/results/dashboard.png", fullPage: true });
+  await page.screenshot({
+    path: "../tests/results/dashboard.png",
+    fullPage: true,
+  });
   await page.getByRole("button", { name: /Overdue complaints/ }).click();
   await expect(page).toHaveURL(/overdue=true/);
   await expect(
@@ -141,5 +160,8 @@ test("mobile registry keeps table scrolling inside the viewport", async ({
   ).toBeVisible();
   await table.focus();
   await expect(table).toBeFocused();
-  await page.screenshot({ path: "../tests/results/mobile.png", fullPage: true });
+  await page.screenshot({
+    path: "../tests/results/mobile.png",
+    fullPage: true,
+  });
 });

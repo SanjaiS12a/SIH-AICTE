@@ -12,6 +12,12 @@ from cases.imports import process_import, parse_file
 from cases.exports import build_export
 
 class ImportTests(TestCase):
+ def test_optional_classification_defaults_and_validates_imports(self):
+  job=self.upload([self.row(classification=''),self.row(source_reference='CLASSIFIED-IMPORT',classification='regulatory_compliance'),self.row(source_reference='BAD-CLASS',classification='not-valid')])
+  self.assertEqual(job['counts'],{'ready':2,'rejected':1});self.finish(job)
+  self.assertEqual(Complaint.objects.get(source_reference='IMPORT-1').classification,'unclassified')
+  self.assertEqual(Complaint.objects.get(source_reference='CLASSIFIED-IMPORT').classification,'regulatory_compliance')
+  repeat=self.upload([self.row()]);self.assertEqual(repeat['counts'],{'duplicate':1})
  @classmethod
  def setUpTestData(cls, setup=WorkflowTests.setUpTestData.__func__):
   setup(cls)

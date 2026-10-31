@@ -33,6 +33,7 @@ class Membership(models.Model):
     bureau = models.ForeignKey(Bureau, on_delete=models.PROTECT, null=True, blank=True)
 
 class Complaint(models.Model):
+    CLASSIFICATIONS = [('grievance', 'Grievance'), ('regulatory_compliance', 'Regulatory / Compliance'), ('unclassified', 'Unclassified')]
     STATUSES = [(x, x.replace('_', ' ').title()) for x in ['registered', 'under_review', 'awaiting_response', 'disposed']]
     CATEGORIES = [(x, x.title()) for x in ['admissions', 'refunds', 'documents', 'facilities', 'scholarships', 'administration']]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -43,6 +44,9 @@ class Complaint(models.Model):
     source_system = models.CharField(max_length=40, default='manual')
     source_reference = models.CharField(max_length=100)
     category = models.CharField(max_length=30, choices=CATEGORIES)
+    classification = models.CharField(max_length=24, choices=CLASSIFICATIONS, default='unclassified', db_index=True)
+    next_action = models.CharField(max_length=1000, blank=True, default='')
+    next_action_date = models.DateField(null=True, blank=True)
     summary = models.TextField(max_length=2000)
     description = models.TextField(max_length=10000)
     incident_date = models.DateField(null=True, blank=True)
@@ -65,7 +69,10 @@ class Complaint(models.Model):
 
     class Meta:
         ordering = ['-received_at', '-id']
-        constraints = [models.UniqueConstraint(fields=['source_system', 'source_reference'], name='unique_source_reference')]
+        constraints = [models.UniqueConstraint(fields=['source_system', 'source_reference'], name='unique_source_reference'),
+                       models.CheckConstraint(condition=Q(classification__in=['grievance', 'regulatory_compliance', 'unclassified']), name='valid_case_classification'),
+                       models.CheckConstraint(condition=Q(next_action_date__isnull=True) | ~Q(next_action=''), name='next_action_date_needs_text'),
+                       models.CheckConstraint(condition=~Q(status='disposed') | Q(next_action='', next_action_date__isnull=True), name='closed_case_no_next_action')]
         indexes = [models.Index(fields=['institution']), models.Index(fields=['bureau', 'status']),
                    models.Index(fields=['due_at']), models.Index(fields=['received_at'])]
 

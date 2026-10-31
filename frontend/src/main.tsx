@@ -34,7 +34,16 @@ import {
   FunnelSimple,
 } from "@phosphor-icons/react";
 
-import { api, csrf, date, labels, categories, statuses } from "./api";
+import {
+  api,
+  ApiError,
+  csrf,
+  date,
+  labels,
+  categories,
+  statuses,
+  classifications,
+} from "./api";
 import type {
   User,
   Institution,
@@ -493,6 +502,18 @@ function Registry({ user, options }: { user: User; options: Options }) {
               <option key={c}>{c}</option>
             ))}
           </select>
+          <select
+            aria-label="Classification filter"
+            value={params.get("classification") || ""}
+            onChange={(e) => filter("classification", e.target.value)}
+          >
+            <option value="">All classifications</option>
+            {Object.entries(classifications).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="filter-secondary">
           <FunnelSimple size={16} />
@@ -596,6 +617,19 @@ function NewCase({ options, user }: { options: Options; user: User }) {
         <ErrorBox message={error} />
         <h2>Institution & ownership</h2>
         <div className="form-grid">
+          <label>
+            Classification
+            <select name="classification" required defaultValue="">
+              <option value="" disabled>
+                Select classification
+              </option>
+              {Object.entries(classifications).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
           <label className="wide">
             Institution
             <select name="institution" required defaultValue="">
@@ -715,12 +749,27 @@ function Detail({ user, options }: { user: User; options: Options }) {
     [actionError, setActionError] = useState(""),
     [busy, setBusy] = useState(false),
     [success, setSuccess] = useState("");
+  const [classification, setClassification] = useState("unclassified"),
+    [nextAction, setNextAction] = useState(""),
+    [nextDate, setNextDate] = useState(""),
+    [editingVersion, setEditingVersion] = useState<number | null>(null),
+    [conflict, setConflict] = useState(false);
   useEffect(() => {
-    if (c?.matching_state === "pending") {
+    setAction("note");
+    setReason("");
+    setNextAction("");
+    setNextDate("");
+    setEditingVersion(null);
+    setConflict(false);
+    setActionError("");
+    setSuccess("");
+  }, [id]);
+  useEffect(() => {
+    if (c?.matching_state === "pending" && editingVersion === null) {
       const timer = setTimeout(() => setRefresh((x) => x + 1), 4000);
       return () => clearTimeout(timer);
     }
-  }, [c]);
+  }, [c, editingVersion]);
   const writable = ["officer", "coordinator"].includes(user.role);
   async function act(e: FormEvent) {
     e.preventDefault();
@@ -732,8 +781,12 @@ function Detail({ user, options }: { user: User; options: Options }) {
         method: "POST",
         body: JSON.stringify({
           kind: action,
-          expected_version: c!.version,
+          expected_version: editingVersion ?? c!.version,
           reason,
+          ...(action === "classification" ? { classification } : {}),
+          ...(action === "next_action"
+            ? { next_action: nextAction, next_action_date: nextDate || null }
+            : {}),
           ...(action === "status" ? { status } : {}),
           ...(action === "transfer" ? { bureau } : {}),
           ...(action === "assign"
@@ -745,10 +798,13 @@ function Detail({ user, options }: { user: User; options: Options }) {
         }),
       });
       setReason("");
+      setEditingVersion(null);
+      setConflict(false);
       setSuccess("Action recorded in the case history.");
       setRefresh((x) => x + 1);
     } catch (e) {
       setActionError((e as Error).message);
+      if (e instanceof ApiError && e.status === 409) setConflict(true);
     } finally {
       setBusy(false);
     }
@@ -808,6 +864,18 @@ function Detail({ user, options }: { user: User; options: Options }) {
                   <p className="description">{c.description}</p>
                   <dl className="metadata">
                     <div>
+                      <dt>Classification</dt>
+                      <dd>{classifications[c.classification]}</dd>
+                    </div>
+                    <div>
+                      <dt>Next action</dt>
+                      <dd>{c.next_action || "No next action recorded"}</dd>
+                    </div>
+                    <div>
+                      <dt>Expected action date</dt>
+                      <dd>{date(c.next_action_date)}</dd>
+                    </div>
+                    <div>
                       <dt>Source</dt>
                       <dd>
                         {c.source_system} · {c.source_reference}
@@ -845,7 +913,8 @@ function Detail({ user, options }: { user: User; options: Options }) {
                   </dl>
                   {c.matching_error && <ErrorBox message={c.matching_error} />}
                   <small className="muted">
-                    Matching examines the original allegation summary.
+                    The expected action date is independent of the case disposal
+                    deadline. Matching examines the original allegation summary.
                     Suggestions require human review.
                   </small>
                 </div>
@@ -920,8 +989,38 @@ function Detail({ user, options }: { user: User; options: Options }) {
                   <ShieldCheck size={19} />
                 </div>
                 {writable ? (
-                  <form className="card-body action-form" onSubmit={act}>
+                  <form
+                    className="card-body action-form"
+                    onSubmit={act}
+                    onChangeCapture={() => {
+                      if (editingVersion === null) setEditingVersion(c.version);
+                    }}
+                  >
                     <ErrorBox message={actionError} />
+                    {conflict && (
+                      <div role="alert">
+                        <p>
+                          This case changed. Your draft is retained; reload
+                          before making another update.
+                        </p>
+                        <button
+                          type="button"
+                          className="button secondary"
+                          onClick={() => {
+                            setAction("note");
+                            setReason("");
+                            setNextAction("");
+                            setNextDate("");
+                            setEditingVersion(null);
+                            setConflict(false);
+                            setActionError("");
+                            setRefresh((x) => x + 1);
+                          }}
+                        >
+                          Reload case and discard draft
+                        </button>
+                      </div>
+                    )}
                     {success && (
                       <p role="status" className="success">
                         {success}
@@ -931,12 +1030,28 @@ function Detail({ user, options }: { user: User; options: Options }) {
                       Action
                       <select
                         value={action}
-                        onChange={(e) => setAction(e.target.value)}
+                        onChange={(e) => {
+                          setAction(e.target.value);
+                          if (e.target.value === "next_action") {
+                            setNextAction(c.next_action);
+                            setNextDate(c.next_action_date || "");
+                          }
+                          if (e.target.value === "classification")
+                            setClassification(c.classification);
+                        }}
                       >
                         <option value="note">Add a note / correction</option>
                         <option value="status">Update status</option>
+                        {c.status !== "disposed" && (
+                          <option value="next_action">
+                            Set / clear next action
+                          </option>
+                        )}
                         {user.role === "coordinator" && (
                           <>
+                            <option value="classification">
+                              Correct classification
+                            </option>
                             <option value="transfer">
                               Transfer to a bureau
                             </option>
@@ -949,6 +1064,49 @@ function Detail({ user, options }: { user: User; options: Options }) {
                         )}
                       </select>
                     </label>
+                    {action === "classification" && (
+                      <label>
+                        New classification
+                        <select
+                          value={classification}
+                          onChange={(e) => setClassification(e.target.value)}
+                        >
+                          {Object.entries(classifications).map(
+                            ([value, label]) => (
+                              <option key={value} value={value}>
+                                {label}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </label>
+                    )}
+                    {action === "next_action" && (
+                      <>
+                        <label>
+                          Next action description
+                          <textarea
+                            rows={3}
+                            maxLength={1000}
+                            value={nextAction}
+                            onChange={(e) => setNextAction(e.target.value)}
+                          />
+                        </label>
+                        <label>
+                          Expected action date (optional)
+                          <input
+                            type="date"
+                            value={nextDate}
+                            onChange={(e) => setNextDate(e.target.value)}
+                          />
+                        </label>
+                        <small className="muted">
+                          Independent of the disposal deadline. Clear both
+                          fields to remove the next action. Closing preserves
+                          the previous values in history.
+                        </small>
+                      </>
+                    )}
                     {action === "status" && (
                       <label>
                         New status
@@ -1025,7 +1183,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
                         placeholder="Explain the action for the next person reviewing this case."
                       />
                     </label>
-                    <button disabled={busy}>
+                    <button disabled={busy || conflict}>
                       {busy ? "Saving…" : "Record action"}
                       <ArrowRight size={17} />
                     </button>

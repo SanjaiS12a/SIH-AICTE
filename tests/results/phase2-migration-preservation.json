@@ -1,0 +1,16 @@
+{
+  "before_and_after": {
+    "cases": 7741,
+    "actions": 8037,
+    "relationships": 36707,
+    "embeddings": 7741,
+    "revisions": [
+      {
+        "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "count": 7741
+      }
+    ]
+  },
+  "legacy_unclassified": true,
+  "empty_next_actions": true
+}

@@ -265,8 +265,8 @@ class InstitutionTests(TestCase):
 class InstitutionMigrationTests(TransactionTestCase):
     def test_existing_institution_survives_forward_and_reverse_migrations(self):
         old = [('cases', '0004_dashboard_cache')]
-        latest = [('cases', '0007_case_action_insert_timestamp')]
         executor = MigrationExecutor(connection)
+        latest = executor.loader.graph.leaf_nodes('cases')
         try:
             executor.migrate(old)
             LegacyInstitution = executor.loader.project_state(old).apps.get_model('cases', 'Institution')

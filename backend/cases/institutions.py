@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from .access import coordination, filtered_cases, role, scoped_cases
 from .api import Conflict, page
-from .models import AuditEvent, CaseAction, Institution
+from .models import AuditEvent, CaseAction, Institution, Complaint
 from .serializers import ActionReadSerializer, CaseSerializer, InstitutionSerializer, FilterSerializer
 
 
@@ -138,6 +138,7 @@ def detail(request, institution_id):
                                overdue=Count('id', filter=~Q(status='disposed') & Q(due_at__lt=now)))
     data = InstitutionProfileSerializer(institution).data
     data.update(overview=overview, scope='all_bureaus' if coordination(request.user) else 'current_bureau',
+                classifications=[{'classification': value, 'count': cases.filter(classification=value).count()} for value, _ in Complaint.CLASSIFICATIONS],
                 history_period='all_time', bureaus=list(cases.order_by('bureau__code').values('bureau__code', 'bureau__name').annotate(count=Count('id'))),
                 cases_url=f'/api/institutions/{institution_id}/cases', history_url=f'/api/institutions/{institution_id}/history')
     return Response(data)

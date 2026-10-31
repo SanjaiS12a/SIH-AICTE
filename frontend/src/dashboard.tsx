@@ -18,7 +18,7 @@ import {
   Tray,
   CaretDown,
 } from "@phosphor-icons/react";
-import { date, categories } from "./api";
+import { date, categories, classifications } from "./api";
 import type { Dashboard, Options, User } from "./api";
 import { usePoll } from "./imports";
 
@@ -199,6 +199,20 @@ export function DashboardHome({
             More filters <CaretDown size={13} />
           </summary>
           <div>
+            <label>
+              Classification
+              <select
+                value={params.get("classification") || ""}
+                onChange={(e) => change("classification", e.target.value)}
+              >
+                <option value="">All classifications</option>
+                {Object.entries(classifications).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
             <label>
               Category
               <select

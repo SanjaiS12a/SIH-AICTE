@@ -24,7 +24,7 @@ from .models import ImportJob, ImportRow, SummaryRecord, Institution, Bureau, Co
 from .serializers import CreateCaseSerializer
 
 FIELDS = {
- 'complaints': ['source_reference','institution_permanent_id','bureau','category','summary','description','received_at','status','incident_date','due_at','disposed_at','resolution_note','source_system'],
+ 'complaints': ['source_reference','institution_permanent_id','bureau','category','summary','description','received_at','status','incident_date','due_at','disposed_at','resolution_note','source_system','classification'],
  'monthly': ['month','institution_permanent_id','bureau','category','received','disposed'],
  'snapshot': ['snapshot_date','institution_permanent_id','bureau','category','registered','under_review','awaiting_response','disposed','overdue'],
 }
@@ -146,7 +146,7 @@ def validate_rows(job, mapping):
      if disposed<form.validated_data['received_at'] or disposed>timezone.now(): raise ValidationError('Disposal must fall between receipt and now.')
      normal.update(disposed_at=disposed.isoformat(),resolution_note=data['resolution_note'])
     key=(normal['source_system'],normal['source_reference'])
-    fingerprint=digest(normal)
+    fingerprint=digest({k:v for k,v in normal.items() if k!='classification' or v!='unclassified'})
     if key in seen: raise ValidationError('Repeated source reference within this file; remove or reconcile it.')
     seen.add(key)
     old=existing.get(key)
@@ -262,7 +262,7 @@ def process_import(job_id):
        if not scoped_cases(job.owner).filter(pk=case.pk).exists(): raise ValueError('Source record unavailable in current permission scope.')
        row.case=case; row.state='imported' if created else 'duplicate'
        if created:
-        CaseAction.objects.create(case=case,actor=job.owner,kind='imported',reason=note or 'Spreadsheet registration',changes={'import':str(job.pk),'row':row.number,'status':case.status})
+        CaseAction.objects.create(case=case,actor=job.owner,kind='imported',reason=note or 'Spreadsheet registration',changes={'import':str(job.pk),'row':row.number,'status':case.status,'classification':case.classification})
         ids.append(str(case.pk))
       else:
        obj,created=SummaryRecord.objects.get_or_create(fingerprint=fingerprint,defaults={**data,'job':job})

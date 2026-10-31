@@ -8,7 +8,15 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { ArrowLeft, Plus, ArrowClockwise } from "@phosphor-icons/react";
-import { api, ApiError, categories, date, labels, statuses } from "./api";
+import {
+  api,
+  ApiError,
+  categories,
+  date,
+  labels,
+  statuses,
+  classifications,
+} from "./api";
 import type {
   Case,
   Dashboard,
@@ -55,6 +63,13 @@ function validProfile(value: unknown): boolean {
       p.overview.overdue,
       p.overview.closed,
     ].every((x) => typeof x === "number") &&
+    Array.isArray(p.classifications) &&
+    p.classifications.every(
+      (row) =>
+        row.classification in classifications &&
+        Number.isInteger(row.count) &&
+        row.count >= 0,
+    ) &&
     Array.isArray(p.bureaus) &&
     p.bureaus.every(
       (b) =>
@@ -588,6 +603,26 @@ function InstitutionOverview({
         ))}
       </div>
       <div className="institution-overview">
+        <section className="panel" aria-label="All-time case classifications">
+          <div className="panel-heading">
+            <h2>Cases by classification</h2>
+          </div>
+          <dl className="metadata card-body">
+            {i.classifications.map((row) => (
+              <div key={row.classification}>
+                <dt>{classifications[row.classification]}</dt>
+                <dd>
+                  <Link
+                    className="institution-link"
+                    to={`/institutions/${i.id}?section=cases&classification=${row.classification}`}
+                  >
+                    {row.count}
+                  </Link>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
         <section className="panel">
           <div className="panel-heading">
             <h2>Institution identity</h2>
@@ -671,6 +706,7 @@ function InstitutionCases({
     "q",
     "status",
     "category",
+    "classification",
     "bureau",
     "pending",
     "overdue",
@@ -705,6 +741,20 @@ function InstitutionCases({
         />
       </div>
       <div className="institution-filters">
+        <label>
+          Classification
+          <select
+            value={query.get("classification") || ""}
+            onChange={(e) => change("classification", e.target.value)}
+          >
+            <option value="">All classifications</option>
+            {Object.entries(classifications).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
         <label className="institution-search">
           Search cases
           <input
