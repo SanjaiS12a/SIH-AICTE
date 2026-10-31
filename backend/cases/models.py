@@ -118,16 +118,43 @@ class Attachment(models.Model):
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
 
+class Escalation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    submission_id = models.UUIDField(unique=True)
+    case = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='escalations')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='created_escalations')
+    reason = models.TextField(max_length=4000)
+    status = models.CharField(max_length=12, choices=[('pending', 'Pending review'), ('resolved', 'Resolved')], default='pending')
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+    resolved_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True, related_name='resolved_escalations')
+    resolution_reason = models.TextField(max_length=4000, blank=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    version = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ['-created_at', '-id']
+        indexes = [models.Index(fields=['status', 'created_at'])]
+        constraints = [
+            models.UniqueConstraint(fields=['case'], condition=Q(status='pending'), name='one_pending_escalation_per_case'),
+            models.CheckConstraint(condition=~Q(reason=''), name='escalation_reason_required'),
+            models.CheckConstraint(condition=Q(status='pending', resolved_by__isnull=True, resolved_at__isnull=True, resolution_reason='') |
+                (Q(status='resolved', resolved_by__isnull=False, resolved_at__isnull=False) & ~Q(resolution_reason='')), name='escalation_resolution_state'),
+        ]
+
 class Notification(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     case = models.ForeignKey(Complaint, on_delete=models.PROTECT)
     kind = models.CharField(max_length=20)
-    deadline = models.DateTimeField()
+    deadline = models.DateTimeField(null=True, blank=True)
+    escalation = models.ForeignKey(Escalation, on_delete=models.PROTECT, null=True, blank=True)
     read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['user', 'case', 'kind', 'deadline'], name='unique_reminder')]
+        constraints = [models.UniqueConstraint(fields=['user', 'case', 'kind', 'deadline'], name='unique_reminder'),
+                       models.UniqueConstraint(fields=['user', 'escalation'], condition=Q(escalation__isnull=False), name='unique_escalation_notification'),
+                       models.CheckConstraint(condition=(Q(escalation__isnull=True, deadline__isnull=False) & ~Q(kind='escalation')) |
+                           Q(escalation__isnull=False, deadline__isnull=True, kind='escalation'), name='notification_event_shape')]
         ordering = ['-created_at', '-id']
 
 class AuditEvent(models.Model):

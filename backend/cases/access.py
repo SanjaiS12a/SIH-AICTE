@@ -1,6 +1,6 @@
-from django.db.models import Q
+from django.db.models import Q, Exists, OuterRef
 from rest_framework.exceptions import PermissionDenied
-from .models import Complaint, Membership
+from .models import Complaint, Membership, Escalation
 
 def role(user):
     return Membership.objects.filter(user_id=user.pk).values_list('role', flat=True).first() or ''
@@ -16,7 +16,8 @@ def writable(user):
         raise PermissionDenied('Your account has read-only access.')
 
 def scoped_cases(user):
-    qs = Complaint.objects.select_related('institution', 'bureau', 'assigned_to', 'created_by')
+    qs = Complaint.objects.select_related('institution', 'bureau', 'assigned_to', 'created_by').annotate(
+        has_unresolved_escalation=Exists(Escalation.objects.filter(case_id=OuterRef('pk'), status='pending')))
     if coordination(user):
         return qs
     if role(user) == 'officer':
@@ -53,6 +54,8 @@ def filtered_cases(request):
         qs = qs.filter(due_at__lt=timezone.now()).exclude(status='disposed')
     if p.get('pending'):
         qs = qs.exclude(status='disposed')
+    if p.get('escalated'):
+        qs = qs.filter(has_unresolved_escalation=True)
     if p.get('age'):
         from datetime import timedelta
         from django.utils import timezone

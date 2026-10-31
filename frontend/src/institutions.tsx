@@ -62,6 +62,7 @@ function validProfile(value: unknown): boolean {
       p.overview.open,
       p.overview.overdue,
       p.overview.closed,
+      p.overview.unresolved_escalations,
     ].every((x) => typeof x === "number") &&
     Array.isArray(p.classifications) &&
     p.classifications.every(
@@ -586,6 +587,11 @@ function InstitutionOverview({
     ["Open cases", i.overview.open, "pending=true"],
     ["Overdue cases", i.overview.overdue, "overdue=true"],
     ["Closed cases", i.overview.closed, "status=disposed"],
+    [
+      "Unresolved escalations",
+      i.overview.unresolved_escalations,
+      "escalated=true",
+    ],
   ] as const;
   return (
     <>
@@ -710,6 +716,7 @@ function InstitutionCases({
     "bureau",
     "pending",
     "overdue",
+    "escalated",
   ])
     if (params.get(key)) query.set(key, params.get(key)!);
   const { data, error } = usePoll<Page<Case>>(

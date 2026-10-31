@@ -47,9 +47,9 @@ async function record(page: Page, reason: string) {
   await page
     .getByRole("button", { name: "Record action", exact: true })
     .click();
-  await expect(page.getByRole("status")).toHaveText(
-    "Action recorded in the case history.",
-  );
+  await expect(
+    page.getByText("Action recorded in the case history.", { exact: true }),
+  ).toBeVisible();
 }
 
 test.beforeAll(async ({ playwright }) => {

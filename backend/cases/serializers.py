@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import serializers
-from .models import Institution, Bureau, Complaint, CaseAction, Attachment
+from .models import Institution, Bureau, Complaint, CaseAction, Attachment, Escalation
 
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,6 +15,12 @@ class CaseSerializer(serializers.ModelSerializer):
     bureau = serializers.CharField(source='bureau.code', read_only=True)
     assigned_name = serializers.CharField(source='assigned_to.get_full_name', default='', read_only=True)
     overdue = serializers.SerializerMethodField()
+    has_unresolved_escalation = serializers.SerializerMethodField()
+
+    def get_has_unresolved_escalation(self, obj):
+        if hasattr(obj, 'has_unresolved_escalation'):
+            return obj.has_unresolved_escalation
+        return Escalation.objects.filter(case=obj, status='pending').exists()
 
     def get_overdue(self, obj):
         return obj.status != 'disposed' and obj.due_at < timezone.now()
@@ -24,7 +30,7 @@ class CaseSerializer(serializers.ModelSerializer):
         fields = ['id', 'reference', 'institution', 'bureau', 'category', 'classification', 'next_action', 'next_action_date', 'summary', 'description',
                   'source_system', 'source_reference', 'incident_date', 'status', 'received_at', 'due_at',
                   'disposed_at', 'assigned_to', 'assigned_name', 'matching_state', 'matching_error', 'matched_at',
-                  'model_revision', 'version', 'overdue', 'created_at', 'matching_duration_ms', 'matching_queue_ms']
+                  'model_revision', 'version', 'overdue', 'created_at', 'matching_duration_ms', 'matching_queue_ms', 'has_unresolved_escalation']
 
 class CreateCaseSerializer(serializers.Serializer):
     submission_id = serializers.UUIDField()
@@ -103,6 +109,7 @@ class FilterSerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=[''] + [x[0] for x in Complaint.STATUSES], required=False)
     overdue = serializers.BooleanField(required=False)
     pending = serializers.BooleanField(required=False)
+    escalated = serializers.BooleanField(required=False)
     age = serializers.ChoiceField(choices=['0-7', '8-30', '31-60', '61+'], required=False)
     locals()['from'] = serializers.DateField(required=False)
     to = serializers.DateField(required=False)

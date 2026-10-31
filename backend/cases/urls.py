@@ -1,7 +1,10 @@
 from django.urls import path
-from . import api, imports, exports, institutions
+from . import api, imports, exports, institutions, escalations
 
 urlpatterns = [
+    path('escalations', escalations.queue),
+    path('escalations/<uuid:escalation_id>/resolve', escalations.resolve),
+    path('cases/<uuid:case_id>/escalations', escalations.case_escalations),
     path('institution-registry', institutions.registry),
     path('institutions/<uuid:institution_id>', institutions.detail),
     path('institutions/<uuid:institution_id>/cases', institutions.institution_cases),

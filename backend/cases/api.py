@@ -366,10 +366,15 @@ def download(request, attachment_id):
 
 @api_view(['GET', 'POST'])
 def notifications(request):
-    qs = Notification.objects.filter(user=request.user, case__in=scoped_cases(request.user)).select_related('case')
+    qs = Notification.objects.filter(user=request.user, case__in=scoped_cases(request.user)).select_related('case', 'escalation')
+    if not request.user.is_active:
+        qs = qs.none()
+    elif role(request.user) != 'coordinator':
+        qs = qs.filter(escalation__isnull=True)
     if request.method == 'POST':
         qs.filter(read=False).update(read=True)
         return Response({'ok': True})
     return Response({'unread': qs.filter(read=False).count(), 'results': [
         {'id': n.id, 'case_id': n.case_id, 'reference': n.case.reference, 'kind': n.kind,
-         'deadline': n.deadline, 'read': n.read} for n in qs[:30]]})
+         'deadline': n.deadline, 'read': n.read, 'created_at': n.created_at,
+         'escalation_id': n.escalation_id, 'escalation_status': n.escalation.status if n.escalation_id else None} for n in qs[:30]]})

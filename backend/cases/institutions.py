@@ -135,7 +135,8 @@ def detail(request, institution_id):
     now = timezone.now()
     overview = cases.aggregate(total=Count('id'), open=Count('id', filter=~Q(status='disposed')),
                                closed=Count('id', filter=Q(status='disposed')),
-                               overdue=Count('id', filter=~Q(status='disposed') & Q(due_at__lt=now)))
+                               overdue=Count('id', filter=~Q(status='disposed') & Q(due_at__lt=now)),
+                               unresolved_escalations=Count('id', filter=Q(has_unresolved_escalation=True)))
     data = InstitutionProfileSerializer(institution).data
     data.update(overview=overview, scope='all_bureaus' if coordination(request.user) else 'current_bureau',
                 classifications=[{'classification': value, 'count': cases.filter(classification=value).count()} for value, _ in Complaint.CLASSIFICATIONS],

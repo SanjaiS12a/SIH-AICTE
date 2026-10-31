@@ -1,0 +1,46 @@
+{
+  "restored_previous_backup": true,
+  "restored_database": "coordination_task3_restore_20261031",
+  "counts": {
+    "cases": 7741,
+    "actions": 8037,
+    "relationships": 36707
+  },
+  "migration_0008_verified": true,
+  "profile_api_checks": true,
+  "current_backup_restored": true,
+  "current_restore_database": "coordination_task3_current_restore_20261031",
+  "current_tables_identical": {
+    "cases_institution": {
+      "count": 61,
+      "row_checksum": "00e4a1acc8899ef818b1e6deb28f71f4"
+    },
+    "cases_bureau": {
+      "count": 3,
+      "row_checksum": "425ea593519abe8dba4fb9a4e493b4c6"
+    },
+    "cases_membership": {
+      "count": 5,
+      "row_checksum": "18aaf5ee9e4fda64d464164fe8723418"
+    },
+    "cases_complaint": {
+      "count": 7806,
+      "row_checksum": "cb6cd5fa79c9fdd253b491fd36a583a9"
+    },
+    "cases_caseaction": {
+      "count": 8113,
+      "row_checksum": "bc00a3cd0bef1a4b33bc6376efd2ff32"
+    },
+    "cases_overlapcandidate": {
+      "count": 36959,
+      "row_checksum": "cf7d946cce5e75054567955ad2c01d8e"
+    },
+    "cases_notification": {
+      "count": 12620,
+      "row_checksum": "f5ea95c6511a96982c73d6aa9e406591"
+    }
+  },
+  "current_backup_sha256": "a281d0be98cc5762c8e4a5807920471a2f62642afa8630c11bc0b04b81fb6536",
+  "source_checkpoint": "8e32699",
+  "restoration_preceded_migration_0009": true
+}

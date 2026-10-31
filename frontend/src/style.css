@@ -947,6 +947,9 @@ textarea {
 .detail-card {
   margin-bottom: 24px;
 }
+.detail-grid > div {
+  min-width: 0;
+}
 .detail-card .panel-heading {
   border-bottom: 1px solid #f1f8f1;
   padding-bottom: 17px;

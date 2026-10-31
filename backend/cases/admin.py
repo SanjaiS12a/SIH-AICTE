@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import Institution, Bureau, Membership, Complaint, CaseAction, OverlapCandidate, Attachment, AuditEvent, Notification, ImportJob, ImportRow, SummaryRecord, ModelRelease, ReportExport
+from .models import Institution, Bureau, Membership, Complaint, CaseAction, OverlapCandidate, Attachment, AuditEvent, Notification, ImportJob, ImportRow, SummaryRecord, ModelRelease, ReportExport, Escalation
 
 admin.site.site_header = 'Coordination · Demo administration'
 admin.site.register([Bureau, Membership])
@@ -51,5 +51,5 @@ class ReadOnlyAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
-for model in [Complaint, CaseAction, OverlapCandidate, Attachment, AuditEvent, Notification, ImportJob, ImportRow, SummaryRecord, ModelRelease, ReportExport]:
+for model in [Complaint, CaseAction, OverlapCandidate, Attachment, AuditEvent, Notification, ImportJob, ImportRow, SummaryRecord, ModelRelease, ReportExport, Escalation]:
     admin.site.register(model, ReadOnlyAdmin)

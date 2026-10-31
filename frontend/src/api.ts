@@ -22,7 +22,13 @@ export type InstitutionProfile = Institution & {
   official_email: string;
   official_phone: string;
   version: number;
-  overview: { total: number; open: number; closed: number; overdue: number };
+  overview: {
+    total: number;
+    open: number;
+    closed: number;
+    overdue: number;
+    unresolved_escalations: number;
+  };
   classifications: { classification: string; count: number }[];
   scope: "all_bureaus" | "current_bureau";
   history_period: "all_time";
@@ -35,6 +41,7 @@ export type InstitutionAction = CaseAction & {
   reference: string;
 };
 export type Case = {
+  has_unresolved_escalation: boolean;
   id: string;
   reference: string;
   institution: Institution;
@@ -80,6 +87,18 @@ export type CaseDetail = Case & {
   actions: CaseAction[];
   attachments: Attachment[];
   institution_history: Case[];
+};
+export type Escalation = {
+  id: string;
+  case: Case;
+  created_by: string;
+  reason: string;
+  status: "pending" | "resolved";
+  created_at: string;
+  resolved_by: string | null;
+  resolution_reason: string;
+  resolved_at: string | null;
+  version: number;
 };
 export type Page<T> = {
   count: number;

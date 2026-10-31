@@ -98,6 +98,11 @@ export function CaseTable({ rows }: { rows: Case[] }) {
                 <Link className="case-ref" to={`/cases/${c.id}`}>
                   {c.reference}
                 </Link>
+                {c.has_unresolved_escalation && (
+                  <span className="table-sub overdue-text">
+                    Unresolved escalation
+                  </span>
+                )}
                 <Link
                   className="table-sub institution-link"
                   to={`/institutions/${c.institution.id}`}

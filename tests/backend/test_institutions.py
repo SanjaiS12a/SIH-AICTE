@@ -148,7 +148,7 @@ class InstitutionTests(TestCase):
         self.hidden.status = 'disposed'
         self.hidden.save()
         profile = self.client.get(self.url + '?from=2099-01-01').data
-        self.assertEqual(profile['overview'], {'total': 25, 'open': 24, 'closed': 1, 'overdue': 24})
+        self.assertEqual(profile['overview'], {'total': 25, 'open': 24, 'closed': 1, 'overdue': 24, 'unresolved_escalations': 0})
         self.assertEqual(profile['scope'], 'all_bureaus')
         self.assertEqual(profile['history_period'], 'all_time')
         one = self.client.get(profile['cases_url']).data

@@ -55,6 +55,7 @@ import type {
 } from "./api";
 import "./style.css";
 import { DashboardHome } from "./dashboard";
+import { CaseEscalations, EscalationQueue } from "./escalations";
 import {
   ErrorBox,
   Loading,
@@ -176,14 +177,17 @@ function App() {
 function Shell({ user }: { user: User }) {
   const [showAlerts, setShowAlerts] = useState(false),
     [alertsVersion, setAlertsVersion] = useState(0);
-  const { data: alerts } = useLoad<{
+  const { data: alerts, error: alertsError } = useLoad<{
     unread: number;
     results: {
       id: number;
       case_id: string;
       reference: string;
       kind: string;
-      deadline: string;
+      deadline: string | null;
+      created_at: string;
+      escalation_id: string | null;
+      escalation_status: string | null;
       read: boolean;
     }[];
   }>("/api/notifications", alertsVersion);
@@ -232,10 +236,16 @@ function Shell({ user }: { user: User }) {
             Reports
           </NavLink>
           {isCoord && (
-            <NavLink to="/coordination">
-              <Intersect size={21} />
-              Coordination queue
-            </NavLink>
+            <>
+              <NavLink to="/escalations">
+                <ShieldCheck size={21} />
+                Escalations
+              </NavLink>
+              <NavLink to="/coordination">
+                <Intersect size={21} />
+                Coordination queue
+              </NavLink>
+            </>
           )}
         </nav>
         <div className="sidebar-bottom">
@@ -274,13 +284,15 @@ function Shell({ user }: { user: User }) {
           <div className="breadcrumb">
             AICTE portal <CaretRight size={12} />
             <strong>
-              {location.pathname === "/coordination"
-                ? "Coordination queue"
-                : location.pathname.startsWith("/institutions")
-                  ? "Institutions"
-                  : location.pathname.startsWith("/cases")
-                    ? "Case registry"
-                    : "Dashboard"}
+              {location.pathname === "/escalations"
+                ? "Escalations"
+                : location.pathname === "/coordination"
+                  ? "Coordination queue"
+                  : location.pathname.startsWith("/institutions")
+                    ? "Institutions"
+                    : location.pathname.startsWith("/cases")
+                      ? "Case registry"
+                      : "Dashboard"}
             </strong>
           </div>
           <div className="top-actions">
@@ -293,7 +305,10 @@ function Shell({ user }: { user: User }) {
                 className="icon-button alert-button"
                 aria-label="Notifications"
                 aria-expanded={showAlerts}
-                onClick={() => setShowAlerts(!showAlerts)}
+                onClick={() => {
+                  if (!showAlerts) setAlertsVersion((x) => x + 1);
+                  setShowAlerts(!showAlerts);
+                }}
               >
                 <Bell size={21} />
                 {!!alerts?.unread && <i />}
@@ -317,15 +332,27 @@ function Shell({ user }: { user: User }) {
                       Mark read
                     </button>
                   </div>
-                  {alerts?.results.length ? (
+                  {alertsError ? (
+                    <ErrorBox message={alertsError} />
+                  ) : !alerts ? (
+                    <Loading />
+                  ) : alerts.results.length ? (
                     alerts.results.map((n) => (
-                      <Link key={n.id} to={`/cases/${n.case_id}`}>
+                      <Link
+                        key={n.id}
+                        to={`/cases/${n.case_id}${n.escalation_id ? "#escalations" : ""}`}
+                      >
                         <strong>{n.reference}</strong>
                         <span>
-                          {typeof n.kind === "string"
-                            ? n.kind.replaceAll("_", " ")
-                            : "Notification"}{" "}
-                          · {date(n.deadline)}
+                          {n.kind === "escalation"
+                            ? `Supervisory review · ${n.escalation_status}`
+                            : typeof n.kind === "string"
+                              ? n.kind.replaceAll("_", " ")
+                              : "Notification"}{" "}
+                          ·{" "}
+                          {date(
+                            n.kind === "escalation" ? n.created_at : n.deadline,
+                          )}
                         </span>
                       </Link>
                     ))
@@ -339,6 +366,10 @@ function Shell({ user }: { user: User }) {
         </header>
         <main id="main">
           <Routes>
+            <Route
+              path="/escalations"
+              element={<EscalationQueue user={user} />}
+            />
             <Route
               path="/institutions"
               element={
@@ -754,6 +785,10 @@ function Detail({ user, options }: { user: User; options: Options }) {
     [nextDate, setNextDate] = useState(""),
     [editingVersion, setEditingVersion] = useState<number | null>(null),
     [conflict, setConflict] = useState(false);
+  const [escalationSubmission, setEscalationSubmission] = useState(() =>
+      crypto.randomUUID(),
+    ),
+    [escalationEditing, setEscalationEditing] = useState(false);
   useEffect(() => {
     setAction("note");
     setReason("");
@@ -763,13 +798,19 @@ function Detail({ user, options }: { user: User; options: Options }) {
     setConflict(false);
     setActionError("");
     setSuccess("");
+    setEscalationSubmission(crypto.randomUUID());
+    setEscalationEditing(false);
   }, [id]);
   useEffect(() => {
-    if (c?.matching_state === "pending" && editingVersion === null) {
+    if (
+      c?.matching_state === "pending" &&
+      editingVersion === null &&
+      !escalationEditing
+    ) {
       const timer = setTimeout(() => setRefresh((x) => x + 1), 4000);
       return () => clearTimeout(timer);
     }
-  }, [c, editingVersion]);
+  }, [c, editingVersion, escalationEditing]);
   const writable = ["officer", "coordinator"].includes(user.role);
   async function act(e: FormEvent) {
     e.preventDefault();
@@ -777,27 +818,36 @@ function Detail({ user, options }: { user: User; options: Options }) {
     setActionError("");
     setSuccess("");
     try {
-      await api(`/api/cases/${id}/actions`, {
-        method: "POST",
-        body: JSON.stringify({
-          kind: action,
-          expected_version: editingVersion ?? c!.version,
-          reason,
-          ...(action === "classification" ? { classification } : {}),
-          ...(action === "next_action"
-            ? { next_action: nextAction, next_action_date: nextDate || null }
-            : {}),
-          ...(action === "status" ? { status } : {}),
-          ...(action === "transfer" ? { bureau } : {}),
-          ...(action === "assign"
-            ? { assigned_to: officer ? Number(officer) : null }
-            : {}),
-          ...(action === "deadline"
-            ? { due_at: new Date(due).toISOString() }
-            : {}),
-        }),
-      });
+      await api(
+        `/api/cases/${id}/${action === "escalate" ? "escalations" : "actions"}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...(action === "escalate"
+              ? { submission_id: escalationSubmission }
+              : { kind: action }),
+            expected_version: editingVersion ?? c!.version,
+            reason,
+            ...(action === "classification" ? { classification } : {}),
+            ...(action === "next_action"
+              ? { next_action: nextAction, next_action_date: nextDate || null }
+              : {}),
+            ...(action === "status" ? { status } : {}),
+            ...(action === "transfer" ? { bureau } : {}),
+            ...(action === "assign"
+              ? { assigned_to: officer ? Number(officer) : null }
+              : {}),
+            ...(action === "deadline"
+              ? { due_at: new Date(due).toISOString() }
+              : {}),
+          }),
+        },
+      );
       setReason("");
+      if (action === "escalate") {
+        setAction("note");
+        setEscalationSubmission(crypto.randomUUID());
+      }
       setEditingVersion(null);
       setConflict(false);
       setSuccess("Action recorded in the case history.");
@@ -851,6 +901,9 @@ function Detail({ user, options }: { user: User; options: Options }) {
             subtitle={`${c.institution.permanent_id} · ${c.institution.region} · ${c.institution.district}`}
           >
             <Badge status={c.status} />
+            {c.has_unresolved_escalation && (
+              <span className="bureau-tag">Unresolved escalation</span>
+            )}
           </Heading>
           <div className="detail-grid">
             <div>
@@ -958,6 +1011,13 @@ function Detail({ user, options }: { user: User; options: Options }) {
                   ))}
                 </ol>
               </section>
+              <CaseEscalations
+                key={c.id}
+                caseId={c.id}
+                user={user}
+                onChanged={() => setRefresh((x) => x + 1)}
+                onEditing={setEscalationEditing}
+              />
               <section className="panel detail-card">
                 <div className="panel-heading">
                   <h2>Institution history</h2>
@@ -1042,6 +1102,12 @@ function Detail({ user, options }: { user: User; options: Options }) {
                       >
                         <option value="note">Add a note / correction</option>
                         <option value="status">Update status</option>
+                        {c.status !== "disposed" &&
+                          !c.has_unresolved_escalation && (
+                            <option value="escalate">
+                              Escalate for supervisory review
+                            </option>
+                          )}
                         {c.status !== "disposed" && (
                           <option value="next_action">
                             Set / clear next action
@@ -1171,9 +1237,11 @@ function Detail({ user, options }: { user: User; options: Options }) {
                       </label>
                     )}
                     <label>
-                      {action === "status" && status === "disposed"
-                        ? "Resolution note"
-                        : "Reason / note"}
+                      {action === "escalate"
+                        ? "Escalation reason"
+                        : action === "status" && status === "disposed"
+                          ? "Resolution note"
+                          : "Reason / note"}
                       <textarea
                         rows={4}
                         required
@@ -1183,7 +1251,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
                         placeholder="Explain the action for the next person reviewing this case."
                       />
                     </label>
-                    <button disabled={busy || conflict}>
+                    <button disabled={busy || conflict || escalationEditing}>
                       {busy ? "Saving…" : "Record action"}
                       <ArrowRight size={17} />
                     </button>
