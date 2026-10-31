@@ -220,7 +220,7 @@ export function ManagementPanels({
   }
   const geo = new URLSearchParams();
   const current = new URLSearchParams(filters);
-  for (const k of ["institution", "region", "district"])
+  for (const k of ["institution", "region", "district", "district_exact"])
     if (current.get(k)) geo.set(k, current.get(k)!);
   const cards: [string, number, string][] = [
     [

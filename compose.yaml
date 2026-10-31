@@ -1,6 +1,7 @@
 services:
   db:
     image: pgvector/pgvector:pg17
+    shm_size: "256mb"
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-coordination}
       POSTGRES_USER: ${POSTGRES_USER:-coordination}

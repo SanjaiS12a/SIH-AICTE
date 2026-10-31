@@ -1,5 +1,5 @@
 """Create and remove only this run's disposable scale-test database."""
-import subprocess,uuid
+import subprocess,uuid,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent.parent
 name='coordination_scale_'+uuid.uuid4().hex[:12]
@@ -10,6 +10,6 @@ created=False
 try:
  run('exec','-T','db','createdb','-U','coordination',name);created=True
  run('run','--rm','--no-deps','-e','POSTGRES_DB='+name,'api','python','manage.py','migrate','--noinput')
- run('run','--rm','--no-deps','-e','POSTGRES_DB='+name,'api','python','manage.py','benchmark_scale')
+ run('run','--rm','--no-deps','-e','POSTGRES_DB='+name,'api','python','manage.py','benchmark_scale',*sys.argv[1:])
 finally:
  if created:run('exec','-T','db','dropdb','-U','coordination',name)

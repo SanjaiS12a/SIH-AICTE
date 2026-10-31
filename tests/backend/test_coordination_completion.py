@@ -5,6 +5,12 @@ from datetime import timedelta
 from unittest.mock import patch
 from django.utils import timezone
 from django.test import TestCase
+from django.test import override_settings
+from django.core.management import call_command
+from django.test.utils import CaptureQueriesContext
+from django.db import connection
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from django.db import transaction, IntegrityError
 from rest_framework.test import APIClient
 from cases.models import Institution, OverlapCandidate, CaseAction, Membership, Complaint
@@ -144,3 +150,27 @@ class CoordinationCompletionTests(TestCase):
         self.client.force_authenticate(no_bureau)
         self.assertEqual(self.client.get('/api/cases').data['count'],0)
         self.assertEqual(self.client.get('/api/movements').data['count'],0)
+
+    def test_pair_page_query_count_does_not_grow_per_case(self):
+        for i in range(21):
+            other=self.make_case(self.rb,f'PAIR-{i}')
+            left,right=sorted([self.case.pk,other.pk])
+            OverlapCandidate.objects.create(left_id=left,right_id=right,score=.8,model_revision='fixture')
+        with CaptureQueriesContext(connection) as queries:
+            response=self.client.get('/api/overlaps?decision=all')
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(len(response.data['results']),20)
+        self.assertLessEqual(len(queries),12)
+    def test_presentation_seed_is_deterministic_and_preserves_played_work(self):
+        from cases.models import Attachment
+        with TemporaryDirectory() as directory, override_settings(RESULTS_DIR=Path(directory),MEDIA_ROOT=Path(directory)/'private'),patch('cases.management.commands.seed_demo.Path') as root:
+            root.return_value=Path(directory)
+            call_command('seed_demo',verbosity=0)
+            call_command('seed_sih_demo',verbosity=0)
+            case=Complaint.objects.get(source_system='sih-demo',source_reference='SIH-26264-REFUND-RB')
+            case.classification='regulatory_compliance';case.save()
+            before=(Complaint.objects.count(),CaseAction.objects.count(),Attachment.objects.count())
+            call_command('seed_sih_demo',verbosity=0)
+            self.assertEqual(before,(Complaint.objects.count(),CaseAction.objects.count(),Attachment.objects.count()))
+            case.refresh_from_db();self.assertEqual(case.classification,'regulatory_compliance')
+            self.assertEqual(Complaint.objects.filter(source_system='sih-demo').count(),4)

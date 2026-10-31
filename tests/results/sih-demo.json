@@ -1,0 +1,34 @@
+{
+  "permanent_id": "SIH-26264-DEMO",
+  "institution_id": "91aa3046-1d28-467c-a131-5a3b14e9fa07",
+  "cases": [
+    {
+      "id": "80869867-8e77-561a-b840-5fb088604c93",
+      "reference": "SIH-26264-REFUND-RB",
+      "initial_or_current_status": "under_review"
+    },
+    {
+      "id": "81c0fc3e-ae13-51fa-98fc-eda75820c1a0",
+      "reference": "SIH-26264-REFUND-PGRC",
+      "initial_or_current_status": "registered"
+    },
+    {
+      "id": "898f2659-f864-546c-84a4-7cd39fed4b83",
+      "reference": "SIH-26264-LAB-DEMO",
+      "initial_or_current_status": "awaiting_response"
+    },
+    {
+      "id": "413305ab-3304-5e54-9082-54a640db961d",
+      "reference": "SIH-26264-DOCUMENTS-CLOSED",
+      "initial_or_current_status": "disposed"
+    }
+  ],
+  "accounts": [
+    "coordinator",
+    "auditor",
+    "officer_rb",
+    "officer_pgrc",
+    "officer_demo"
+  ],
+  "provenance": "Fictional, deterministic demonstration fixtures. Re-running preserves all subsequent decisions and actions."
+}

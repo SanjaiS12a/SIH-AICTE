@@ -16,6 +16,7 @@ def active_cases(request):
     qs=scoped_cases(request.user).exclude(status='disposed')
     # Select institutions geographically; always count every active bureau/category/date within them.
     for key,field in [('institution','institution_id'),('region','institution__region'),('district','institution__district__icontains')]:
+        if key=='district' and p.get('district_exact'):field='institution__district'
         if p.get(key):qs=qs.filter(**{field:p[key]})
     return qs
 
