@@ -1,0 +1,137 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "database": "coordination_scale_3249579522d3",
+  "concurrent_clients": 10,
+  "transport": "In-process Django calls with separate thread-local PostgreSQL connections; HTTP measured separately by benchmark_import.py",
+  "limits": "Synthetic metadata and identical unit vectors; registration histories and a small escalation queue; no attachments or review traffic. Measures dashboard/read/exact-search scaling only, not 100k upload or production matching accuracy.",
+  "results": [
+    {
+      "cold_dashboard_ms": 1625.2558030000728,
+      "records": 100000,
+      "distribution": "distributed",
+      "setup_seconds": 5.923248970000714,
+      "peak_process_rss_bytes": 128122880,
+      "metrics": {
+        "dashboard": {
+          "requests": 20,
+          "p50_ms": 799.793031000263,
+          "p95_ms": 2058.1246679994365
+        },
+        "read": {
+          "requests": 20,
+          "p50_ms": 68.33104350016583,
+          "p95_ms": 111.59429999952408
+        },
+        "exact_search": {
+          "requests": 20,
+          "p50_ms": 14.29888650045541,
+          "p95_ms": 44.06489399934799
+        },
+        "registry": {
+          "requests": 20,
+          "p50_ms": 85.96754899963344,
+          "p95_ms": 146.88624100017478
+        },
+        "profile": {
+          "requests": 20,
+          "p50_ms": 187.78445299994928,
+          "p95_ms": 214.51306699964334
+        },
+        "cases": {
+          "requests": 20,
+          "p50_ms": 113.22640700018383,
+          "p95_ms": 427.59153400038485
+        },
+        "history": {
+          "requests": 20,
+          "p50_ms": 94.50759399942399,
+          "p95_ms": 257.3789759999272
+        },
+        "notices": {
+          "requests": 20,
+          "p50_ms": 1292.7375814997504,
+          "p95_ms": 1435.5506740002966
+        },
+        "escalations": {
+          "requests": 20,
+          "p50_ms": 66.74603800001933,
+          "p95_ms": 203.81363200067426
+        },
+        "relationships": {
+          "requests": 20,
+          "p50_ms": 649.656534499627,
+          "p95_ms": 1243.5737610003343
+        },
+        "review": {
+          "requests": 20,
+          "p50_ms": 63.74003749988333,
+          "p95_ms": 302.407101999961
+        }
+      }
+    },
+    {
+      "cold_dashboard_ms": 2354.308920999756,
+      "records": 100000,
+      "distribution": "concentrated",
+      "setup_seconds": 5.923248970000714,
+      "peak_process_rss_bytes": 128253952,
+      "metrics": {
+        "dashboard": {
+          "requests": 20,
+          "p50_ms": 864.7108594996098,
+          "p95_ms": 2522.2754710002846
+        },
+        "read": {
+          "requests": 20,
+          "p50_ms": 31.096297999738454,
+          "p95_ms": 66.23236799987353
+        },
+        "exact_search": {
+          "requests": 20,
+          "p50_ms": 259.4339134998336,
+          "p95_ms": 509.2697979998775
+        },
+        "registry": {
+          "requests": 20,
+          "p50_ms": 14.946972999950958,
+          "p95_ms": 162.88725300000806
+        },
+        "profile": {
+          "requests": 20,
+          "p50_ms": 825.5755734999184,
+          "p95_ms": 1537.936757999887
+        },
+        "cases": {
+          "requests": 20,
+          "p50_ms": 377.18432000019675,
+          "p95_ms": 1801.979195000058
+        },
+        "history": {
+          "requests": 20,
+          "p50_ms": 189.39519800005655,
+          "p95_ms": 317.8590709994751
+        },
+        "notices": {
+          "requests": 20,
+          "p50_ms": 2341.4911589998155,
+          "p95_ms": 3755.8903099998133
+        },
+        "escalations": {
+          "requests": 20,
+          "p50_ms": 61.368909499833535,
+          "p95_ms": 311.446669000361
+        },
+        "relationships": {
+          "requests": 20,
+          "p50_ms": 763.3799889999864,
+          "p95_ms": 1299.0289889994528
+        },
+        "review": {
+          "requests": 20,
+          "p50_ms": 100.78149449964258,
+          "p95_ms": 433.59724200036
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "database": "coordination_scale_162f2650948d",
+  "concurrent_clients": 10,
+  "transport": "In-process Django calls with separate thread-local PostgreSQL connections; HTTP measured separately by benchmark_import.py",
+  "limits": "Synthetic metadata and identical unit vectors; registration histories and a small escalation queue; no attachments or review traffic. Measures dashboard/read/exact-search scaling only, not 100k upload or production matching accuracy.",
+  "results": [
+    {
+      "cold_dashboard_ms": 87.88347600057023,
+      "records": 1000,
+      "distribution": "distributed",
+      "setup_seconds": 0.09479059800014511,
+      "peak_process_rss_bytes": 127692800,
+      "metrics": {
+        "dashboard": {
+          "requests": 20,
+          "p50_ms": 132.63536249996832,
+          "p95_ms": 1063.1114660000094
+        },
+        "read": {
+          "requests": 20,
+          "p50_ms": 57.48111499951847,
+          "p95_ms": 227.0346459999928
+        },
+        "exact_search": {
+          "requests": 20,
+          "p50_ms": 31.7812585003594,
+          "p95_ms": 52.8112219999457
+        },
+        "registry": {
+          "requests": 20,
+          "p50_ms": 103.71181549999164,
+          "p95_ms": 278.30815100060136
+        },
+        "profile": {
+          "requests": 20,
+          "p50_ms": 169.22070950022317,
+          "p95_ms": 280.7038979999561
+        },
+        "cases": {
+          "requests": 20,
+          "p50_ms": 125.9304569998676,
+          "p95_ms": 232.59701799997856
+        },
+        "history": {
+          "requests": 20,
+          "p50_ms": 166.67494699959207,
+          "p95_ms": 268.1077230008668
+        },
+        "notices": {
+          "requests": 20,
+          "p50_ms": 298.66968050009746,
+          "p95_ms": 454.4378450000295
+        },
+        "escalations": {
+          "requests": 20,
+          "p50_ms": 172.94982049997998,
+          "p95_ms": 373.89322000035463
+        },
+        "relationships": {
+          "requests": 20,
+          "p50_ms": 430.80811749950954,
+          "p95_ms": 1635.956322000311
+        },
+        "review": {
+          "requests": 20,
+          "p50_ms": 252.18480649982666,
+          "p95_ms": 593.2890800004316
+        }
+      }
+    },
+    {
+      "cold_dashboard_ms": 82.75580400004401,
+      "records": 1000,
+      "distribution": "concentrated",
+      "setup_seconds": 0.09479059800014511,
+      "peak_process_rss_bytes": 136835072,
+      "metrics": {
+        "dashboard": {
+          "requests": 20,
+          "p50_ms": 66.11032199953115,
+          "p95_ms": 198.65172900063044
+        },
+        "read": {
+          "requests": 20,
+          "p50_ms": 34.990693000509054,
+          "p95_ms": 79.13987200026895
+        },
+        "exact_search": {
+          "requests": 20,
+          "p50_ms": 15.45996449976883,
+          "p95_ms": 46.0695729998406
+        },
+        "registry": {
+          "requests": 20,
+          "p50_ms": 73.94612000007328,
+          "p95_ms": 121.75490799927502
+        },
+        "profile": {
+          "requests": 20,
+          "p50_ms": 171.14556000024095,
+          "p95_ms": 244.8601840005722
+        },
+        "cases": {
+          "requests": 20,
+          "p50_ms": 69.80185300017183,
+          "p95_ms": 142.53653699961433
+        },
+        "history": {
+          "requests": 20,
+          "p50_ms": 88.72699049970834,
+          "p95_ms": 129.41873199997644
+        },
+        "notices": {
+          "requests": 20,
+          "p50_ms": 137.03544850022809,
+          "p95_ms": 573.8248940006088
+        },
+        "escalations": {
+          "requests": 20,
+          "p50_ms": 113.23973200023829,
+          "p95_ms": 497.94641800053796
+        },
+        "relationships": {
+          "requests": 20,
+          "p50_ms": 633.8914709999699,
+          "p95_ms": 1118.6618359997738
+        },
+        "review": {
+          "requests": 20,
+          "p50_ms": 128.99992749999,
+          "p95_ms": 863.0309560003298
+        }
+      }
+    },
+    {
+      "cold_dashboard_ms": 251.5223579994199,
+      "records": 10000,
+      "distribution": "distributed",
+      "setup_seconds": 0.6823813849996441,
+      "peak_process_rss_bytes": 139063296,
+      "metrics": {
+        "dashboard": {
+          "requests": 20,
+          "p50_ms": 141.20996700012256,
+          "p95_ms": 420.0037089995021
+        },
+        "read": {
+          "requests": 20,
+          "p50_ms": 38.3713125002032,
+          "p95_ms": 150.536688000102
+        },
+        "exact_search": {
+          "requests": 20,
+          "p50_ms": 28.99729800037676,
+          "p95_ms": 125.25211399952241
+        },
+        "registry": {
+          "requests": 20,
+          "p50_ms": 88.61507849996997,
+          "p95_ms": 167.36824899999192
+        },
+        "profile": {
+          "requests": 20,
+          "p50_ms": 225.23262300046554,
+          "p95_ms": 316.6303389998575
+        },
+        "cases": {
+          "requests": 20,
+          "p50_ms": 132.50249500015343,
+          "p95_ms": 175.43462500088935
+        },
+        "history": {
+          "requests": 20,
+          "p50_ms": 124.18959300021015,
+          "p95_ms": 173.91646099986247
+        },
+        "notices": {
+          "requests": 20,
+          "p50_ms": 345.5297129999053,
+          "p95_ms": 1134.4337609998547
+        },
+        "escalations": {
+          "requests": 20,
+          "p50_ms": 206.93851949999953,
+          "p95_ms": 414.91231999953015
+        },
+        "relationships": {
+          "requests": 20,
+          "p50_ms": 372.3230379996494,
+          "p95_ms": 555.6490689996281
+        },
+        "review": {
+          "requests": 20,
+          "p50_ms": 30.835789500542887,
+          "p95_ms": 410.86316800010536
+        }
+      }
+    },
+    {
+      "cold_dashboard_ms": 159.14170699943497,
+      "records": 10000,
+      "distribution": "concentrated",
+      "setup_seconds": 0.6823813849996441,
+      "peak_process_rss_bytes": 139063296,
+      "metrics": {
+        "dashboard": {
+          "requests": 20,
+          "p50_ms": 39.81889700025931,
+          "p95_ms": 990.6559410001137
+        },
+        "read": {
+          "requests": 20,
+          "p50_ms": 23.524464999809425,
+          "p95_ms": 49.42623100032506
+        },
+        "exact_search": {
+          "requests": 20,
+          "p50_ms": 20.19849599992085,
+          "p95_ms": 52.12491600013891
+        },
+        "registry": {
+          "requests": 20,
+          "p50_ms": 36.288611499912804,
+          "p95_ms": 61.70558699977846
+        },
+        "profile": {
+          "requests": 20,
+          "p50_ms": 107.15275899974586,
+          "p95_ms": 155.54778200021246
+        },
+        "cases": {
+          "requests": 20,
+          "p50_ms": 71.24475899991012,
+          "p95_ms": 215.23938400059706
+        },
+        "history": {
+          "requests": 20,
+          "p50_ms": 108.16963499974008,
+          "p95_ms": 290.7400260000941
+        },
+        "notices": {
+          "requests": 20,
+          "p50_ms": 173.7149200002932,
+          "p95_ms": 253.46693800020148
+        },
+        "escalations": {
+          "requests": 20,
+          "p50_ms": 90.89589399991382,
+          "p95_ms": 148.39796999967803
+        },
+        "relationships": {
+          "requests": 20,
+          "p50_ms": 452.34480299995994,
+          "p95_ms": 906.3934810001228
+        },
+        "review": {
+          "requests": 20,
+          "p50_ms": 40.748425500169105,
+          "p95_ms": 436.7629449998276
+        }
+      }
+    }
+  ]
+}

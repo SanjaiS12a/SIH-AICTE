@@ -1,0 +1,26 @@
+{
+  "concurrent_sessions": 10,
+  "platform": "Windows-11-10.0.26300-SP0",
+  "seconds": 3.025686599999972,
+  "transport": "HTTP localhost; 10 separate authenticated sessions",
+  "results": {
+    "read": {
+      "requests": 50,
+      "p50_ms": 150.13855000006515,
+      "p95_ms": 231.1847000000853,
+      "target_p95_ms": 500
+    },
+    "dashboard": {
+      "requests": 50,
+      "p50_ms": 126.08090000003358,
+      "p95_ms": 280.9843000004548,
+      "target_p95_ms": 1000
+    },
+    "create": {
+      "requests": 10,
+      "p50_ms": 487.78725000011036,
+      "p95_ms": 569.7362000000794,
+      "target_p95_ms": 500
+    }
+  }
+}

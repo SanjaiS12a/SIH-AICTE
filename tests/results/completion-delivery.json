@@ -1,0 +1,48 @@
+{
+  "physical_offline": false,
+  "physical_limit": "Windows token is not elevated; physical Wi-Fi disconnection was not performed. This is a separate internal-network/no-egress rehearsal.",
+  "source_commit": "2af2ddf4b88fbe27db5d23c566bda67ff046afa2",
+  "migration": "0010_manual_relationship_origin",
+  "private_assets_archive": "aicte-offline-89411a5137-assets.zip",
+  "database_archive": "aicte-offline-89411a5137.dump",
+  "assets_restored_and_verified": true,
+  "configuration_verified": true,
+  "asset_files": 76,
+  "database_sha256": "d06dc2eabb740b4d2062e6c24c0143b38ce13ecd4832340c1c4f5fc921c18d1e",
+  "assets_sha256": "cf1a04366d374b4fdd3ac74a7ab4a9ef70ee30bd88707e5ff111146d5b9f5147",
+  "internal_network": true,
+  "database_restored_and_verified": {
+    "cases_institution": {
+      "count": 87,
+      "checksum": "cf2f510034da2f96cba1fcf8208c665d"
+    },
+    "cases_bureau": {
+      "count": 3,
+      "checksum": "425ea593519abe8dba4fb9a4e493b4c6"
+    },
+    "cases_membership": {
+      "count": 5,
+      "checksum": "18aaf5ee9e4fda64d464164fe8723418"
+    },
+    "cases_complaint": {
+      "count": 8935,
+      "checksum": "5fcc0bf48bac36d3f4b377196115a1ad"
+    },
+    "cases_caseaction": {
+      "count": 9317,
+      "checksum": "c8be143280c10c4fe601c8b99325f04a"
+    },
+    "cases_overlapcandidate": {
+      "count": 41619,
+      "checksum": "b5e12cac1f4430f0a853f2a032f9bdf2"
+    },
+    "cases_escalation": {
+      "count": 12,
+      "checksum": "c07bee8ca3eeccb74b264835496e37aa"
+    },
+    "cases_notification": {
+      "count": 14358,
+      "checksum": "6fc62d501f1c416fe2a4d124fa620dab"
+    }
+  }
+}

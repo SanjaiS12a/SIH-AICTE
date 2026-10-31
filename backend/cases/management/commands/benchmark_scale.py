@@ -29,7 +29,7 @@ class Command(BaseCommand):
   bureau=Bureau.objects.create(code='SCALE',name='Synthetic scale bureau')
   Institution.objects.bulk_create([Institution(name=f'Scale Institution {i}',permanent_id=f'SCALE-{i}',region='Synthetic',district='Synthetic') for i in range(100)])
   institutions=list(Institution.objects.order_by('permanent_id').values_list('pk',flat=True));vector=[1.0]+[0.0]*383
-  output={'platform':platform.platform(),'database':connection.settings_dict['NAME'],'concurrent_clients':10,'transport':'In-process Django calls with separate thread-local PostgreSQL connections; HTTP measured separately by benchmark_import.py','limits':'Synthetic metadata and identical unit vectors; registration histories and a small escalation queue; no attachments or review traffic. Measures dashboard/read/exact-search scaling only, not 100k upload or production matching accuracy.','results':[]}
+  output={'platform':platform.platform(),'database':connection.settings_dict['NAME'],'concurrent_clients':10,'transport':'In-process Django calls with separate thread-local PostgreSQL connections; HTTP measured separately by benchmark_import.py','limits':'Synthetic metadata and identical unit vectors; registration histories, a small escalation queue and bounded relationship-review traffic; no attachments. Measures in-process endpoint scaling, not 100k upload or production matching accuracy.','results':[]}
 
   other_bureaus=[bureau]+[Bureau.objects.create(code=x,name=x+' synthetic Bureau') for x in ['PGRC','OTHER']]
   previous=0
