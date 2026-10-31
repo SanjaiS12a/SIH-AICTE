@@ -110,6 +110,44 @@ class OverlapCandidate(models.Model):
                        models.CheckConstraint(condition=Q(origin='semantic', score__isnull=False) | (Q(origin='manual', score__isnull=True) & ~Q(decision='pending')), name='relationship_origin_score')]
         ordering = ['-created_at', '-id']
 
+class CoordinationRecord(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    submission_id = models.UUIDField(unique=True)
+    submission_fingerprint = models.CharField(max_length=64)
+    institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
+    cases = models.ManyToManyField(Complaint)
+    lead_bureau = models.ForeignKey(Bureau, on_delete=models.PROTECT)
+    lead_officer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    reason = models.TextField(max_length=4000)
+    state = models.CharField(max_length=20, default='in_coordination', choices=[('in_coordination', 'In coordination'), ('closed', 'Closed')])
+    outcome = models.TextField(max_length=4000, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='opened_coordinations')
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+    closed_at = models.DateTimeField(null=True)
+    version = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ['-created_at', '-id']
+        constraints = [models.CheckConstraint(condition=Q(state='in_coordination', closed_at__isnull=True, outcome='') | (Q(state='closed', closed_at__isnull=False) & ~Q(outcome='')), name='coordination_closure_state')]
+
+
+class CoordinationParticipant(models.Model):
+    record = models.ForeignKey(CoordinationRecord, on_delete=models.PROTECT, related_name='participants')
+    bureau = models.ForeignKey(Bureau, on_delete=models.PROTECT)
+    officer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    instruction = models.TextField(max_length=2000)
+    action_date = models.DateField(null=True, blank=True)
+    acknowledged_at = models.DateTimeField(null=True)
+    completed_at = models.DateTimeField(null=True)
+    completion_note = models.TextField(max_length=2000, blank=True)
+
+    class Meta:
+        ordering = ['bureau__code']
+        constraints = [models.UniqueConstraint(fields=['record', 'bureau'], name='one_coordination_participant_per_bureau'),
+            models.CheckConstraint(condition=~Q(instruction=''), name='coordination_instruction_required'),
+            models.CheckConstraint(condition=Q(completed_at__isnull=True, completion_note='') | (Q(completed_at__isnull=False, acknowledged_at__isnull=False) & ~Q(completion_note='')), name='coordination_participant_completion')]
+
+
 class Attachment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     case = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='attachments')

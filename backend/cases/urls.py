@@ -1,7 +1,12 @@
 from django.urls import path
-from . import api, imports, exports, institutions, escalations, relationships, coordination, analytics
+from . import api, imports, exports, institutions, escalations, relationships, coordination, analytics, coordination_workflow
 
 urlpatterns = [
+    path('coordination-records', coordination_workflow.registry),
+    path('coordination-records/<uuid:record_id>', coordination_workflow.detail),
+    path('coordination-records/<uuid:record_id>/history', coordination_workflow.history),
+    path('coordination-records/<uuid:record_id>/actions', coordination_workflow.update),
+    path('coordination-requests', coordination_workflow.requests),
     path('movements', analytics.movements), path('movements.csv',analytics.movements_csv),
     path('coordination-notices', coordination.notices),
     path('relationships', relationships.manual),

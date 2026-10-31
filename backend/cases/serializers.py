@@ -86,7 +86,7 @@ class ActionReadSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        if self.context.get('restricted') and instance.kind == 'overlap_review':
+        if self.context.get('restricted') and (instance.kind == 'overlap_review' or instance.kind.startswith('coordination_')):
             data.update(reason='Restricted coordination review recorded.', changes={})
         return data
 

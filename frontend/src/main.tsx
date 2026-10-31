@@ -57,6 +57,11 @@ import "./style.css";
 import { DashboardHome } from "./dashboard";
 import { CaseEscalations, EscalationQueue } from "./escalations";
 import { ManualRelationship } from "./relationships";
+import {
+  CoordinationWorkspace,
+  CoordinationRecordPage,
+  CoordinationRequests,
+} from "./coordination-workflow";
 import { CoordinationNotices, MovementsPage } from "./management";
 import {
   ErrorBox,
@@ -217,6 +222,19 @@ function Shell({ user }: { user: User }) {
         </Link>
         <div className="workspace-label">PORTAL SERVICES</div>
         <nav>
+          {isCoord ? (
+            <NavLink to="/coordination/workspace">
+              <Intersect size={21} />
+              Coordination workspace
+            </NavLink>
+          ) : (
+            user.role === "officer" && (
+              <NavLink to="/coordination/requests">
+                <Intersect size={21} />
+                Coordination actions
+              </NavLink>
+            )
+          )}
           <NavLink to="/" end>
             <SquaresFour size={21} />
             Dashboard
@@ -243,7 +261,7 @@ function Shell({ user }: { user: User }) {
                 <ShieldCheck size={21} />
                 Escalations
               </NavLink>
-              <NavLink to="/coordination">
+              <NavLink to="/coordination" end>
                 <Intersect size={21} />
                 Coordination queue
               </NavLink>
@@ -368,6 +386,28 @@ function Shell({ user }: { user: User }) {
         </header>
         <main id="main">
           <Routes>
+            <Route
+              path="/coordination/workspace"
+              element={
+                <CoordinationWorkspace
+                  user={user}
+                  options={options || emptyOptions}
+                />
+              }
+            />
+            <Route
+              path="/coordination/workspace/:id"
+              element={
+                <CoordinationRecordPage
+                  user={user}
+                  options={options || emptyOptions}
+                />
+              }
+            />
+            <Route
+              path="/coordination/requests"
+              element={<CoordinationRequests user={user} />}
+            />
             <Route path="/movements" element={<MovementsPage />} />
             <Route
               path="/coordination/activity"

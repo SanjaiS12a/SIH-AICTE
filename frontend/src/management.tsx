@@ -58,6 +58,11 @@ export function CoordinationNotices({ filters = "" }: { filters?: string }) {
                     {n.institution__name}
                   </Link>
                 </h3>
+                <Link
+                  to={`/coordination/workspace?institution=${n.institution_id}`}
+                >
+                  Open coordination workspace
+                </Link>
                 <p>
                   {n.institution__permanent_id} · {n.institution__region} ·{" "}
                   {n.institution__district} · {n.count} active cases ·{" "}

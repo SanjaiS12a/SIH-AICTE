@@ -928,6 +928,12 @@ function InstitutionCoordination({
     <section className="panel">
       <div className="panel-heading">
         <h2>Institution coordination</h2>
+        <Link
+          className="button secondary"
+          to={`/coordination/workspace?institution=${id}`}
+        >
+          Agreed responsibilities and follow-up
+        </Link>
         {user.role === "coordinator" && (
           <Link
             className="button secondary"

@@ -16,6 +16,7 @@ from .serializers import ActionReadSerializer, FilterSerializer
 EVENTS = {'registered': Q(kind__in=['registered','imported']), 'transfer': Q(kind='transfer'),
     'escalation_created': Q(kind='escalation_created'), 'escalation_resolved': Q(kind='escalation_resolved'),
     'classification': Q(kind='classification'), 'overlap_review': Q(kind='overlap_review'),
+    'coordination': Q(kind__startswith='coordination_'),
     'closed': Q(kind='status', changes__status__after='disposed'),
     'reopened': Q(kind='status', changes__status__before='disposed') & ~Q(changes__status__after='disposed')}
 
