@@ -1,33 +1,41 @@
+# Virtual environments
 .venv/
 .venv-training/
+
+# Dependencies & build outputs
 node_modules/
 dist/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+backend/staticfiles/
+backend/private/
+backend/.wheels/*
+!backend/.wheels/.gitkeep
 __pycache__/
 *.pyc
+*.log
+
+# Environment files
 .env
 .env.*
 !.env.example
-artifacts/
-backend/private/
-models/
-backups/
-test-results/
-playwright-report/
-.graphify_cache/
-graphify-out/.*
-graphify-out/cache/
-*.log
-frontend/tsconfig.tsbuildinfo
-backend/staticfiles/
-.downloads/
-backend/.wheels/*
-!backend/.wheels/.gitkeep
 
+# Large local assets & models
+models/
+artifacts/
+.downloads/
+backups/
+
+# User trash folder (unwanted files staged for deletion)
+trash/
+
+# Research & temporary benchmark data
 data/research/
 data/benchmarks/
 
-# Keep only current graph outputs and completed verification results.
-graphify-out/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
+# Test execution outputs and traces
+test-results/
+playwright-report/
 tests/results/logs/
 tests/results/playwright/
 tests/results/playwright-report/
