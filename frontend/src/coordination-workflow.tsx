@@ -554,7 +554,7 @@ function CoordinationAction({
               setConflict(false);
             }}
           >
-            Refresh record and retain draft
+            Reload record and discard draft
           </button>
         )}
         <button disabled={busy || conflict}>

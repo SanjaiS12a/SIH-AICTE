@@ -241,8 +241,10 @@ test("stale action retains the outcome draft and officer direct navigation is de
     page.getByRole("button", { name: "Close coordination", exact: true }),
   ).toBeDisabled();
   await expect(
-    page.getByRole("button", { name: "Refresh record and retain draft" }),
+    page.getByRole("button", { name: "Reload record and discard draft" }),
   ).toBeVisible();
+  await page.getByRole("button", { name: "Reload record and discard draft" }).click();
+  await expect(page.getByLabel("Coordination outcome")).toHaveValue("");
   await login(page, "officer_rb");
   await page.goto(`/coordination/workspace/${record.id}`);
   await expect(page.getByRole("alert")).toHaveText(
