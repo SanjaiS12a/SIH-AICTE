@@ -21,3 +21,5 @@ graphify-out/**
 
 .venv-training/**
 artifacts/**
+tests/fixtures/**/*.csv
+tests/fixtures/**/*.json

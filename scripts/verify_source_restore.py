@@ -31,8 +31,8 @@ def main():
     assert original != restored
     report = {'source_commit': run('git', 'rev-parse', 'HEAD').strip(), 'migration': '0012',
               'restore_database': restored, 'dump': dump.name, 'scope': 'Database only; files/models and physical offline startup are not tested here.'}
-    run('docker', 'compose', 'stop', 'api', 'worker')
     try:
+        run('docker', 'compose', 'stop', 'api', 'worker')
         before = snapshot(original)
         run('docker', 'compose', 'exec', '-T', 'db', 'sh', '-c', 'pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Fc -f /tmp/source-latest.dump')
         run('docker', 'cp', 'sih-db-1:/tmp/source-latest.dump', str(dump))
