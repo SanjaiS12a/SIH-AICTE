@@ -40,6 +40,8 @@ Creation durably enqueues `cases.tasks.notify_escalation` in the existing Postgr
 
 Existing worker limits remain one worker, 120-second timeout, 300-second retry interval and three attempts. After exhausted retries, inspect the Django Q failed task in Admin, fix the cause and requeue the same `cases.tasks.notify_escalation` UUID event with `async_task` from `manage.py shell`; the README gives the exact call. There is no new worker-failure dashboard or retry endpoint. Eligibility is evaluated at delivery time, and notification APIs hide escalation metadata/counts from inactive or demoted coordinator recipients even if they still have case access. Resolved requests retain their original notification event; its displayed status reflects the current escalation state.
 
+For that shell retry, first run `from django_q.tasks import async_task`, then `async_task('cases.tasks.notify_escalation', '<escalation UUID>')` using the existing request's UUID, not a new request.
+
 ## Frontend
 
 - Authorized active case action **Escalate for supervisory review**, required reason, retry UUID and existing case-version conflict handling. Pending requests suppress duplicate escalation controls. Auditor forms remain absent.
@@ -58,6 +60,7 @@ Selected evidence: `escalation-queue.png`, `escalation-case-mobile.png`, updated
 - **Production build passed** TypeScript and Vite; final Vite build 21.22 seconds. Django system check passed. `makemigrations --check --dry-run` found no missing migrations. No dependency changes.
 - Original model verified by weights checksum: `/models/minilm`, revision `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, threshold `0.603080153465271`. No training, candidate activation or existing embedding backfill.
 - Command logs: ignored `tests/results/logs/escalation-{backend,build,browser}.log`. Backend suite: `docker compose exec -T api python manage.py test cases --noinput`; frontend: `npm run build`, then `npx playwright test` from frontend. Browser tests block external origins and add explicitly synthetic local fixtures.
+- Graphify refreshed to **810 nodes and 2,130 edges**, with zero missing/dangling endpoints and five self-loops. README evidence is distinguished from structural extraction; source/tests remain authoritative. Source/test/delivery checkpoint **`266bd67`** contains 28 changed/created files, 1,527 insertions and 66 deletions. Six generated source-map artifacts are recorded separately.
 
 ## Changed source files
 

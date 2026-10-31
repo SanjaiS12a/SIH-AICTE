@@ -4,146 +4,164 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 745 nodes · 1915 edges · 35 communities (14 shown, 21 thin omitted)
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 192 edges (avg confidence: 0.93)
+- 810 nodes · 2130 edges · 35 communities (18 shown, 17 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 215 edges (avg confidence: 0.93)
 - Token cost: structural extraction 0; host semantic extraction usage unavailable.
 
 ## Graph Freshness
-- Built from commit: `1f9e5d74`
+- Built from commit: `266bd671`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - api.py
 - main.tsx
-- train_matching.py
-- Complaint
+- matching.py
+- models.py
 - Coordination - AICTE 26264
-- package.json
 - WorkflowTests
 - ImportTests
-- institutions.spec.ts
+- escalations.spec.ts
+- package.json
 - InstitutionTests
+- EscalationTests
+- collect_training_data.py
+- train_matching.py
 - Phase2Tests
-- django_db
 - compilerOptions
-- InstitutionAdmin
-- models.py
+- compare_fresh_models.py
+- prepare_public_pairs.py
 - signals.py
-- demo_data.py
 - Backend Python requirements
-- 0001_initial.py
+- train_public_paraphrase.py
+- evaluate
+- InstitutionAdmin
 - compilerOptions
-- Command
-- InstitutionMigrationTests
-- Phase2MigrationTests
+- ReadOnlyAdmin
+- InstitutionAdminForm
 - Centralized test commands and result layout
 - README.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `Complaint` - 49 edges
-2. `WorkflowTests` - 43 edges
-3. `Institution` - 39 edges
-4. `Coordination - AICTE 26264` - 37 edges
+2. `WorkflowTests` - 46 edges
+3. `Coordination - AICTE 26264` - 40 edges
+4. `Institution` - 39 edges
 5. `InstitutionTests` - 28 edges
-6. `ImportTests` - 23 edges
-7. `role()` - 23 edges
-8. `CaseAction` - 22 edges
-9. `scoped_cases()` - 21 edges
-10. `Shell()` - 20 edges
+6. `CaseAction` - 26 edges
+7. `role()` - 26 edges
+8. `scoped_cases()` - 25 edges
+9. `ImportTests` - 23 edges
+10. `EscalationTests` - 22 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `RolloutTests` --uses--> `ImportJob`  [INFERRED]
+- `RolloutTests` --uses--> `Complaint`  [INFERRED]
   tests/backend/test_imports.py → backend/cases/models.py
-- `DashboardTests` --uses--> `CaseAction`  [INFERRED]
+- `RolloutTests` --uses--> `ModelRelease`  [INFERRED]
   tests/backend/test_imports.py → backend/cases/models.py
-- `DashboardTests` --uses--> `Institution`  [INFERRED]
+- `RolloutTests` --uses--> `OverlapCandidate`  [INFERRED]
   tests/backend/test_imports.py → backend/cases/models.py
-- `DashboardTests` --uses--> `OverlapCandidate`  [INFERRED]
-  tests/backend/test_imports.py → backend/cases/models.py
-- `ImportTests` --uses--> `Complaint`  [INFERRED]
-  tests/backend/test_imports.py → backend/cases/models.py
+- `EscalationTests` --uses--> `Escalation`  [INFERRED]
+  tests/backend/test_escalations.py → backend/cases/models.py
+- `EscalationTests` --uses--> `Membership`  [INFERRED]
+  tests/backend/test_escalations.py → backend/cases/models.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (35 total, 21 thin omitted)
+## Communities (35 total, 17 thin omitted)
 
 ### Community 0 - "api.py"
 Cohesion: 0.05
-Nodes (84): coordination(), current_bureau_id(), filtered_cases(), role(), scoped_cases(), writable(), actions(), case_detail() (+76 more)
+Nodes (93): coordination(), current_bureau_id(), filtered_cases(), role(), scoped_cases(), writable(), actions(), case_detail() (+85 more)
 
 ### Community 1 - "main.tsx"
 Cohesion: 0.07
-Nodes (79): api(), ApiError, Attachment, Case, CaseAction, CaseDetail, categories, classifications (+71 more)
+Nodes (87): api(), ApiError, Attachment, Case, CaseAction, CaseDetail, categories, classifications (+79 more)
 
-### Community 2 - "train_matching.py"
+### Community 2 - "matching.py"
 Cohesion: 0.05
-Nodes (38): calibrate(), Command, metrics(), main(), redact(), sql_values(), main(), download() (+30 more)
+Nodes (25): process_import_matching(), Command, Command, refresh_active_matches(), Command, baseline_runtime(), cached_encoder(), cached_tokenizer() (+17 more)
 
-### Community 3 - "Complaint"
+### Community 3 - "models.py"
 Cohesion: 0.05
-Nodes (31): Command, Command, Command, refresh_active_matches(), swap_release(), Command, baseline_runtime(), cached_encoder() (+23 more)
+Nodes (17): evaluation_dataset(), seed_records(), Command, Migration, Migration, Migration, Migration, Migration (+9 more)
 
 ### Community 4 - "Coordination - AICTE 26264"
 Cohesion: 0.05
-Nodes (46): CSRF-protected Coordination sign-in form, Coordination frontend HTML entrypoint, Action-first deadline and bureau-coordination dashboard, Immutable allegations and append-only corrections and audit history, PostgreSQL dump and private-files backup and restore, Audited case classification with backward-compatible Unclassified default, Complaint monitoring and cross-bureau coordination prototype, Coordination - AICTE 26264 (+38 more)
+Nodes (49): CSRF-protected Coordination sign-in form, Coordination frontend HTML entrypoint, Action-first deadline and bureau-coordination dashboard, Immutable allegations and append-only corrections and audit history, PostgreSQL dump and private-files backup and restore, Audited case classification with backward-compatible Unclassified default, Complaint monitoring and cross-bureau coordination prototype, Coordination - AICTE 26264 (+41 more)
 
-### Community 5 - "package.json"
+### Community 5 - "WorkflowTests"
+Cohesion: 0.07
+Nodes (3): EscalationConcurrencyTests, submit(), WorkflowTests
+
+### Community 6 - "ImportTests"
+Cohesion: 0.11
+Nodes (9): process_import(), Command, swap_release(), ImportJob, StagedEmbedding, SummaryRecord, DashboardTests, ImportTests (+1 more)
+
+### Community 7 - "escalations.spec.ts"
+Cohesion: 0.10
+Nodes (13): createCase(), csrf(), escalate(), post(), stamp, createInstitution(), csrf(), post() (+5 more)
+
+### Community 8 - "package.json"
 Cohesion: 0.06
-Nodes (30): dependencies, @phosphor-icons/react, react, react-dom, react-router-dom, recharts, devDependencies, @playwright/test (+22 more)
+Nodes (29): dependencies, @phosphor-icons/react, react, react-dom, react-router-dom, recharts, devDependencies, @playwright/test (+21 more)
 
-### Community 7 - "ImportTests"
-Cohesion: 0.16
-Nodes (3): process_import(), DashboardTests, ImportTests
+### Community 11 - "collect_training_data.py"
+Cohesion: 0.18
+Nodes (8): main(), redact(), sql_values(), main(), download(), main(), synthetic(), main()
 
-### Community 8 - "institutions.spec.ts"
-Cohesion: 0.12
-Nodes (8): createInstitution(), csrf(), post(), stamp, createCase(), csrf(), post(), stamp
+### Community 12 - "train_matching.py"
+Cohesion: 0.18
+Nodes (6): main(), save(), seed(), train_epoch(), vectors(), main()
 
-### Community 11 - "django_db"
-Cohesion: 0.12
-Nodes (6): Migration, Migration, Migration, Migration, Migration, Migration
-
-### Community 12 - "compilerOptions"
+### Community 14 - "compilerOptions"
 Cohesion: 0.13
 Nodes (14): compilerOptions, allowImportingTsExtensions, isolatedModules, jsx, lib, module, moduleResolution, noEmit (+6 more)
 
-### Community 14 - "InstitutionAdmin"
-Cohesion: 0.14
-Nodes (4): InstitutionAdmin, InstitutionAdminForm, Meta, ReadOnlyAdmin
+### Community 15 - "compare_fresh_models.py"
+Cohesion: 0.23
+Nodes (5): education_pairs(), main(), summarize(), unseen(), FreshComparisonTests
 
-### Community 17 - "demo_data.py"
-Cohesion: 0.20
-Nodes (3): evaluation_dataset(), seed_records(), EvaluationTests
+### Community 16 - "prepare_public_pairs.py"
+Cohesion: 0.30
+Nodes (7): clean_training(), download(), main(), normalized(), split_dev(), texts(), PublicDataTests
 
 ### Community 18 - "Backend Python requirements"
 Cohesion: 0.27
 Nodes (10): Backend Python requirements, Django and Django REST Framework, pgvector Python integration, Django Q2 durable task worker, sentence-transformers, Django API service, PostgreSQL 17 with pgvector and persistent volume, Shared local offline MiniLM model files (+2 more)
 
-### Community 20 - "compilerOptions"
+### Community 19 - "train_public_paraphrase.py"
+Cohesion: 0.36
+Nodes (7): epoch(), export(), load(), main(), pair_scores(), save(), seed()
+
+### Community 20 - "evaluate"
+Cohesion: 0.31
+Nodes (5): calibrate(), Command, metrics(), evaluate(), measured()
+
+### Community 22 - "compilerOptions"
 Cohesion: 0.40
 Nodes (4): compilerOptions, baseUrl, paths, @playwright/test
 
 ## Knowledge Gaps
-- **93 isolated node(s):** `Migration`, `Migration`, `Migration`, `Meta`, `Migration` (+88 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 256 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **99 isolated node(s):** `Meta`, `Meta`, `Migration`, `Migration`, `Migration` (+94 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 274 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `WorkflowTests` connect `WorkflowTests` to `api.py`, `demo_data.py`, `Complaint`, `models.py`?**
+- **Why does `WorkflowTests` connect `WorkflowTests` to `api.py`, `models.py`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **Are the 9 inferred relationships involving `WorkflowTests` (e.g. with `Attachment` and `AuditEvent`) actually correct?**
   _`WorkflowTests` has 9 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 5 inferred relationships involving `InstitutionTests` (e.g. with `AuditEvent` and `CaseAction`) actually correct?**
   _`InstitutionTests` has 5 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `Migration`, `Migration`, `Migration` to the rest of the system?**
-  _93 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `Meta`, `Meta`, `Migration` to the rest of the system?**
+  _99 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `api.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.051036682615629984 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.051842972729997 - nodes in this community are weakly interconnected._
 - **Should `main.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.070271407532085 - nodes in this community are weakly interconnected._
-- **Should `train_matching.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.05025394279604384 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06506965681277607 - nodes in this community are weakly interconnected._
+- **Should `matching.py` be split into smaller, more focused modules?**
+  _Cohesion score 0.05194805194805195 - nodes in this community are weakly interconnected._
