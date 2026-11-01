@@ -7,8 +7,9 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from .access import role, scoped_cases
-from .api import Conflict, overlap_data
+from .api import Conflict, overlap_data, review_snapshots
 from .models import Institution, OverlapCandidate, CaseAction
+from .evidence import build_evidence, decision_snapshot
 
 
 @api_view(['GET'])
@@ -47,9 +48,11 @@ def decide(obj, user, decision, reason, expected_version):
     obj.decision, obj.reason, obj.reviewer, obj.reviewed_at = decision, reason, user, timezone.now()
     obj.version += 1
     obj.save()
+    snapshot = decision_snapshot(obj, user)
     for case_id in [obj.left_id, obj.right_id]:
         CaseAction.objects.create(case_id=case_id, actor=user, kind='overlap_review', reason=reason,
-            changes={'overlap_id': obj.pk, 'origin': obj.origin, 'decision': {'before': previous, 'after': decision}})
+            changes={'overlap_id': obj.pk, 'origin': obj.origin, 'decision': {'before': previous, 'after': decision},
+                     'review_snapshot': snapshot})
 
 
 @api_view(['POST'])
@@ -71,14 +74,14 @@ def manual(request):
         if created:
             obj = OverlapCandidate.objects.create(left=left, right=right, origin='manual', score=None,
                 decision=d['decision'], reason=d['reason'], reviewer=request.user, reviewed_at=timezone.now(),
-                evidence={'institution': left.institution.name, 'categories': [left.category, right.category],
-                          'incident_dates': [str(left.incident_date or 'Not recorded'), str(right.incident_date or 'Not recorded')],
-                          'shared_reference': left.source_reference == right.source_reference, 'scope': 'Manual coordination decision; not model-scored'})
+                evidence=build_evidence(left, right))
+            snapshot = decision_snapshot(obj, request.user)
             for case in [left, right]:
                 CaseAction.objects.create(case=case, actor=request.user, kind='overlap_review', reason=d['reason'],
-                    changes={'overlap_id': obj.pk, 'origin': 'manual', 'decision': {'before': None, 'after': d['decision']}})
+                    changes={'overlap_id': obj.pk, 'origin': 'manual', 'decision': {'before': None, 'after': d['decision']},
+                             'review_snapshot': snapshot})
         elif not (obj.decision == d['decision'] and obj.reason == d['reason'] and obj.reviewer_id == request.user.pk):
             if 'expected_version' not in d:
                 raise Conflict('This pair already exists. Review it with its current version before changing the decision.')
             decide(obj, request.user, d['decision'], d['reason'], d['expected_version'])
-    return Response(overlap_data(obj), status=201 if created else 200)
+    return Response(overlap_data(obj, review_snapshots([obj]).get(obj.pk)), status=201 if created else 200)

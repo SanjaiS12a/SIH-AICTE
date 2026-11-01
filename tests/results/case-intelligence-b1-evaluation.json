@@ -1,0 +1,3147 @@
+{
+  "eligibility": {
+    "raw_records": 400,
+    "eligible_records": 362,
+    "raw_partition_counts": {
+      "calibration": 160,
+      "test": 240
+    },
+    "eligible_partition_counts": {
+      "calibration": 160,
+      "test": 202
+    },
+    "invalid_records": [],
+    "cross_partition_exact_text_groups": 38,
+    "excluded_repeated_test_ids": [
+      "2-n",
+      "3-n",
+      "7-n",
+      "8-n",
+      "12-n",
+      "13-n",
+      "17-n",
+      "18-n",
+      "19-n",
+      "23-n",
+      "24-n",
+      "28-n",
+      "29-n",
+      "33-n",
+      "34-n",
+      "37-n",
+      "38-n",
+      "42-n",
+      "43-n",
+      "47-n",
+      "48-n",
+      "52-n",
+      "53-n",
+      "54-n",
+      "58-n",
+      "59-n",
+      "63-n",
+      "64-n",
+      "68-n",
+      "69-n",
+      "72-n",
+      "73-n",
+      "77-n",
+      "78-n",
+      "93-n",
+      "94-n",
+      "98-n",
+      "99-n"
+    ],
+    "raw_pairs": 300,
+    "eligible_pairs": 262,
+    "invalid_or_excluded_pairs": [
+      {
+        "row": 8,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 11,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 23,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 26,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 38,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 41,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 53,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 56,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 59,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 71,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 74,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 86,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 89,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 101,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 104,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 113,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 116,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 128,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 131,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 143,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 146,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 158,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 161,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 164,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 176,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 179,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 191,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 194,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 206,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 209,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 218,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 221,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 233,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 236,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 281,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 284,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 296,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      },
+      {
+        "row": 299,
+        "reason": "Unavailable, self or cross-partition endpoints"
+      }
+    ],
+    "label_counts": {
+      "same_incident": 100,
+      "unrelated": 62,
+      "related_issue": 100
+    },
+    "test_label_counts": {
+      "same_incident": 60,
+      "related_issue": 60,
+      "unrelated": 22
+    }
+  },
+  "pairwise_threshold_rule": {
+    "calibration": {
+      "precision": 0.9615384615384616,
+      "recall": 0.9375,
+      "f1": 0.9493670886075949,
+      "tp": 75,
+      "fp": 3,
+      "fn": 5,
+      "tn": 37,
+      "samples": 120,
+      "false_positives": [
+        {
+          "left": "30-a",
+          "right": "30-n",
+          "score": 0.6413577198982239
+        },
+        {
+          "left": "40-a",
+          "right": "40-n",
+          "score": 0.7511374950408936
+        },
+        {
+          "left": "76-a",
+          "right": "76-n",
+          "score": 0.7795300483703613
+        }
+      ],
+      "missed_review_worthy_pairs": [
+        {
+          "left": "0-a",
+          "right": "0-b",
+          "label": "same_incident",
+          "score": 0.5872105956077576
+        },
+        {
+          "left": "11-a",
+          "right": "11-b",
+          "label": "same_incident",
+          "score": 0.4781346917152405
+        },
+        {
+          "left": "36-a",
+          "right": "36-b",
+          "label": "same_incident",
+          "score": 0.5576615333557129
+        },
+        {
+          "left": "65-a",
+          "right": "65-b",
+          "label": "same_incident",
+          "score": 0.4805710017681122
+        },
+        {
+          "left": "90-a",
+          "right": "90-b",
+          "label": "same_incident",
+          "score": 0.5848250389099121
+        }
+      ],
+      "unavailable_pairs": 0
+    },
+    "test": {
+      "precision": 0.9743589743589743,
+      "recall": 0.95,
+      "f1": 0.9620253164556962,
+      "tp": 114,
+      "fp": 3,
+      "fn": 6,
+      "tn": 19,
+      "samples": 142,
+      "false_positives": [
+        {
+          "left": "4-a",
+          "right": "4-n",
+          "score": 0.7534849643707275
+        },
+        {
+          "left": "22-a",
+          "right": "22-n",
+          "score": 0.7558519244194031
+        },
+        {
+          "left": "84-a",
+          "right": "84-n",
+          "score": 0.6201120615005493
+        }
+      ],
+      "missed_review_worthy_pairs": [
+        {
+          "left": "18-a",
+          "right": "18-b",
+          "label": "same_incident",
+          "score": 0.5817763209342957
+        },
+        {
+          "left": "29-a",
+          "right": "29-b",
+          "label": "same_incident",
+          "score": 0.47287678718566895
+        },
+        {
+          "left": "47-a",
+          "right": "47-b",
+          "label": "same_incident",
+          "score": 0.4678778648376465
+        },
+        {
+          "left": "54-a",
+          "right": "54-b",
+          "label": "same_incident",
+          "score": 0.5605651140213013
+        },
+        {
+          "left": "72-a",
+          "right": "72-b",
+          "label": "same_incident",
+          "score": 0.5731898546218872
+        },
+        {
+          "left": "83-a",
+          "right": "83-b",
+          "label": "same_incident",
+          "score": 0.47462379932403564
+        }
+      ],
+      "unavailable_pairs": 0
+    }
+  },
+  "embedding_seconds": 3.98078186299972,
+  "retrieval": {
+    "eligible_queries": 60,
+    "invalid_or_excluded_queries": [],
+    "query_candidate_coverage": 1.0,
+    "queries_with_suggestions": 54,
+    "query_suggestion_coverage": 0.9,
+    "suggestions": 162,
+    "judged_suggestions": 54,
+    "unjudged_suggestions": 108,
+    "judgment_coverage": 0.3333333333333333,
+    "review_worthy_judged_suggestions": 54,
+    "review_worthy_precision_on_judged_suggestions": 1.0,
+    "overall_suggestion_precision": null,
+    "eligible_relevant_pairs": 60,
+    "retrieved_relevant_pairs": 54,
+    "same_incident_recall_at_5": 0.9,
+    "query_hit_rate_at_5": 0.9,
+    "same_incident_candidate_recall_before_threshold": 1.0,
+    "embedding_abstentions": 0,
+    "unavailable_embedding_ids": [],
+    "in_memory_exact_retrieval_ms": {
+      "total": 3.5118109881295823,
+      "p95": 0.0808830523965298
+    },
+    "pgvector_database_latency_ms": null,
+    "queries": [
+      {
+        "query": "2-b",
+        "eligible_candidates": 11,
+        "relevant": [
+          "2-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "2-a",
+            "score": 0.7110886573791504
+          },
+          {
+            "id": "92-a",
+            "score": 0.6853380799293518
+          },
+          {
+            "id": "2-r",
+            "score": 0.6564875841140747
+          },
+          {
+            "id": "92-r",
+            "score": 0.6387782096862793
+          },
+          {
+            "id": "32-n",
+            "score": 0.632122814655304
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "2-a",
+            "score": 0.7110886573791504,
+            "label": "same_incident"
+          },
+          {
+            "id": "92-a",
+            "score": 0.6853380799293518,
+            "label": null
+          },
+          {
+            "id": "2-r",
+            "score": 0.6564875841140747,
+            "label": null
+          },
+          {
+            "id": "92-r",
+            "score": 0.6387782096862793,
+            "label": null
+          },
+          {
+            "id": "32-n",
+            "score": 0.632122814655304,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "3-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "3-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "3-a",
+            "score": 0.8156281113624573
+          },
+          {
+            "id": "93-a",
+            "score": 0.7982007265090942
+          },
+          {
+            "id": "3-r",
+            "score": 0.7783104181289673
+          },
+          {
+            "id": "93-r",
+            "score": 0.7690800428390503
+          },
+          {
+            "id": "33-a",
+            "score": 0.29730018973350525
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "3-a",
+            "score": 0.8156281113624573,
+            "label": "same_incident"
+          },
+          {
+            "id": "93-a",
+            "score": 0.7982007265090942,
+            "label": null
+          },
+          {
+            "id": "3-r",
+            "score": 0.7783104181289673,
+            "label": null
+          },
+          {
+            "id": "93-r",
+            "score": 0.7690800428390503,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "4-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "4-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "4-a",
+            "score": 0.8154261112213135
+          },
+          {
+            "id": "94-a",
+            "score": 0.8003541231155396
+          },
+          {
+            "id": "4-r",
+            "score": 0.7370464205741882
+          },
+          {
+            "id": "94-r",
+            "score": 0.7305970191955566
+          },
+          {
+            "id": "64-a",
+            "score": 0.7294673919677734
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "4-a",
+            "score": 0.8154261112213135,
+            "label": "same_incident"
+          },
+          {
+            "id": "94-a",
+            "score": 0.8003541231155396,
+            "label": null
+          },
+          {
+            "id": "4-r",
+            "score": 0.7370464205741882,
+            "label": null
+          },
+          {
+            "id": "94-r",
+            "score": 0.7305970191955566,
+            "label": null
+          },
+          {
+            "id": "64-a",
+            "score": 0.7294673919677734,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "7-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "7-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "7-a",
+            "score": 0.6944723129272461
+          },
+          {
+            "id": "97-a",
+            "score": 0.6641896963119507
+          },
+          {
+            "id": "7-r",
+            "score": 0.6513867378234863
+          },
+          {
+            "id": "97-r",
+            "score": 0.6291295886039734
+          },
+          {
+            "id": "37-a",
+            "score": 0.42453205585479736
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "7-a",
+            "score": 0.6944723129272461,
+            "label": "same_incident"
+          },
+          {
+            "id": "97-a",
+            "score": 0.6641896963119507,
+            "label": null
+          },
+          {
+            "id": "7-r",
+            "score": 0.6513867378234863,
+            "label": null
+          },
+          {
+            "id": "97-r",
+            "score": 0.6291295886039734,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "8-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "8-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "8-a",
+            "score": 0.7487805485725403
+          },
+          {
+            "id": "98-a",
+            "score": 0.7156645059585571
+          },
+          {
+            "id": "8-r",
+            "score": 0.6769112348556519
+          },
+          {
+            "id": "98-r",
+            "score": 0.6569687128067017
+          },
+          {
+            "id": "38-a",
+            "score": 0.5085620284080505
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "8-a",
+            "score": 0.7487805485725403,
+            "label": "same_incident"
+          },
+          {
+            "id": "98-a",
+            "score": 0.7156645059585571,
+            "label": null
+          },
+          {
+            "id": "8-r",
+            "score": 0.6769112348556519,
+            "label": null
+          },
+          {
+            "id": "98-r",
+            "score": 0.6569687128067017,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "9-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "9-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "9-a",
+            "score": 0.7436238527297974
+          },
+          {
+            "id": "99-a",
+            "score": 0.739241361618042
+          },
+          {
+            "id": "9-r",
+            "score": 0.7308312654495239
+          },
+          {
+            "id": "99-r",
+            "score": 0.7155058979988098
+          },
+          {
+            "id": "39-n",
+            "score": 0.6472249031066895
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "9-a",
+            "score": 0.7436238527297974,
+            "label": "same_incident"
+          },
+          {
+            "id": "99-a",
+            "score": 0.739241361618042,
+            "label": null
+          },
+          {
+            "id": "9-r",
+            "score": 0.7308312654495239,
+            "label": null
+          },
+          {
+            "id": "99-r",
+            "score": 0.7155058979988098,
+            "label": null
+          },
+          {
+            "id": "39-n",
+            "score": 0.6472249031066895,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "12-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "12-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "12-a",
+            "score": 0.6776922345161438
+          },
+          {
+            "id": "72-a",
+            "score": 0.6137311458587646
+          },
+          {
+            "id": "12-r",
+            "score": 0.59185391664505
+          },
+          {
+            "id": "72-r",
+            "score": 0.5644645690917969
+          },
+          {
+            "id": "42-r",
+            "score": 0.5381648540496826
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "12-a",
+            "score": 0.6776922345161438,
+            "label": "same_incident"
+          },
+          {
+            "id": "72-a",
+            "score": 0.6137311458587646,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "13-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "13-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "13-a",
+            "score": 0.7334772944450378
+          },
+          {
+            "id": "13-r",
+            "score": 0.6679995059967041
+          },
+          {
+            "id": "73-a",
+            "score": 0.5912221670150757
+          },
+          {
+            "id": "73-r",
+            "score": 0.5272445678710938
+          },
+          {
+            "id": "43-a",
+            "score": 0.40889936685562134
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "13-a",
+            "score": 0.7334772944450378,
+            "label": "same_incident"
+          },
+          {
+            "id": "13-r",
+            "score": 0.6679995059967041,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "14-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "14-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "14-a",
+            "score": 0.6541312336921692
+          },
+          {
+            "id": "74-a",
+            "score": 0.6263240575790405
+          },
+          {
+            "id": "14-r",
+            "score": 0.5862997174263
+          },
+          {
+            "id": "74-r",
+            "score": 0.5823112726211548
+          },
+          {
+            "id": "44-r",
+            "score": 0.5809773206710815
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "14-a",
+            "score": 0.6541312336921692,
+            "label": "same_incident"
+          },
+          {
+            "id": "74-a",
+            "score": 0.6263240575790405,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "17-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "17-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "17-a",
+            "score": 0.708786129951477
+          },
+          {
+            "id": "17-r",
+            "score": 0.6839997172355652
+          },
+          {
+            "id": "77-a",
+            "score": 0.5522583723068237
+          },
+          {
+            "id": "77-r",
+            "score": 0.5453018546104431
+          },
+          {
+            "id": "47-r",
+            "score": 0.5009057521820068
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "17-a",
+            "score": 0.708786129951477,
+            "label": "same_incident"
+          },
+          {
+            "id": "17-r",
+            "score": 0.6839997172355652,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "18-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "18-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "18-a",
+            "score": 0.5817763209342957
+          },
+          {
+            "id": "18-r",
+            "score": 0.5552839040756226
+          },
+          {
+            "id": "78-a",
+            "score": 0.46625131368637085
+          },
+          {
+            "id": "48-a",
+            "score": 0.45885616540908813
+          },
+          {
+            "id": "48-r",
+            "score": 0.4080902338027954
+          }
+        ],
+        "suggestions": [],
+        "missed_same_incident": [
+          "18-a"
+        ]
+      },
+      {
+        "query": "19-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "19-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "19-a",
+            "score": 0.7218471169471741
+          },
+          {
+            "id": "19-r",
+            "score": 0.6596928238868713
+          },
+          {
+            "id": "49-a",
+            "score": 0.6342692375183105
+          },
+          {
+            "id": "49-r",
+            "score": 0.5811196565628052
+          },
+          {
+            "id": "49-n",
+            "score": 0.5674641132354736
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "19-a",
+            "score": 0.7218471169471741,
+            "label": "same_incident"
+          },
+          {
+            "id": "19-r",
+            "score": 0.6596928238868713,
+            "label": null
+          },
+          {
+            "id": "49-a",
+            "score": 0.6342692375183105,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "22-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "22-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "22-a",
+            "score": 0.8164641857147217
+          },
+          {
+            "id": "22-r",
+            "score": 0.7435935735702515
+          },
+          {
+            "id": "82-a",
+            "score": 0.7348692417144775
+          },
+          {
+            "id": "22-n",
+            "score": 0.7019464373588562
+          },
+          {
+            "id": "82-r",
+            "score": 0.630588948726654
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "22-a",
+            "score": 0.8164641857147217,
+            "label": "same_incident"
+          },
+          {
+            "id": "22-r",
+            "score": 0.7435935735702515,
+            "label": null
+          },
+          {
+            "id": "82-a",
+            "score": 0.7348692417144775,
+            "label": null
+          },
+          {
+            "id": "22-n",
+            "score": 0.7019464373588562,
+            "label": null
+          },
+          {
+            "id": "82-r",
+            "score": 0.630588948726654,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "23-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "23-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "23-a",
+            "score": 0.8073828220367432
+          },
+          {
+            "id": "23-r",
+            "score": 0.7807670831680298
+          },
+          {
+            "id": "53-a",
+            "score": 0.5428764820098877
+          },
+          {
+            "id": "53-r",
+            "score": 0.540439248085022
+          },
+          {
+            "id": "83-a",
+            "score": 0.49811363220214844
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "23-a",
+            "score": 0.8073828220367432,
+            "label": "same_incident"
+          },
+          {
+            "id": "23-r",
+            "score": 0.7807670831680298,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "24-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "24-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "24-a",
+            "score": 0.6284812688827515
+          },
+          {
+            "id": "24-r",
+            "score": 0.590713381767273
+          },
+          {
+            "id": "54-r",
+            "score": 0.558586835861206
+          },
+          {
+            "id": "84-n",
+            "score": 0.5546000003814697
+          },
+          {
+            "id": "54-a",
+            "score": 0.5367005467414856
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "24-a",
+            "score": 0.6284812688827515,
+            "label": "same_incident"
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "27-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "27-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "27-a",
+            "score": 0.7391349673271179
+          },
+          {
+            "id": "27-r",
+            "score": 0.7294771075248718
+          },
+          {
+            "id": "57-n",
+            "score": 0.6571053266525269
+          },
+          {
+            "id": "87-a",
+            "score": 0.4431954622268677
+          },
+          {
+            "id": "87-r",
+            "score": 0.3693253993988037
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "27-a",
+            "score": 0.7391349673271179,
+            "label": "same_incident"
+          },
+          {
+            "id": "27-r",
+            "score": 0.7294771075248718,
+            "label": null
+          },
+          {
+            "id": "57-n",
+            "score": 0.6571053266525269,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "28-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "28-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "28-a",
+            "score": 0.7554961442947388
+          },
+          {
+            "id": "58-a",
+            "score": 0.6721723675727844
+          },
+          {
+            "id": "28-r",
+            "score": 0.6537237167358398
+          },
+          {
+            "id": "88-n",
+            "score": 0.6118203401565552
+          },
+          {
+            "id": "58-r",
+            "score": 0.6064441204071045
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "28-a",
+            "score": 0.7554961442947388,
+            "label": "same_incident"
+          },
+          {
+            "id": "58-a",
+            "score": 0.6721723675727844,
+            "label": null
+          },
+          {
+            "id": "28-r",
+            "score": 0.6537237167358398,
+            "label": null
+          },
+          {
+            "id": "88-n",
+            "score": 0.6118203401565552,
+            "label": null
+          },
+          {
+            "id": "58-r",
+            "score": 0.6064441204071045,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "29-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "29-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "59-a",
+            "score": 0.5079519748687744
+          },
+          {
+            "id": "29-a",
+            "score": 0.47287678718566895
+          },
+          {
+            "id": "59-r",
+            "score": 0.42028751969337463
+          },
+          {
+            "id": "29-r",
+            "score": 0.408595472574234
+          },
+          {
+            "id": "89-a",
+            "score": 0.38606205582618713
+          }
+        ],
+        "suggestions": [],
+        "missed_same_incident": [
+          "29-a"
+        ]
+      },
+      {
+        "query": "32-b",
+        "eligible_candidates": 11,
+        "relevant": [
+          "32-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "32-a",
+            "score": 0.6537938117980957
+          },
+          {
+            "id": "2-a",
+            "score": 0.6394176483154297
+          },
+          {
+            "id": "92-a",
+            "score": 0.6300226449966431
+          },
+          {
+            "id": "2-r",
+            "score": 0.5946237444877625
+          },
+          {
+            "id": "62-r",
+            "score": 0.5897453427314758
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "32-a",
+            "score": 0.6537938117980957,
+            "label": "same_incident"
+          },
+          {
+            "id": "2-a",
+            "score": 0.6394176483154297,
+            "label": null
+          },
+          {
+            "id": "92-a",
+            "score": 0.6300226449966431,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "33-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "33-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "33-a",
+            "score": 0.8790864944458008
+          },
+          {
+            "id": "33-r",
+            "score": 0.8751904368400574
+          },
+          {
+            "id": "63-r",
+            "score": 0.36742621660232544
+          },
+          {
+            "id": "63-a",
+            "score": 0.36173442006111145
+          },
+          {
+            "id": "3-a",
+            "score": 0.35226720571517944
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "33-a",
+            "score": 0.8790864944458008,
+            "label": "same_incident"
+          },
+          {
+            "id": "33-r",
+            "score": 0.8751904368400574,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "34-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "34-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "34-a",
+            "score": 0.805167019367218
+          },
+          {
+            "id": "34-r",
+            "score": 0.7410501837730408
+          },
+          {
+            "id": "64-r",
+            "score": 0.4869121313095093
+          },
+          {
+            "id": "94-r",
+            "score": 0.47982335090637207
+          },
+          {
+            "id": "4-r",
+            "score": 0.4754801392555237
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "34-a",
+            "score": 0.805167019367218,
+            "label": "same_incident"
+          },
+          {
+            "id": "34-r",
+            "score": 0.7410501837730408,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "37-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "37-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "37-a",
+            "score": 0.700865626335144
+          },
+          {
+            "id": "67-a",
+            "score": 0.6435160636901855
+          },
+          {
+            "id": "37-r",
+            "score": 0.6403982639312744
+          },
+          {
+            "id": "67-n",
+            "score": 0.5755743384361267
+          },
+          {
+            "id": "67-r",
+            "score": 0.5749639272689819
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "37-a",
+            "score": 0.700865626335144,
+            "label": "same_incident"
+          },
+          {
+            "id": "67-a",
+            "score": 0.6435160636901855,
+            "label": null
+          },
+          {
+            "id": "37-r",
+            "score": 0.6403982639312744,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "38-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "38-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "38-a",
+            "score": 0.6967655420303345
+          },
+          {
+            "id": "38-r",
+            "score": 0.6496962308883667
+          },
+          {
+            "id": "8-a",
+            "score": 0.5043151378631592
+          },
+          {
+            "id": "98-r",
+            "score": 0.4984196424484253
+          },
+          {
+            "id": "8-r",
+            "score": 0.4979678988456726
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "38-a",
+            "score": 0.6967655420303345,
+            "label": "same_incident"
+          },
+          {
+            "id": "38-r",
+            "score": 0.6496962308883667,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "39-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "39-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "39-a",
+            "score": 0.7981258630752563
+          },
+          {
+            "id": "39-r",
+            "score": 0.7655502557754517
+          },
+          {
+            "id": "69-a",
+            "score": 0.27974772453308105
+          },
+          {
+            "id": "99-r",
+            "score": 0.27302050590515137
+          },
+          {
+            "id": "99-a",
+            "score": 0.26199862360954285
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "39-a",
+            "score": 0.7981258630752563,
+            "label": "same_incident"
+          },
+          {
+            "id": "39-r",
+            "score": 0.7655502557754517,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "42-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "42-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "42-a",
+            "score": 0.6265791058540344
+          },
+          {
+            "id": "42-r",
+            "score": 0.5937439203262329
+          },
+          {
+            "id": "72-a",
+            "score": 0.5652501583099365
+          },
+          {
+            "id": "72-r",
+            "score": 0.553736686706543
+          },
+          {
+            "id": "12-a",
+            "score": 0.5259066820144653
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "42-a",
+            "score": 0.6265791058540344,
+            "label": "same_incident"
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "43-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "43-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "43-a",
+            "score": 0.6883838772773743
+          },
+          {
+            "id": "43-r",
+            "score": 0.665347695350647
+          },
+          {
+            "id": "73-a",
+            "score": 0.4231557846069336
+          },
+          {
+            "id": "73-r",
+            "score": 0.3579901158809662
+          },
+          {
+            "id": "13-a",
+            "score": 0.3361324965953827
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "43-a",
+            "score": 0.6883838772773743,
+            "label": "same_incident"
+          },
+          {
+            "id": "43-r",
+            "score": 0.665347695350647,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "44-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "44-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "44-a",
+            "score": 0.7443915009498596
+          },
+          {
+            "id": "44-r",
+            "score": 0.6666111946105957
+          },
+          {
+            "id": "74-n",
+            "score": 0.6364455819129944
+          },
+          {
+            "id": "74-a",
+            "score": 0.5273351669311523
+          },
+          {
+            "id": "74-r",
+            "score": 0.46272793412208557
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "44-a",
+            "score": 0.7443915009498596,
+            "label": "same_incident"
+          },
+          {
+            "id": "44-r",
+            "score": 0.6666111946105957,
+            "label": null
+          },
+          {
+            "id": "74-n",
+            "score": 0.6364455819129944,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "47-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "47-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "77-a",
+            "score": 0.4980011582374573
+          },
+          {
+            "id": "47-a",
+            "score": 0.4678778648376465
+          },
+          {
+            "id": "77-r",
+            "score": 0.4024839401245117
+          },
+          {
+            "id": "47-r",
+            "score": 0.4023846387863159
+          },
+          {
+            "id": "17-a",
+            "score": 0.35328415036201477
+          }
+        ],
+        "suggestions": [],
+        "missed_same_incident": [
+          "47-a"
+        ]
+      },
+      {
+        "query": "48-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "48-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "48-a",
+            "score": 0.6706818342208862
+          },
+          {
+            "id": "18-a",
+            "score": 0.5753591060638428
+          },
+          {
+            "id": "48-r",
+            "score": 0.5687791109085083
+          },
+          {
+            "id": "78-a",
+            "score": 0.5679053068161011
+          },
+          {
+            "id": "18-r",
+            "score": 0.5444463491439819
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "48-a",
+            "score": 0.6706818342208862,
+            "label": "same_incident"
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "49-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "49-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "49-a",
+            "score": 0.7391758561134338
+          },
+          {
+            "id": "49-r",
+            "score": 0.6722691059112549
+          },
+          {
+            "id": "79-n",
+            "score": 0.6474285125732422
+          },
+          {
+            "id": "19-a",
+            "score": 0.5778471231460571
+          },
+          {
+            "id": "19-r",
+            "score": 0.516953706741333
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "49-a",
+            "score": 0.7391758561134338,
+            "label": "same_incident"
+          },
+          {
+            "id": "49-r",
+            "score": 0.6722691059112549,
+            "label": null
+          },
+          {
+            "id": "79-n",
+            "score": 0.6474285125732422,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "52-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "52-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "52-a",
+            "score": 0.7992741465568542
+          },
+          {
+            "id": "52-r",
+            "score": 0.7356187105178833
+          },
+          {
+            "id": "82-n",
+            "score": 0.7233304977416992
+          },
+          {
+            "id": "82-r",
+            "score": 0.48439982533454895
+          },
+          {
+            "id": "82-a",
+            "score": 0.47821247577667236
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "52-a",
+            "score": 0.7992741465568542,
+            "label": "same_incident"
+          },
+          {
+            "id": "52-r",
+            "score": 0.7356187105178833,
+            "label": null
+          },
+          {
+            "id": "82-n",
+            "score": 0.7233304977416992,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "53-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "53-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "53-a",
+            "score": 0.6991909742355347
+          },
+          {
+            "id": "53-r",
+            "score": 0.6835752725601196
+          },
+          {
+            "id": "83-n",
+            "score": 0.6053699851036072
+          },
+          {
+            "id": "23-a",
+            "score": 0.5513972043991089
+          },
+          {
+            "id": "23-r",
+            "score": 0.5331904888153076
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "53-a",
+            "score": 0.6991909742355347,
+            "label": "same_incident"
+          },
+          {
+            "id": "53-r",
+            "score": 0.6835752725601196,
+            "label": null
+          },
+          {
+            "id": "83-n",
+            "score": 0.6053699851036072,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "54-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "54-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "54-a",
+            "score": 0.5605651140213013
+          },
+          {
+            "id": "54-r",
+            "score": 0.5262726545333862
+          },
+          {
+            "id": "84-n",
+            "score": 0.5087555646896362
+          },
+          {
+            "id": "84-a",
+            "score": 0.4904867708683014
+          },
+          {
+            "id": "24-a",
+            "score": 0.4805777668952942
+          }
+        ],
+        "suggestions": [],
+        "missed_same_incident": [
+          "54-a"
+        ]
+      },
+      {
+        "query": "57-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "57-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "57-a",
+            "score": 0.8005653023719788
+          },
+          {
+            "id": "57-r",
+            "score": 0.7656868696212769
+          },
+          {
+            "id": "87-n",
+            "score": 0.7058603763580322
+          },
+          {
+            "id": "87-a",
+            "score": 0.29080548882484436
+          },
+          {
+            "id": "87-r",
+            "score": 0.26229438185691833
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "57-a",
+            "score": 0.8005653023719788,
+            "label": "same_incident"
+          },
+          {
+            "id": "57-r",
+            "score": 0.7656868696212769,
+            "label": null
+          },
+          {
+            "id": "87-n",
+            "score": 0.7058603763580322,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "58-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "58-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "58-a",
+            "score": 0.799381673336029
+          },
+          {
+            "id": "88-n",
+            "score": 0.754348874092102
+          },
+          {
+            "id": "28-a",
+            "score": 0.7409299612045288
+          },
+          {
+            "id": "58-r",
+            "score": 0.7323028445243835
+          },
+          {
+            "id": "28-r",
+            "score": 0.6560043096542358
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "58-a",
+            "score": 0.799381673336029,
+            "label": "same_incident"
+          },
+          {
+            "id": "88-n",
+            "score": 0.754348874092102,
+            "label": null
+          },
+          {
+            "id": "28-a",
+            "score": 0.7409299612045288,
+            "label": null
+          },
+          {
+            "id": "58-r",
+            "score": 0.7323028445243835,
+            "label": null
+          },
+          {
+            "id": "28-r",
+            "score": 0.6560043096542358,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "59-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "59-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "59-a",
+            "score": 0.7935522794723511
+          },
+          {
+            "id": "59-r",
+            "score": 0.7735422849655151
+          },
+          {
+            "id": "89-n",
+            "score": 0.6403869390487671
+          },
+          {
+            "id": "89-a",
+            "score": 0.5522214770317078
+          },
+          {
+            "id": "89-r",
+            "score": 0.5163514614105225
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "59-a",
+            "score": 0.7935522794723511,
+            "label": "same_incident"
+          },
+          {
+            "id": "59-r",
+            "score": 0.7735422849655151,
+            "label": null
+          },
+          {
+            "id": "89-n",
+            "score": 0.6403869390487671,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "62-b",
+        "eligible_candidates": 11,
+        "relevant": [
+          "62-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "62-a",
+            "score": 0.7300242781639099
+          },
+          {
+            "id": "62-r",
+            "score": 0.6522017121315002
+          },
+          {
+            "id": "92-n",
+            "score": 0.6182152032852173
+          },
+          {
+            "id": "92-a",
+            "score": 0.5110982060432434
+          },
+          {
+            "id": "2-a",
+            "score": 0.4999694526195526
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "62-a",
+            "score": 0.7300242781639099,
+            "label": "same_incident"
+          },
+          {
+            "id": "62-r",
+            "score": 0.6522017121315002,
+            "label": null
+          },
+          {
+            "id": "92-n",
+            "score": 0.6182152032852173,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "63-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "63-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "63-a",
+            "score": 0.7432327270507812
+          },
+          {
+            "id": "63-r",
+            "score": 0.726503849029541
+          },
+          {
+            "id": "33-a",
+            "score": 0.4388686418533325
+          },
+          {
+            "id": "33-r",
+            "score": 0.38864120841026306
+          },
+          {
+            "id": "93-a",
+            "score": 0.3650650978088379
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "63-a",
+            "score": 0.7432327270507812,
+            "label": "same_incident"
+          },
+          {
+            "id": "63-r",
+            "score": 0.726503849029541,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "64-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "64-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "64-a",
+            "score": 0.7608299255371094
+          },
+          {
+            "id": "94-a",
+            "score": 0.6643697023391724
+          },
+          {
+            "id": "4-a",
+            "score": 0.6593750715255737
+          },
+          {
+            "id": "64-r",
+            "score": 0.6525751948356628
+          },
+          {
+            "id": "4-n",
+            "score": 0.6365339159965515
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "64-a",
+            "score": 0.7608299255371094,
+            "label": "same_incident"
+          },
+          {
+            "id": "94-a",
+            "score": 0.6643697023391724,
+            "label": null
+          },
+          {
+            "id": "4-a",
+            "score": 0.6593750715255737,
+            "label": null
+          },
+          {
+            "id": "64-r",
+            "score": 0.6525751948356628,
+            "label": null
+          },
+          {
+            "id": "4-n",
+            "score": 0.6365339159965515,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "67-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "67-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "67-a",
+            "score": 0.728951096534729
+          },
+          {
+            "id": "67-r",
+            "score": 0.6628473997116089
+          },
+          {
+            "id": "97-n",
+            "score": 0.631742000579834
+          },
+          {
+            "id": "37-a",
+            "score": 0.5879744291305542
+          },
+          {
+            "id": "37-r",
+            "score": 0.5140273571014404
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "67-a",
+            "score": 0.728951096534729,
+            "label": "same_incident"
+          },
+          {
+            "id": "67-r",
+            "score": 0.6628473997116089,
+            "label": null
+          },
+          {
+            "id": "97-n",
+            "score": 0.631742000579834,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "68-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "68-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "68-a",
+            "score": 0.6344270706176758
+          },
+          {
+            "id": "68-r",
+            "score": 0.5994043350219727
+          },
+          {
+            "id": "8-a",
+            "score": 0.5960090160369873
+          },
+          {
+            "id": "98-a",
+            "score": 0.5915701389312744
+          },
+          {
+            "id": "38-a",
+            "score": 0.5909351706504822
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "68-a",
+            "score": 0.6344270706176758,
+            "label": "same_incident"
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "69-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "69-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "69-a",
+            "score": 0.8792046308517456
+          },
+          {
+            "id": "69-r",
+            "score": 0.8714326620101929
+          },
+          {
+            "id": "9-n",
+            "score": 0.7974246144294739
+          },
+          {
+            "id": "39-a",
+            "score": 0.3389010429382324
+          },
+          {
+            "id": "9-a",
+            "score": 0.33521410822868347
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "69-a",
+            "score": 0.8792046308517456,
+            "label": "same_incident"
+          },
+          {
+            "id": "69-r",
+            "score": 0.8714326620101929,
+            "label": null
+          },
+          {
+            "id": "9-n",
+            "score": 0.7974246144294739,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "72-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "72-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "72-a",
+            "score": 0.5731898546218872
+          },
+          {
+            "id": "72-r",
+            "score": 0.5063931941986084
+          },
+          {
+            "id": "12-a",
+            "score": 0.460326611995697
+          },
+          {
+            "id": "42-a",
+            "score": 0.45928898453712463
+          },
+          {
+            "id": "42-r",
+            "score": 0.4499172866344452
+          }
+        ],
+        "suggestions": [],
+        "missed_same_incident": [
+          "72-a"
+        ]
+      },
+      {
+        "query": "73-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "73-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "73-a",
+            "score": 0.7148231267929077
+          },
+          {
+            "id": "73-r",
+            "score": 0.6513991355895996
+          },
+          {
+            "id": "13-a",
+            "score": 0.6491278409957886
+          },
+          {
+            "id": "13-r",
+            "score": 0.5807837843894958
+          },
+          {
+            "id": "43-a",
+            "score": 0.43460187315940857
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "73-a",
+            "score": 0.7148231267929077,
+            "label": "same_incident"
+          },
+          {
+            "id": "73-r",
+            "score": 0.6513991355895996,
+            "label": null
+          },
+          {
+            "id": "13-a",
+            "score": 0.6491278409957886,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "74-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "74-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "74-a",
+            "score": 0.7116847038269043
+          },
+          {
+            "id": "74-r",
+            "score": 0.6457964181900024
+          },
+          {
+            "id": "14-n",
+            "score": 0.6143386363983154
+          },
+          {
+            "id": "44-a",
+            "score": 0.517123818397522
+          },
+          {
+            "id": "44-r",
+            "score": 0.5022159814834595
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "74-a",
+            "score": 0.7116847038269043,
+            "label": "same_incident"
+          },
+          {
+            "id": "74-r",
+            "score": 0.6457964181900024,
+            "label": null
+          },
+          {
+            "id": "14-n",
+            "score": 0.6143386363983154,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "77-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "77-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "77-a",
+            "score": 0.7969401478767395
+          },
+          {
+            "id": "77-r",
+            "score": 0.7605381608009338
+          },
+          {
+            "id": "17-a",
+            "score": 0.530332088470459
+          },
+          {
+            "id": "47-a",
+            "score": 0.5009315013885498
+          },
+          {
+            "id": "17-r",
+            "score": 0.49363356828689575
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "77-a",
+            "score": 0.7969401478767395,
+            "label": "same_incident"
+          },
+          {
+            "id": "77-r",
+            "score": 0.7605381608009338,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "78-b",
+        "eligible_candidates": 6,
+        "relevant": [
+          "78-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "78-a",
+            "score": 0.6185593605041504
+          },
+          {
+            "id": "78-r",
+            "score": 0.5503699779510498
+          },
+          {
+            "id": "18-r",
+            "score": 0.5483964681625366
+          },
+          {
+            "id": "18-a",
+            "score": 0.5448418259620667
+          },
+          {
+            "id": "48-a",
+            "score": 0.5364930629730225
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "78-a",
+            "score": 0.6185593605041504,
+            "label": "same_incident"
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "79-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "79-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "79-a",
+            "score": 0.7027791738510132
+          },
+          {
+            "id": "79-r",
+            "score": 0.6451725959777832
+          },
+          {
+            "id": "19-a",
+            "score": 0.4424408972263336
+          },
+          {
+            "id": "49-a",
+            "score": 0.3712656795978546
+          },
+          {
+            "id": "19-r",
+            "score": 0.36500948667526245
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "79-a",
+            "score": 0.7027791738510132,
+            "label": "same_incident"
+          },
+          {
+            "id": "79-r",
+            "score": 0.6451725959777832,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "82-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "82-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "82-a",
+            "score": 0.7659679651260376
+          },
+          {
+            "id": "22-a",
+            "score": 0.6679201722145081
+          },
+          {
+            "id": "82-r",
+            "score": 0.653469443321228
+          },
+          {
+            "id": "22-n",
+            "score": 0.6324993968009949
+          },
+          {
+            "id": "22-r",
+            "score": 0.5721665620803833
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "82-a",
+            "score": 0.7659679651260376,
+            "label": "same_incident"
+          },
+          {
+            "id": "22-a",
+            "score": 0.6679201722145081,
+            "label": null
+          },
+          {
+            "id": "82-r",
+            "score": 0.653469443321228,
+            "label": null
+          },
+          {
+            "id": "22-n",
+            "score": 0.6324993968009949,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "83-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "83-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "23-a",
+            "score": 0.47793635725975037
+          },
+          {
+            "id": "83-a",
+            "score": 0.47462379932403564
+          },
+          {
+            "id": "83-r",
+            "score": 0.40353482961654663
+          },
+          {
+            "id": "23-r",
+            "score": 0.386366605758667
+          },
+          {
+            "id": "53-a",
+            "score": 0.36939501762390137
+          }
+        ],
+        "suggestions": [],
+        "missed_same_incident": [
+          "83-a"
+        ]
+      },
+      {
+        "query": "84-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "84-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "84-a",
+            "score": 0.7028334140777588
+          },
+          {
+            "id": "54-a",
+            "score": 0.5991156101226807
+          },
+          {
+            "id": "84-r",
+            "score": 0.5898550748825073
+          },
+          {
+            "id": "54-r",
+            "score": 0.5532850027084351
+          },
+          {
+            "id": "24-a",
+            "score": 0.5492416024208069
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "84-a",
+            "score": 0.7028334140777588,
+            "label": "same_incident"
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "87-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "87-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "87-a",
+            "score": 0.884193480014801
+          },
+          {
+            "id": "87-r",
+            "score": 0.8721565008163452
+          },
+          {
+            "id": "27-n",
+            "score": 0.8060717582702637
+          },
+          {
+            "id": "27-a",
+            "score": 0.3620604872703552
+          },
+          {
+            "id": "27-r",
+            "score": 0.3471951484680176
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "87-a",
+            "score": 0.884193480014801,
+            "label": "same_incident"
+          },
+          {
+            "id": "87-r",
+            "score": 0.8721565008163452,
+            "label": null
+          },
+          {
+            "id": "27-n",
+            "score": 0.8060717582702637,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "88-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "88-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "88-a",
+            "score": 0.8116801381111145
+          },
+          {
+            "id": "88-r",
+            "score": 0.7361334562301636
+          },
+          {
+            "id": "58-r",
+            "score": 0.4642820954322815
+          },
+          {
+            "id": "28-r",
+            "score": 0.46085792779922485
+          },
+          {
+            "id": "58-a",
+            "score": 0.4458812475204468
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "88-a",
+            "score": 0.8116801381111145,
+            "label": "same_incident"
+          },
+          {
+            "id": "88-r",
+            "score": 0.7361334562301636,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "89-b",
+        "eligible_candidates": 7,
+        "relevant": [
+          "89-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "89-a",
+            "score": 0.7177551984786987
+          },
+          {
+            "id": "89-r",
+            "score": 0.6805176734924316
+          },
+          {
+            "id": "59-r",
+            "score": 0.5672361850738525
+          },
+          {
+            "id": "59-a",
+            "score": 0.5598422288894653
+          },
+          {
+            "id": "29-a",
+            "score": 0.5015849471092224
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "89-a",
+            "score": 0.7177551984786987,
+            "label": "same_incident"
+          },
+          {
+            "id": "89-r",
+            "score": 0.6805176734924316,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "92-b",
+        "eligible_candidates": 11,
+        "relevant": [
+          "92-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "92-a",
+            "score": 0.7085737586021423
+          },
+          {
+            "id": "2-a",
+            "score": 0.6721112132072449
+          },
+          {
+            "id": "92-r",
+            "score": 0.6488255262374878
+          },
+          {
+            "id": "2-r",
+            "score": 0.6231498122215271
+          },
+          {
+            "id": "32-n",
+            "score": 0.6172168254852295
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "92-a",
+            "score": 0.7085737586021423,
+            "label": "same_incident"
+          },
+          {
+            "id": "2-a",
+            "score": 0.6721112132072449,
+            "label": null
+          },
+          {
+            "id": "92-r",
+            "score": 0.6488255262374878,
+            "label": null
+          },
+          {
+            "id": "2-r",
+            "score": 0.6231498122215271,
+            "label": null
+          },
+          {
+            "id": "32-n",
+            "score": 0.6172168254852295,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "93-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "93-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "93-a",
+            "score": 0.8065891861915588
+          },
+          {
+            "id": "3-a",
+            "score": 0.7824697494506836
+          },
+          {
+            "id": "93-r",
+            "score": 0.7609851360321045
+          },
+          {
+            "id": "3-r",
+            "score": 0.7528743147850037
+          },
+          {
+            "id": "33-a",
+            "score": 0.2872176170349121
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "93-a",
+            "score": 0.8065891861915588,
+            "label": "same_incident"
+          },
+          {
+            "id": "3-a",
+            "score": 0.7824697494506836,
+            "label": null
+          },
+          {
+            "id": "93-r",
+            "score": 0.7609851360321045,
+            "label": null
+          },
+          {
+            "id": "3-r",
+            "score": 0.7528743147850037,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "94-b",
+        "eligible_candidates": 9,
+        "relevant": [
+          "94-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "94-a",
+            "score": 0.820936918258667
+          },
+          {
+            "id": "4-a",
+            "score": 0.812976062297821
+          },
+          {
+            "id": "64-a",
+            "score": 0.742384672164917
+          },
+          {
+            "id": "94-r",
+            "score": 0.7398947477340698
+          },
+          {
+            "id": "4-r",
+            "score": 0.7356957197189331
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "94-a",
+            "score": 0.820936918258667,
+            "label": "same_incident"
+          },
+          {
+            "id": "4-a",
+            "score": 0.812976062297821,
+            "label": null
+          },
+          {
+            "id": "64-a",
+            "score": 0.742384672164917,
+            "label": null
+          },
+          {
+            "id": "94-r",
+            "score": 0.7398947477340698,
+            "label": null
+          },
+          {
+            "id": "4-r",
+            "score": 0.7356957197189331,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "97-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "97-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "97-a",
+            "score": 0.6888080835342407
+          },
+          {
+            "id": "7-a",
+            "score": 0.6670204997062683
+          },
+          {
+            "id": "97-r",
+            "score": 0.6420806646347046
+          },
+          {
+            "id": "7-r",
+            "score": 0.6376594305038452
+          },
+          {
+            "id": "37-a",
+            "score": 0.4143073856830597
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "97-a",
+            "score": 0.6888080835342407,
+            "label": "same_incident"
+          },
+          {
+            "id": "7-a",
+            "score": 0.6670204997062683,
+            "label": null
+          },
+          {
+            "id": "97-r",
+            "score": 0.6420806646347046,
+            "label": null
+          },
+          {
+            "id": "7-r",
+            "score": 0.6376594305038452,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "98-b",
+        "eligible_candidates": 8,
+        "relevant": [
+          "98-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "98-a",
+            "score": 0.7642838358879089
+          },
+          {
+            "id": "8-a",
+            "score": 0.7463407516479492
+          },
+          {
+            "id": "98-r",
+            "score": 0.687072217464447
+          },
+          {
+            "id": "8-r",
+            "score": 0.6792894601821899
+          },
+          {
+            "id": "38-a",
+            "score": 0.5115290284156799
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "98-a",
+            "score": 0.7642838358879089,
+            "label": "same_incident"
+          },
+          {
+            "id": "8-a",
+            "score": 0.7463407516479492,
+            "label": null
+          },
+          {
+            "id": "98-r",
+            "score": 0.687072217464447,
+            "label": null
+          },
+          {
+            "id": "8-r",
+            "score": 0.6792894601821899,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      },
+      {
+        "query": "99-b",
+        "eligible_candidates": 10,
+        "relevant": [
+          "99-a"
+        ],
+        "top5_before_threshold": [
+          {
+            "id": "99-a",
+            "score": 0.7477062344551086
+          },
+          {
+            "id": "9-a",
+            "score": 0.7281786203384399
+          },
+          {
+            "id": "99-r",
+            "score": 0.7147138118743896
+          },
+          {
+            "id": "9-r",
+            "score": 0.7134045362472534
+          },
+          {
+            "id": "39-n",
+            "score": 0.6376763582229614
+          }
+        ],
+        "suggestions": [
+          {
+            "id": "99-a",
+            "score": 0.7477062344551086,
+            "label": "same_incident"
+          },
+          {
+            "id": "9-a",
+            "score": 0.7281786203384399,
+            "label": null
+          },
+          {
+            "id": "99-r",
+            "score": 0.7147138118743896,
+            "label": null
+          },
+          {
+            "id": "9-r",
+            "score": 0.7134045362472534,
+            "label": null
+          },
+          {
+            "id": "39-n",
+            "score": 0.6376763582229614,
+            "label": null
+          }
+        ],
+        "missed_same_incident": []
+      }
+    ]
+  },
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "matching_policy_revision": "institution-exact-top5-v1",
+  "threshold": 0.603080153465271,
+  "policy": "same institution, exact cosine, nearest five, then frozen threshold; closed cases included",
+  "dataset_sha256": "69f634af01869e7e98d2e95ca050ae795a893865d8415ae4cf1a68084fa37bab",
+  "label_provenance": "Authored synthetic scenario labels; independent human review pending.",
+  "cold_model_load_seconds": 15.763215686998592,
+  "hardware": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "processor": "",
+    "inference_device": "cpu"
+  },
+  "metric_definitions": {
+    "pairwise_threshold_rule": "Review-worthy (same_incident OR related_issue) versus unrelated on labelled eligible pairs; not three-class classification or retrieval precision.",
+    "same_incident_recall_at_5": "Returned explicitly relevant same-incident pairs after nearest-five and threshold / all eligible relevant pairs; unavailable vectors count as misses.",
+    "candidate_recall": "Relevant pairs in nearest five before threshold / eligible relevant pairs.",
+    "precision": "Review-worthy / judged returned suggestions. Overall precision unavailable if any suggestion is unjudged; missing labels never become negatives.",
+    "coverage": "Queries with reference candidates or returned suggestions / eligible queries. Judgment coverage = judged / all returned suggestions."
+  },
+  "eligibility_rules": [
+    "Family-disjoint calibration/test; duplicate IDs and conflicting labels rejected.",
+    "Repeated normalized exact text across partitions excluded from test; near-duplicate leakage not independently audited.",
+    "All declared query IDs excluded from reference pools; no reliance on ID suffixes.",
+    "References share query institution and test partition; explicit same-incident labels define relevance.",
+    "No threshold selection or model activation; calibration metrics also use the frozen production threshold."
+  ],
+  "limitations": [
+    "Synthetic regression only; not independently reviewed AICTE accuracy.",
+    "Sparse judgments cannot establish overall suggestion precision.",
+    "In-memory exact cosine timing is not PostgreSQL latency or end-to-end queue performance.",
+    "Evaluation breaks equal-score ties by ID; live SQL does not guarantee a tie order."
+  ]
+}

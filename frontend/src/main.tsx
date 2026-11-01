@@ -56,6 +56,7 @@ import "./style.css";
 import { DashboardHome } from "./dashboard";
 import { PageBoundary } from "./page-boundary";
 import { MyWork } from "./my-work";
+import { PairEvidence, ReviewEvidence } from "./evidence";
 import { CaseEscalations, EscalationQueue } from "./escalations";
 import { ManualRelationship } from "./relationships";
 import { SourceIntake, SourceRows, SourceJobs } from "./source-intake";
@@ -1106,9 +1107,10 @@ function Detail({ user, options }: { user: User; options: Options }) {
                         </div>
                         <p>{a.reason}</p>
                         <small>{a.actor} · Bureau at action: {a.bureau_at_action || "Unknown (historical)"}</small>
+                        <ReviewEvidence snapshot={a.changes.review_snapshot} />
                         {Object.keys(a.changes).length > 0 && (
                           <div className="change-details">
-                            {Object.entries(a.changes).map(([key, value]) => (
+                            {Object.entries(a.changes).filter(([key]) => key !== "review_snapshot").map(([key, value]) => (
                               <span key={key}>
                                 {key.replaceAll("_", " ")}:{" "}
                                 {typeof value === "object" && value
@@ -1702,41 +1704,8 @@ function PairReview({
           </article>
         ))}
       </div>
-      <div className="evidence">
-        <h3>Similarity signal</h3>
-        <div>
-          <span>
-            <Intersect size={17} />
-            {typeof p.score === "number"
-              ? `Cosine similarity: ${p.score.toFixed(3)}`
-              : "Not model-scored"}
-          </span>
-        </div>
-        <p>Cosine similarity compares allegation wording. It is not a confidence percentage or confirmation of a common incident.</p>
-        <small>
-          {p.evidence.scope}. {p.model_revision ? `Model: ${p.model_revision}.` : "No model revision recorded."}
-        </small>
-        <h3>Recorded metadata</h3>
-        <p>Both cases belong to the same canonical institution. This does not confirm that they concern the same incident. Differences below need human interpretation.</p>
-        <div className="table-scroll" role="region" aria-label="Metadata comparison" tabIndex={0}>
-          <table>
-            <caption className="sr-only">Agreement or difference in recorded values; not verified findings</caption>
-            <thead><tr><th scope="col">Field</th><th scope="col">Comparison</th></tr></thead>
-            <tbody>
-              {[
-                ["Category", p.left.category, p.right.category],
-                ["Classification", p.left.classification, p.right.classification],
-                ["Incident date", p.left.incident_date, p.right.incident_date],
-                ["Source system", p.left.source_system, p.right.source_system],
-                ["Source reference", p.left.source_reference, p.right.source_reference],
-              ].map(([label, left, right]) => <tr key={label}>
-                <th scope="row">{label}</th>
-                <td>{!left || !right ? "Not recorded on one or both cases" : left === right ? "Same recorded value" : "Different recorded values"}</td>
-              </tr>)}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <PairEvidence pair={p} />
+      {p.decision !== "pending" && (p.review_snapshot ? <ReviewEvidence snapshot={p.review_snapshot} /> : <p className="card-body muted">Legacy review: no decision-time evidence snapshot recorded.</p>)}
       {user.role === "coordinator" ? (
         <form className="review-form" onSubmit={save}>
           <h3>Your coordination decision</h3>

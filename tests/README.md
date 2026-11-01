@@ -31,3 +31,5 @@ Start with [the six-case workbook](fixtures/sih-walkthrough/start-here-6-cases.x
 Keep credentials, private uploads, database archives, downloaded datasets and weights out of Git. Physical-offline verification requires actual network disconnection; intercepted requests alone are not equivalent.
 
 The [Case Intelligence Milestone A report](results/case-intelligence-a-verification.md) records the navigation/comparison changes, dedicated browser coverage and before/after desktop/mobile screenshots. Later intelligence and protocol milestones remain separate.
+
+The [B1 verification report](results/case-intelligence-b1-verification.md) documents evidence/snapshot tests, non-mutating evaluation, current results and their limits. `test_evidence.py` and `evidence.spec.ts` cover the new backend and browser behavior; the full suites remain mandatory. Matching evaluation protects calibration/model files and refuses existing or non-run output paths.

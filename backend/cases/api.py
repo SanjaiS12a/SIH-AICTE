@@ -187,18 +187,31 @@ def actions(request, case_id):
         CaseAction.objects.create(case=case, actor=request.user, kind=kind, reason=d['reason'], changes=changes)
     return Response(CaseSerializer(case).data)
 
-def overlap_data(obj):
+def review_snapshots(objects):
+    reviewed = [obj for obj in objects if obj.decision != 'pending']
+    snapshots = {}
+    if reviewed:
+        actions = CaseAction.objects.filter(kind='overlap_review', case_id__in=[obj.left_id for obj in reviewed],
+            changes__overlap_id__in=[obj.pk for obj in reviewed]).order_by('-created_at', '-id').values_list('changes', flat=True)
+        for changes in actions:
+            snapshots.setdefault(changes['overlap_id'], changes.get('review_snapshot'))
+    return snapshots
+
+
+def overlap_data(obj, snapshot=None):
     return {'id': obj.id, 'left': CaseSerializer(obj.left).data, 'right': CaseSerializer(obj.right).data,
             'score': obj.score, 'origin': obj.origin, 'evidence': obj.evidence, 'decision': obj.decision,
             'reason': obj.reason, 'model_revision': obj.model_revision, 'version': obj.version,
-            'reviewed_at': obj.reviewed_at, 'reviewer': obj.reviewer.get_full_name() if obj.reviewer else None}
+            'reviewed_at': obj.reviewed_at, 'reviewer': obj.reviewer.get_full_name() if obj.reviewer else None,
+            'review_snapshot': snapshot}
 
 @api_view(['GET'])
 def overlaps(request):
     qs = overlap_queryset(request)
     paginator = PageNumberPagination()
     rows = paginator.paginate_queryset(qs, request)
-    return paginator.get_paginated_response([overlap_data(o) for o in rows])
+    snapshots = review_snapshots(rows)
+    return paginator.get_paginated_response([overlap_data(o, snapshots.get(o.pk)) for o in rows])
 
 
 def overlap_queryset(request):

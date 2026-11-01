@@ -1,3 +1,4 @@
+import { ReviewEvidence } from "./evidence";
 import { useState } from "react";
 import { CoordinationNotices } from "./management";
 import type { FormEvent } from "react";
@@ -871,9 +872,10 @@ function InstitutionHistory({ id, refresh }: { id: string; refresh: number }) {
                     </Link>
                     <p>{a.reason}</p>
                     <small>{a.actor} · Bureau at action: {a.bureau_at_action || "Unknown (historical)"}</small>
+                    <ReviewEvidence snapshot={a.changes.review_snapshot} />
                     {Object.keys(a.changes).length > 0 && (
                       <div className="change-details">
-                        {Object.entries(a.changes).map(([key, value]) => (
+                        {Object.entries(a.changes).filter(([key]) => key !== "review_snapshot").map(([key, value]) => (
                           <span key={key}>
                             {key.replaceAll("_", " ")}:{" "}
                             {typeof value === "object" && value

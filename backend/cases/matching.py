@@ -9,6 +9,7 @@ from django.utils import timezone
 from pgvector.django import CosineDistance
 from rest_framework.exceptions import APIException
 from .models import Complaint, OverlapCandidate, ModelRelease
+from .evidence import build_evidence
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +83,7 @@ def match_case(case_id, vector=None, encoded_revision=None):
             # Serialize institution matching so simultaneous submissions see each other's vectors.
             from .models import Institution
             Institution.objects.select_for_update().get(pk=case.institution_id)
+            case.refresh_from_db()
             if revision() != encoded_revision:
                 raise RuntimeError('Model switched during encoding; retry with the active revision.')
             Complaint.objects.filter(pk=case_id).update(embedding=vector, model_revision=model)
@@ -94,11 +96,9 @@ def match_case(case_id, vector=None, encoded_revision=None):
                 if score < cutoff:
                     continue
                 left, right = sorted([case.id, other.id])
-                evidence = {'institution': case.institution.name,
-                            'shared_reference': case.source_reference == other.source_reference,
-                            'categories': [case.category, other.category],
-                            'incident_dates': [str(case.incident_date or 'Not recorded'), str(other.incident_date or 'Not recorded')],
-                            'scope': 'Original allegation summaries; human review required'}
+                other.institution = case.institution  # Retrieval already guarantees this canonical institution.
+                ordered = (case, other) if left == case.id else (other, case)
+                evidence = build_evidence(*ordered, score=score, model_revision=model)
                 suggestions.append(OverlapCandidate(left_id=left, right_id=right, score=score, model_revision=model, evidence=evidence))
             if suggestions:
                 from django.db.models import Q
@@ -110,11 +110,12 @@ def match_case(case_id, vector=None, encoded_revision=None):
                 updates = []
                 for suggestion in suggestions:
                     old = existing.get((suggestion.left_id, suggestion.right_id))
-                    if old and old.decision == 'pending':
+                    if old and old.decision == 'pending' and (old.score, old.model_revision, old.evidence) != (suggestion.score, model, suggestion.evidence):
                         old.score, old.model_revision, old.evidence = suggestion.score, model, suggestion.evidence
+                        old.version += 1
                         updates.append(old)
                 if updates:
-                    OverlapCandidate.objects.filter(decision='pending').bulk_update(updates, ['score', 'model_revision', 'evidence'])
+                    OverlapCandidate.objects.filter(decision='pending').bulk_update(updates, ['score', 'model_revision', 'evidence', 'version'])
             Complaint.objects.filter(pk=case_id).update(matching_state='complete', matching_error='', matched_at=timezone.now(),
                 matching_duration_ms=(time.perf_counter()-started)*1000, matching_queue_ms=queue_ms)
     except Exception:

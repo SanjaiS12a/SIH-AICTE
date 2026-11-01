@@ -160,6 +160,7 @@ test("comparison shows original evidence, missing fields and long text on deskto
   await login(page);
   const longText = "Original allegation line.\n" + "UnbrokenEvidenceReference".repeat(90);
   const example: Overlap = { ...pair, score: 0.8123, origin: "semantic", model_revision: "browser-presentation-fixture", decision: "pending", reason: "", reviewer: null,
+    evidence: { institution: pair.left.institution.name, scope: "Legacy presentation fixture; human review required" },
     left: { ...pair.left, description: longText, source_reference: "", incident_date: null },
     right: { ...pair.right, incident_date: "2025-09-01", category: "documents" } };
   await page.setViewportSize({ width: 1440, height: 1000 });

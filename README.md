@@ -4,6 +4,8 @@ New to the project? Start with [the plain-language walkthrough and ready-to-uplo
 
 The official workspace uses five primary sections: Home, Institutions, My Work, Data Imports and Reports. My Work groups case queues and coordination tasks; import history and movement reports remain available through contextual links. Existing URLs are preserved. See the [Case Intelligence implementation plan](docs/plans/case-intelligence-2.0.md) for the staged scope; later matching and protocol milestones are not enabled by the navigation revision.
 
+Case Intelligence B1 adds [versioned comparison evidence and immutable review-time snapshots](docs/evidence-v1.md), with [verification and synthetic evaluation results](tests/results/case-intelligence-b1-verification.md). It preserves the existing MiniLM retrieval policy and threshold. Routine matching evaluation writes new reports only inside ignored run directories and never changes production calibration.
+
 A local SIH prototype for identifying an institution, consolidating its cases across Bureaus, reviewing overlaps and recording accountable coordinated work. RB means **Regulation Bureau**; PGRC means **Public Grievance Redressal Cell**.
 
 The existing React/Vite/TypeScript frontend, Django/DRF session API, PostgreSQL 17/pgvector database and Django Q2 ORM worker are retained. Exact institution-filtered vector search and the original local MiniLM provide suggestions; human decisions remain authoritative. This is a prototype, not an approved AICTE production deployment.

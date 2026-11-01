@@ -115,19 +115,53 @@ export type Options = {
   officers: { id: number; name: string; bureau: string }[];
   regions: string[];
 };
+export type EvidenceComparison = {
+  left: string | string[] | null;
+  right: string | string[] | null;
+  state: "agrees" | "differs" | "unknown" | "unverified";
+};
+export type MatchingEvidence = {
+  institution?: string;
+  shared_reference?: boolean;
+  categories?: string[];
+  incident_dates?: string[];
+  scope?: string;
+  schema_version?: number;
+  discovery_method?: string;
+  matching_policy_revision?: string;
+  cosine_score?: number | null;
+  encoder_revision?: string | null;
+  comparisons?: Record<string, EvidenceComparison>;
+  canonical_institution?: {
+    left: { id: string; permanent_id: string; name: string };
+    right: { id: string; permanent_id: string; name: string };
+    state: string;
+    source: string;
+  };
+  provenance?: { source: string; left_case_id: string; right_case_id: string; left_case_version: number; right_case_version: number };
+  incident_finding?: { state: string; source: string };
+  limitations?: string[];
+};
+export type ReviewSnapshot = {
+  evidence: MatchingEvidence;
+  matching_policy_revision: string | null;
+  score: number | null;
+  model_revision: string;
+  origin: string;
+  relationship_version: number;
+  decision: string;
+  reason: string;
+  reviewer: { id: number; name: string };
+  reviewed_at: string;
+};
 export type Overlap = {
   id: number;
   left: Case;
   right: Case;
   score: number | null;
   origin: "semantic" | "manual";
-  evidence: {
-    institution: string;
-    shared_reference: boolean;
-    categories: string[];
-    incident_dates: string[];
-    scope: string;
-  };
+  evidence: MatchingEvidence;
+  review_snapshot?: ReviewSnapshot | null;
   decision: string;
   reason: string;
   version: number;
