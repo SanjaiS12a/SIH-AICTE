@@ -1,0 +1,1710 @@
+{
+  "baseline_commit": "2db3af4135e6ada9774c9acdc47d506cda39fb9f",
+  "main_unchanged": "55f3804819b3d453fdaa07c8e4e25cb5442618a3",
+  "hardware": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "cpu": {
+      "Name": "13th Gen Intel(R) Core(TM) i5-13450HX",
+      "NumberOfCores": 10,
+      "NumberOfLogicalProcessors": 16
+    },
+    "docker": {
+      "ServerVersion": "29.8.0",
+      "NCPU": 16,
+      "MemTotal": 8172228608,
+      "OperatingSystem": "Docker Desktop",
+      "Architecture": "x86_64"
+    },
+    "gpu": "NVIDIA GeForce RTX 3050 A Laptop GPU, 4094 MiB"
+  },
+  "protected_inputs": [
+    {
+      "path": "backend/calibration.json",
+      "sha256": "ec0e112d0dbef30765c2f9d3ae000617288c95ee159eec33ebb09741c6eb14b0",
+      "unchanged": true
+    },
+    {
+      "path": "backend/model-manifest.json",
+      "sha256": "7c179898bb2acdb955a0c2ed63bdd230f806d7262c77fd5e4a7803cae0cd35ad",
+      "unchanged": true
+    },
+    {
+      "path": "models/minilm/model.safetensors",
+      "sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+      "unchanged": true
+    },
+    {
+      "path": "data/evaluation.json",
+      "sha256": "69f634af01869e7e98d2e95ca050ae795a893865d8415ae4cf1a68084fa37bab",
+      "unchanged": true
+    }
+  ],
+  "http_workloads": [
+    {
+      "workload": "1000-concentrated",
+      "format": "xlsx",
+      "rows": 1000,
+      "total_script_seconds": 59.508056799997576,
+      "preview_seconds": 7.671276399996714,
+      "statistics_ready_seconds": 13.264342800001032,
+      "matching_and_report_seconds": 49.65375779999886,
+      "stage_timings": {
+        "queue_seconds": 0.987236,
+        "registration_seconds": 11.41214,
+        "matching_queue_seconds": 0.924214,
+        "matching_seconds": 35.08994
+      },
+      "during_import": {
+        "dashboard": {
+          "requests": 378,
+          "p50_ms": 52.27680000461987,
+          "p95_ms": 195.04430000233697
+        },
+        "read": {
+          "requests": 378,
+          "p50_ms": 67.49450000279467,
+          "p95_ms": 180.7157000002917
+        }
+      },
+      "ordinary_http": {
+        "read": {
+          "requests": 50,
+          "p50_ms": 221.10109999994165,
+          "p95_ms": 296.3993000012124,
+          "target_p95_ms": 500
+        },
+        "dashboard": {
+          "requests": 50,
+          "p50_ms": 202.7936000013142,
+          "p95_ms": 359.1493999992963,
+          "target_p95_ms": 1000
+        },
+        "create": {
+          "requests": 10,
+          "p50_ms": 269.6802000027674,
+          "p95_ms": 323.8998000015272,
+          "target_p95_ms": 500
+        }
+      },
+      "accepted_counts": {
+        "imported": 1000
+      },
+      "matching_counts": {
+        "complete": 1000
+      },
+      "sampled_peak_container_bytes": {
+        "api": 102676561.92,
+        "worker": 501743616.0,
+        "db": 536241766.4
+      },
+      "sampled_peak_host_used_bytes": 14714306560,
+      "sampled_peak_system_gpu_used_bytes": 1053818880.0,
+      "resource_samples": 18
+    },
+    {
+      "workload": "1000-distributed",
+      "format": "xlsx",
+      "rows": 1000,
+      "total_script_seconds": 59.53256839999813,
+      "preview_seconds": 7.934165500002564,
+      "statistics_ready_seconds": 13.243374899997434,
+      "matching_and_report_seconds": 45.10636330000125,
+      "stage_timings": {
+        "queue_seconds": 0.567632,
+        "registration_seconds": 11.559853,
+        "matching_queue_seconds": 0.759661,
+        "matching_seconds": 31.923603
+      },
+      "during_import": {
+        "dashboard": {
+          "requests": 348,
+          "p50_ms": 51.66345000179717,
+          "p95_ms": 158.45660000195494
+        },
+        "read": {
+          "requests": 348,
+          "p50_ms": 65.5810999996902,
+          "p95_ms": 129.62330000300426
+        }
+      },
+      "ordinary_http": {
+        "read": {
+          "requests": 50,
+          "p50_ms": 212.9953000039677,
+          "p95_ms": 277.72120000008726,
+          "target_p95_ms": 500
+        },
+        "dashboard": {
+          "requests": 50,
+          "p50_ms": 191.82579999687732,
+          "p95_ms": 360.41869999462506,
+          "target_p95_ms": 1000
+        },
+        "create": {
+          "requests": 10,
+          "p50_ms": 263.5556999994151,
+          "p95_ms": 299.393000001146,
+          "target_p95_ms": 500
+        }
+      },
+      "accepted_counts": {
+        "imported": 1000
+      },
+      "matching_counts": {
+        "complete": 1000
+      },
+      "sampled_peak_container_bytes": {
+        "api": 103809024.0,
+        "worker": 493250150.4,
+        "db": 526490009.6
+      },
+      "sampled_peak_host_used_bytes": 14922727424,
+      "sampled_peak_system_gpu_used_bytes": 1050673152.0,
+      "resource_samples": 18
+    },
+    {
+      "workload": "10000-concentrated",
+      "format": "csv",
+      "rows": 10000,
+      "total_script_seconds": 679.3858506000033,
+      "preview_seconds": 52.04890019999584,
+      "statistics_ready_seconds": 89.96824610000476,
+      "matching_and_report_seconds": 625.2395095000029,
+      "stage_timings": {
+        "queue_seconds": 0.06829,
+        "registration_seconds": 88.668102,
+        "matching_queue_seconds": 0.157239,
+        "matching_seconds": 535.249661
+      },
+      "during_import": {
+        "dashboard": {
+          "requests": 4589,
+          "p50_ms": 63.63150000106543,
+          "p95_ms": 346.8813999934355
+        },
+        "read": {
+          "requests": 4589,
+          "p50_ms": 101.7370999979903,
+          "p95_ms": 162.54099999787286
+        }
+      },
+      "ordinary_http": {
+        "read": {
+          "requests": 50,
+          "p50_ms": 173.04394999882788,
+          "p95_ms": 225.51000000385102,
+          "target_p95_ms": 500
+        },
+        "dashboard": {
+          "requests": 50,
+          "p50_ms": 147.34740000130842,
+          "p95_ms": 451.8943000002764,
+          "target_p95_ms": 1000
+        },
+        "create": {
+          "requests": 10,
+          "p50_ms": 182.41684999884455,
+          "p95_ms": 280.4649999961839,
+          "target_p95_ms": 500
+        }
+      },
+      "accepted_counts": {
+        "imported": 10000
+      },
+      "matching_counts": {
+        "complete": 10000
+      },
+      "sampled_peak_container_bytes": {
+        "api": 212022067.2,
+        "worker": 502477619.2,
+        "db": 621595852.8
+      },
+      "sampled_peak_host_used_bytes": 14776135680,
+      "sampled_peak_system_gpu_used_bytes": 1093664768.0,
+      "resource_samples": 207
+    },
+    {
+      "workload": "10000-distributed",
+      "format": "csv",
+      "rows": 10000,
+      "total_script_seconds": 518.4701650999996,
+      "preview_seconds": 59.94081300000107,
+      "statistics_ready_seconds": 123.45047709999926,
+      "matching_and_report_seconds": 457.71156229999906,
+      "stage_timings": {
+        "queue_seconds": 0.840584,
+        "registration_seconds": 121.848466,
+        "matching_queue_seconds": 1.042555,
+        "matching_seconds": 332.383978
+      },
+      "during_import": {
+        "dashboard": {
+          "requests": 3138,
+          "p50_ms": 115.96075000124983,
+          "p95_ms": 425.6539000052726
+        },
+        "read": {
+          "requests": 3138,
+          "p50_ms": 123.18705000143382,
+          "p95_ms": 183.81740000040736
+        }
+      },
+      "ordinary_http": {
+        "read": {
+          "requests": 50,
+          "p50_ms": 174.4694500011974,
+          "p95_ms": 239.75540000537876,
+          "target_p95_ms": 500
+        },
+        "dashboard": {
+          "requests": 50,
+          "p50_ms": 138.56699999814737,
+          "p95_ms": 500.5431999961729,
+          "target_p95_ms": 1000
+        },
+        "create": {
+          "requests": 10,
+          "p50_ms": 136.8427499983227,
+          "p95_ms": 297.56130000168923,
+          "target_p95_ms": 500
+        }
+      },
+      "accepted_counts": {
+        "imported": 10000
+      },
+      "matching_counts": {
+        "complete": 10000
+      },
+      "sampled_peak_container_bytes": {
+        "api": 210973491.2,
+        "worker": 500695040.0,
+        "db": 591292006.4
+      },
+      "sampled_peak_host_used_bytes": 15239131136,
+      "sampled_peak_system_gpu_used_bytes": 1138753536.0,
+      "resource_samples": 157
+    }
+  ],
+  "export_and_matching": [
+    {
+      "rows": 1000,
+      "distribution": "distributed",
+      "database": "coordination_scale_http_e534022a1c",
+      "passed": true,
+      "warmup_seconds": 9.459828799997922,
+      "case_count": 1011,
+      "async_export_seconds": 1.704851000002236,
+      "download_seconds": 0.06901140000263695,
+      "export_rows": 1011,
+      "matching": {
+        "cases": 1000,
+        "matching_execution_p95_ms": 22.62283485033549,
+        "queue_delay_p95_ms": 31480.131149999997
+      }
+    },
+    {
+      "rows": 1000,
+      "distribution": "concentrated",
+      "database": "coordination_scale_http_9f84de875a",
+      "passed": true,
+      "warmup_seconds": 9.472334300000512,
+      "case_count": 1011,
+      "async_export_seconds": 0.5901605000035488,
+      "download_seconds": 0.03341489999729674,
+      "export_rows": 1011,
+      "matching": {
+        "cases": 1000,
+        "matching_execution_p95_ms": 31.735344499975323,
+        "queue_delay_p95_ms": 35010.3576
+      }
+    },
+    {
+      "rows": 10000,
+      "distribution": "distributed",
+      "database": "coordination_scale_http_688746b330",
+      "passed": true,
+      "warmup_seconds": 9.112232999999833,
+      "case_count": 10011,
+      "async_export_seconds": 2.6739608999996562,
+      "download_seconds": 0.16796520000207238,
+      "export_rows": 10011,
+      "matching": {
+        "cases": 10000,
+        "matching_execution_p95_ms": 26.735687098698687,
+        "queue_delay_p95_ms": 322991.54325
+      }
+    },
+    {
+      "rows": 10000,
+      "distribution": "concentrated",
+      "database": "coordination_scale_http_a3dc9085e8",
+      "passed": true,
+      "warmup_seconds": 9.765876400000707,
+      "case_count": 10011,
+      "async_export_seconds": 2.7553413000059663,
+      "download_seconds": 0.17394849999982398,
+      "export_rows": 10011,
+      "matching": {
+        "cases": 10000,
+        "matching_execution_p95_ms": 52.895157603052205,
+        "queue_delay_p95_ms": 507730.70885
+      }
+    }
+  ],
+  "encoder": {
+    "device": "cpu",
+    "torch_threads": 2,
+    "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "threshold": 0.603080153465271,
+    "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+    "cold_model_load_seconds": 6.255856827003299,
+    "cold_scope": "Dependency imports and local model construction; checksum and corpus fetch excluded.",
+    "results": [
+      {
+        "records": 1000,
+        "seconds": 5.624780882004416,
+        "summaries_per_second": 177.78470325827973,
+        "batch_p95_ms": 208.01874899916584,
+        "mean_wordpieces": 30.33,
+        "max_wordpieces": 33
+      },
+      {
+        "records": 10000,
+        "seconds": 53.926878550002584,
+        "summaries_per_second": 185.43628462989392,
+        "batch_p95_ms": 184.80120699678082,
+        "mean_wordpieces": 30.3336,
+        "max_wordpieces": 33
+      }
+    ],
+    "database_writes": false,
+    "peak_process_rss_bytes": 606588928,
+    "limit": "Standalone warm batches of realistic-length synthetic summaries; excludes queue, matching SQL and HTTP. No accuracy claim."
+  },
+  "scale_before": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "database": "coordination_scale_final_20261101_205207",
+    "concurrent_clients": 10,
+    "transport": "In-process Django calls with separate thread-local PostgreSQL connections; HTTP measured separately by benchmark_import.py",
+    "limits": "Synthetic metadata and identical unit vectors; registration histories, a small escalation queue and bounded relationship-review traffic; no attachments. Measures in-process endpoint scaling, not 100k upload or production matching accuracy.",
+    "results": [
+      {
+        "cold_dashboard_ms": 161.72971200285247,
+        "records": 1000,
+        "distribution": "distributed",
+        "setup_seconds": 0.10569731600116938,
+        "peak_process_rss_bytes": 176812032,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 165.5133750064124,
+            "p95_ms": 324.98873999429634
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 35.331527498783544,
+            "p95_ms": 70.21516699751373
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 9.765730497747427,
+            "p95_ms": 35.52420900086872
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 97.46058650125633,
+            "p95_ms": 204.76500500080874
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 156.66756900100154,
+            "p95_ms": 308.65931800508406
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 117.60234300163575,
+            "p95_ms": 249.88405700423755
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 139.86057649890427,
+            "p95_ms": 267.3732619950897
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 336.5370330029691,
+            "p95_ms": 430.56391100253677
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 476.1238715000218,
+            "p95_ms": 679.0619169987622
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 237.63486450116034,
+            "p95_ms": 516.1990519991377
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 1143.4229090009467,
+            "p95_ms": 1526.6285050020088
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 326.9594040029915,
+            "p95_ms": 1278.2537500024773
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 461.7166575008014,
+            "p95_ms": 627.2939600021346
+          }
+        }
+      },
+      {
+        "cold_dashboard_ms": 98.93778800324071,
+        "records": 1000,
+        "distribution": "concentrated",
+        "setup_seconds": 0.10569731600116938,
+        "peak_process_rss_bytes": 177778688,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 206.4272434981831,
+            "p95_ms": 1293.7815750046866
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 66.63015950107365,
+            "p95_ms": 175.61560399917653
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 23.06672150371014,
+            "p95_ms": 266.7863620008575
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 75.39047299724189,
+            "p95_ms": 389.43522500630934
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 152.0675100000517,
+            "p95_ms": 717.512600000191
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 103.71545300222351,
+            "p95_ms": 185.62927799939644
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 119.86414100101683,
+            "p95_ms": 247.1565269952407
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 209.09135849797167,
+            "p95_ms": 345.65642200323055
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 194.47201549701276,
+            "p95_ms": 468.2087879991741
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 136.32862450322136,
+            "p95_ms": 342.31777300010435
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 1046.4923584986536,
+            "p95_ms": 2058.67389299965
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 381.69249950078665,
+            "p95_ms": 787.9273340004147
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 555.5336584984616,
+            "p95_ms": 1165.3410910003004
+          }
+        }
+      },
+      {
+        "cold_dashboard_ms": 476.9241559988586,
+        "records": 10000,
+        "distribution": "distributed",
+        "setup_seconds": 0.8585499949986115,
+        "peak_process_rss_bytes": 207020032,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 58.24832449798123,
+            "p95_ms": 814.7332730004564
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 35.99447749729734,
+            "p95_ms": 65.52517799718771
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 15.349920500739245,
+            "p95_ms": 34.68409599736333
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 55.30499350061291,
+            "p95_ms": 92.58350099844392
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 92.84694900270551,
+            "p95_ms": 111.40281899861293
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 68.81372649877449,
+            "p95_ms": 379.5551360017271
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 108.10371299885446,
+            "p95_ms": 171.52208700281335
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 161.3310545035347,
+            "p95_ms": 239.40064199996414
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 709.583534498961,
+            "p95_ms": 3165.804981996189
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 372.8824310019263,
+            "p95_ms": 2517.2764270027983
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 730.5435025009501,
+            "p95_ms": 1436.066986003425
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 106.9612405008229,
+            "p95_ms": 936.5971229999559
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 11311.070104002283,
+            "p95_ms": 12455.903757996566
+          }
+        }
+      },
+      {
+        "cold_dashboard_ms": 372.21778099774383,
+        "records": 10000,
+        "distribution": "concentrated",
+        "setup_seconds": 0.8585499949986115,
+        "peak_process_rss_bytes": 207020032,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 264.42287549434695,
+            "p95_ms": 1801.383457997872
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 55.45903450183687,
+            "p95_ms": 299.8448189973715
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 32.765745501819765,
+            "p95_ms": 70.59755000227597
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 61.79937449996942,
+            "p95_ms": 272.0415680014412
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 161.59529900323832,
+            "p95_ms": 424.2137690016534
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 96.63919650120079,
+            "p95_ms": 2913.6327109954436
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 174.8997189970396,
+            "p95_ms": 1454.0602950000903
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 320.9114950004732,
+            "p95_ms": 676.6418209954281
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 375.7251169990923,
+            "p95_ms": 670.6971669991617
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 193.34895299834898,
+            "p95_ms": 477.62184999737656
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 1429.8578429988993,
+            "p95_ms": 5850.27713800082
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 202.63732300008996,
+            "p95_ms": 1283.9058059980744
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 9128.333833999932,
+            "p95_ms": 9907.550554999034
+          }
+        }
+      }
+    ]
+  },
+  "scale_after": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "database": "coordination_scale_optimized_20261101_205207",
+    "concurrent_clients": 10,
+    "transport": "In-process Django calls with separate thread-local PostgreSQL connections; HTTP measured separately by benchmark_import.py",
+    "limits": "Synthetic metadata and identical unit vectors; registration histories, a small escalation queue and bounded relationship-review traffic; no attachments. Measures in-process endpoint scaling, not 100k upload or production matching accuracy.",
+    "results": [
+      {
+        "cold_dashboard_ms": 108.91937600536039,
+        "records": 1000,
+        "distribution": "distributed",
+        "setup_seconds": 0.0981805789997452,
+        "peak_process_rss_bytes": 162603008,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 97.77262800344033,
+            "p95_ms": 358.1618550015264
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 52.86212499777321,
+            "p95_ms": 93.57791999354959
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 13.970111500384519,
+            "p95_ms": 83.43458000308601
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 91.4536925010907,
+            "p95_ms": 139.52498199796537
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 178.98017400148092,
+            "p95_ms": 267.8646399945137
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 147.17388050121372,
+            "p95_ms": 225.9533110045595
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 195.55159599985927,
+            "p95_ms": 273.98647000518395
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 328.81357350197504,
+            "p95_ms": 463.16045200364897
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 347.2303724993253,
+            "p95_ms": 600.0418159965193
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 229.251929999009,
+            "p95_ms": 381.86654599849135
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 293.1474850011,
+            "p95_ms": 370.49893199582584
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 199.44920950001688,
+            "p95_ms": 616.6972610008088
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 1309.1663320010412,
+            "p95_ms": 1558.9684669976123
+          }
+        }
+      },
+      {
+        "cold_dashboard_ms": 169.79729500599205,
+        "records": 1000,
+        "distribution": "concentrated",
+        "setup_seconds": 0.0981805789997452,
+        "peak_process_rss_bytes": 162603008,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 88.54015750330291,
+            "p95_ms": 426.9448269988061
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 50.72403800295433,
+            "p95_ms": 115.43972799699986
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 16.53522400010843,
+            "p95_ms": 40.68790699966485
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 80.62752850310062,
+            "p95_ms": 122.03856599808205
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 170.31595800290233,
+            "p95_ms": 300.79665499943076
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 143.7007079985051,
+            "p95_ms": 790.0183960009599
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 202.0632954991015,
+            "p95_ms": 320.17009999981383
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 185.208346501895,
+            "p95_ms": 309.61093699443154
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 219.09788950142683,
+            "p95_ms": 328.65984400268644
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 242.45216700001038,
+            "p95_ms": 624.2679960050737
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 267.4689404993842,
+            "p95_ms": 992.4126589976368
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 179.47174749861006,
+            "p95_ms": 317.72968800214585
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 376.0829735037987,
+            "p95_ms": 544.669368005998
+          }
+        }
+      },
+      {
+        "cold_dashboard_ms": 252.06590699963272,
+        "records": 10000,
+        "distribution": "distributed",
+        "setup_seconds": 0.9890855379999266,
+        "peak_process_rss_bytes": 205729792,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 194.5324715015886,
+            "p95_ms": 617.7839009978925
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 46.75727900030324,
+            "p95_ms": 108.26536600507097
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 20.181325999146793,
+            "p95_ms": 50.113639001210686
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 74.14011650325847,
+            "p95_ms": 138.87210900429636
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 154.5416650005791,
+            "p95_ms": 392.05661800224334
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 152.581371999986,
+            "p95_ms": 381.5952209988609
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 179.98500299654552,
+            "p95_ms": 421.3509890032583
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 242.20209550185245,
+            "p95_ms": 338.23735100304475
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 582.7278424985707,
+            "p95_ms": 1152.0118469998124
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 248.5175085021183,
+            "p95_ms": 342.71638299833285
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 357.0634625029925,
+            "p95_ms": 453.9988749966142
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 115.68764500043471,
+            "p95_ms": 564.8611659999005
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 16027.743135498895,
+            "p95_ms": 16208.311376998608
+          }
+        }
+      },
+      {
+        "cold_dashboard_ms": 320.37455899990164,
+        "records": 10000,
+        "distribution": "concentrated",
+        "setup_seconds": 0.9890855379999266,
+        "peak_process_rss_bytes": 205877248,
+        "metrics": {
+          "dashboard": {
+            "requests": 20,
+            "p50_ms": 172.44028849745519,
+            "p95_ms": 333.4120979998261
+          },
+          "read": {
+            "requests": 20,
+            "p50_ms": 39.14650650403928,
+            "p95_ms": 87.39579800021602
+          },
+          "exact_search": {
+            "requests": 20,
+            "p50_ms": 32.52052750030998,
+            "p95_ms": 43.16274500160944
+          },
+          "registry": {
+            "requests": 20,
+            "p50_ms": 54.89847650096635,
+            "p95_ms": 93.7314629991306
+          },
+          "profile": {
+            "requests": 20,
+            "p50_ms": 149.60539100138703,
+            "p95_ms": 199.095744996157
+          },
+          "cases": {
+            "requests": 20,
+            "p50_ms": 113.38245650040335,
+            "p95_ms": 158.01315499993507
+          },
+          "history": {
+            "requests": 20,
+            "p50_ms": 182.00501849787543,
+            "p95_ms": 228.14896199997747
+          },
+          "brief": {
+            "requests": 20,
+            "p50_ms": 231.62315349691198,
+            "p95_ms": 300.491267000325
+          },
+          "notices": {
+            "requests": 20,
+            "p50_ms": 327.1972080001433,
+            "p95_ms": 448.7687220025691
+          },
+          "escalations": {
+            "requests": 20,
+            "p50_ms": 163.989266500721,
+            "p95_ms": 272.70742900145706
+          },
+          "relationships": {
+            "requests": 20,
+            "p50_ms": 310.5011685001955,
+            "p95_ms": 482.30211400368717
+          },
+          "review": {
+            "requests": 20,
+            "p50_ms": 203.1867420009803,
+            "p95_ms": 434.0290160034783
+          },
+          "streamed_export": {
+            "requests": 10,
+            "p50_ms": 16848.534285501955,
+            "p95_ms": 17196.114589998615
+          }
+        }
+      }
+    ]
+  },
+  "public_data": {
+    "corpus_sha256": "0d61c51304d3c1e6ec1cf7101f95f81459fa775fefad96d4ad8eafba91ae5201",
+    "source_status": {
+      "oia": {
+        "status": "pending_permission",
+        "records": 0
+      },
+      "cfpb": {
+        "status": "blocked",
+        "records": 0
+      },
+      "nyc311": {
+        "status": "unlabelled_probe",
+        "records": 500
+      }
+    },
+    "nyc": {
+      "records": 500,
+      "eligible_records": 500,
+      "queries": 25,
+      "references": 421,
+      "encoded_records": 446,
+      "metrics": {
+        "returned_suggestions": 28,
+        "adjudicated_labels": 0,
+        "usable_judgments": 0,
+        "insufficient_evidence": 0,
+        "usable_label_coverage": 0.0,
+        "review_worthy_precision_at_5": null,
+        "precision_unavailable_reason": "Requires a nonempty suggestion set with 100% usable independent adjudication.",
+        "precision_interval": null,
+        "same_incident_recall_at_5": null,
+        "recall_unavailable_reason": "No independently established eligible same-incident reference corpus; returned-pair annotation alone cannot measure recall.",
+        "false_positive_rate": null,
+        "fpr_unavailable_reason": "No independently sampled and completely labelled negative candidate population.",
+        "known_unrelated_suggestions": 0,
+        "queries_with_suggestions": 10,
+        "no_suggestion_rate": 0.6,
+        "unjudged": 28
+      },
+      "embedding_seconds": 1.4513511529949028,
+      "in_memory_retrieval_ms": {
+        "total": 3.1036819927976467,
+        "p95": 0.33079380373237655
+      },
+      "queries_without_eligible_references": 1,
+      "threshold_abstentions": 14,
+      "database_latency_ms": null,
+      "workflow": {
+        "records": 500,
+        "unique_source_keys": 500,
+        "status_counts": {
+          "Closed": 477,
+          "Open": 2,
+          "In Progress": 21
+        },
+        "agency_counts": {
+          "NYPD": 280,
+          "DOB": 18,
+          "DSNY": 30,
+          "EDC": 27,
+          "DOT": 15,
+          "DHS": 10,
+          "HPD": 84,
+          "DPR": 5,
+          "TLC": 8,
+          "DEP": 15,
+          "DOHMH": 7,
+          "DCWP": 1
+        },
+        "category_counts": {
+          "Noise - Street/Sidewalk": 28,
+          "Building/Use": 4,
+          "Dirty Condition": 7,
+          "Non-Emergency Police Matter": 4,
+          "Traffic": 1,
+          "General Construction/Plumbing": 6,
+          "Noise - Helicopter": 27,
+          "Illegal Parking": 90,
+          "Traffic Signal Condition": 5,
+          "Noise - Commercial": 21,
+          "Blocked Driveway": 30,
+          "Homeless Person Assistance": 7,
+          "Noise - Vehicle": 9,
+          "UNSANITARY CONDITION": 12,
+          "Noise - Residential": 74,
+          "HEAT/HOT WATER": 40,
+          "Drug Activity": 2,
+          "PAINT/PLASTER": 7,
+          "Abandoned Vehicle": 7,
+          "ELECTRIC": 3,
+          "Bike/Roller/Skate Chronic": 7,
+          "Missed Collection": 7,
+          "Sidewalk Condition": 1,
+          "Noise - Park": 1,
+          "Derelict Vehicles": 10,
+          "Maintenance or Facility": 1,
+          "PLUMBING": 8,
+          "For Hire Vehicle Complaint": 5,
+          "Noise": 5,
+          "WATER LEAK": 6,
+          "Special Projects Inspection Team (SPIT)": 1,
+          "Dead/Dying Tree": 1,
+          "Dead Animal": 1,
+          "Drinking": 2,
+          "New Tree Request": 2,
+          "Sanitation Worker or Vehicle Complaint": 1,
+          "Water System": 5,
+          "APPLIANCE": 2,
+          "Encampment": 5,
+          "Broken Parking Meter": 1,
+          "Street Light Condition": 5,
+          "Street Sign - Missing": 1,
+          "Litter Basket Complaint": 1,
+          "DOOR/WINDOW": 2,
+          "Boilers": 2,
+          "GENERAL": 3,
+          "Root/Sewer/Sidewalk Condition": 1,
+          "Abandoned Bike": 1,
+          "Mobile Food Vendor": 1,
+          "Lost Property": 2,
+          "Air Quality": 1,
+          "Rodent": 3,
+          "Elevator": 5,
+          "Street Condition": 1,
+          "Obstruction": 1,
+          "Taxi Complaint": 1,
+          "Consumer Complaint": 1,
+          "Sewer": 3,
+          "Water Conservation": 1,
+          "Illegal Dumping": 1,
+          "Panhandling": 2,
+          "Curb Condition": 1,
+          "FLOORING/STAIRS": 1,
+          "Indoor Sewage": 1,
+          "Food Establishment": 1,
+          "Unsanitary Animal Pvt Property": 1
+        },
+        "invalid_date_rows": 0,
+        "closure_before_creation": 0,
+        "closed_status_missing_closed_date": 7,
+        "nonclosed_status_with_closed_date": 1,
+        "valid_closed_intervals": 471,
+        "mean_recorded_closure_days": 12.193250742116852,
+        "limits": "Source timestamps retained as published, without inventing an AICTE deadline, Bureau ownership, overdue state or original narrative."
+      }
+    },
+    "runtime": {
+      "cold_model_load_seconds": 6.673083132001921,
+      "cold_timing_scope": "dependency imports plus first local model construction; excludes preflight checksums and interpreter startup",
+      "warmup_seconds": 0.042938683000102174,
+      "warmup_input": "one synthetic non-corpus sentence",
+      "device": "cpu",
+      "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "threshold": 0.603080153465271
+    },
+    "annotations": "28 blind pairs prepared; zero real human judgments; same-incident ground truth unavailable"
+  },
+  "shadow": {
+    "mode": "disabled-by-default synthetic shadow only",
+    "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "threshold": 0.603080153465271,
+    "fixture_rollback_verified": true,
+    "complaint_count_unchanged": true,
+    "eligibility": {
+      "raw_records": 400,
+      "eligible_records": 362,
+      "raw_partition_counts": {
+        "calibration": 160,
+        "test": 240
+      },
+      "eligible_partition_counts": {
+        "calibration": 160,
+        "test": 202
+      },
+      "invalid_records": [],
+      "cross_partition_exact_text_groups": 38,
+      "excluded_repeated_test_ids": [
+        "2-n",
+        "3-n",
+        "7-n",
+        "8-n",
+        "12-n",
+        "13-n",
+        "17-n",
+        "18-n",
+        "19-n",
+        "23-n",
+        "24-n",
+        "28-n",
+        "29-n",
+        "33-n",
+        "34-n",
+        "37-n",
+        "38-n",
+        "42-n",
+        "43-n",
+        "47-n",
+        "48-n",
+        "52-n",
+        "53-n",
+        "54-n",
+        "58-n",
+        "59-n",
+        "63-n",
+        "64-n",
+        "68-n",
+        "69-n",
+        "72-n",
+        "73-n",
+        "77-n",
+        "78-n",
+        "93-n",
+        "94-n",
+        "98-n",
+        "99-n"
+      ],
+      "raw_pairs": 300,
+      "eligible_pairs": 262,
+      "invalid_or_excluded_pairs": [
+        {
+          "row": 8,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 11,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 23,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 26,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 38,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 41,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 53,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 56,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 59,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 71,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 74,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 86,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 89,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 101,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 104,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 113,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 116,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 128,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 131,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 143,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 146,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 158,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 161,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 164,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 176,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 179,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 191,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 194,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 206,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 209,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 218,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 221,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 233,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 236,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 281,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 284,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 296,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        },
+        {
+          "row": 299,
+          "reason": "Unavailable, self or cross-partition endpoints"
+        }
+      ],
+      "label_counts": {
+        "same_incident": 100,
+        "unrelated": 62,
+        "related_issue": 100
+      },
+      "test_label_counts": {
+        "same_incident": 60,
+        "related_issue": 60,
+        "unrelated": 22
+      }
+    },
+    "metrics": {
+      "calibration": {
+        "baseline": {
+          "queries": 40,
+          "suggestions": 110,
+          "judged": 35,
+          "precision": null,
+          "label_coverage": 0.3181818181818182,
+          "query_coverage": 0.875,
+          "mean_reciprocal_rank": 0.875,
+          "same_incident_query_hit_rate_at5": 0.875
+        },
+        "lexical": {
+          "queries": 40,
+          "suggestions": 189,
+          "judged": 39,
+          "precision": null,
+          "label_coverage": 0.20634920634920634,
+          "query_coverage": 1.0,
+          "mean_reciprocal_rank": 0.7849999999999999,
+          "same_incident_query_hit_rate_at5": 0.975
+        },
+        "reference": {
+          "queries": 40,
+          "suggestions": 0,
+          "judged": 0,
+          "precision": null,
+          "label_coverage": null,
+          "query_coverage": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "same_incident_query_hit_rate_at5": 0.0
+        },
+        "union": {
+          "queries": 40,
+          "suggestions": 200,
+          "judged": 40,
+          "precision": null,
+          "label_coverage": 0.2,
+          "query_coverage": 1.0,
+          "mean_reciprocal_rank": 0.975,
+          "same_incident_query_hit_rate_at5": 1.0
+        },
+        "bounded_candidate_recall": 1.0
+      },
+      "test": {
+        "baseline": {
+          "queries": 60,
+          "suggestions": 162,
+          "judged": 54,
+          "precision": null,
+          "label_coverage": 0.3333333333333333,
+          "query_coverage": 0.9,
+          "mean_reciprocal_rank": 0.9,
+          "same_incident_query_hit_rate_at5": 0.9
+        },
+        "lexical": {
+          "queries": 60,
+          "suggestions": 252,
+          "judged": 60,
+          "precision": null,
+          "label_coverage": 0.23809523809523808,
+          "query_coverage": 1.0,
+          "mean_reciprocal_rank": 0.8811111111111111,
+          "same_incident_query_hit_rate_at5": 1.0
+        },
+        "reference": {
+          "queries": 60,
+          "suggestions": 0,
+          "judged": 0,
+          "precision": null,
+          "label_coverage": null,
+          "query_coverage": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "same_incident_query_hit_rate_at5": 0.0
+        },
+        "union": {
+          "queries": 60,
+          "suggestions": 300,
+          "judged": 60,
+          "precision": null,
+          "label_coverage": 0.2,
+          "query_coverage": 1.0,
+          "mean_reciprocal_rank": 0.9916666666666667,
+          "same_incident_query_hit_rate_at5": 1.0
+        },
+        "bounded_candidate_recall": 1.0
+      }
+    },
+    "activation": "Not approved: no independent real-domain judgments; no policy selection from held-out test.",
+    "limits": "Synthetic metadata; unique record IDs provide no shared-reference ground truth. RRF is fixed for this diagnostic, not calibrated or activated.",
+    "query_plans": {
+      "semantic": {
+        "queries": 100,
+        "execution_p95_ms": 0.573,
+        "indexes": [
+          "cases_bureau_pkey",
+          "cases_complaint_institution_id_cba05855"
+        ]
+      },
+      "lexical": {
+        "queries": 100,
+        "execution_p95_ms": 1.039,
+        "indexes": [
+          "cases_bureau_pkey",
+          "cases_complaint_institution_id_cba05855"
+        ]
+      }
+    },
+    "max_union_candidates": 12
+  },
+  "readiness": {
+    "backend_passed": 197,
+    "worker_recovery": {
+      "import_id": "b32c2ff1-5da3-4b3a-af56-885e70528b57",
+      "queued_while_worker_stopped": {
+        "ready": 2
+      },
+      "after_restart": {
+        "imported": 2
+      },
+      "matching": {
+        "complete": 2
+      },
+      "recovery_seconds": 8.280497699997795,
+      "real_worker_stop_start": true
+    },
+    "prepared_startup": {
+      "cold_start_seconds": 15.8439113,
+      "finished": "2026-11-01T18:13:06.0581861Z",
+      "physical_offline": false,
+      "source_commit": "1d6937b3318ea6443c38c8c8ac792ed1ad9aa539",
+      "network_state": "Connected; physical offline operator gate pending",
+      "passed": true,
+      "started": "2026-11-01T18:12:50.2012268Z"
+    },
+    "backend": {
+      "passed": 197,
+      "seconds": 70.582,
+      "log": "runs/final-20261101-205207/backend-signoff.log"
+    },
+    "frontend_build": {
+      "passed": true,
+      "seconds": 10.34,
+      "bundle": "index-BAw5BN96.js",
+      "log": "runs/final-20261101-205207/build-signoff.log"
+    },
+    "fresh_seed": {
+      "database": "coordination_demo_final_seed_20261101_205207",
+      "cases": 504,
+      "institutions": 31,
+      "actions": 730,
+      "matching_complete": 504,
+      "repeat_counts_unchanged": true
+    },
+    "recovery": {
+      "audit": {
+        "all_tables_match": true,
+        "private_and_model_checksums_verified": true,
+        "table_counts": {
+          "auth_user": 16,
+          "cases_attachment": 1,
+          "cases_auditevent": 798,
+          "cases_bureau": 3,
+          "cases_caseaction": 15806,
+          "cases_complaint": 14337,
+          "cases_coordinationparticipant": 96,
+          "cases_coordinationrecord": 48,
+          "cases_coordinationrecord_cases": 768,
+          "cases_escalation": 60,
+          "cases_importjob": 124,
+          "cases_importrow": 19436,
+          "cases_incidentgroup": 3,
+          "cases_incidentmembership": 6,
+          "cases_institution": 166,
+          "cases_membership": 15,
+          "cases_modelrelease": 0,
+          "cases_notification": 135744,
+          "cases_overlapcandidate": 66392,
+          "cases_reportexport": 18,
+          "cases_reviewedfact": 2,
+          "cases_stagedembedding": 0,
+          "cases_summaryrecord": 2,
+          "django_migrations": 52
+        }
+      },
+      "working": {
+        "working_database_unchanged": true,
+        "all_file_checksums_match": true,
+        "pinned_weights_verified": true,
+        "attachment_references_verified": 1,
+        "table_counts": {
+          "auth_user": 6,
+          "cases_institution": 177,
+          "cases_bureau": 3,
+          "cases_membership": 5,
+          "cases_complaint": 9577,
+          "cases_caseaction": 10909,
+          "cases_overlapcandidate": 43951,
+          "cases_escalation": 48,
+          "cases_notification": 14498,
+          "cases_coordinationrecord": 38,
+          "cases_coordinationparticipant": 76,
+          "cases_coordinationrecord_cases": 608,
+          "cases_importjob": 115,
+          "cases_importrow": 9317,
+          "cases_summaryrecord": 1002,
+          "cases_attachment": 1,
+          "cases_auditevent": 765,
+          "cases_modelrelease": 0
+        }
+      }
+    },
+    "graph": {
+      "nodes": 1405,
+      "directed_edges": 3559,
+      "communities": 101,
+      "permitted_files": 148,
+      "represented_files": 146,
+      "dangling_endpoints": 0,
+      "self_loops": 15,
+      "meaning": "Source navigation only; not correctness evidence."
+    },
+    "browser": {
+      "passed": 73,
+      "minutes": 3.6,
+      "log": "runs/final-20261101-205207/browser-delivery.log"
+    },
+    "prepared_startup_default": {
+      "features": {
+        "reviewed_facts": false,
+        "incident_groups": false
+      },
+      "source_commit": "4847a33765a59026ff7f29e81b864516b643914e",
+      "started": "2026-11-01T18:44:21.2027943Z",
+      "finished": "2026-11-01T18:44:42.0322720Z",
+      "adapters_before": [
+        {
+          "Name": "Ethernet",
+          "Status": "Disconnected"
+        },
+        {
+          "Name": "Wi-Fi",
+          "Status": "Up"
+        }
+      ],
+      "physical_offline": false,
+      "cold_start_seconds": 13.9480556,
+      "passed": true
+    },
+    "compose_controls": {
+      "default_facts": "0",
+      "explicit_facts": "1",
+      "explicit_groups": "1",
+      "default_groups": "0",
+      "services_started": false
+    },
+    "source_files_modified": [
+      ".env.example",
+      "README.md",
+      "START-HERE.md",
+      "backend/cases/access.py",
+      "backend/cases/analytics.py",
+      "backend/cases/api.py",
+      "backend/cases/institutions.py",
+      "backend/cases/intelligence.py",
+      "backend/cases/management/commands/benchmark_encoder.py",
+      "backend/cases/management/commands/benchmark_scale.py",
+      "backend/cases/management/commands/seed_if_empty.py",
+      "backend/cases/management/commands/shadow_matching.py",
+      "backend/cases/migrations/0014_case_intelligence.py",
+      "backend/cases/migrations/0015_intelligence_protection.py",
+      "backend/cases/models.py",
+      "backend/cases/relationships.py",
+      "backend/cases/shadow.py",
+      "backend/cases/urls.py",
+      "backend/config/settings.py",
+      "compose.audit.yaml",
+      "compose.yaml",
+      "docs/research-permission-and-intake.md",
+      "docs/technical-design.md",
+      "frontend/src/api.ts",
+      "frontend/src/institutions.tsx",
+      "frontend/src/intelligence.tsx",
+      "frontend/src/main.tsx",
+      "scripts/benchmark_import.py",
+      "scripts/run_final_benchmarks.py",
+      "scripts/start.ps1",
+      "scripts/verify_final_restore.py",
+      "scripts/verify_readiness_restore.py",
+      "tests/backend/test_intelligence.py",
+      "tests/backend/test_readiness.py",
+      "tests/backend/test_recall.py",
+      "tests/browser/intelligence-final.spec.ts",
+      "tests/browser/starter.spec.ts",
+      "tests/operations/test_startup.py",
+      "tests/research/recall.py"
+    ],
+    "build_assets": {
+      "charts-CJq6mNu6.js": "443dfd7b286117eba23c185e11fb2c960ec6fc390af170ba296284ffc23bacde",
+      "index-BAw5BN96.js": "4ed2841ab4c28131114ae1c079d7a1dc6f4b8441c6cb87604e062db121ddeeff",
+      "index-BXzHa8qy.css": "ae3f148feec86ed15d704a4492a484c3357dd1b1f9abd92987c1410dee9c8361",
+      "react-Dim5iRi8.js": "a2f2b5d7d3374f880969e73ab094e28ca538edc21a8182cf5e0c93c2ccac6126"
+    },
+    "default_mode_browser": {
+      "passed": 14,
+      "seconds": 41.1,
+      "log": "runs/final-20261101-205207/browser-default.log"
+    }
+  },
+  "measurement_limits": [
+    "Ten distinct coordinator identities; role correctness tested separately.",
+    "Preview before continuous readers; nine readers alongside importer from confirmation.",
+    "Sampled system/GPU memory includes unrelated host activity; encoder uses CPU.",
+    "Stored matching_queue_ms is case creation to matching start, not pure broker wait.",
+    "Synthetic tests do not establish real incident accuracy or million-record capacity."
+  ],
+  "external_gates": [
+    "OIA permission",
+    "CFPB official access 403",
+    "Authorized institutional corpus",
+    "Independent annotations and known-positive ground truth",
+    "Physical offline operator test",
+    "Approved per-user identity for optional MCP"
+  ],
+  "verified_source_commit": "4847a33765a59026ff7f29e81b864516b643914e",
+  "scope": "Synthetic prototype measurements and public descriptor transfer probe, not production compliance/accuracy. Raw case text, annotations and model binaries excluded.",
+  "model_licence": {
+    "path": "backend/licenses/minilm-LICENSE.txt",
+    "licence": "Apache-2.0",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  "handoff_status": "Technically executed work complete; external real-data and physical offline gates pending; no merge or push."
+}
