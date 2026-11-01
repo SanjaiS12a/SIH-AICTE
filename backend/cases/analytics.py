@@ -3,7 +3,7 @@ import csv
 import io
 import json
 from types import SimpleNamespace
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Min
 from django.db.models.functions import TruncQuarter
 from django.http import StreamingHttpResponse
 from rest_framework.decorators import api_view
@@ -85,6 +85,12 @@ def analytics(request,qs,pending,now):
         approaching=Count('id',filter=Q(due_at__gte=now,due_at__lte=now+timedelta(days=7))),
         unresolved_escalations=Count('id',filter=Q(has_unresolved_escalation=True)),
     ).order_by('-count','institution_id')[:10])
+    priority=list(pending.order_by().values('institution_id','institution__name','institution__permanent_id').annotate(
+        count=Count('id'), overdue=Count('id',filter=Q(due_at__lt=now)),
+        unresolved_escalations=Count('id',filter=Q(has_unresolved_escalation=True)), earliest_deadline=Min('due_at'),
+    ).order_by('-overdue','-unresolved_escalations','earliest_deadline','institution_id')[:5])
+    from .coordination_workflow import filtered_records
+    awaiting=filtered_records(request).filter(state='in_coordination', participants__acknowledged_at__isnull=True).distinct().count()
     ids=[i['institution_id'] for i in institutions]
     bureau_rows=list(pending.filter(institution_id__in=ids).order_by().values('institution_id','bureau__code','bureau__name').annotate(count=Count('id')))
     notices=set(groups(request).filter(institution_id__in=ids).values_list('institution_id',flat=True))
@@ -99,7 +105,8 @@ def analytics(request,qs,pending,now):
             quarters.setdefault(start,{'start':start,'label':f"{row['period'].year} Q{(row['period'].month-1)//3+1}",'received':0,'disposed':0})[key]=row['count']
     actions=action_query(request)
     counts=[{'event':event,'count':actions.filter(condition).count()} for event,condition in EVENTS.items()]
-    return {'regions':regions,'classifications':classifications,'institutions':institutions,'quarters':[quarters[k] for k in sorted(quarters)],
+    return {'regions':regions,'classifications':classifications,'institutions':institutions,'priority_institutions':priority,
+            'pending_acknowledgment_records':awaiting,'quarters':[quarters[k] for k in sorted(quarters)],
             'movement_counts':counts,'recent_movements':MovementSerializer(actions[:10],many=True).data,
             'movement_scope':'Action timestamps; current authorized case attributes, independent of receipt cohort',
             'coordination_scope':'All-time active cases; institution/region/district only; no receipt-date, bureau or category restriction'}

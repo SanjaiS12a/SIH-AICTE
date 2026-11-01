@@ -22,180 +22,9 @@ import {
 import { date, categories, classifications } from "./api";
 import type { Dashboard, Options, User } from "./api";
 import { usePoll } from "./imports";
-import { ManagementPanels } from "./management";
+import { ManagementHome } from "./management";
 
-export function validDashboard(
-  value: unknown,
-  managementRequired = false,
-): boolean {
-  if (!value || typeof value !== "object") return false;
-  const d = value as Dashboard;
-  const count = (v: unknown) => Number.isSafeInteger(v) && Number(v) >= 0;
-  const rows = <T,>(v: unknown, valid: (row: T) => boolean): boolean =>
-    Array.isArray(v) && v.every((row) => !!row && valid(row));
-  const validCase = (c: Dashboard["attention"][number]) =>
-    typeof c.id === "string" &&
-    typeof c.reference === "string" &&
-    typeof c.summary === "string" &&
-    typeof c.bureau === "string" &&
-    typeof c.due_at === "string" &&
-    typeof c.institution?.id === "string" &&
-    typeof c.institution?.name === "string";
-  if (
-    ![
-      d.pending,
-      d.overdue,
-      d.total,
-      d.disposed,
-      d.institutions,
-      d.approaching,
-      d.unresolved_escalations,
-      d.under_process,
-    ].every(count) ||
-    typeof d.generated_at !== "string" ||
-    typeof d.closed_share !== "number" ||
-    !Number.isFinite(d.closed_share) ||
-    d.closed_share < 0 ||
-    d.closed_share > 1
-  )
-    return false;
-  if (
-    !rows(d.attention, validCase) ||
-    !rows(d.recent, validCase) ||
-    !rows<{ month: string; received: number; disposed: number }>(
-      d.trend,
-      (t) =>
-        typeof t.month === "string" && count(t.received) && count(t.disposed),
-    ) ||
-    !rows<{
-      bureau__code: string;
-      count: number;
-      overdue: number;
-      approaching: number;
-      institutions: number;
-    }>(
-      d.workload,
-      (b) =>
-        typeof b.bureau__code === "string" &&
-        [b.count, b.overdue, b.approaching, b.institutions].every(count),
-    )
-  )
-    return false;
-  if (
-    !rows<{ name: string; count: number }>(
-      d.ageing,
-      (r) => typeof r.name === "string" && count(r.count),
-    ) ||
-    !rows<{ status: string; count: number }>(
-      d.statuses,
-      (r) => typeof r.status === "string" && count(r.count),
-    )
-  )
-    return false;
-  if (
-    ![d.categories, d.active_categories].every((v) =>
-      rows<{ category: string; count: number }>(
-        v,
-        (r) => typeof r.category === "string" && count(r.count),
-      ),
-    ) ||
-    !Array.isArray(d.overdue_bureaus) ||
-    !d.overdue_bureaus.every(
-      (b) => !!b && typeof b.bureau__code === "string" && count(b.count),
-    )
-  )
-    return false;
-  if (
-    !d.matching ||
-    typeof d.matching !== "object" ||
-    Array.isArray(d.matching) ||
-    !Object.values(d.matching).every(count)
-  )
-    return false;
-  if (managementRequired && !d.management) return false;
-  if (d.management !== undefined) {
-    const m = d.management;
-    if (!m || !count(d.coordination_institutions) || !count(d.overlap_reviews))
-      return false;
-    if (
-      !rows<NonNullable<Dashboard["management"]>["institutions"][number]>(
-        m.institutions,
-        (r) =>
-          typeof r.institution_id === "string" &&
-          typeof r.institution__name === "string" &&
-          typeof r.institution__permanent_id === "string" &&
-          [
-            r.count,
-            r.overdue,
-            r.approaching,
-            r.unresolved_escalations,
-            r.bureaus,
-          ].every(count) &&
-          Array.isArray(r.bureau_names) &&
-          r.bureau_names.every((n) => typeof n === "string") &&
-          typeof r.coordination === "boolean",
-      )
-    )
-      return false;
-    if (
-      !rows<NonNullable<Dashboard["management"]>["regions"][number]>(
-        m.regions,
-        (r) =>
-          typeof r.institution__region === "string" &&
-          typeof r.institution__district === "string" &&
-          count(r.count) &&
-          count(r.institutions),
-      ) ||
-      !rows<{ classification: string; count: number }>(
-        m.classifications,
-        (r) => typeof r.classification === "string" && count(r.count),
-      )
-    )
-      return false;
-    if (
-      !rows<{
-        start: string;
-        label: string;
-        received: number;
-        disposed: number;
-      }>(
-        m.quarters,
-        (r) =>
-          typeof r.start === "string" &&
-          typeof r.label === "string" &&
-          count(r.received) &&
-          count(r.disposed),
-      ) ||
-      !rows<{ event: string; count: number }>(
-        m.movement_counts,
-        (r) => typeof r.event === "string" && count(r.count),
-      ) ||
-      !rows<NonNullable<Dashboard["management"]>["recent_movements"][number]>(
-        m.recent_movements,
-        (r) =>
-          typeof r.case_id === "string" &&
-          typeof r.reference === "string" &&
-          typeof r.event === "string" &&
-          typeof r.reason === "string" &&
-          typeof r.institution === "string" &&
-          typeof r.created_at === "string",
-      )
-    )
-      return false;
-    if (
-      !rows<NonNullable<Dashboard["coordination_notices"]>[number]>(
-        d.coordination_notices,
-        (r) =>
-          typeof r.institution_id === "string" &&
-          typeof r.institution__name === "string" &&
-          count(r.bureaus) &&
-          count(r.count),
-      )
-    )
-      return false;
-  }
-  return true;
-}
+import { validDashboard } from "./dashboard-data";
 const monthName = (month: string) =>
   new Date(`${month}-01T00:00:00`).toLocaleDateString("en-IN", {
     month: "short",
@@ -237,6 +66,7 @@ export function DashboardHome({
     q.delete("page");
     Object.entries(values).forEach(([k, v]) => {
       if (v) q.set(k, v);
+      else q.delete(k);
     });
     return `/cases?${q}`;
   }
@@ -299,6 +129,14 @@ export function DashboardHome({
           </Link>
         </div>
       </div>
+      {coordinator && <form className="home-filterbar" onSubmit={e => {
+        e.preventDefault();
+        const q = new FormData(e.currentTarget).get("institution_search")?.toString() || "";
+        navigate(`/institutions?q=${encodeURIComponent(q)}`);
+      }}>
+        <label>Find an institution<input name="institution_search" placeholder="Institution name or Permanent ID" /></label>
+        <button type="submit">Search institutions</button>
+      </form>}
       <div className="home-filterbar">
         <label>
           Bureau
@@ -396,7 +234,7 @@ export function DashboardHome({
       )}
       {d && (
         <>
-          <div className={`home-metrics ${coordinator ? "" : "officer"}`}>
+          {coordinator ? <ManagementHome data={d} filters={params.toString()} /> : <div className="home-metrics officer">
             <button
               className="home-stat"
               onClick={() =>
@@ -425,25 +263,7 @@ export function DashboardHome({
               <small>Part of open complaints. The deadline has passed.</small>
               <ArrowRight className="stat-arrow" size={20} />
             </button>
-            {coordinator && (
-              <button className="home-stat" onClick={() => navigate(reviews())}>
-                <span>
-                  <Intersect size={19} />
-                  Possible overlaps
-                </span>
-                <strong>
-                  {(d.overlap_reviews || 0).toLocaleString("en-IN")}
-                </strong>
-                <small>
-                  Case pairs to check. These are not confirmed duplicates.
-                </small>
-                <ArrowRight className="stat-arrow" size={20} />
-              </button>
-            )}
-          </div>
-          {coordinator && (
-            <ManagementPanels data={d} filters={params.toString()} />
-          )}
+          </div>}
           <section
             className="panel home-attention"
             aria-labelledby="attention-title"
@@ -542,6 +362,12 @@ export function DashboardHome({
                 </div>
                 <Link className="text-button" to={reviews()}>
                   Review possible overlaps <ArrowRight size={16} />
+                </Link>
+                <Link className="text-button" to={`/coordination/workspace?${new URLSearchParams([
+                  ...[...params].filter(([k]) => ["institution", "region", "district", "district_exact"].includes(k)),
+                  ["awaiting_ack", "true"],
+                ])}`}>
+                  {d.management?.pending_acknowledgment_records} records awaiting acknowledgment — all time
                 </Link>
                 <Link className="text-button" to="/coordination/activity">
                   View all cross-Bureau activity →

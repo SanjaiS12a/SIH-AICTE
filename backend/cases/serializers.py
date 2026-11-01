@@ -112,6 +112,7 @@ class FilterSerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=[''] + [x[0] for x in Complaint.STATUSES], required=False)
     overdue = serializers.BooleanField(required=False)
     pending = serializers.BooleanField(required=False)
+    under_process = serializers.BooleanField(required=False)
     escalated = serializers.BooleanField(required=False)
     approaching = serializers.BooleanField(required=False)
     with_cases = serializers.BooleanField(required=False)

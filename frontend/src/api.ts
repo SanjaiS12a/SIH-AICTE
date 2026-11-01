@@ -142,6 +142,16 @@ export type Dashboard = {
   coordination_institutions?: number;
   closed_share: number;
   management?: {
+    pending_acknowledgment_records: number;
+    priority_institutions: {
+      institution_id: string;
+      institution__name: string;
+      institution__permanent_id: string;
+      count: number;
+      overdue: number;
+      unresolved_escalations: number;
+      earliest_deadline: string;
+    }[];
     regions: {
       institution__region: string;
       institution__district: string;

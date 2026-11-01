@@ -55,6 +55,8 @@ def filtered_cases(request):
         qs = qs.filter(due_at__lt=timezone.now()).exclude(status='disposed')
     if p.get('pending'):
         qs = qs.exclude(status='disposed')
+    if p.get('under_process'):
+        qs = qs.filter(status__in=['under_review', 'awaiting_response'])
     if p.get('closed'):
         qs = qs.filter(status='disposed')
     if p.get('escalated'):

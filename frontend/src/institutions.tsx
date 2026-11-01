@@ -30,7 +30,7 @@ import type {
   User,
 } from "./api";
 import { ExportButton, Report, usePoll } from "./imports";
-import { validDashboard } from "./dashboard";
+import { validDashboard } from "./dashboard-data";
 import {
   Badge,
   CaseTable,

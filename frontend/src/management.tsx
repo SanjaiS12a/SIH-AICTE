@@ -24,6 +24,43 @@ import { Heading, ErrorBox, Loading, Empty, Pagination, Badge } from "./ui";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
+export function ManagementHome({ data: d, filters }: { data: Dashboard; filters: string }) {
+  const navigate = useNavigate();
+  const m = d.management!;
+  function cases(extra: Record<string, string> = {}) {
+    const q = new URLSearchParams(filters); q.delete("page");
+    Object.entries(extra).forEach(([k,v]) => v ? q.set(k,v) : q.delete(k));
+    return `/cases?${q}`;
+  }
+  const cards: [string, number, Record<string,string>][] = [
+    ["Received complaints", d.total, {}],
+    ["Open complaints", d.pending, {pending:"true"}],
+    ["Under-process complaints", d.under_process, {under_process:"true"}],
+    ["Closed complaints", d.disposed, {closed:"true"}],
+  ];
+  return <>
+    <div className="home-summary">{cards.map(([label,count,extra]) =>
+      <button className="home-stat" key={label} onClick={() => navigate(cases(extra))}>
+        <span>{label}</span><strong>{count.toLocaleString("en-IN")}</strong>
+      </button>)}</div>
+    <p className="home-guidance">Selected receipt cohort. Under-process means under review or awaiting response and is included in Open. <Link to={cases({overdue:"true"})}>{d.overdue} overdue complaints</Link>.</p>
+    <section className="panel home-attention" aria-labelledby="priority-title">
+      <div className="home-section-heading"><div><h2 id="priority-title">Priority institutions</h2>
+      <p>Selected receipt cohort. Ranked by overdue cases, unresolved escalations, then earliest deadline.</p></div></div>
+      {m.priority_institutions.length ? <div className="table-wrap" role="region" aria-label="Priority institutions" tabIndex={0}><table>
+        <thead><tr><th>Institution</th><th>Open</th><th>Overdue</th><th>Unresolved escalations</th><th>Earliest deadline</th></tr></thead>
+        <tbody>{m.priority_institutions.map(i => <tr key={i.institution_id}>
+          <td><Link to={`/institutions/${i.institution_id}`}>{i.institution__name}</Link><span className="table-sub">{i.institution__permanent_id}</span></td>
+          <td><Link to={cases({institution:i.institution_id,pending:"true"})}>{i.count}</Link></td>
+          <td><Link to={cases({institution:i.institution_id,overdue:"true"})}>{i.overdue}</Link></td>
+          <td><Link to={cases({institution:i.institution_id,escalated:"true",pending:"true"})}>{i.unresolved_escalations}</Link></td>
+          <td>{date(i.earliest_deadline)}</td>
+        </tr>)}</tbody></table></div> : <div className="home-empty">No open cases in this cohort.</div>}
+      <p className="home-guidance">Institution profiles show all-time authorized history, independently of these receipt filters.</p>
+    </section>
+  </>;
+}
+
 type Notice = {
   institution_id: string;
   institution__name: string;

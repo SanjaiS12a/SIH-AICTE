@@ -151,7 +151,7 @@ test("home prioritizes active cases and keeps filter-aware drilldowns working", 
   page,
 }) => {
   await login(page);
-  await expect(page.locator(".home-stat")).toHaveCount(9);
+  await expect(page.locator(".home-stat")).toHaveCount(4);
   await expect(
     page.getByRole("heading", { name: "Cases needing attention" }),
   ).toBeVisible();
@@ -176,7 +176,7 @@ test("home prioritizes active cases and keeps filter-aware drilldowns working", 
     path: artifact("dashboard-simple.png"),
     fullPage: true,
   });
-  await page.getByRole("button", { name: /Overdue complaints/ }).click();
+  await page.getByRole("link", { name: /overdue complaints/ }).click();
   await expect(page).toHaveURL(/overdue=true/);
   const overdue = await (
     await page.request.get("/api/cases?overdue=true")
@@ -264,7 +264,7 @@ test("auditor can inspect attention cases but cannot change them", async ({
   page,
 }) => {
   await login(page, "auditor");
-  await expect(page.locator(".home-stat")).toHaveCount(9);
+  await expect(page.locator(".home-stat")).toHaveCount(4);
   await expect(
     page.getByRole("heading", { name: "Needs coordination" }),
   ).toBeVisible();

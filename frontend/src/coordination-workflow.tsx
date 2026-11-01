@@ -128,7 +128,7 @@ export function CoordinationWorkspace({
   const management = ["coordinator", "auditor"].includes(user.role);
   const { data, error: loadError } = usePoll<Page<Record>>(
     management
-      ? `/api/coordination-records?${institution ? `institution=${institution}&` : ""}page=${params.get("page") || 1}`
+      ? `/api/coordination-records?${params}`
       : null,
     5000,
     refresh,

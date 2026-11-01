@@ -74,6 +74,18 @@ def records():
     return CoordinationRecord.objects.select_related('institution', 'lead_bureau', 'lead_officer').prefetch_related('participants__bureau', 'participants__officer')
 
 
+def filtered_records(request):
+    from .serializers import FilterSerializer
+    form = FilterSerializer(data=request.query_params)
+    form.is_valid(raise_exception=True)
+    p = form.validated_data
+    qs = records()
+    for key, field in [('institution','institution_id'), ('region','institution__region'), ('district','institution__district__icontains')]:
+        if key == 'district' and p.get('district_exact'): field = 'institution__district'
+        if p.get(key): qs = qs.filter(**{field:p[key]})
+    return qs
+
+
 def audit(record, user, kind, reason, changes):
     for case_id in record.cases.values_list('id', flat=True):
         CaseAction.objects.create(case_id=case_id, actor=user, kind=kind, reason=reason,
@@ -84,10 +96,10 @@ def audit(record, user, kind, reason, changes):
 def registry(request):
     require_management(request.user, request.method == 'POST')
     if request.method == 'GET':
-        qs = records()
-        if request.query_params.get('institution'):
-            field = serializers.UUIDField()
-            qs = qs.filter(institution_id=field.run_validation(request.query_params['institution']))
+        qs = filtered_records(request)
+        if 'awaiting_ack' in request.query_params:
+            awaiting = serializers.BooleanField().run_validation(request.query_params['awaiting_ack'])
+            if awaiting: qs = qs.filter(state='in_coordination', participants__acknowledged_at__isnull=True).distinct()
         state = request.query_params.get('state', 'all')
         if state not in ('all', 'in_coordination', 'closed'):
             raise ValidationError('Choose all, in_coordination or closed.')

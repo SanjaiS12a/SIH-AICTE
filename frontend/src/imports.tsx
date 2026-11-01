@@ -11,7 +11,9 @@ import {
   Tooltip,
 } from "recharts";
 import { api } from "./api";
-import type { User, Options } from "./api";
+import { validDashboard } from "./dashboard-data";
+import { ManagementPanels } from "./management";
+import type { Dashboard, User, Options } from "./api";
 
 type Job = {
   source_system?: string;
@@ -221,6 +223,7 @@ function isReport(value: unknown): boolean {
       rows(value.rows, ["institution", "bureau", "category", "period"], []) &&
       (value.rows as Record<string, unknown>[]).every((x) => numbers(x.counts))
     );
+  if ("management" in value && !validDashboard(value)) return false;
   return (
     ["total", "pending", "overdue", "disposed"].every((key) =>
       number(value[key]),
@@ -874,6 +877,7 @@ export function Report({
             {facts.matching?.failed || 0} failed. Suggestions require human
             review.
           </p>
+          {"management" in facts && <ManagementPanels data={facts as unknown as Dashboard} filters={filters} />}
           <div className="report-grid">
             <Bars
               title="Active bureau workload"
