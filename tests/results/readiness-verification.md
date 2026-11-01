@@ -1,6 +1,6 @@
 # SIH 26264 corrective readiness verification
 
-**Date:** 1 November 2026. **Status:** application corrections and local verification completed; physical-network-disconnected cold startup remains unverified. Publication to `main` is blocked by that mandatory gate.
+**Date:** 1 November 2026. **Status:** application corrections and local verification completed. After disclosure of the remaining physical-offline limitation, the user explicitly authorized publication to `main`. Physical-network-disconnected cold startup remains unverified; publication does not change that result.
 
 For a plain-language explanation and ready-to-upload data, open [START-HERE](../../START-HERE.md). This report records observed results, not production-compliance or real-data-accuracy guarantees.
 
@@ -125,7 +125,7 @@ Local weights loaded with offline settings, model files were read-only and check
 
 The prepared operator check is `scripts/verify-physical-offline.ps1`. It requires physical adapters disconnected, cold-starts only the audit portal and records actual results. It never disables adapters itself. Docker Desktop must already be available; this is a portal-service cold start, not a Windows cold boot.
 
-Because the mandatory gate remains open, **main stays at the verified baseline and no corrective release is pushed**. Source/recovery checkpoints remain on the feature branch. No force-push is permitted. Once this gate is actually verified or the user explicitly revises the release requirement, publication must recheck remote main, review the exact final diff, fast-forward only, push normally and compare local/remote SHAs.
+The user subsequently instructed publication to `main` after this limitation was disclosed, revising the publication requirement for this delivery. The physical-offline check remains open. Recovery checkpoints are retained; publication uses a fast-forward-only update, a normal push and local/remote SHA verification. No force-push is permitted.
 
 ## Five-minute demonstration
 

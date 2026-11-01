@@ -3,7 +3,7 @@
   "source_checkpoint": "285336e75dc4933ff000ddd74512bb2b82c6b29a",
   "branch": "codex/sih26264-readiness",
   "baseline": "996b2ff7e094aa1e276e1738fcba141ba4a2faa7",
-  "publication": "blocked: physical-offline gate unverified",
+  "publication": "user authorized main publication with physical-offline verification still pending",
   "tests": {
     "backend": {
       "passed": 148,
@@ -206,5 +206,6 @@
     "peak_device_gpu_mib": 945,
     "note": "Sampled maxima; whole-host/device values include other software. Model inference uses CPU."
   },
-  "final_source_checkpoint": "285336e75dc4933ff000ddd74512bb2b82c6b29a"
+  "final_source_checkpoint": "285336e75dc4933ff000ddd74512bb2b82c6b29a",
+  "physical_offline_verified": false
 }

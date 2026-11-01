@@ -44,4 +44,4 @@ React displays the portal and charts. It calls a Django API over localhost. Post
 
 Online preparation downloads dependencies and model assets once. Prepared operation uses those local assets, the database and worker. Docker Desktop must be running. The ordinary start command is `start.bat`; see [README](README.md) for preparation and the separate audit stack.
 
-Physical-network-disconnected cold startup remains a separate verification gate. Absence of a cloud AI API alone does not prove it. The corrective branch must remain unpublished while a mandatory release gate is unresolved.
+Physical-network-disconnected cold startup remains a separate verification gate. Absence of a cloud AI API alone does not prove it. The user authorized publication with this physical-offline verification still pending; offline readiness is not certified.
