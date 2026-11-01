@@ -880,6 +880,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
   const [classification, setClassification] = useState("unclassified"),
     [nextAction, setNextAction] = useState(""),
     [nextDate, setNextDate] = useState(""),
+    [savedVersion, setSavedVersion] = useState(0),
     [editingVersion, setEditingVersion] = useState<number | null>(null),
     [conflict, setConflict] = useState(false);
   const [escalationSubmission, setEscalationSubmission] = useState(() =>
@@ -891,6 +892,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
     setReason("");
     setNextAction("");
     setNextDate("");
+    setSavedVersion(0);
     setEditingVersion(null);
     setConflict(false);
     setActionError("");
@@ -941,6 +943,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
         },
       );
       setReason("");
+      setSavedVersion((editingVersion ?? c!.version) + 1);
       if (action === "escalate") {
         setAction("note");
         setEscalationSubmission(crypto.randomUUID());
@@ -1165,6 +1168,8 @@ function Detail({ user, options }: { user: User; options: Options }) {
                       if (editingVersion === null) setEditingVersion(c.version);
                     }}
                   >
+                    <fieldset disabled={busy || c.version < savedVersion} style={{border:0, padding:0, margin:0, minWidth:0, display:'grid', gap:16}}>
+                    <legend className="sr-only">Case action</legend>
                     <ErrorBox message={actionError} />
                     {conflict && (
                       <div role="alert">
@@ -1368,6 +1373,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
                       Actions are timestamped and preserved. Version {c.version}
                       .
                     </small>
+                    </fieldset>
                   </form>
                 ) : (
                   <p className="card-body muted">

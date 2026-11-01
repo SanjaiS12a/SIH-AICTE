@@ -672,7 +672,7 @@ function InstitutionMonitoringPanel({
                     {esc > 0 ? (
                       <Link
                         to={cases(
-                          { institution: i.institution_id, state: "pending" },
+                          { institution: i.institution_id, state: "pending", pending: "true" },
                           "/escalations",
                         )}
                         style={{ color: "#a85f1a" }}

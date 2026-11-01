@@ -73,15 +73,24 @@ test("register, annotate, transfer and verify the audit history", async ({
   await expect(page.getByText("Scan complete", { exact: true })).toBeVisible({
     timeout: 20000,
   });
+  let delayReload = true;
+  await page.route('**/api/cases/*', async route => {
+    if (delayReload && route.request().method() === 'GET') await new Promise(resolve => setTimeout(resolve,1000));
+    await route.continue();
+  });
   await page
     .getByLabel("Reason / note")
     .fill("Supporting receipts requested from the institution.");
+  const saved = page.waitForResponse(r => r.url().endsWith('/actions') && r.request().method() === 'POST' && r.status() === 200);
   await page.getByRole("button", { name: "Record action" }).click();
+  await saved;
+  await expect(page.locator('.action-form select:enabled')).toHaveCount(0);
   await expect(
     page.getByText("Supporting receipts requested from the institution.", {
       exact: true,
     }),
   ).toBeVisible();
+  delayReload = false;
   await page
     .getByRole("combobox", { name: "Action", exact: true })
     .selectOption("transfer");
@@ -105,7 +114,7 @@ test("dashboard, drill-down and coordination review", async ({ page }) => {
     path: artifact("dashboard.png"),
     fullPage: true,
   });
-  await page.getByRole("button", { name: /Overdue complaints/ }).click();
+  await page.getByRole("link", { name: /overdue complaints/ }).click();
   await expect(page).toHaveURL(/overdue=true/);
   await expect(
     page.getByRole("checkbox", { name: "Overdue only" }),

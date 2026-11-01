@@ -100,6 +100,8 @@ export function validDashboard(
           typeof r.institution_id === "string" &&
           typeof r.institution__name === "string" &&
           typeof r.institution__permanent_id === "string" &&
+          typeof r.institution__region === "string" &&
+          (r.institution__district === undefined || typeof r.institution__district === "string") &&
           [
             r.count,
             r.overdue,
@@ -109,6 +111,8 @@ export function validDashboard(
           ].every(count) &&
           Array.isArray(r.bureau_names) &&
           r.bureau_names.every((n) => typeof n === "string") &&
+          (r.bureau_details === undefined || rows<{code:string;name:string;count:number}>(r.bureau_details,
+            b => typeof b.code === "string" && typeof b.name === "string" && count(b.count))) &&
           typeof r.coordination === "boolean",
       )
     )

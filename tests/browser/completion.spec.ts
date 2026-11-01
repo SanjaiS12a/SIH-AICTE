@@ -187,6 +187,9 @@ test("management receipt cohort and all-time coordination have matching drill-do
   ).json();
   expect(facts.total).toBe(1);
   expect(facts.coordination_institutions).toBe(1);
+  await expect(page.getByRole('heading',{name:'Priority institutions',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Institution monitoring',exact:true})).toHaveCount(0);
+  await page.goto(`/reports?institution=${institution.id}&from=${today}&to=${today}`);
   await expect(
     page.getByRole("heading", { name: "Institution monitoring", exact: true }),
   ).toBeVisible();
@@ -223,7 +226,7 @@ test("management receipt cohort and all-time coordination have matching drill-do
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`/?institution=${institution.id}`);
   await expect(
-    page.getByRole("heading", { name: "Institution monitoring", exact: true }),
+    page.getByRole("heading", { name: "Priority institutions", exact: true }),
   ).toBeVisible();
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
