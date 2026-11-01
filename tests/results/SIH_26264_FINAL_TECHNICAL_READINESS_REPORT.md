@@ -1,4 +1,4 @@
-# SIH 26264 â€” Final technical readiness report
+# SIH 26264 — Final technical readiness report
 
 Implementation and technically executable verification are complete on `codex/final-readiness`. **The tested fictional demonstration works; real-world matching acceptance and physical offline sign-off remain externally blocked.** Main is unchanged and no publication was performed.
 
@@ -12,17 +12,17 @@ Fresh evidence is isolated under [this run](runs/final-20261101-205207/). Histor
 
 | Phase | Result |
 |---|---|
-| 0 â€” Preserve/isolate | Recovery branch, protected hashes, working backup, independent audit/benchmark storage; no working data mutation |
-| 1 â€” B1/B1.5 | Preserved and freshly regression-tested; frozen public probe rerun |
-| 2 â€” Authentic data | Official access retry, authentic NYC reuse, private annotation packets and authorized-intake/recall protocol complete; real reviewers/permissions remain external |
-| 3 â€” B2 | Bounded disabled shadow experiment, SQL plans and synthetic comparisons complete; production expansion not activated |
-| 4 â€” C | Current briefs, reviewed spans and manual groups implemented/tested; independent controls default off |
-| 5 â€” Optional MCP | Intentionally absent pending approved per-user identity/handling policy; no UTCP |
-| 6 â€” Integration | Registry lookup, payload guards, monitoring/permission/history preservation and measured optimizations complete |
-| 7 â€” Regression | 197 Django, 73 full Edge, 4 controller checks; additional default-mode and focused checks pass |
-| 8 â€” Performance | Four fresh HTTP workloads, dispersed/concentrated scale tests, encoder timings and export reconciliation complete |
-| 9 â€” Recovery/operation | Working and current-audit restore, worker restart, fresh-only seeding and connected cold startup complete; physical disconnection pending |
-| 10 â€” Handoff | Design/lifecycle/demo/recovery documentation, source graph and consolidated safe evidence complete; feature branch only |
+| 0 — Preserve/isolate | Recovery branch, protected hashes, working backup, independent audit/benchmark storage; no working data mutation |
+| 1 — B1/B1.5 | Preserved and freshly regression-tested; frozen public probe rerun |
+| 2 — Authentic data | Official access retry, authentic NYC reuse, private annotation packets and authorized-intake/recall protocol complete; real reviewers/permissions remain external |
+| 3 — B2 | Bounded disabled shadow experiment, SQL plans and synthetic comparisons complete; production expansion not activated |
+| 4 — C | Current briefs, reviewed spans and manual groups implemented/tested; independent controls default off |
+| 5 — Optional MCP | Intentionally absent pending approved per-user identity/handling policy; no UTCP |
+| 6 — Integration | Registry lookup, payload guards, monitoring/permission/history preservation and measured optimizations complete |
+| 7 — Regression | 197 Django, 73 full Edge, 4 controller checks; additional default-mode and focused checks pass |
+| 8 — Performance | Four fresh HTTP workloads, dispersed/concentrated scale tests, encoder timings and export reconciliation complete |
+| 9 — Recovery/operation | Working and current-audit restore, worker restart, fresh-only seeding and connected cold startup complete; physical disconnection pending |
+| 10 — Handoff | Design/lifecycle/demo/recovery documentation, source graph and consolidated safe evidence complete; feature branch only |
 
 ## Implemented corrections and intelligence
 
@@ -67,20 +67,20 @@ The synthetic B2 held-out comparison used 60 queries: unchanged baseline returne
 
 | Check | Fresh result / evidence |
 |---|---|
-| Django complete regression | 197 passed, 70.582 s â€” [log](runs/final-20261101-205207/backend-signoff.log) |
-| Edge/Playwright complete regression | 73 passed, 3.6 minutes â€” [log](runs/final-20261101-205207/browser-delivery.log) |
-| New brief/fact/group/search and workbook checks | 7 passed â€” [log](runs/final-20261101-205207/browser-final-focused.log) |
-| Fresh-stack bounded-lookup fixture | 1 passed â€” [log](runs/final-20261101-205207/browser-fresh-fixture.log); initial page intercepted, subsequent search uses real API |
-| Production build | Passed, Vite 10.34 s, JS `index-BAw5BN96.js` â€” [log](runs/final-20261101-205207/build-signoff.log) |
+| Django complete regression | 197 passed, 70.582 s — [log](runs/final-20261101-205207/backend-signoff.log) |
+| Edge/Playwright complete regression | 73 passed, 3.6 minutes — [log](runs/final-20261101-205207/browser-delivery.log) |
+| New brief/fact/group/search and workbook checks | 7 passed — [log](runs/final-20261101-205207/browser-final-focused.log) |
+| Fresh-stack bounded-lookup fixture | 1 passed — [log](runs/final-20261101-205207/browser-fresh-fixture.log); initial page intercepted, subsequent search uses real API |
+| Production build | Passed, Vite 10.34 s, JS `index-BAw5BN96.js` — [log](runs/final-20261101-205207/build-signoff.log) |
 | Migrations | Applied 0014/0015 on isolated stack; no model drift detected |
-| Current audit recovery | Every case-table rowset and migration history matched; private files/model and authorized attachment downloads verified; restored facts and groups preserved â€” [evidence](runs/final-20261101-205207/final-restore.json) |
-| Preserved working recovery | Fresh captured working dump restored in audit DB service; source rows unchanged, additive migrations/read endpoints/files/model verified â€” [evidence](runs/final-20261101-205207/working-restore.json) |
-| Real worker restart | Two queued rows survived stop/start and completed import/matching in 8.280 s â€” [evidence](runs/final-20261101-205207/worker-recovery/import-queue-recovery.json) |
-| Controller unit checks | Four passed, including exited worker refusal â€” [log](runs/final-20261101-205207/startup-final.log) |
-| Prepared default-mode startup | 13.948 s; API/worker initialization/assets verified, controls off, Wi-Fi up â€” [evidence](runs/final-20261101-205207/controller-demo.json) |
-| Default-mode browser regression | 14 passed, 41.1 s â€” [log](runs/final-20261101-205207/browser-default.log) |
-| Group conflict/reload/mobile | Five focused intelligence tests passed, including a real concurrent group correction â€” [log](runs/final-20261101-205207/browser-conflict-verified.log) |
-| Fresh-only seeding | Fresh designated database: 504 fully matched cases, 31 institutions, 730 actions; repeat unchanged â€” [fresh](runs/final-20261101-205207/seed-fresh.log), [repeat](runs/final-20261101-205207/seed-repeat.log) |
+| Current audit recovery | Every case-table rowset and migration history matched; private files/model and authorized attachment downloads verified; restored facts and groups preserved — [evidence](runs/final-20261101-205207/final-restore.json) |
+| Preserved working recovery | Fresh captured working dump restored in audit DB service; source rows unchanged, additive migrations/read endpoints/files/model verified — [evidence](runs/final-20261101-205207/working-restore.json) |
+| Real worker restart | Two queued rows survived stop/start and completed import/matching in 8.280 s — [evidence](runs/final-20261101-205207/worker-recovery/import-queue-recovery.json) |
+| Controller unit checks | Four passed, including exited worker refusal — [log](runs/final-20261101-205207/startup-final.log) |
+| Prepared default-mode startup | 13.948 s; API/worker initialization/assets verified, controls off, Wi-Fi up — [evidence](runs/final-20261101-205207/controller-demo.json) |
+| Default-mode browser regression | 14 passed, 41.1 s — [log](runs/final-20261101-205207/browser-default.log) |
+| Group conflict/reload/mobile | Five focused intelligence tests passed, including a real concurrent group correction — [log](runs/final-20261101-205207/browser-conflict-verified.log) |
+| Fresh-only seeding | Fresh designated database: 504 fully matched cases, 31 institutions, 730 actions; repeat unchanged — [fresh](runs/final-20261101-205207/seed-fresh.log), [repeat](runs/final-20261101-205207/seed-repeat.log) |
 
 Two earlier browser runs exposed test setup faults (GET logout and assuming the bounded institution lookup contained every institution); these were corrected without weakening workflow/security assertions. The new brief's unstable validator also caused a request loop during initial testing and was fixed before final verification. The final controller also redirects per-port standard input: an earlier native wrapper retained the Vite child lifetime and did not give a usable cold-start measurement. That initial log is retained; the successful default-mode measurement above is authoritative. All earlier logs are preserved rather than overwritten. No physical offline success is inferred from these results.
 
@@ -99,11 +99,11 @@ Fresh HTTP workloads use separate empty databases/private volumes, 30 fictional 
 | 10,000 CSV, dispersed | 59.94 s | 123.45 s | 457.71 s | 240 / 298 ms | 501 ms |
 | 10,000 CSV, one institution | 52.05 s | 89.97 s | 625.24 s | 226 / 280 ms | 452 ms |
 
-Both 1k conditions met the stated preview/statistics/two-minute completion objectives in these runs. Upload plus confirmation-to-final-report was about 53â€“57 seconds for 1k and 8.6â€“11.3 minutes for 10k; these are observations, not promises. UI refresh remains 5 seconds while visible, with import polling every 2 seconds. During imports the nine readers made 348â€“4,140 reads per endpoint per workload; dashboard p95 was 158â€“426 ms and case reads p95 130â€“184 ms.
+Both 1k conditions met the stated preview/statistics/two-minute completion objectives in these runs. Upload plus confirmation-to-final-report was about 53–57 seconds for 1k and 8.6–11.3 minutes for 10k; these are observations, not promises. UI refresh remains 5 seconds while visible, with import polling every 2 seconds. During imports the nine readers made 348–4,589 reads per endpoint per workload; dashboard p95 was 158–426 ms and case reads p95 130–184 ms.
 
-Asynchronous exports reconciled exactly to 1,011/10,011 rows (warmup + imported rows + ten registration checks), completed in 0.59â€“2.76 s, and downloaded in 0.03â€“0.17 s. Sampled worker memory peaked at 470â€“479 MiB; API at about 98â€“201 MiB and DB at about 502â€“568 MiB. Sampling can miss brief peaks; host/GPU totals include unrelated activity. The encoder ran on CPU throughout.
+Asynchronous exports reconciled exactly to 1,011/10,011 rows (warmup + imported rows + ten registration checks), completed in 0.59–2.76 s, and downloaded in 0.03–0.17 s. Sampled worker memory peaked at 470–479 MiB; API at about 98–202 MiB and DB at about 502–593 MiB. Sampling can miss brief peaks; host/GPU totals include unrelated activity. The encoder ran on CPU throughout.
 
-Standalone warm encoding with batches of 32 took 5.625 s for 1k and 53.927 s for 10k (178â€“185 summaries/s); cold import/construction was 6.256 s, peak process RSS about 579 MiB. Inputs averaged 30.3 wordpieces, maximum 33; longer summaries/large attachments are not covered by these performance figures. Standalone encoding excludes broker/SQL/HTTP; it must not be confused with complete import time.
+Standalone warm encoding with batches of 32 took 5.625 s for 1k and 53.927 s for 10k (178–185 summaries/s); cold import/construction was 6.256 s, peak process RSS about 579 MiB. Inputs averaged 30.3 wordpieces, maximum 33; longer summaries/large attachments are not covered by these performance figures. Standalone encoding excludes broker/SQL/HTTP; it must not be confused with complete import time.
 
 For the shadow fixture corpus, PostgreSQL EXPLAIN ANALYZE execution p95 was 0.573 ms semantic and 1.039 ms lexical over 100 queries each, using existing institution/Bureau indexes. These tiny-corpus SQL figures are distinct from the in-memory public probe and real 10k application workloads. A separate instrumented diagnostic reduced dashboard SQL statements from 49 to 41 and relationship serializer calls from 222,346 to 73,475; its wall-clock timings are not acceptance measurements.
 
@@ -125,7 +125,7 @@ The portable [aggregate summary](final-technical-readiness-summary.json) contain
 
 ## Demonstration, remaining gates and handoff
 
-Follow [the five-minute fictional demo and fallback paths](../../docs/technical-design.md#five-minute-fictional-demonstration): independent Bureau imports â†’ institution profile â†’ cross-Bureau notice â†’ evidence/review â†’ explicit coordination â†’ officer acknowledgment â†’ case action/history â†’ dashboard/report. `START-HERE.md`, README and the design document explain the existing architecture, lifecycle, permissions and local operation.
+Follow [the five-minute fictional demo and fallback paths](../../docs/technical-design.md#five-minute-fictional-demonstration): independent Bureau imports → institution profile → cross-Bureau notice → evidence/review → explicit coordination → officer acknowledgment → case action/history → dashboard/report. `START-HERE.md`, README and the design document explain the existing architecture, lifecycle, permissions and local operation.
 
 Physical offline action still required: after disconnecting Wi-Fi and Ethernet, run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-physical-offline.ps1`, retain its result directory, then reconnect. The script never disconnects networking automatically and refuses to claim a pass while physical adapters are active.
 
