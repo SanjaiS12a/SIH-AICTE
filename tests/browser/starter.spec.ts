@@ -11,7 +11,7 @@ test('provided beginner Excel file imports, reports six cases and reconciles wit
   await page.getByLabel('Password:').fill(process.env.DEMO_PASSWORD || 'Demo-only-26264!');
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Complaint Monitoring Dashboard',exact:true})).toBeVisible();
-  const institutions=await (await page.request.get('/api/institutions')).json();
+  const institutions=await (await page.request.get('/api/institutions?q=SIH-26264-DEMO')).json();
   const institution=institutions.find((i:any)=>i.permanent_id==='SIH-26264-DEMO');
   expect(institution,'Prepare the fixed SIH demonstration institution before using the starter workbook').toBeTruthy();
   await page.getByRole('link',{name:'Data Imports',exact:true}).click();

@@ -65,11 +65,11 @@ function ReviewedFacts({ complaint, user }: { complaint: Case; user: User }) {
     <ErrorBox message={error || message} />{!data && !error && <Loading />}
     {data && (data.results.length ? data.results.map(f => <FactReview key={f.id} fact={f} caseId={complaint.id} user={user} refresh={()=>setRefresh(r=>r+1)} />) : <Empty>No proposed facts.</Empty>)}
     {data && <LocalPages page={page} count={data.count} next={data.next} change={setPage} />}
-    {user.role !== 'auditor' && <form onSubmit={propose} className="form-grid">
+    {user.role !== 'auditor' && <form onSubmit={propose} className="form-panel form-grid">
       <label>Fact type<select value={kind} onChange={e=>setKind(e.target.value)}><option value="remedy">Requested remedy</option><option value="reference">Explicit reference</option><option value="incident_date">Incident date (ISO only)</option></select></label>
       <label>Evidence source<select value={field} onChange={e=>{setField(e.target.value as typeof field);setStart(0);setEnd(0);}}><option value="summary">Original summary</option><option value="description">Original description</option><option value="source_reference">Source reference</option></select></label>
-      <label className="full-width">Select supporting text<textarea readOnly value={text} onSelect={e=>{setStart(e.currentTarget.selectionStart);setEnd(e.currentTarget.selectionEnd);}} /></label>
-      <p className="full-width">Selected evidence: {quote || 'Select an exact span in the field above.'}</p>
+      <label className="wide">Select supporting text<textarea readOnly value={text} onSelect={e=>{setStart(e.currentTarget.selectionStart);setEnd(e.currentTarget.selectionEnd);}} /></label>
+      <p className="wide">Selected evidence: {quote || 'Select an exact span in the field above.'}</p>
       <button disabled={busy || !quote.trim()} type="submit">Propose selected fact</button>
     </form>}
   </section>;
@@ -81,7 +81,7 @@ function FactReview({fact,caseId,user,refresh}:{fact:Fact;caseId:string;user:Use
     try { await api(`/api/cases/${caseId}/facts/${fact.id}/review`,{method:'POST',body:JSON.stringify({state,reason,expected_version:fact.version})});refresh(); }
     catch(e) {setError(e instanceof ApiError && e.status===409 ? 'Another reviewer changed this fact. Your reason is retained; refresh facts before reviewing again.' : (e as Error).message);} finally {setBusy(false);}
   }
-  return <article className="panel card-body"><p><strong>{fact.kind.replaceAll('_',' ')}</strong> · {fact.state} · version {fact.version}</p><blockquote>{fact.quote}</blockquote><p>Source: {fact.source_field}. Method: {fact.method}. {fact.reason}</p><p>Reviewer: {fact.reviewer_id || 'Awaiting review'} · {date(fact.reviewed_at)}</p><details><summary>Source integrity digest</summary><code style={{overflowWrap:'anywhere'}}>{fact.source_digest}</code></details><ErrorBox message={error} />
+  return <article className="panel card-body form-panel"><p><strong>{fact.kind.replaceAll('_',' ')}</strong> · {fact.state} · version {fact.version}</p><blockquote>{fact.quote}</blockquote><p>Source: {fact.source_field}. Method: {fact.method}. {fact.reason}</p><p>Reviewer: {fact.reviewer_id || 'Awaiting review'} · {date(fact.reviewed_at)}</p><details><summary>Source integrity digest</summary><code style={{overflowWrap:'anywhere'}}>{fact.source_digest}</code></details><ErrorBox message={error} />
     {user.role==='coordinator' && <><label>Fact review rationale<textarea value={reason} onChange={e=>setReason(e.target.value)} maxLength={4000} /></label><button disabled={busy || !reason.trim()} onClick={()=>review('accepted')}>Accept fact</button> <button className="secondary" disabled={busy || !reason.trim()} onClick={()=>review('rejected')}>Reject / correct fact</button> <button className="text-button" onClick={refresh}>Refresh facts</button></>}
   </article>;
 }
@@ -103,18 +103,18 @@ export function IncidentGroups({institution,user}:{institution:string;user:User}
   return <section className="card-body" aria-label="Manual incident groups"><h3>Manual incident groups — experimental</h3><p>Explicit organization only. Cases retain their own ownership, deadlines and status. Related issues do not establish one incident.</p><ErrorBox message={error || message || caseError} />
     {!data && !error && <Loading />}{data && (data.results.length ? data.results.map(g=><article className="panel card-body" key={g.id}><h4>{g.title}</h4><p>{g.reason} · version {g.version} · {g.needs_review?'Supporting relationship changed: review required':'Explicitly reviewed'}</p><ul>{g.cases.map(c=><li key={c.id}><Link to={`/cases/${c.id}`}>{c.reference}</Link></li>)}</ul>{user.role==='coordinator' && <button onClick={()=>{setEditing(g);setSelected(g.cases.map(c=>c.id));setTitle(g.title);setReason(g.reason);setSupport(g.supporting_relationship_id?.toString()||'');}}>Review group {g.title}</button>}</article>) : <Empty>No incident groups.</Empty>)}
     {data && <LocalPages page={page} count={data.count} next={data.next} change={setPage} />}
-    {user.role==='coordinator' && <form onSubmit={save} className="form-grid"><h4>{editing?'Review existing group':'Create an explicit group'}</h4>
+    {user.role==='coordinator' && <form onSubmit={save} className="form-panel form-grid"><h4>{editing?'Review existing group':'Create an explicit group'}</h4>
       <label>Incident group title<input required maxLength={180} value={title} onChange={e=>setTitle(e.target.value)} /></label><label>Group decision reason<textarea required maxLength={4000} value={reason} onChange={e=>setReason(e.target.value)} /></label>
       <label>Supporting same-incident relationship ID (optional)<input type="number" min="1" value={support} onChange={e=>setSupport(e.target.value)} /></label>
       <label>Find member cases<input value={search} onChange={e=>{setSearch(e.target.value);setCasePage(1);}} /></label>
-      <fieldset className="full-width"><legend>Select 2–20 cases from this institution ({selected.length} selected across pages)</legend>{cases?.results.map(c=><label key={c.id}><input type="checkbox" checked={selected.includes(c.id)} onChange={e=>setSelected(s=>e.target.checked?[...s,c.id]:s.filter(id=>id!==c.id))} />{c.reference} · {c.summary}</label>)}</fieldset>
+      <fieldset className="wide"><legend>Select 2–20 cases from this institution ({selected.length} selected across pages)</legend>{cases?.results.map(c=><label key={c.id}><input type="checkbox" checked={selected.includes(c.id)} onChange={e=>setSelected(s=>e.target.checked?[...s,c.id]:s.filter(id=>id!==c.id))} />{c.reference} · {c.summary}</label>)}</fieldset>
       {cases && <LocalPages page={casePage} count={cases.count} next={cases.next} change={setCasePage} />}
       <button type="submit" disabled={busy || selected.length<2 || selected.length>20}>Save explicit incident group</button>
     </form>}
   </section>;
 }
 function LocalPages({page,count,next,change}:{page:number;count:number;next:string|null;change:(page:number)=>void}) {
-  return <nav aria-label="Section pages"><button type="button" className="secondary" disabled={page===1} onClick={()=>change(page-1)}>Previous page</button> <span>Page {page} · {count} records</span> <button type="button" className="secondary" disabled={!next} onClick={()=>change(page+1)}>Next page</button></nav>;
+  return <nav className="pagination" aria-label="Section pages"><button type="button" className="button secondary" disabled={page===1} onClick={()=>change(page-1)}>Previous page</button> <span>Page {page} · {count} records</span> <button type="button" className="button secondary" disabled={!next} onClick={()=>change(page+1)}>Next page</button></nav>;
 }
 
 function validFacts(value: unknown): boolean {

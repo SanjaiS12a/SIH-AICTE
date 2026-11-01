@@ -46,6 +46,28 @@ class StartupTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('checksum mismatch', result.stderr)
 
+    def test_worker_readiness_requires_running_container_and_current_cluster_logs(self):
+        script = r'''
+$tokens=$null; $errors=$null
+$ast=[System.Management.Automation.Language.Parser]::ParseFile($env:CONTROLLER_PATH,[ref]$tokens,[ref]$errors)
+$function=$ast.Find({param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Wait-Worker'},$true)
+Invoke-Expression $function.Extent.Text
+$composeArgs=@('compose')
+function docker {
+    $global:LASTEXITCODE=0
+    if ($args[0] -eq 'inspect') { return ('{"Running":'+$env:WORKER_RUNNING+',"StartedAt":"2026-11-01T00:00:00Z"}') }
+    if ($args[0] -eq 'logs') { return 'ready for work; Q Cluster synthetic-test [coordination] running.' }
+    return 'workspace-worker'
+}
+Wait-Worker
+'''
+        for running, expected in [('true',0),('false',1)]:
+            env=os.environ.copy();env.pop('PSModulePath',None)
+            env.update(CONTROLLER_PATH=str(ROOT/'scripts/start.ps1'),WORKER_RUNNING=running)
+            result=subprocess.run(['powershell.exe','-NoProfile','-Command',"$ErrorActionPreference='Stop';"+script],env=env,capture_output=True,text=True,timeout=15)
+            self.assertEqual(result.returncode,expected,result.stdout+result.stderr)
+            if running=='false':self.assertIn('Worker exited before becoming ready',result.stderr)
+
 
 if __name__ == '__main__':
     unittest.main()

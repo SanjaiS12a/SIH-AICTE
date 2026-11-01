@@ -199,8 +199,9 @@ def review_snapshots(objects):
     return snapshots
 
 
-def overlap_data(obj, snapshot=None):
-    return {'id': obj.id, 'left': CaseSerializer(obj.left).data, 'right': CaseSerializer(obj.right).data,
+def overlap_data(obj, snapshot=None, case_data=None):
+    return {'id': obj.id, 'left': case_data[str(obj.left_id)] if case_data is not None else CaseSerializer(obj.left).data,
+            'right': case_data[str(obj.right_id)] if case_data is not None else CaseSerializer(obj.right).data,
             'score': obj.score, 'origin': obj.origin, 'evidence': obj.evidence, 'decision': obj.decision,
             'reason': obj.reason, 'model_revision': obj.model_revision, 'version': obj.version,
             'reviewed_at': obj.reviewed_at, 'reviewer': obj.reviewer.get_full_name() if obj.reviewer else None,
@@ -212,7 +213,8 @@ def overlaps(request):
     paginator = PageNumberPagination()
     rows = paginator.paginate_queryset(qs, request)
     snapshots = review_snapshots(rows)
-    return paginator.get_paginated_response([overlap_data(o, snapshots.get(o.pk)) for o in rows])
+    case_data = {row['id']:row for row in CaseSerializer([case for obj in rows for case in (obj.left,obj.right)],many=True).data}
+    return paginator.get_paginated_response([overlap_data(o, snapshots.get(o.pk), case_data) for o in rows])
 
 
 def overlap_queryset(request):

@@ -35,10 +35,12 @@ def request(client,jar,path,payload=None,body=None,content_type=None):
   headers={'X-CSRFToken':next(c.value for c in jar if c.name=='csrftoken'),'Content-Type':content_type}
  with client.open(urllib.request.Request(BASE+path,data=body,headers=headers),timeout=180) as response:return json.loads(response.read())
 
-def simulate(index):
+def simulate(index,done):
  client,jar=browser(f"readiness-user-{index+1}");values=[]
- for kind,path in [('dashboard','/api/dashboard'),('read','/api/cases')]*3:
-  start=time.perf_counter();result=request(client,jar,path);values.append((kind,(time.perf_counter()-start)*1000))
+ while not done.is_set():
+  for kind,path in [('dashboard','/api/dashboard'),('read','/api/cases')]:
+   start=time.perf_counter();result=request(client,jar,path);values.append((kind,(time.perf_counter()-start)*1000))
+  done.wait(1)
  return values
 
 def main():
@@ -87,16 +89,19 @@ def main():
   assert job['counts'].get('ready',0)+job['counts'].get('duplicate',0)==len(rows),job
   confirmed=time.perf_counter();request(client,jar,f"/api/imports/{job['id']}",{'action':'confirm'})
   stats_at=None;statistics_report=None
+  readers_done=threading.Event()
   with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
-   future=pool.submit(lambda:list(pool.map(simulate,range(9))))
-   while time.perf_counter()-confirmed<args.timeout:
-    job=request(client,jar,f"/api/imports/{job['id']}")
-    if not job['counts'].get('ready') and stats_at is None:
-     statistics_report=request(client,jar,f"/api/imports/{job['id']}/report")
-     if args.kind=='complaints':assert statistics_report['total']==len(rows)
-     stats_at=time.perf_counter()-confirmed
-    if job['state'] in ('complete','matching_failed','failed'):break
-    time.sleep(1)
+   future=pool.submit(lambda:list(pool.map(lambda index:simulate(index,readers_done),range(9))))
+   try:
+    while time.perf_counter()-confirmed<args.timeout:
+     job=request(client,jar,f"/api/imports/{job['id']}")
+     if not job['counts'].get('ready') and stats_at is None:
+      statistics_report=request(client,jar,f"/api/imports/{job['id']}/report")
+      if args.kind=='complaints':assert statistics_report['total']==len(rows)
+      stats_at=time.perf_counter()-confirmed
+     if job['state'] in ('complete','matching_failed','failed'):break
+     time.sleep(1)
+   finally:readers_done.set()
    latencies=[item for batch in future.result() for item in batch]
   report=request(client,jar,f"/api/imports/{job['id']}/report")
   if args.kind=='complaints':assert report['total']==len(rows),(report['total'],len(rows))

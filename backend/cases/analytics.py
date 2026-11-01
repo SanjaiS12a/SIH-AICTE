@@ -105,7 +105,8 @@ def analytics(request,qs,pending,now):
             start=row['period'].strftime('%Y-%m-%d')
             quarters.setdefault(start,{'start':start,'label':f"{row['period'].year} Q{(row['period'].month-1)//3+1}",'received':0,'disposed':0})[key]=row['count']
     actions=action_query(request)
-    counts=[{'event':event,'count':actions.filter(condition).count()} for event,condition in EVENTS.items()]
+    totals=actions.aggregate(**{event:Count('id',filter=condition) for event,condition in EVENTS.items()})
+    counts=[{'event':event,'count':totals[event]} for event in EVENTS]
     return {'regions':regions,'classifications':classifications,'institutions':institutions,'priority_institutions':priority,
             'pending_acknowledgment_records':awaiting,'quarters':[quarters[k] for k in sorted(quarters)],
             'movement_counts':counts,'recent_movements':MovementSerializer(actions[:10],many=True).data,

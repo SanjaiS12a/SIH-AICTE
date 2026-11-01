@@ -1,5 +1,6 @@
 """Source-grounded briefs, reviewed spans and explicit incident membership."""
 import hashlib
+import re
 from datetime import date
 from django.conf import settings
 from django.db import transaction, IntegrityError
@@ -91,6 +92,8 @@ def validate_span(case, data):
         raise ValidationError('The quoted span must match the source exactly.')
     if data['kind'] == 'incident_date':
         try:
+            if not re.fullmatch(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', data['quote'].strip()):
+                raise ValueError()
             value = date.fromisoformat(data['quote'].strip()).isoformat()
         except ValueError:
             raise ValidationError('Date evidence must be an unambiguous ISO date (YYYY-MM-DD).')

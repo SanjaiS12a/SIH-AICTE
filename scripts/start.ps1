@@ -62,6 +62,23 @@ function Wait-Database {
     }
     throw 'Database did not pass its health check.'
 }
+function Wait-Worker {
+    for ($attempt = 0; $attempt -lt 60; $attempt++) {
+        $container = & docker @composeArgs ps -q worker
+        if ($LASTEXITCODE -ne 0 -or -not $container) { throw 'Worker container was not created.' }
+        $state = & docker inspect --format '{{json .State}}' $container | ConvertFrom-Json
+        if ($LASTEXITCODE -ne 0 -or -not $state.Running) { throw 'Worker exited before becoming ready. Inspect the worker logs.' }
+        $previousPreference = $ErrorActionPreference
+        try {
+            $ErrorActionPreference = 'Continue' # Windows PowerShell treats native stderr log lines as ErrorRecords.
+            $logs = & docker logs --since $state.StartedAt $container 2>&1 | Out-String
+            $logsStatus = $LASTEXITCODE
+        } finally { $ErrorActionPreference = $previousPreference }
+        if ($logsStatus -eq 0 -and $logs -match 'ready for work' -and $logs -match 'Q Cluster .+ running\.') { return }
+        Start-Sleep -Seconds 1
+    }
+    throw 'Worker cluster did not report readiness. Inspect the worker logs.'
+}
 function Stop-OwnedFrontend {
     if (-not (Test-Path -LiteralPath $pidFile)) { return }
     $state = Get-Content -Raw -LiteralPath $pidFile | ConvertFrom-Json
@@ -113,6 +130,7 @@ Invoke-Compose up -d --pull never --no-build db
 Wait-Database
 Invoke-Compose run --rm --no-deps api python manage.py migrate --noinput
 Invoke-Compose up -d --pull never --no-build api worker
+Wait-Worker
 Wait-Endpoint "http://127.0.0.1:$apiPort/api/session"
 $env:API_PROXY_TARGET = "http://127.0.0.1:$apiPort"
 $nodePath = (Get-Command node).Source
@@ -121,5 +139,5 @@ $child = Start-Process -FilePath $nodePath -ArgumentList @(('"' + $vitePath + '"
 $owned = Get-CimInstance Win32_Process -Filter "ProcessId=$($child.Id)"
 @{pid=$child.Id;created=$owned.CreationDate.ToUniversalTime().Ticks.ToString()} | ConvertTo-Json | Set-Content -LiteralPath $pidFile
 try { Wait-Endpoint "http://127.0.0.1:$frontendPort/api/session" } catch { Stop-OwnedFrontend; throw }
-Write-Host "Portal ready at http://127.0.0.1:$frontendPort (API verified; pinned local assets)."
+Write-Host "Portal ready at http://127.0.0.1:$frontendPort (API and worker initialization verified; pinned local assets)."
 Write-Host 'Account credentials come from the configured database; DEMO_PASSWORD is used only when seeding new accounts.'

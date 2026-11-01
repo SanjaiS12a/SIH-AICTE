@@ -86,6 +86,20 @@ class IntelligenceTests(TestCase):
             self.assertEqual(self.post(url,self.fact_data(**change)).status_code,code)
         self.assertFalse(ReviewedFact.objects.exists()); self.assertFalse(CaseAction.objects.exists())
 
+    def test_iso_date_and_unicode_span_keep_original_allegation(self):
+        text='Fictional claim 📚 on 2026-08-01; repayment requested.'
+        Complaint.objects.filter(pk=self.case.pk).update(description=text)
+        start=text.index('2026-08-01')
+        response=self.post(f'/api/cases/{self.case.pk}/facts',self.fact_data(kind='incident_date',source_field='description',span_start=start,span_end=start+10,
+            quote='2026-08-01',value='2026-08-01',source_digest=hashlib.sha256(text.encode()).hexdigest()))
+        self.assertEqual(response.status_code,201,response.data)
+        url=f'/api/cases/{self.case.pk}/facts/{response.data["id"]}/review'
+        self.assertEqual(self.post(url,{'expected_version':1,'state':'accepted','reason':'Exact ISO source date reviewed'}).status_code,200)
+        self.case.refresh_from_db(); self.assertIsNone(self.case.incident_date);self.assertEqual(self.case.description,text)
+        invalid=self.fact_data();invalid['quote']='Fabricated source'
+        with self.assertRaises(DatabaseError),transaction.atomic():
+            ReviewedFact.objects.create(case=self.case,proposed_by=self.coordinator,**invalid)
+
     def test_fact_review_stale_correction_and_readonly_roles(self):
         fact=self.create_fact(); url=f'/api/cases/{self.case.pk}/facts/{fact["id"]}/review'
         data={'expected_version':1,'state':'accepted','reason':'Reviewed exact source span'}

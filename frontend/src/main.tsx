@@ -703,7 +703,9 @@ function Registry({ user, options }: { user: User; options: Options }) {
   );
 }
 function NewCase({ options, user }: { options: Options; user: User }) {
-  const { data: institutions } = useLoad<Institution[]>("/api/institutions");
+  const [institutionSearch,setInstitutionSearch] = useState('');
+  const [institutionId,setInstitutionId] = useState('');
+  const { data: institutions, error: institutionError } = useLoad<Institution[]>(institutionSearch ? `/api/institutions?q=${encodeURIComponent(institutionSearch)}` : '/api/institutions');
   const [error, setError] = useState(""),
     [saving, setSaving] = useState(false),
     [submissionId] = useState(() => crypto.randomUUID());
@@ -737,8 +739,15 @@ function NewCase({ options, user }: { options: Options; user: User }) {
       />
       <form className="panel form-panel" onSubmit={submit}>
         <ErrorBox message={error} />
+        <ErrorBox message={institutionError} />
+        {!institutions && !institutionError && <Loading />}
+        {institutions?.length === 0 && <p role="status">No registry institution matches. Check the name or Permanent ID.</p>}
         <h2>Institution & ownership</h2>
         <div className="form-grid">
+          <label className="wide">Find institution by name or Permanent ID
+            <input type="search" value={institutionSearch} onChange={e=>{setInstitutionSearch(e.target.value);setInstitutionId('');}} />
+            <small>Search the complete registry. Up to 100 matching institutions are shown; choose the canonical record below.</small>
+          </label>
           <label>
             Classification
             <select name="classification" required defaultValue="">
@@ -754,7 +763,7 @@ function NewCase({ options, user }: { options: Options; user: User }) {
           </label>
           <label className="wide">
             Institution
-            <select name="institution" required defaultValue="">
+            <select name="institution" required value={institutionId} onChange={e=>setInstitutionId(e.target.value)}>
               <option value="" disabled>
                 Select a verified registry institution
               </option>

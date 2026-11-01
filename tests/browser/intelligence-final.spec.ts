@@ -92,3 +92,19 @@ test('malformed brief reports an error and recovers without a blank page',async(
   await page.unroute('**/api/cases/*/brief');
   await expect(page.getByRole('heading',{name:'Original allegation — not a verified finding'})).toBeVisible();
 });
+
+test('registration searches institutions beyond the bounded lookup and clears obsolete selection',async({page})=>{
+  const pid=`ZZ-FINAL-${Date.now()}`;
+  const response=await post('/api/institution-registry',{name:'ZZZ late registry institution '+pid,permanent_id:pid,region:'Southern',district:'Fictional',reason:'Synthetic complete-registry lookup regression'});
+  expect(response.status()).toBe(201);const institution=await response.json();
+  const initial=await (await backend.get('/api/institutions')).json();
+  // Simulate the bounded initial page on fresh stacks too; the subsequent search uses the real API.
+  await page.route(/\/api\/institutions$/,route=>route.fulfill({json:initial.filter((i:{id:string})=>i.id!==institution.id)}));
+  await login(page);await page.goto('/cases/new');
+  await expect(page.locator(`select[name="institution"] option[value="${institution.id}"]`)).toHaveCount(0);
+  await page.getByLabel('Find institution by name or Permanent ID').fill(pid);
+  await page.getByRole('combobox',{name:'Institution',exact:true}).selectOption(institution.id);
+  await expect(page.getByRole('combobox',{name:'Institution',exact:true})).toHaveValue(institution.id);
+  await page.getByLabel('Find institution by name or Permanent ID').fill('DEMO-0001');
+  await expect(page.getByRole('combobox',{name:'Institution',exact:true})).toHaveValue('');
+});

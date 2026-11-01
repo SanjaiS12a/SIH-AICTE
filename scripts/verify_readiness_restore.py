@@ -94,7 +94,7 @@ print(json.dumps({'cases':Complaint.objects.count(),'actions':CaseAction.objects
     assert application['actions'] == application['unknown_historical_bureaus'] == before['cases_caseaction']['count']
     assert application['model_revision'] == expected['revision']
     assert all(item['sha256'] == manifest['backend/private/'+item['file']] for item in application['downloads'])
-    result = {'baseline_commit': '996b2ff7e094aa1e276e1738fcba141ba4a2faa7',
+    result = {'baseline_commit': None, 'baseline_note': 'Working data is compared directly with the preserved rowsets; its originating source commit is not inferred.',
         'verification_commit': run('git', 'rev-parse', 'HEAD').strip(),
         'database_restored': database, 'database_sha256': digest(backup / 'database.dump'),
         'tables': after, 'working_database_unchanged': True,
