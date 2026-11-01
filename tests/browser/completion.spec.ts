@@ -58,7 +58,7 @@ async function makeCase(inst: any, bureau: string, old = false) {
 }
 test.beforeAll(async ({ playwright }) => {
   backend = await playwright.request.newContext({
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5174",
   });
   await backend.get("/accounts/login/");
   expect(

@@ -1,10 +1,13 @@
 """Corrective readiness checks against isolated test records."""
 from .test_milestone3_analytics import _Base
 import uuid
+import csv
+import io
 from datetime import timedelta
 from django.db import connection, transaction, DatabaseError
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
+from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 from cases.models import CaseAction, CoordinationRecord, CoordinationParticipant, ImportJob, ImportRow, Notification, Membership
 from cases.tasks import send_reminders
@@ -25,6 +28,8 @@ class HomepageTests(_Base):
         self.assertEqual(priority[0]['count'], 2)
         self.assertEqual(priority[0]['overdue'], 1)
         self.assertEqual(str(priority[0]['institution_id']), str(self.inst.pk))
+        exported = b''.join(self.client.get('/api/reports.csv?region=South').streaming_content).decode()
+        self.assertEqual(len(list(csv.reader(io.StringIO(exported))))-1, dashboard['total'])
 
     def test_officers_receive_no_management_payload(self):
         self._case(self.pg)
@@ -81,6 +86,20 @@ class AccountabilityTests(_Base):
         self.case.due_at += timedelta(days=10)
         self.case.save()
         self.assertEqual(self.client.get('/api/notifications').data['unread'], 0)
+
+    def test_reminder_generation_is_one_statement_and_returns_only_new_rows(self):
+        now = timezone.now()
+        self.case.due_at = now + timedelta(days=7)
+        self.case.save()
+        before = Notification.objects.count()
+        with CaptureQueriesContext(connection) as queries:
+            created = send_reminders(now)
+        self.assertEqual(len(queries), 1)
+        self.assertEqual(created, Notification.objects.count() - before)
+        self.assertEqual(created, 2)
+        self.assertEqual(send_reminders(now), 0)
+        self.assertEqual(send_reminders(now+timedelta(days=6)), 2)
+        self.assertFalse(Notification.objects.filter(user=self.pg_officer).exists())
         self.assertGreater(Notification.objects.count(), 0)
         self.case.due_at = timezone.now() - timedelta(seconds=1)
         self.case.save()

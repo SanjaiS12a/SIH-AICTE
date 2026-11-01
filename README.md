@@ -16,6 +16,8 @@ Preparation creates a missing `.env` from `.env.example`, builds the application
 
 ## Start or stop a prepared demo
 
+Preparation also runs the existing `match_pending` command so seeded complaints can participate in similarity review before the offline demonstration.
+
 Run `start.bat` or `stop.bat`. The wrappers use the same PowerShell controller. Normal startup does not install dependencies or download a model. It verifies prerequisites/assets, waits for database/API readiness, applies pending migrations and serves the bundled frontend at http://127.0.0.1:5173. Errors return a nonzero exit code instead of claiming success. Shutdown targets the recorded workspace-owned frontend process and stops services without deleting database volumes.
 
 The backend is a localhost Django development server at port 8000; Vite preview serves the bundled local interface. This is not Gunicorn or a public-hosting configuration.
@@ -35,6 +37,28 @@ The 30-calendar-day deadline is a demonstration policy, not an AICTE rule. Close
 Test sources and historical evidence are under `tests/`; reports describe the commits and conditions actually tested. A discovered test count is not proof of a fresh passing run. Per-run execution evidence belongs in ignored `tests/results/runs/`, not over earlier screenshots.
 
 The corrective readiness cycle uses `compose.audit.yaml`, a separate database/private-data volume, API port 8001 and frontend port 5174. Models are read-only. It must not use or reset the working demo database. Set `PLAYWRIGHT_BASE_URL=http://127.0.0.1:5174`, `API_PROXY_TARGET=http://127.0.0.1:8001` and the audit artifact directory when running browser tests.
+
+With the image and pinned assets already prepared, initialize a fresh audit run from the repository root:
+
+```powershell
+$stamp = Get-Date -Format yyyyMMdd-HHmmss
+$auditProject = "sih-readiness-$stamp"
+$auditRoot = Join-Path (Get-Location) "tests/results/runs/readiness-$stamp"
+New-Item -ItemType Directory -Path $auditRoot | Out-Null
+New-Item -ItemType Directory -Force tests/results/logs | Out-Null
+@{run="readiness-$stamp";directory=$auditRoot;project=$auditProject} | ConvertTo-Json | Set-Content tests/results/logs/readiness-run.json
+powershell -ExecutionPolicy Bypass -File scripts/start.ps1 -Action Prepare -Audit
+powershell -ExecutionPolicy Bypass -File scripts/start.ps1 -Action Start -Audit
+$env:AUDIT_RESULTS = $auditRoot
+docker compose -p $auditProject -f compose.audit.yaml exec -T api python manage.py test cases --noinput
+$env:PLAYWRIGHT_BASE_URL = 'http://127.0.0.1:5174'
+$env:AUDIT_ARTIFACT_DIR = Join-Path $auditRoot 'browser'
+Push-Location frontend
+npx playwright test
+Pop-Location
+```
+
+Browser tests default to the isolated port and reject the working demo ports. Unconfigured output paths are unique per run. Use `scripts/verify-physical-offline.ps1` only after the operator disconnects physical networking; it records failures as failures and never disables adapters itself.
 
 Backups, configuration secrets, private uploads, datasets and weights stay out of Git. A database restore does not restore attachment/model files. Full physically disconnected cold startup and release performance must have separate recorded evidence before offline readiness is declared. A missing mandatory release gate blocks publication of the corrective release to main.
 

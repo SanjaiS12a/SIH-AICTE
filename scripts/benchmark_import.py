@@ -1,5 +1,6 @@
 """HTTP upload-to-report benchmark. Retains explicitly synthetic benchmark imports."""
 import argparse
+import ctypes
 import concurrent.futures
 import csv
 import io
@@ -14,8 +15,18 @@ import time
 import urllib.request
 import uuid
 from pathlib import Path
-from benchmark import browser,BASE
+from benchmark import browser,BASE,RESULTS
 ROOT=Path(__file__).resolve().parent.parent
+
+class Memory(ctypes.Structure):
+ _fields_=[('length',ctypes.c_ulong),('load',ctypes.c_ulong)]+[(name,ctypes.c_ulonglong) for name in ['total','available','total_page','available_page','total_virtual','available_virtual','extended']]
+
+def memory():
+ if os.name!='nt':return None
+ state=Memory();state.length=ctypes.sizeof(state)
+ if not ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(state)):raise OSError('Memory sampling failed')
+ assert state.total>=state.available>0
+ return {'total_bytes':state.total,'used_bytes':state.total-state.available}
 
 def request(client,jar,path,payload=None,body=None,content_type=None):
  headers={}
@@ -24,8 +35,8 @@ def request(client,jar,path,payload=None,body=None,content_type=None):
   headers={'X-CSRFToken':next(c.value for c in jar if c.name=='csrftoken'),'Content-Type':content_type}
  with client.open(urllib.request.Request(BASE+path,data=body,headers=headers),timeout=180) as response:return json.loads(response.read())
 
-def simulate(_):
- client,jar=browser();values=[]
+def simulate(index):
+ client,jar=browser(f"readiness-user-{index+1}");values=[]
  for kind,path in [('dashboard','/api/dashboard'),('read','/api/cases')]*3:
   start=time.perf_counter();result=request(client,jar,path);values.append((kind,(time.perf_counter()-start)*1000))
  return values
@@ -33,14 +44,19 @@ def simulate(_):
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--rows',type=int,default=1000);parser.add_argument('--format',choices=['csv','xlsx'],default='csv');parser.add_argument('--concentrated',action='store_true');parser.add_argument('--kind',choices=['complaints','monthly','snapshot'],default='complaints');parser.add_argument('--timeout',type=int,default=1800);args=parser.parse_args()
  if not 1<=args.rows<=100000:raise ValueError('Use 1 to 100,000 rows; uploads are split into 10,000-row files.')
+ project=os.environ['AUDIT_PROJECT']
+ if not project.startswith('sih-readiness-'):raise ValueError('Use the audit project only.')
  client,jar=browser();institutions=request(client,jar,'/api/institutions');bureaus=request(client,jar,'/api/options')['bureaus'];run=uuid.uuid4().hex[:10];results=[];start_all=time.perf_counter()
  dest=ROOT/'data/benchmarks';dest.mkdir(parents=True,exist_ok=True)
  resources=[];stop=threading.Event()
  def sample():
   while not stop.is_set():
    try:
-    stats=subprocess.check_output(['docker','stats','--no-stream','--format','{{json .}}','sih-api-1','sih-worker-1','sih-db-1'],timeout=10,text=True)
-    resources.append({'elapsed_seconds':time.perf_counter()-start_all,'containers':[json.loads(line) for line in stats.splitlines() if line.strip()]})
+    stats=subprocess.check_output(['docker','stats','--no-stream','--format','{{json .}}',*[f'{project}-{service}-1' for service in ['api','worker','db']]],timeout=10,text=True)
+    sample={'elapsed_seconds':time.perf_counter()-start_all,'containers':[json.loads(line) for line in stats.splitlines() if line.strip()],'host_memory':memory()}
+    try:sample['gpu']=subprocess.check_output(['nvidia-smi','--query-gpu=index,name,memory.total,memory.used','--format=csv,noheader,nounits'],timeout=5,text=True).strip()
+    except (OSError,subprocess.SubprocessError) as exc:sample['gpu_sampling_error']=str(exc)
+    resources.append(sample)
    except Exception as exc:resources.append({'sampling_error':str(exc)})
    stop.wait(1)
  monitor=threading.Thread(target=sample,daemon=True);monitor.start()
@@ -70,21 +86,26 @@ def main():
   started=time.perf_counter();job=request(client,jar,'/api/imports',body=body,content_type=f'multipart/form-data; boundary={boundary}');preview=time.perf_counter()-started
   assert job['counts'].get('ready',0)+job['counts'].get('duplicate',0)==len(rows),job
   confirmed=time.perf_counter();request(client,jar,f"/api/imports/{job['id']}",{'action':'confirm'})
-  stats_at=None
+  stats_at=None;statistics_report=None
   with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
    future=pool.submit(lambda:list(pool.map(simulate,range(9))))
    while time.perf_counter()-confirmed<args.timeout:
     job=request(client,jar,f"/api/imports/{job['id']}")
-    if not job['counts'].get('ready') and stats_at is None:stats_at=time.perf_counter()-confirmed
+    if not job['counts'].get('ready') and stats_at is None:
+     statistics_report=request(client,jar,f"/api/imports/{job['id']}/report")
+     if args.kind=='complaints':assert statistics_report['total']==len(rows)
+     stats_at=time.perf_counter()-confirmed
     if job['state'] in ('complete','matching_failed','failed'):break
     time.sleep(1)
    latencies=[item for batch in future.result() for item in batch]
   report=request(client,jar,f"/api/imports/{job['id']}/report")
   if args.kind=='complaints':assert report['total']==len(rows),(report['total'],len(rows))
   assert job['state']=='complete',job
-  results.append({'import_id':job['id'],'rows':len(rows),'preview_seconds':preview,'statistics_ready_seconds':stats_at,'matching_and_report_seconds':time.perf_counter()-confirmed,'counts':job['counts'],'matching':job['matching'],'stage_timings':job.get('timings',{}),
+  results.append({'import_id':job['id'],'rows':len(rows),'preview_seconds':preview,'statistics_ready_seconds':stats_at,'statistics_report_total':statistics_report.get('total') if statistics_report else None,'statistics_report_matching':statistics_report.get('matching') if statistics_report else None,'matching_and_report_seconds':time.perf_counter()-confirmed,'counts':job['counts'],'matching':job['matching'],'stage_timings':job.get('timings',{}),
    'latency':{kind:{'requests':len(v:=sorted(ms for k,ms in latencies if k==kind)),'p50_ms':statistics.median(v),'p95_ms':v[min(len(v)-1,int(.95*len(v)))]} for kind in ['dashboard','read']}})
  stop.set();monitor.join(timeout=12)
- output={'resources':resources,'format':args.format,'run':run,'kind':args.kind,'rows':args.rows,'distribution':'one institution' if args.concentrated else 'distributed institutions','platform':platform.platform(),'concurrent_sessions':10,'transport':'HTTP localhost with authenticated sessions; nine readers alongside importer','total_seconds':time.perf_counter()-start_all,'results':results,'limits':'Synthetic performance data; no million-row claim. Shared laptop workload may affect results.'}
- path=ROOT/'tests'/'results'/f"completion-import-{args.kind}-{args.rows}-{'concentrated' if args.concentrated else 'distributed'}.json";path.write_text(json.dumps(output,indent=2),encoding='utf-8');print(json.dumps(output,indent=2))
+ output={'resources':resources,'format':args.format,'run':run,'kind':args.kind,'rows':args.rows,'distribution':'one institution' if args.concentrated else 'distributed institutions','platform':platform.platform(),'concurrent_sessions':10,'transport':'HTTP localhost; ten distinct users, nine readers alongside importer','total_seconds':time.perf_counter()-start_all,'results':results,'limits':'Synthetic performance data; no million-row claim. Shared laptop workload may affect results.'}
+ path=RESULTS/f"completion-import-{args.kind}-{args.rows}-{'concentrated' if args.concentrated else 'distributed'}.json";
+ if path.exists():raise FileExistsError(path)
+ path.write_text(json.dumps(output,indent=2),encoding='utf-8');print(json.dumps(output,indent=2))
 if __name__=='__main__':main()

@@ -55,7 +55,7 @@ async function record(page: Page, reason: string) {
 
 test.beforeAll(async ({ playwright }) => {
   backend = await playwright.request.newContext({
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5174",
   });
   await backend.get("/accounts/login/");
   const signedIn = await backend.post("/accounts/login/", {

@@ -1,11 +1,14 @@
 """Verify a confirmed spreadsheet survives a real worker stop/start."""
-import json,subprocess,time,uuid
+import json,subprocess,time,uuid,os
 from pathlib import Path
-from benchmark import browser
+from benchmark import browser,RESULTS
 from benchmark_import import request
 ROOT=Path(__file__).resolve().parent.parent
 
-def docker(*args):subprocess.run(['docker','compose',*args],cwd=ROOT,check=True)
+def docker(*args):
+ project=os.environ['AUDIT_PROJECT']
+ if not project.startswith('sih-readiness-'):raise ValueError('Use the audit stack only.')
+ subprocess.run(['docker','compose','-p',project,'-f','compose.audit.yaml',*args],cwd=ROOT,check=True)
 def main():
  client,jar=browser();inst=request(client,jar,'/api/institutions')[0]['permanent_id'];run=uuid.uuid4().hex[:10];boundary=uuid.uuid4().hex
  csv='source_reference,institution_permanent_id,bureau,category,summary,description,received_at,status,source_system\n'
@@ -25,5 +28,5 @@ def main():
   time.sleep(1)
  assert after['counts']=={'imported':2} and after['matching']=={'complete':2},after
  result={'import_id':job['id'],'queued_while_worker_stopped':stopped['counts'],'after_restart':after['counts'],'matching':after['matching'],'recovery_seconds':time.perf_counter()-started,'real_worker_stop_start':True}
- (ROOT/'tests/results/import-queue-recovery.json').write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps(result,indent=2))
+ (RESULTS/'import-queue-recovery.json').write_text(json.dumps(result,indent=2),encoding='utf-8');print(json.dumps(result,indent=2))
 if __name__=='__main__':main()
