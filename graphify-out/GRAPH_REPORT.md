@@ -1,17 +1,17 @@
 # Graph Report - SIH  (2026-11-01)
 
 ## Corpus Check
-- 122 files · ~68,590 words
+- 127 files · ~72,815 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 9 file(s) not represented in the graph (top: (none) 5, .css 2, .bat 2)
 
 ## Summary
-- 1168 nodes · 3231 edges · 86 communities (37 shown, 49 thin omitted)
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 321 edges (avg confidence: 0.94)
+- 1221 nodes · 3380 edges · 89 communities (41 shown, 48 thin omitted)
+- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 321 edges (avg confidence: 0.94)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `55f38048`
+- Built from commit: `eace867b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -28,12 +28,12 @@
 - package.json
 - institutions.tsx
 - management.tsx
-- benchmark_scale.py
+- benchmark_import.py
 - ImportTests
 - api.py
 - Institution
-- escalations.py
-- django_db_models_deletion
+- dashboard_data
+- django_db
 - imports.tsx
 - InstitutionTests
 - api
@@ -41,7 +41,7 @@
 - CoordinationCompletionTests
 - Phase2Tests
 - Portal components
-- CaseSerializer
+- django_conf
 - SourceIntakeTests
 - ReadOnlyAdmin
 - source-intake.tsx
@@ -66,21 +66,24 @@
 - Runtime support
 - usePoll
 - AICTE SIH 26264 — Case Intelligence 2.0 implementation plan
-- Project documentation
-- Backend verification
+- B1.5: private public-data evaluation and independent annotation
+- test_institutions.py
 - Command
 - HistoricalMigrationTests
-- 0003_modelrelease.py
-- 0005_institution_contacts_version.py
-- 0006_identity_and_audit_protection.py
+- verify_readiness_restore.py
+- PublicEvaluationTests
+- Complaint
 - bureau-intake/README.md
 - CSRF-protected Coordination sign-in form
 - evidence.tsx
 - Coordination frontend HTML entrypoint
-- 0004_dashboard_cache.py
-- apps.py
-- test_startup.py
+- test_public_evaluation.py
+- model_release.py
+- monitor_resources.py
+- StartupTests
 - Command
+- InstitutionAdminForm
+- Phase2MigrationTests
 
 ## God Nodes (most connected - your core abstractions)
 1. `Complaint` - 59 edges
@@ -109,43 +112,39 @@
 ## Import Cycles
 - 2-file cycle: `frontend/src/imports.tsx -> frontend/src/management.tsx -> frontend/src/imports.tsx`
 
-## Communities (86 total, 49 thin omitted)
+## Communities (89 total, 48 thin omitted)
 
 ### Community 0 - "source-intake.spec.ts"
 Cohesion: 0.05
 Nodes (41): endpoint, @playwright/test, post(), stamp, makeCase(), makeInstitution(), post(), stamp (+33 more)
 
 ### Community 1 - "WorkflowTests"
-Cohesion: 0.08
-Nodes (3): EscalationConcurrencyTests, submit(), WorkflowTests
+Cohesion: 0.07
+Nodes (4): EscalationConcurrencyTests, ConcurrentSubmissionTests, submit(), WorkflowTests
 
 ### Community 2 - "imports.py"
-Cohesion: 0.10
-Nodes (34): accessible_jobs(), cell(), digest(), get_job(), import_detail(), import_errors(), import_report(), import_summary_csv() (+26 more)
+Cohesion: 0.11
+Nodes (36): current_bureau_id(), accessible_jobs(), cell(), digest(), get_job(), import_detail(), import_errors(), import_report() (+28 more)
 
 ### Community 3 - "exports.py"
-Cohesion: 0.11
-Nodes (20): filtered_cases(), action_query(), Meta, movements(), movements_csv(), chunks(), MovementSerializer, report() (+12 more)
+Cohesion: 0.09
+Nodes (26): filtered_cases(), action_query(), analytics(), Meta, movements(), movements_csv(), chunks(), MovementSerializer (+18 more)
 
 ### Community 4 - "coordination_workflow.py"
-Cohesion: 0.10
-Nodes (23): audit(), awaiting_acknowledgment(), detail(), filtered_records(), history(), Meta, OpenInput, ParticipantInput (+15 more)
+Cohesion: 0.07
+Nodes (24): audit(), awaiting_acknowledgment(), detail(), filtered_records(), history(), Meta, OpenInput, ParticipantInput (+16 more)
 
 ### Community 5 - "verify_delivery.py"
-Cohesion: 0.22
-Nodes (11): digest(), main(), run(), shell(), snapshot(), digest(), main(), run() (+3 more)
+Cohesion: 0.40
+Nodes (7): digest(), main(), run(), shell(), snapshot(), main(), snapshot()
 
 ### Community 7 - "main.tsx"
 Cohesion: 0.19
 Nodes (25): CaseDetail, CoordinationAction(), CoordinationRecordPage(), CoordinationRequests(), CoordinationWorkspace(), InstitutionDirectory(), InstitutionEditor(), InstitutionForm() (+17 more)
 
-### Community 8 - "EscalationTests"
-Cohesion: 0.10
-Nodes (5): Notification, notify_escalation(), send_reminders(), EscalationTests, AccountabilityTests
-
 ### Community 9 - "matching.py"
-Cohesion: 0.11
-Nodes (18): Command, Command, Command, refresh_active_matches(), swap_release(), baseline_runtime(), cached_encoder(), cached_tokenizer() (+10 more)
+Cohesion: 0.18
+Nodes (10): Command, baseline_runtime(), cached_encoder(), cached_tokenizer(), encoder(), ModelUnavailable, runtime(), threshold() (+2 more)
 
 ### Community 10 - "package.json"
 Cohesion: 0.07
@@ -159,29 +158,29 @@ Nodes (24): ApiError, Attachment, Case, CaseAction, classifications, EvidenceCom
 Cohesion: 0.19
 Nodes (19): date(), Movement, InstitutionCoordination(), InstitutionOverview(), AgeingPanel(), BureauWorkloadPanel(), ChartRow, CoordinationNotices() (+11 more)
 
-### Community 13 - "benchmark_scale.py"
-Cohesion: 0.09
-Nodes (12): browser(), main(), Memory, request(), simulate(), main(), simulate(), main() (+4 more)
+### Community 13 - "benchmark_import.py"
+Cohesion: 0.20
+Nodes (9): browser(), main(), Memory, request(), simulate(), main(), simulate(), docker() (+1 more)
 
 ### Community 14 - "ImportTests"
-Cohesion: 0.15
+Cohesion: 0.14
 Nodes (3): DashboardTests, ImportTests, RolloutTests
 
 ### Community 15 - "api.py"
 Cohesion: 0.12
-Nodes (19): Conflict, overlap_data(), overlap_queryset(), overlaps(), review(), review_snapshots(), decision_snapshot(), Command (+11 more)
+Nodes (21): Conflict, overlap_data(), overlap_queryset(), overlaps(), review_snapshots(), upload(), decision_snapshot(), Command (+13 more)
 
 ### Community 17 - "Institution"
 Cohesion: 0.24
 Nodes (16): institutions(), page(), detail(), history(), institution_cases(), InstitutionHistorySerializer, InstitutionProfileSerializer, InstitutionWriteSerializer (+8 more)
 
-### Community 18 - "escalations.py"
-Cohesion: 0.19
-Nodes (13): dashboard(), dashboard_data(), case_escalations(), CreateEscalationSerializer, EscalationSerializer, Meta, queue(), records() (+5 more)
+### Community 18 - "dashboard_data"
+Cohesion: 0.33
+Nodes (4): dashboard(), dashboard_data(), Command, simulate()
 
-### Community 19 - "django_db_models_deletion"
-Cohesion: 0.12
-Nodes (7): Migration, Migration, Migration, Migration, Migration, Migration, Migration
+### Community 19 - "django_db"
+Cohesion: 0.08
+Nodes (12): Migration, Migration, Migration, Migration, Migration, Migration, Migration, Migration (+4 more)
 
 ### Community 20 - "imports.tsx"
 Cohesion: 0.14
@@ -192,16 +191,16 @@ Cohesion: 0.15
 Nodes (17): api(), csrf(), errorText(), Escalation, submit(), CaseEscalations(), EscalationList(), EscalationQueue() (+9 more)
 
 ### Community 23 - "json"
-Cohesion: 0.10
-Nodes (6): Command, eligible_corpus(), evaluate(), metrics(), Migration, Migration
+Cohesion: 0.12
+Nodes (3): calibrate(), metrics(), Safe evaluation
 
 ### Community 26 - "Portal components"
 Cohesion: 0.13
 Nodes (14): compilerOptions, allowImportingTsExtensions, isolatedModules, jsx, lib, module, moduleResolution, noEmit (+6 more)
 
-### Community 27 - "CaseSerializer"
-Cohesion: 0.15
-Nodes (10): analytics(), compute_dashboard(), active_cases(), enrich(), groups(), notices(), CaseSerializer, Meta (+2 more)
+### Community 27 - "django_conf"
+Cohesion: 0.14
+Nodes (4): evaluation_dataset(), seed_records(), Command, EvaluationTests
 
 ### Community 30 - "source-intake.tsx"
 Cohesion: 0.25
@@ -216,8 +215,8 @@ Cohesion: 0.27
 Nodes (10): Backend Python requirements, Django and Django REST Framework, pgvector Python integration, Django Q2 durable task worker, sentence-transformers, Django API service, PostgreSQL 17 with pgvector and persistent volume, Shared local offline MiniLM model files (+2 more)
 
 ### Community 33 - "evidence.py"
-Cohesion: 0.17
-Nodes (6): build_evidence(), compare(), recorded(), corpus_fixture(), EvaluationSafetyTests, EvidenceContractTests
+Cohesion: 0.27
+Nodes (4): build_evidence(), compare(), recorded(), EvidenceContractTests
 
 ### Community 36 - "EvidenceWorkflowTests"
 Cohesion: 0.18
@@ -228,12 +227,8 @@ Cohesion: 0.33
 Nodes (3): Boundary, PageBoundary(), react
 
 ### Community 45 - "role"
-Cohesion: 0.25
-Nodes (16): coordination(), current_bureau_id(), role(), scoped_cases(), writable(), actions(), case_detail(), cases() (+8 more)
-
-### Community 46 - "InstitutionAdmin"
-Cohesion: 0.10
-Nodes (4): InstitutionAdmin, InstitutionAdminForm, Meta, Phase2MigrationTests
+Cohesion: 0.15
+Nodes (24): coordination(), role(), scoped_cases(), writable(), actions(), case_detail(), cases(), replay() (+16 more)
 
 ### Community 47 - "AICTE institution monitoring and cross-Bureau coordination — SIH 26264"
 Cohesion: 0.40
@@ -252,32 +247,56 @@ Cohesion: 0.23
 Nodes (11): Bars(), ErrorNotice(), ExportButton(), Imports(), Report(), usePoll(), InstitutionCases(), change() (+3 more)
 
 ### Community 53 - "AICTE SIH 26264 — Case Intelligence 2.0 implementation plan"
-Cohesion: 0.06
-Nodes (26): evaluation_dataset(), seed_records(), calibrate(), score(), Evidence contract, Read APIs and interface, Relationship evidence v1 and decision snapshots, Review transaction and versioning (+18 more)
+Cohesion: 0.07
+Nodes (26): Command, eligible_corpus(), evaluate(), score(), Evidence contract, Read APIs and interface, Relationship evidence v1 and decision snapshots, Review transaction and versioning (+18 more)
+
+### Community 54 - "B1.5: private public-data evaluation and independent annotation"
+Cohesion: 0.20
+Nodes (8): With the audit stack already prepared and running:, B1.5: private public-data evaluation and independent annotation, Blind human review, Metric rules, Offline evaluation, Source gates, Storage and collection, Tests and results
+
+### Community 58 - "verify_readiness_restore.py"
+Cohesion: 0.14
+Nodes (4): digest(), main(), run(), snapshot()
+
+### Community 60 - "Complaint"
+Cohesion: 0.29
+Nodes (6): Command, refresh_active_matches(), match_batch(), match_case(), revision(), Complaint
 
 ### Community 68 - "evidence.tsx"
 Cohesion: 0.25
 Nodes (10): MatchingEvidence, ReviewSnapshot, CapturedMetadata(), fields, PairEvidence(), ReviewEvidence(), states, value() (+2 more)
 
+### Community 72 - "test_public_evaluation.py"
+Cohesion: 0.18
+Nodes (19): collect(), digest(), fetch(), normalize_cfpb(), normalize_nyc(), redact(), source_manifest(), validate_manifest() (+11 more)
+
+### Community 81 - "model_release.py"
+Cohesion: 0.33
+Nodes (3): Command, swap_release(), StagedEmbedding
+
+### Community 82 - "monitor_resources.py"
+Cohesion: 0.38
+Nodes (3): main(), Memory, ticks()
+
 ## Knowledge Gaps
-- **109 isolated node(s):** `Meta`, `Meta`, `Meta`, `Migration`, `Migration` (+104 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 398 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **114 isolated node(s):** `Meta`, `Meta`, `Meta`, `Migration`, `Migration` (+109 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 404 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **48 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `dashboard_data()` connect `escalations.py` to `CaseSerializer`, `exports.py`, `role`?**
+- **Why does `dashboard_data()` connect `dashboard_data` to `exports.py`, `role`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `compute_dashboard()` connect `CaseSerializer` to `imports.py`, `exports.py`, `role`, `api.py`?**
+- **Why does `compute_dashboard()` connect `exports.py` to `Complaint`, `role`, `api.py`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `WorkflowTests` connect `WorkflowTests` to `imports.py`, `coordination_workflow.py`, `EscalationTests`, `api.py`, `Institution`, `AICTE SIH 26264 — Case Intelligence 2.0 implementation plan`?**
+- **Why does `WorkflowTests` connect `WorkflowTests` to `imports.py`, `coordination_workflow.py`, `api.py`, `Institution`, `django_conf`, `Complaint`?**
   _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **Are the 9 inferred relationships involving `WorkflowTests` (e.g. with `Attachment` and `AuditEvent`) actually correct?**
   _`WorkflowTests` has 9 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `Meta`, `Meta`, `Meta` to the rest of the system?**
-  _109 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _114 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `source-intake.spec.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.052160493827160495 - nodes in this community are weakly interconnected._
 - **Should `WorkflowTests` be split into smaller, more focused modules?**
-  _Cohesion score 0.07681365576102418 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07179487179487179 - nodes in this community are weakly interconnected._

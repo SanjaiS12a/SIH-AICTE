@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "status": "partial: NYC workflow probe complete; OIA/CFPB narrative tracks blocked and human annotation pending",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "threshold": 0.603080153465271,
+  "production_policy_changed": false,
+  "database_access": false,
+  "sources": [
+    {
+      "dataset": "oia",
+      "source_url": "https://www.oiahe.org.uk/resources-and-publications/case-summaries/",
+      "terms_url": "https://www.oiahe.org.uk/media/nl0nxlte/publication-of-case-summaries-and-public-interest-cases.pdf",
+      "usage_conditions": "Public anonymization policy is not a verified corpus reuse grant. User requested collection remain pending; no case text collected.",
+      "collected_at_utc": "2026-11-01T14:42:12.966149+00:00",
+      "source_version": "Collection-time snapshot; see response metadata/checksum",
+      "evaluation_permitted": false,
+      "redistribution_allowed": false,
+      "status": "pending_permission",
+      "records": 0
+    },
+    {
+      "dataset": "cfpb",
+      "source_url": "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/",
+      "terms_url": "https://www.consumerfinance.gov/data-research/consumer-complaints/",
+      "usage_conditions": "Publisher permits public complaint data use/analysis. Public narratives remain unverified allegations; no redistribution in this project. No restricted records or credentials.",
+      "collected_at_utc": "2026-11-01T14:42:12.966149+00:00",
+      "source_version": "Collection-time snapshot; see response metadata/checksum",
+      "evaluation_permitted": true,
+      "redistribution_allowed": false,
+      "status": "blocked",
+      "records": 0,
+      "access_error": "HTTPError",
+      "http_status": 403
+    },
+    {
+      "dataset": "nyc311",
+      "source_url": "https://data.cityofnewyork.us/resource/erm2-nwe9.json",
+      "terms_url": "https://a860-gpp.nyc.gov/downloads/5712m8144?locale=en",
+      "usage_conditions": "NYC Open Data public-use policy and NYC.gov terms apply; source/version/modifications attributed. Informational data, no accuracy warranty; no personal location/contact fields collected.",
+      "collected_at_utc": "2026-11-01T14:42:12.966149+00:00",
+      "source_version": "Collection-time snapshot; see response metadata/checksum",
+      "evaluation_permitted": true,
+      "redistribution_allowed": false,
+      "status": "collected",
+      "records": 500,
+      "response": {
+        "url": "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24limit=500&%24select=unique_key%2Ccreated_date%2Cclosed_date%2Cagency%2Ccomplaint_type%2Cdescriptor%2Cstatus",
+        "etag": "W/\"Zm94dHJvdC4xNTY1NV8xODNfMTk0MzYxYmowMFpkNTVYWGg4UEVMRm85V1o5ZWNaaGl3---gzip9FrNRBOhojPvV8CIauXwiJluk5M--gzip--gzip\"",
+        "last_modified": "Sun, 01 Nov 2026 03:35:34 GMT",
+        "sha256": "e0c19f325d41999176dedc01d48f7bd8327c1df3c48a056b582c291a45e432cc"
+      },
+      "raw_rows": 500,
+      "normalization": "minimal fields; explicit derived-text/redaction provenance",
+      "corpus_sha256": "0d61c51304d3c1e6ec1cf7101f95f81459fa775fefad96d4ad8eafba91ae5201"
+    }
+  ],
+  "corpus_sha256": "0d61c51304d3c1e6ec1cf7101f95f81459fa775fefad96d4ad8eafba91ae5201",
+  "tracks": {
+    "oia": {
+      "status": "pending_permission",
+      "records": 0,
+      "performance": null,
+      "reason": "Public anonymization policy is not a verified corpus reuse grant. User requested collection remain pending; no case text collected."
+    },
+    "cfpb": {
+      "status": "blocked",
+      "records": 0,
+      "performance": null,
+      "reason": "HTTPError"
+    },
+    "nyc311": {
+      "status": "unlabelled_probe",
+      "records": 500,
+      "eligible_records": 500,
+      "token_limit_exclusions": 0,
+      "token_limit": 256,
+      "silent_truncation": false,
+      "queries": 25,
+      "references": 421,
+      "exact_representation_groups": 122,
+      "encoded_records": 446,
+      "duplicate_query_representations_held_out": 54,
+      "scope": "same published agency; structured workflow probe, not citizen narrative",
+      "metrics": {
+        "returned_suggestions": 28,
+        "adjudicated_labels": 0,
+        "usable_judgments": 0,
+        "insufficient_evidence": 0,
+        "usable_label_coverage": 0.0,
+        "review_worthy_precision_at_5": null,
+        "precision_unavailable_reason": "Requires a nonempty suggestion set with 100% usable independent adjudication.",
+        "precision_interval": null,
+        "same_incident_recall_at_5": null,
+        "recall_unavailable_reason": "No independently established eligible same-incident reference corpus; returned-pair annotation alone cannot measure recall.",
+        "false_positive_rate": null,
+        "fpr_unavailable_reason": "No independently sampled and completely labelled negative candidate population.",
+        "known_unrelated_suggestions": 0,
+        "queries_with_suggestions": 10,
+        "no_suggestion_rate": 0.6,
+        "unjudged": 28
+      },
+      "category_breakdown": {
+        "APPLIANCE": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "Bike/Roller/Skate Chronic": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "Blocked Driveway": {
+          "queries": 1,
+          "suggestions": 5,
+          "error_rate": null
+        },
+        "Building/Use": {
+          "queries": 1,
+          "suggestions": 2,
+          "error_rate": null
+        },
+        "Consumer Complaint": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "Drug Activity": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "ELECTRIC": {
+          "queries": 2,
+          "suggestions": 1,
+          "error_rate": null
+        },
+        "Elevator": {
+          "queries": 1,
+          "suggestions": 1,
+          "error_rate": null
+        },
+        "General Construction/Plumbing": {
+          "queries": 1,
+          "suggestions": 2,
+          "error_rate": null
+        },
+        "Illegal Dumping": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "Illegal Parking": {
+          "queries": 1,
+          "suggestions": 5,
+          "error_rate": null
+        },
+        "Noise": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "Noise - Vehicle": {
+          "queries": 1,
+          "suggestions": 5,
+          "error_rate": null
+        },
+        "PLUMBING": {
+          "queries": 2,
+          "suggestions": 2,
+          "error_rate": null
+        },
+        "Rodent": {
+          "queries": 2,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "Traffic Signal Condition": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "UNSANITARY CONDITION": {
+          "queries": 1,
+          "suggestions": 2,
+          "error_rate": null
+        },
+        "Unsanitary Animal Pvt Property": {
+          "queries": 1,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "WATER LEAK": {
+          "queries": 3,
+          "suggestions": 0,
+          "error_rate": null
+        },
+        "Water System": {
+          "queries": 1,
+          "suggestions": 3,
+          "error_rate": null
+        }
+      },
+      "embedding_seconds": 1.1041378959998838,
+      "in_memory_retrieval_ms": {
+        "total": 2.8678700000455137,
+        "p95": 0.3366570017533376
+      },
+      "queries_without_eligible_references": 1,
+      "threshold_abstentions": 14,
+      "threshold_abstention_rate_among_eligible_queries": 0.5833333333333334,
+      "unavailable_embeddings": 0,
+      "database_latency_ms": null,
+      "workflow": {
+        "records": 500,
+        "unique_source_keys": 500,
+        "status_counts": {
+          "Closed": 477,
+          "Open": 2,
+          "In Progress": 21
+        },
+        "agency_counts": {
+          "NYPD": 280,
+          "DOB": 18,
+          "DSNY": 30,
+          "EDC": 27,
+          "DOT": 15,
+          "DHS": 10,
+          "HPD": 84,
+          "DPR": 5,
+          "TLC": 8,
+          "DEP": 15,
+          "DOHMH": 7,
+          "DCWP": 1
+        },
+        "category_counts": {
+          "Noise - Street/Sidewalk": 28,
+          "Building/Use": 4,
+          "Dirty Condition": 7,
+          "Non-Emergency Police Matter": 4,
+          "Traffic": 1,
+          "General Construction/Plumbing": 6,
+          "Noise - Helicopter": 27,
+          "Illegal Parking": 90,
+          "Traffic Signal Condition": 5,
+          "Noise - Commercial": 21,
+          "Blocked Driveway": 30,
+          "Homeless Person Assistance": 7,
+          "Noise - Vehicle": 9,
+          "UNSANITARY CONDITION": 12,
+          "Noise - Residential": 74,
+          "HEAT/HOT WATER": 40,
+          "Drug Activity": 2,
+          "PAINT/PLASTER": 7,
+          "Abandoned Vehicle": 7,
+          "ELECTRIC": 3,
+          "Bike/Roller/Skate Chronic": 7,
+          "Missed Collection": 7,
+          "Sidewalk Condition": 1,
+          "Noise - Park": 1,
+          "Derelict Vehicles": 10,
+          "Maintenance or Facility": 1,
+          "PLUMBING": 8,
+          "For Hire Vehicle Complaint": 5,
+          "Noise": 5,
+          "WATER LEAK": 6,
+          "Special Projects Inspection Team (SPIT)": 1,
+          "Dead/Dying Tree": 1,
+          "Dead Animal": 1,
+          "Drinking": 2,
+          "New Tree Request": 2,
+          "Sanitation Worker or Vehicle Complaint": 1,
+          "Water System": 5,
+          "APPLIANCE": 2,
+          "Encampment": 5,
+          "Broken Parking Meter": 1,
+          "Street Light Condition": 5,
+          "Street Sign - Missing": 1,
+          "Litter Basket Complaint": 1,
+          "DOOR/WINDOW": 2,
+          "Boilers": 2,
+          "GENERAL": 3,
+          "Root/Sewer/Sidewalk Condition": 1,
+          "Abandoned Bike": 1,
+          "Mobile Food Vendor": 1,
+          "Lost Property": 2,
+          "Air Quality": 1,
+          "Rodent": 3,
+          "Elevator": 5,
+          "Street Condition": 1,
+          "Obstruction": 1,
+          "Taxi Complaint": 1,
+          "Consumer Complaint": 1,
+          "Sewer": 3,
+          "Water Conservation": 1,
+          "Illegal Dumping": 1,
+          "Panhandling": 2,
+          "Curb Condition": 1,
+          "FLOORING/STAIRS": 1,
+          "Indoor Sewage": 1,
+          "Food Establishment": 1,
+          "Unsanitary Animal Pvt Property": 1
+        },
+        "invalid_date_rows": 0,
+        "closure_before_creation": 0,
+        "closed_status_missing_closed_date": 7,
+        "nonclosed_status_with_closed_date": 1,
+        "valid_closed_intervals": 471,
+        "mean_recorded_closure_days": 12.193250742116852,
+        "limits": "Source timestamps retained as published, without inventing an AICTE deadline, Bureau ownership, overdue state or original narrative."
+      },
+      "privacy_review": "Automatic/minimal-field preparation; independent re-identification review pending.",
+      "leakage": "Frozen threshold, no training/calibration; exact normalized text groups kept on one side. Incident groups and near-duplicate independence unverified; no recall claim."
+    }
+  },
+  "institution_track": {
+    "status": "unavailable",
+    "reason": "No authorized institution corpus or independently known incident matches supplied."
+  },
+  "runtime": {
+    "cold_model_load_seconds": 8.625435396003013,
+    "cold_timing_scope": "dependency imports plus first local model construction; excludes preflight checksums and interpreter startup",
+    "warmup_seconds": 0.04932755600020755,
+    "warmup_input": "one synthetic non-corpus sentence",
+    "device": "cpu",
+    "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "threshold": 0.603080153465271
+  },
+  "limits": [
+    "No dataset scores pooled.",
+    "No relationship labels invented.",
+    "No source outcomes interpreted as incident labels.",
+    "Private annotations/text must not be committed.",
+    "Public identifiers may permit re-identification; no raw examples cleared for redistribution."
+  ],
+  "annotation_pairs": 28,
+  "human_labels": 0
+}
