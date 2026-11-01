@@ -1,41 +1,31 @@
 # Tests and results
 
-All test sources and their evidence live here:
+All verification sources and selected evidence live here.
 
-- `backend/`: Django workflow, import, institution, permission, migration and concurrency tests.
-- `browser/`: Playwright/Edge tests using the frontend's installed dependencies.
-- `research/`: deterministic research parsing/split tests and model regression checks.
-- `results/`: curated reports, measured metrics and screenshots.
-- `results/logs/`, `results/playwright/`, `results/playwright-report/`: ignored run logs, traces and HTML output.
+- `backend/`: Django workflow, permission, migration, import and concurrency tests.
+- `browser/`: Playwright/Edge regressions and the supplied-workbook walkthrough.
+- `operations/`: Windows controller safety checks.
+- `performance/`: frozen-model encoder and reminder measurements.
+- `fixtures/`: fictional, repeatable demonstration inputs.
+- `results/`: curated verification reports; `results/runs/` and `results/logs/` are ignored per-run evidence.
 
-From the repository root:
-
-```powershell
-docker compose up -d api worker
-docker compose exec api python manage.py test cases --noinput
-.venv/Scripts/python -m unittest tests.research.test_public_data
-.venv/Scripts/python tests/research/check_research_data.py
-```
-
-`cases/tests.py` is only a compatibility discovery entrypoint; the test bodies are in `tests/backend`. Compose mounts this folder into the API and worker. Preserve the mount when recreating containers.
-
-From `frontend/`, with the API and bundled preview running:
+Use the separate audit stack in [the project README](../README.md). Browser verification defaults to port 5174 and rejects working-demo ports 5173 and 8000. Do not use the working application's private storage for verification.
 
 ```powershell
-npm run build
-npm run preview
-# In another terminal inside frontend:
+# With the audit stack already prepared and running:
+$run = Get-Content tests/results/logs/readiness-run.json | ConvertFrom-Json
+$env:AUDIT_RESULTS = $run.directory
+docker compose -p $run.project -f compose.audit.yaml exec -T api python manage.py test cases --noinput
+.venv/Scripts/python.exe -m unittest discover -s tests/operations -v
+$env:PLAYWRIGHT_BASE_URL = 'http://127.0.0.1:5174'
+$env:AUDIT_ARTIFACT_DIR = Join-Path $run.directory ('browser-' + (Get-Date -Format yyyyMMdd-HHmmss))
+Push-Location frontend
 npx playwright test
+Pop-Location
 ```
 
-The runner uses `tests/browser`, its own TypeScript path mapping and the result directories above. Large/raw datasets, model weights, private files and credentials do not belong in this folder or Git.
+`backend/cases/tests.py` retains Django's existing discovery entry point. Its test bodies remain in `tests/backend`. A discovered count is not a passing result.
 
-Fresh model comparison (read-only; requires the existing local PAWS audit/splits and both model directories):
+Start with [the six-case workbook](fixtures/sih-walkthrough/start-here-6-cases.xlsx) and [START-HERE](../START-HERE.md). The [readiness report](results/readiness-verification.md) distinguishes current checks, diagnostic performance runs and unresolved gates. Historical research evidence does not establish real-world AICTE accuracy. This release cycle does not train or activate an experimental model.
 
-```powershell
-$env:PYTHONPATH='scripts;.'
-.venv-training/Scripts/python -m unittest tests.research.test_fresh_comparison
-.venv-training/Scripts/python scripts/compare_fresh_models.py
-```
-
-The comparison downloads a checksum-pinned MRPC test file into ignored research storage and checks it against every previous PAWS split and education regression text. It also uses `research/fresh_education_incidents.json`, a new authored diagnostic with distinct-incident negatives. It reuses frozen thresholds, never fits a model, and refuses to overwrite an existing `results/fresh-model-comparison.json`. Preserve the first run rather than tuning against its results. Prediction CSV contains IDs and scores, without MRPC text. The synthetic diagnostic is not an independent accuracy estimate or the application's related-issue review task.
+Keep credentials, private uploads, database archives, downloaded datasets and weights out of Git. Physical-offline verification requires actual network disconnection; intercepted requests alone are not equivalent.

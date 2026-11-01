@@ -93,6 +93,7 @@ if ($Action -eq 'Prepare') {
     if ($Audit) { Verify-Assets } else { Invoke-Compose run --rm --no-deps -e HF_HUB_OFFLINE=0 -e TRANSFORMERS_OFFLINE=0 api python manage.py download_model }
     # The existing seed command creates missing records; it does not reset existing accounts or cases.
     Invoke-Compose run --rm --no-deps api python manage.py seed_demo
+    Invoke-Compose run --rm --no-deps api python manage.py seed_sih_demo
     Invoke-Compose run --rm --no-deps api python manage.py match_pending
     Push-Location frontend
     try {

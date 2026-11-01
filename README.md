@@ -1,5 +1,7 @@
 # AICTE institution monitoring and cross-Bureau coordination — SIH 26264
 
+New to the project? Start with [the plain-language walkthrough and ready-to-upload Excel files](START-HERE.md).
+
 A local SIH prototype for identifying an institution, consolidating its cases across Bureaus, reviewing overlaps and recording accountable coordinated work. RB means **Regulation Bureau**; PGRC means **Public Grievance Redressal Cell**.
 
 The existing React/Vite/TypeScript frontend, Django/DRF session API, PostgreSQL 17/pgvector database and Django Q2 ORM worker are retained. Exact institution-filtered vector search and the original local MiniLM provide suggestions; human decisions remain authoritative. This is a prototype, not an approved AICTE production deployment.
