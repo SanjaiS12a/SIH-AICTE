@@ -25,6 +25,8 @@ services:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-local-demo-change-before-sharing}
       DEMO_PASSWORD: ${DEMO_PASSWORD:-Demo-only-26264!}
       MODEL_PATH: /models/minilm
+      ENABLE_REVIEWED_FACTS: ${ENABLE_REVIEWED_FACTS:-0}
+      ENABLE_INCIDENT_GROUPS: ${ENABLE_INCIDENT_GROUPS:-0}
       HF_HUB_OFFLINE: "1"
     command: python manage.py runserver 0.0.0.0:8000 --noreload --insecure
     ports: ["127.0.0.1:8000:8000"]
