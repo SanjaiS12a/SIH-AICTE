@@ -3,6 +3,7 @@ from . import api, imports, exports, institutions, escalations, relationships, c
 
 urlpatterns = [
     path('source-intake', source_intake.sources),
+    path('source-intake/jobs', source_intake.jobs),
     path('imports/<uuid:job_id>/rows', source_intake.rows),
     path('imports/<uuid:job_id>/rows/<int:number>/resolve', source_intake.resolve),
     path('coordination-records', coordination_workflow.registry),

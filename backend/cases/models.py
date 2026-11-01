@@ -85,6 +85,7 @@ class Complaint(models.Model):
 
 class CaseAction(models.Model):
     case = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='actions')
+    bureau_at_action = models.ForeignKey(Bureau, on_delete=models.PROTECT, null=True, editable=False, related_name='historical_actions')
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     kind = models.CharField(max_length=30)
     reason = models.TextField(max_length=4000)

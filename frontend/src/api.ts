@@ -72,6 +72,7 @@ export type Case = {
   created_at: string;
 };
 export type CaseAction = {
+  bureau_at_action: string | null;
   id: number;
   kind: string;
   actor: string;

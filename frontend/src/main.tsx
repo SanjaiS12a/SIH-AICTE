@@ -58,7 +58,7 @@ import { DashboardHome } from "./dashboard";
 import { PageBoundary } from "./page-boundary";
 import { CaseEscalations, EscalationQueue } from "./escalations";
 import { ManualRelationship } from "./relationships";
-import { SourceIntake, SourceRows } from "./source-intake";
+import { SourceIntake, SourceRows, SourceJobs } from "./source-intake";
 import {
   CoordinationWorkspace,
   CoordinationRecordPage,
@@ -480,6 +480,7 @@ function Shell({ user }: { user: User }) {
                 }
               />
               <Route path="/imports/sources" element={<SourceIntake />} />
+              <Route path="/imports/source-jobs" element={<SourceJobs />} />
               <Route
                 path="/imports/:id/rows"
                 element={<SourceRows user={user} />}
@@ -1101,7 +1102,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
                           </time>
                         </div>
                         <p>{a.reason}</p>
-                        <small>{a.actor}</small>
+                        <small>{a.actor} · Bureau at action: {a.bureau_at_action || "Unknown (historical)"}</small>
                         {Object.keys(a.changes).length > 0 && (
                           <div className="change-details">
                             {Object.entries(a.changes).map(([key, value]) => (

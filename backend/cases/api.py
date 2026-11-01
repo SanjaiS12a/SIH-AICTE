@@ -8,7 +8,7 @@ from pathlib import Path
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import transaction, IntegrityError
-from django.db.models import Count, Q, Prefetch
+from django.db.models import Count, Q, Prefetch, F
 from django.db.models.functions import TruncMonth
 from django.http import FileResponse, HttpResponse, StreamingHttpResponse
 from django.middleware.csrf import get_token
@@ -118,7 +118,7 @@ def cases(request):
 def case_detail(request, case_id):
     case = get_object_or_404(scoped_cases(request.user), pk=case_id)
     data = CaseSerializer(case).data
-    data['actions'] = ActionReadSerializer(case.actions.select_related('actor'), many=True,
+    data['actions'] = ActionReadSerializer(case.actions.select_related('actor', 'bureau_at_action'), many=True,
                                          context={'restricted': not coordination(request.user)}).data
     data['attachments'] = AttachmentSerializer(case.attachments.all(), many=True).data
     history = scoped_cases(request.user).filter(institution=case.institution).exclude(pk=case.id)[:20]
@@ -385,6 +385,12 @@ def download(request, attachment_id):
 @api_view(['GET', 'POST'])
 def notifications(request):
     qs = Notification.objects.filter(user=request.user, case__in=scoped_cases(request.user)).select_related('case', 'escalation')
+    now = timezone.now()
+    actionable = ~Q(case__status='disposed') & Q(deadline=F('case__due_at')) & (
+        Q(kind='overdue', deadline__lt=now) |
+        Q(kind='due_1_day', deadline__gte=now, deadline__lte=now+timedelta(days=1)) |
+        Q(kind='due_7_days', deadline__gt=now+timedelta(days=1), deadline__lte=now+timedelta(days=7)))
+    qs = qs.filter(Q(escalation__isnull=False) | actionable)
     if not request.user.is_active:
         qs = qs.none()
     elif role(request.user) != 'coordinator':

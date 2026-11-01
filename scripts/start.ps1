@@ -109,10 +109,10 @@ if (-not $Audit -and -not (Test-Path -LiteralPath '.env')) { throw 'Environment 
 if ($Action -eq 'Check') { Write-Host 'Runtime prerequisites and pinned assets verified.'; exit 0 }
 $existing = Get-NetTCPConnection -LocalPort $frontendPort -State Listen -ErrorAction SilentlyContinue
 if ($existing) { throw "Port $frontendPort is occupied. Stop the existing portal or unrelated process explicitly." }
-Invoke-Compose up -d db
+Invoke-Compose up -d --pull never --no-build db
 Wait-Database
 Invoke-Compose run --rm --no-deps api python manage.py migrate --noinput
-Invoke-Compose up -d api worker
+Invoke-Compose up -d --pull never --no-build api worker
 Wait-Endpoint "http://127.0.0.1:$apiPort/api/session"
 $env:API_PROXY_TARGET = "http://127.0.0.1:$apiPort"
 $nodePath = (Get-Command node).Source

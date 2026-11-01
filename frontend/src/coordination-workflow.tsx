@@ -12,6 +12,7 @@ import { usePoll } from "./imports";
 import { Heading, ErrorBox, Loading, Empty, Pagination, CaseTable } from "./ui";
 
 type Participant = {
+  assignment_current: boolean;
   bureau_code: string;
   officer_id: number;
   id: number;
@@ -68,7 +69,7 @@ function validRecord(value: unknown): boolean {
         typeof p.instruction === "string" &&
         typeof p.bureau_code === "string" &&
         typeof p.bureau === "string" &&
-        Number.isInteger(p.officer_id),
+        Number.isInteger(p.officer_id) && typeof p.assignment_current === "boolean",
     )
   );
 }
@@ -633,6 +634,7 @@ export function CoordinationRecordPage({
                   {p.bureau} — {p.officer_name}
                 </h3>
                 <p>{p.instruction}</p>
+                {record.state !== "closed" && !p.assignment_current && <p role="status" className="policy-note">Reassignment needed: this officer is inactive or no longer belongs to this Bureau. A coordinator must revise the assignment.</p>}
                 <p>
                   Action date: {date(p.action_date)} · Acknowledged:{" "}
                   {date(p.acknowledged_at)} · Completed: {date(p.completed_at)}
@@ -681,7 +683,7 @@ export function CoordinationRecordPage({
               <article key={a.id}>
                 <h3>{a.kind.replaceAll("_", " ")}</h3>
                 <p>
-                  {date(a.created_at)} · {a.actor}
+                  {date(a.created_at)} · {a.actor} · Bureau at action: {a.bureau_at_action || "Unknown (historical)"}
                 </p>
                 <p>{a.reason}</p>
               </article>

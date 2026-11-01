@@ -29,6 +29,47 @@ type Row = {
   resolved_at: string | null;
   resolved_by_name: string | null;
 };
+type SourceJob = {
+  id: string; filename: string; source_system: string; source_bureau: string;
+  state: string; created_at: string; registered_at: string | null;
+  unresolved_conflicts: number; total_rows: number;
+};
+
+export function SourceJobs() {
+  const [params, setParams] = useSearchParams();
+  const { data, error } = usePoll<Page<SourceJob>>(`/api/source-intake/jobs?${params}`, 5000, 0, validSourceJobs);
+  function change(key: string, value: string) {
+    const p = new URLSearchParams(params); p.delete('page');
+    if (value) p.set(key, value); else p.delete(key);
+    setParams(p);
+  }
+  return <>
+    <Heading eyebrow="SOURCE HISTORY" title="All Bureau-source uploads" subtitle="Complete upload history within your current import permissions, including older unresolved conflicts." />
+    <div className="home-filterbar">
+      <label>Source ID<input value={params.get('source') || ''} onChange={e => change('source', e.target.value)} maxLength={40} /></label>
+      <label>Bureau code<input value={params.get('bureau') || ''} onChange={e => change('bureau', e.target.value)} maxLength={20} /></label>
+      <label><input type="checkbox" checked={params.get('conflicts') === 'true'} onChange={e => change('conflicts', e.target.checked ? 'true' : '')} />Unresolved conflicts only</label>
+    </div>
+    <ErrorBox message={error} />
+    {!data && !error && <Loading />}
+    {data && <section className="panel card-body">{data.results.length ? <div className="table-scroll" role="region" aria-label="Source upload history" tabIndex={0}><table>
+      <thead><tr><th>Upload</th><th>Source / Bureau</th><th>Uploaded</th><th>State</th><th>Rows</th><th>Unresolved conflicts</th></tr></thead>
+      <tbody>{data.results.map(j => <tr key={j.id}>
+        <td><Link to={`/imports/${j.id}`}>{j.filename}</Link></td><td>{j.source_system} / {j.source_bureau}</td>
+        <td>{time(j.created_at)}</td><td>{j.state.replaceAll('_', ' ')}</td><td>{j.total_rows}</td>
+        <td><Link to={`/imports/${j.id}/rows?state=conflict`}>{j.unresolved_conflicts}</Link></td>
+      </tr>)}</tbody></table></div> : <Empty>No source uploads match these filters.</Empty>}
+      <Pagination data={data} params={params} setParams={setParams} />
+    </section>}
+  </>;
+}
+
+function validSourceJobs(value: unknown) {
+  const p = value as Page<SourceJob> | null;
+  return !!p && Number.isSafeInteger(p.count) && p.count >= 0 && Array.isArray(p.results) && p.results.every(j => !!j &&
+    ['id','filename','source_system','source_bureau','state','created_at'].every(k => typeof j[k as keyof SourceJob] === 'string') &&
+    Number.isSafeInteger(j.total_rows) && j.total_rows >= 0 && Number.isSafeInteger(j.unresolved_conflicts) && j.unresolved_conflicts >= 0);
+}
 function time(value: string | null) {
   return value ? new Date(value).toLocaleString() : "Not recorded";
 }
@@ -104,6 +145,7 @@ export function SourceIntake() {
       <Link to="/imports" className="button">
         Upload Bureau records
       </Link>
+      <Link to="/imports/source-jobs" className="button secondary">All upload history</Link>
       <label>
         Search source ID
         <input
@@ -157,11 +199,11 @@ export function SourceIntake() {
                           {s.source_bureau__name}
                         </span>
                       </th>
-                      <td>{s.uploads}</td>
+                      <td><Link to={`/imports/source-jobs?${new URLSearchParams({source:s.source_system,bureau:s.source_bureau__code})}`}>{s.uploads}</Link></td>
                       <td>{time(s.last_uploaded_at)}</td>
                       <td>{time(s.last_registered_at)}</td>
                       <td>{time(s.last_success_at)}</td>
-                      <td>{s.unresolved_conflict_rows}</td>
+                      <td><Link to={`/imports/source-jobs?${new URLSearchParams({source:s.source_system,bureau:s.source_bureau__code,conflicts:'true'})}`}>{s.unresolved_conflict_rows}</Link></td>
                       <td>
                         <Link to={`/imports/${s.latest_job}`}>
                           Inspect intake

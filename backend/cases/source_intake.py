@@ -110,6 +110,28 @@ class SourceSerializer(serializers.Serializer):
     latest_job = serializers.UUIDField()
 
 
+class SourceJobSerializer(serializers.ModelSerializer):
+    source_bureau = serializers.CharField(source='source_bureau.code')
+    unresolved_conflicts = serializers.IntegerField()
+    total_rows = serializers.IntegerField()
+    class Meta:
+        model = ImportJob
+        fields = ['id', 'filename', 'source_system', 'source_bureau', 'state', 'created_at', 'registered_at', 'unresolved_conflicts', 'total_rows']
+
+
+@api_view(['GET'])
+def jobs(request):
+    from .imports import accessible_jobs
+    qs = accessible_jobs(request.user).exclude(source_system='').filter(source_bureau__isnull=False).select_related('source_bureau')
+    for key, field, limit in [('source', 'source_system', 40), ('bureau', 'source_bureau__code', 20)]:
+        value = serializers.CharField(max_length=limit, allow_blank=True).run_validation(request.query_params.get(key, ''))
+        if value: qs = qs.filter(**{field: value})
+    qs = qs.annotate(unresolved_conflicts=Count('rows', filter=Q(rows__state='conflict')), total_rows=Count('rows'))
+    if 'conflicts' in request.query_params and serializers.BooleanField().run_validation(request.query_params['conflicts']):
+        qs = qs.filter(unresolved_conflicts__gt=0)
+    return page(request, qs.order_by('-created_at', '-id'), SourceJobSerializer)
+
+
 @api_view(['GET'])
 def sources(request):
     from .imports import accessible_jobs

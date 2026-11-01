@@ -50,9 +50,14 @@ class ParticipantSerializer(serializers.ModelSerializer):
     bureau = serializers.CharField(source='bureau.name')
     bureau_code = serializers.CharField(source='bureau.code')
     officer_name = serializers.CharField(source='officer.get_full_name')
+    assignment_current = serializers.SerializerMethodField()
+
+    def get_assignment_current(self, obj):
+        member = getattr(obj.officer, 'membership', None)
+        return bool(obj.officer.is_active and member and member.role == 'officer' and member.bureau_id == obj.bureau_id)
     class Meta:
         model = CoordinationParticipant
-        fields = ['id', 'bureau', 'bureau_code', 'officer_id', 'officer_name', 'instruction', 'action_date', 'acknowledged_at', 'completed_at', 'completion_note']
+        fields = ['id', 'bureau', 'bureau_code', 'officer_id', 'officer_name', 'assignment_current', 'instruction', 'action_date', 'acknowledged_at', 'completed_at', 'completion_note']
 
 
 class RecordSerializer(serializers.ModelSerializer):
@@ -71,7 +76,12 @@ def require_management(user, write=False):
 
 
 def records():
-    return CoordinationRecord.objects.select_related('institution', 'lead_bureau', 'lead_officer').prefetch_related('participants__bureau', 'participants__officer')
+    return CoordinationRecord.objects.select_related('institution', 'lead_bureau', 'lead_officer').prefetch_related('participants__bureau', 'participants__officer__membership')
+
+
+def awaiting_acknowledgment(qs):
+    from django.db.models import Exists, OuterRef
+    return qs.filter(state='in_coordination').filter(Exists(CoordinationParticipant.objects.filter(record_id=OuterRef('pk'), acknowledged_at__isnull=True)))
 
 
 def filtered_records(request):
@@ -99,7 +109,7 @@ def registry(request):
         qs = filtered_records(request)
         if 'awaiting_ack' in request.query_params:
             awaiting = serializers.BooleanField().run_validation(request.query_params['awaiting_ack'])
-            if awaiting: qs = qs.filter(state='in_coordination', participants__acknowledged_at__isnull=True).distinct()
+            if awaiting: qs = awaiting_acknowledgment(qs)
         state = request.query_params.get('state', 'all')
         if state not in ('all', 'in_coordination', 'closed'):
             raise ValidationError('Choose all, in_coordination or closed.')
@@ -149,7 +159,7 @@ def detail(request, record_id):
 def history(request, record_id):
     require_management(request.user)
     record = get_object_or_404(records(), pk=record_id)
-    actions = CaseAction.objects.filter(case__in=record.cases.all(), changes__coordination_id=str(record.pk)).select_related('actor').order_by('-created_at', '-id')
+    actions = CaseAction.objects.filter(case__in=record.cases.all(), changes__coordination_id=str(record.pk)).select_related('actor', 'bureau_at_action').order_by('-created_at', '-id')
     return page(request, actions, ActionReadSerializer)
 
 

@@ -1017,7 +1017,7 @@ export function MovementsPage() {
                     <td>{a.event.replaceAll("_", " ")}</td>
                     <td>
                       {new Date(a.created_at).toLocaleString("en-IN")} ·{" "}
-                      {a.actor}
+                      {a.actor}<span className="table-sub">Bureau at action: {a.bureau_at_action || "Unknown (historical)"}</span>
                     </td>
                     <td>{a.reason}</td>
                   </tr>

@@ -84,6 +84,7 @@ class ActionSerializer(serializers.Serializer):
 
 class ActionReadSerializer(serializers.ModelSerializer):
     actor = serializers.CharField(source='actor.get_full_name')
+    bureau_at_action = serializers.CharField(source='bureau_at_action.code', allow_null=True, read_only=True)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -93,7 +94,7 @@ class ActionReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CaseAction
-        fields = ['id', 'kind', 'actor', 'reason', 'changes', 'created_at']
+        fields = ['id', 'kind', 'actor', 'reason', 'changes', 'created_at', 'bureau_at_action']
 
 class AttachmentSerializer(serializers.ModelSerializer):
     class Meta:

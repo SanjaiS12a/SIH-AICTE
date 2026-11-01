@@ -870,7 +870,7 @@ function InstitutionHistory({ id, refresh }: { id: string; refresh: number }) {
                       {a.reference}
                     </Link>
                     <p>{a.reason}</p>
-                    <small>{a.actor}</small>
+                    <small>{a.actor} · Bureau at action: {a.bureau_at_action || "Unknown (historical)"}</small>
                     {Object.keys(a.changes).length > 0 && (
                       <div className="change-details">
                         {Object.entries(a.changes).map(([key, value]) => (

@@ -25,7 +25,7 @@ def action_query(request):
     form=FilterSerializer(data=request.query_params);form.is_valid(raise_exception=True)
     params=request.query_params.copy()
     for key in ['from','to','page','event']:params.pop(key,None)
-    qs=CaseAction.objects.filter(case__in=filtered_cases(SimpleNamespace(user=request.user,query_params=params))).select_related('actor','case__institution').order_by('-created_at','-id')
+    qs=CaseAction.objects.filter(case__in=filtered_cases(SimpleNamespace(user=request.user,query_params=params))).select_related('actor','case__institution','bureau_at_action').order_by('-created_at','-id')
     for key,lookup in [('from','created_at__date__gte'),('to','created_at__date__lte')]:
         if form.validated_data.get(key):qs=qs.filter(**{lookup:form.validated_data[key]})
     event=request.query_params.get('event')
@@ -62,11 +62,11 @@ def movements_csv(request):
     qs=action_query(request)
     AuditEvent.objects.create(actor=request.user,kind='movement_export',detail={'filters':dict(request.query_params),'count':qs.count()})
     def chunks():
-        out=io.StringIO();writer=csv.writer(out);writer.writerow(['Case','Institution','Event','Action time','Actor','Reason','Changes'])
+        out=io.StringIO();writer=csv.writer(out);writer.writerow(['Case','Institution','Event','Action time','Actor','Reason','Changes','Bureau at action'])
         yield out.getvalue();out.seek(0);out.truncate(0)
         for action in qs.iterator(chunk_size=1000):
             row=MovementSerializer(action,context={'restricted':not coordination(request.user)}).data
-            writer.writerow([safe(row[k]) for k in ['reference','institution','event','created_at','actor','reason']]+[safe(json.dumps(row['changes']))])
+            writer.writerow([safe(row[k]) for k in ['reference','institution','event','created_at','actor','reason']]+[safe(json.dumps(row['changes'])), safe(row['bureau_at_action'] or 'Unknown historical Bureau')])
             yield out.getvalue();out.seek(0);out.truncate(0)
     return StreamingHttpResponse(chunks(),content_type='text/csv',headers={'Content-Disposition':'attachment; filename="case-movements.csv"'})
 
@@ -89,8 +89,8 @@ def analytics(request,qs,pending,now):
         count=Count('id'), overdue=Count('id',filter=Q(due_at__lt=now)),
         unresolved_escalations=Count('id',filter=Q(has_unresolved_escalation=True)), earliest_deadline=Min('due_at'),
     ).order_by('-overdue','-unresolved_escalations','earliest_deadline','institution_id')[:5])
-    from .coordination_workflow import filtered_records
-    awaiting=filtered_records(request).filter(state='in_coordination', participants__acknowledged_at__isnull=True).distinct().count()
+    from .coordination_workflow import filtered_records, awaiting_acknowledgment
+    awaiting=awaiting_acknowledgment(filtered_records(request)).count()
     ids=[i['institution_id'] for i in institutions]
     bureau_rows=list(pending.filter(institution_id__in=ids).order_by().values('institution_id','bureau__code','bureau__name').annotate(count=Count('id')))
     notices=set(groups(request).filter(institution_id__in=ids).values_list('institution_id',flat=True))
