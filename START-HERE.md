@@ -16,15 +16,17 @@ Sign in as `coordinator` with the local synthetic-audit password `Demo-only-2626
 - Bureau officer: sees currently authorized Bureau cases and their assigned coordination instructions.
 - Auditor: inspects authorized consolidated information and history without changing cases.
 
+The five primary sections are **Home**, **Institutions**, **My Work**, **Data Imports** and **Reports**. Open **My Work** for case queues, approaching deadlines and coordination work. Officers see current-Bureau cases and their own coordination instructions; auditors inspect without changing records. Detailed pages remain available through contextual links: source intake/upload history under Data Imports, and movements/cross-Bureau activity under Reports.
+
 ## First test: six understandable complaints
 
 Use [start-here-6-cases.xlsx](tests/fixtures/sih-walkthrough/start-here-6-cases.xlsx). A [CSV copy](tests/fixtures/sih-walkthrough/start-here-6-cases.csv) contains the same rows.
 
-1. Open **Import data**. Choose individual complaints and leave Bureau-source upload unchecked for this mixed-Bureau example.
+1. Open **Data Imports**. Choose individual complaints and leave Bureau-source upload unchecked for this mixed-Bureau example.
 2. Select the workbook and choose **Upload and preview**. The matching column names map automatically. Review the six rows, then **Confirm import**.
 3. Open the report. For this import, expect **6 total, 5 open and 1 closed**. Two are under process. Overdue counts depend on the current date; two were overdue when generated on 1 November 2026.
 4. Return to the institution profile. It shows its complete authorized history, including the prepared cases and the uploaded cases. Its all-time totals are intentionally larger than one import's report.
-5. Inspect Coordination. The two `TRAIN-REFUND-2026-A` reports describe the same fictional refund in RB and PGRC. Compare them and record a reason for the relationship. The 2025 hostel-deposit complaint concerns a different applicant and incident; similar wording alone cannot establish a duplicate.
+5. Inspect Coordination from the institution profile or **My Work → Coordination queue**. The two `TRAIN-REFUND-2026-A` reports describe the same fictional refund in RB and PGRC. Compare them, deliberately select a relationship and record a reason. Pending reviews have no preselected decision. The 2025 hostel-deposit complaint concerns a different applicant and incident; similar wording alone cannot establish a duplicate.
 6. Agree responsibilities in the Coordination workspace. Designated officers acknowledge and complete their instructions; the coordinator records the outcome. A transfer changes current case ownership and adds history.
 7. Open the report again or export CSV. Re-uploading the identical workbook should identify duplicates rather than create six more cases.
 

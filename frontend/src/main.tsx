@@ -3,7 +3,6 @@ import type { FormEvent } from "react";
 import { createRoot } from "react-dom/client";
 import {
   BrowserRouter,
-  NavLink,
   Link,
   Route,
   Routes,
@@ -56,6 +55,7 @@ import type {
 import "./style.css";
 import { DashboardHome } from "./dashboard";
 import { PageBoundary } from "./page-boundary";
+import { MyWork } from "./my-work";
 import { CaseEscalations, EscalationQueue } from "./escalations";
 import { ManualRelationship } from "./relationships";
 import { SourceIntake, SourceRows, SourceJobs } from "./source-intake";
@@ -203,6 +203,32 @@ function Shell({ user }: { user: User }) {
   const { data: options } = useLoad<Options>("/api/options");
   const isCoord = ["coordinator", "auditor"].includes(user.role);
   const location = useLocation();
+  const path = location.pathname;
+  const section = path.startsWith("/institutions") ? "Institutions"
+    : path.startsWith("/imports") ? "Data Imports"
+      : path === "/reports" || path === "/movements" || path === "/coordination/activity" ? "Reports"
+        : path === "/" ? "Home" : "My Work";
+  const primary = [
+    { label: "Home", to: "/", icon: SquaresFour },
+    { label: "Institutions", to: "/institutions", icon: Buildings },
+    { label: "My Work", to: "/work", icon: Files },
+    { label: "Data Imports", to: "/imports", icon: Tray },
+    { label: "Reports", to: "/reports", icon: Files },
+  ];
+  const parent = primary.find((item) => item.label === section)!;
+  const pageLabel: Record<string, string> = {
+    "/cases": "Case registry", "/cases/new": "Register case",
+    "/coordination": "Coordination queue", "/coordination/workspace": "Coordination workspace",
+    "/coordination/requests": "Coordination actions", "/relationships/new": "Manual relationship",
+    "/escalations": "Escalations", "/movements": "Case movements",
+    "/coordination/activity": "Cross-bureau activity", "/imports/sources": "Source intake",
+    "/imports/source-jobs": "Source-upload history", "/institutions/new": "Register institution",
+  };
+  const currentLabel = pageLabel[path] || (path.startsWith("/cases/") ? "Case detail"
+    : path.startsWith("/coordination/workspace/") ? "Coordination record"
+      : path.endsWith("/edit") ? "Edit institution"
+        : path.startsWith("/institutions/") ? "Institution profile"
+          : path.startsWith("/imports/") ? (path.endsWith("/rows") ? "Source rows and conflicts" : "Import detail") : section);
   useEffect(() => {
     setShowAlerts(false);
     setAlertsVersion((x) => x + 1);
@@ -223,69 +249,13 @@ function Shell({ user }: { user: User }) {
           </span>
         </Link>
         <div className="workspace-label">PORTAL SERVICES</div>
-        <nav>
-          {isCoord ? (
-            <NavLink to="/coordination/workspace">
-              <Intersect size={21} />
-              Coordination workspace
-            </NavLink>
-          ) : (
-            user.role === "officer" && (
-              <NavLink to="/coordination/requests">
-                <Intersect size={21} />
-                Coordination actions
-              </NavLink>
-            )
-          )}
-          <NavLink to="/" end>
-            <SquaresFour size={21} />
-            Dashboard
-          </NavLink>
-          <NavLink to="/cases">
-            <Files size={21} />
-            Case registry
-          </NavLink>
-          <NavLink to="/institutions">
-            <Buildings size={21} />
-            Institutions
-          </NavLink>
-          <NavLink to="/imports">
-            <Tray size={21} />
-            Import data
-          </NavLink>
-          <NavLink to="/reports">
-            <Files size={21} />
-            Reports
-          </NavLink>
-          {isCoord && (
-            <>
-              <NavLink to="/escalations">
-                <ShieldCheck size={21} />
-                Escalations
-              </NavLink>
-              <NavLink to="/coordination" end>
-                <Intersect size={21} />
-                Coordination queue
-              </NavLink>
-            </>
-          )}
-          {/* Management-only links for coordinator/auditor */}
-          {isCoord && (
-            <>
-              <NavLink to="/coordination/activity">
-                <ArrowsLeftRight size={21} />
-                Cross-bureau activity
-              </NavLink>
-              <NavLink to="/movements">
-                <ArrowsLeftRight size={21} />
-                Case movements
-              </NavLink>
-              <NavLink to="/imports/sources">
-                <Tray size={21} />
-                Source intake
-              </NavLink>
-            </>
-          )}
+        <nav aria-label="Primary navigation">
+          {primary.map(({ label, to, icon: Icon }) => (
+            <Link key={to} to={to} className={section === label ? "active" : ""}
+              aria-current={section === label ? "page" : undefined}>
+              <Icon size={21} />{label}
+            </Link>
+          ))}
         </nav>
         <div className="sidebar-bottom">
           <div className="demo-note">
@@ -320,19 +290,10 @@ function Shell({ user }: { user: User }) {
       </aside>
       <div className="workspace">
         <header className="topbar">
-          <div className="breadcrumb">
+          <div className="breadcrumb" aria-label="Breadcrumb">
             AICTE portal <CaretRight size={12} />
-            <strong>
-              {location.pathname === "/escalations"
-                ? "Escalations"
-                : location.pathname === "/coordination"
-                  ? "Coordination queue"
-                  : location.pathname.startsWith("/institutions")
-                    ? "Institutions"
-                    : location.pathname.startsWith("/cases")
-                      ? "Case registry"
-                      : "Dashboard"}
-            </strong>
+            {path !== parent.to && <><Link to={parent.to} aria-label={`Back to ${section}`}>{section}</Link><CaretRight size={12} /></>}
+            <strong>{currentLabel}</strong>
           </div>
           <div className="top-actions">
             <span className="scope">
@@ -404,8 +365,34 @@ function Shell({ user }: { user: User }) {
           </div>
         </header>
         <main id="main">
+          {section === "My Work" && path !== "/work" && (
+            <nav className="section-links" aria-label="Work navigation">
+              <Link to="/work">Work overview</Link>
+              <Link to="/cases">Case registry</Link>
+              {isCoord ? <>
+                <Link to="/coordination/workspace">Coordination workspace</Link>
+                <Link to="/coordination">Coordination queue</Link>
+                <Link to="/escalations">Escalations</Link>
+              </> : user.role === "officer" && <Link to="/coordination/requests">Coordination actions</Link>}
+            </nav>
+          )}
+          {section === "Data Imports" && (
+            <nav className="section-links" aria-label="Import navigation">
+              <Link to="/imports">Spreadsheets</Link>
+              <Link to="/imports/sources">Source intake</Link>
+              <Link to="/imports/source-jobs">Source-upload history</Link>
+            </nav>
+          )}
+          {section === "Reports" && isCoord && (
+            <nav className="section-links" aria-label="Report navigation">
+              <Link to="/reports">Complaint reports</Link>
+              <Link to="/movements">Case movements</Link>
+              <Link to="/coordination/activity">Cross-bureau activity</Link>
+            </nav>
+          )}
           <PageBoundary>
             <Routes>
+              <Route path="/work" element={<MyWork user={user} />} />
               <Route
                 path="/coordination/workspace"
                 element={
@@ -681,6 +668,11 @@ function Registry({ user, options }: { user: User; options: Options }) {
             />{" "}
             Overdue only
           </label>
+          <label>
+            <input type="checkbox" checked={params.get("approaching") === "true"}
+              onChange={(e) => filter("approaching", e.target.checked ? "true" : "")} />{" "}
+            Due in next seven days
+          </label>
           {params.size > 0 && (
             <button
               className="text-button"
@@ -866,8 +858,16 @@ function NewCase({ options, user }: { options: Options; user: User }) {
 }
 function Detail({ user, options }: { user: User; options: Options }) {
   const { id } = useParams();
+  const { hash } = useLocation();
   const [refresh, setRefresh] = useState(0);
   const { data: c, error } = useLoad<CaseDetail>(`/api/cases/${id}`, refresh);
+  useEffect(() => {
+    if (c?.id === id && ["#case-history", "#case-actions", "#case-attachments"].includes(hash)) {
+      const target = document.getElementById(hash.slice(1));
+      target?.scrollIntoView();
+      target?.focus({ preventScroll: true });
+    }
+  }, [c?.id, id, hash]);
   const [action, setAction] = useState("note"),
     [status, setStatus] = useState("under_review"),
     [bureau, setBureau] = useState(""),
@@ -1084,7 +1084,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
                   </small>
                 </div>
               </section>
-              <section className="panel detail-card">
+              <section className="panel detail-card" id="case-history" tabIndex={-1}>
                 <div className="panel-heading">
                   <h2>Case history</h2>
                   <span className="muted">{c.actions.length} actions</span>
@@ -1163,6 +1163,8 @@ function Detail({ user, options }: { user: User; options: Options }) {
                 {writable ? (
                   <form
                     className="card-body action-form"
+                    id="case-actions"
+                    tabIndex={-1}
                     onSubmit={act}
                     onChangeCapture={() => {
                       if (editingVersion === null) setEditingVersion(c.version);
@@ -1383,7 +1385,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
               </section>
               <section className="panel detail-card">
                 <div className="panel-heading">
-                  <h2>Supporting documents</h2>
+                  <h2 id="case-attachments" tabIndex={-1}>Supporting documents</h2>
                   <Paperclip size={20} />
                 </div>
                 <div className="card-body">
@@ -1613,7 +1615,7 @@ function PairReview({
   onSaved: () => void;
 }) {
   const [decision, setDecision] = useState(
-      p.decision === "pending" ? "same_incident" : p.decision,
+      p.decision === "pending" ? "" : p.decision,
     ),
     [reason, setReason] = useState(p.reason),
     [busy, setBusy] = useState(false),
@@ -1621,6 +1623,10 @@ function PairReview({
     [conflict, setConflict] = useState(false);
   async function save(e: FormEvent) {
     e.preventDefault();
+    if (!decision || !reason.trim()) {
+      setError("Choose a relationship and enter a review reason.");
+      return;
+    }
     setBusy(true);
     setError("");
     try {
@@ -1637,7 +1643,7 @@ function PairReview({
     }
   }
   return (
-    <section className="panel pair-review">
+    <section className="panel pair-review" aria-label="Case comparison">
       <div className="panel-heading">
         <div>
           <h2>Review potential relationship</h2>
@@ -1646,7 +1652,7 @@ function PairReview({
               className="institution-link"
               to={`/institutions/${p.left.institution.id}`}
             >
-              {p.evidence.institution}
+              {p.left.institution.name}
             </Link>
           </p>
         </div>
@@ -1654,51 +1660,82 @@ function PairReview({
       </div>
       <div className="comparison">
         {[p.left, p.right].map((c, i) => (
-          <article key={c.id}>
-            <span className="eyebrow">
-              COMPLAINT {i === 0 ? "A" : "B"} · {c.bureau}
-            </span>
+          <article key={c.id} aria-label={`Complaint ${i === 0 ? "A" : "B"}`}>
+            <h3 className="eyebrow">Complaint {i === 0 ? "A" : "B"}</h3>
             <Link className="case-ref" to={`/cases/${c.id}`}>
               {c.reference}
               <ArrowUpRight size={15} />
             </Link>
-            <h3>{c.summary}</h3>
-            <p className="description">{c.description}</p>
             <dl>
+              <dt>Institution</dt>
+              <dd><Link className="institution-link" to={`/institutions/${c.institution.id}`}>{c.institution.name}</Link></dd>
+              <dt>Permanent ID</dt>
+              <dd>{c.institution.permanent_id || "Not recorded"}</dd>
+              <dt>Current Bureau</dt>
+              <dd>{c.bureau || "Not recorded"}</dd>
+              <dt>Source system</dt>
+              <dd>{c.source_system || "Not recorded"}</dd>
+              <dt>Source reference</dt>
+              <dd>{c.source_reference || "Not recorded"}</dd>
               <dt>Category</dt>
-              <dd className="capitalize">{c.category}</dd>
+              <dd className="capitalize">{c.category || "Not recorded"}</dd>
+              <dt>Classification</dt>
+              <dd>{classifications[c.classification] || "Not recorded"}</dd>
+              <dt>Received</dt>
+              <dd>{date(c.received_at)}</dd>
               <dt>Incident date</dt>
               <dd>{date(c.incident_date)}</dd>
               <dt>Status</dt>
               <dd>
                 <Badge status={c.status} />
               </dd>
-              <dt>Source reference</dt>
-              <dd>{c.source_reference}</dd>
             </dl>
+            <h4>Original allegation summary</h4>
+            <p className="description">{c.summary || "Not recorded"}</p>
+            <h4>Original complaint description</h4>
+            <p className="description">{c.description || "Not recorded"}</p>
+            <div className="comparison-links">
+              <Link to={`/cases/${c.id}`}>Open original case</Link>
+              <Link to={`/cases/${c.id}#case-history`}>Case actions and history</Link>
+              <Link to={`/cases/${c.id}#case-attachments`}>Attachments</Link>
+            </div>
           </article>
         ))}
       </div>
       <div className="evidence">
-        <h3>Why this pair was surfaced</h3>
+        <h3>Similarity signal</h3>
         <div>
-          <span>
-            <Buildings size={17} />
-            Same registry institution
-          </span>
           <span>
             <Intersect size={17} />
             {typeof p.score === "number"
               ? `Cosine similarity: ${p.score.toFixed(3)}`
               : "Not model-scored"}
           </span>
-          {p.evidence.shared_reference && (
-            <span>Shared explicit source reference</span>
-          )}
         </div>
+        <p>Cosine similarity compares allegation wording. It is not a confidence percentage or confirmation of a common incident.</p>
         <small>
-          {p.evidence.scope}. Model: {p.model_revision}.
+          {p.evidence.scope}. {p.model_revision ? `Model: ${p.model_revision}.` : "No model revision recorded."}
         </small>
+        <h3>Recorded metadata</h3>
+        <p>Both cases belong to the same canonical institution. This does not confirm that they concern the same incident. Differences below need human interpretation.</p>
+        <div className="table-scroll" role="region" aria-label="Metadata comparison" tabIndex={0}>
+          <table>
+            <caption className="sr-only">Agreement or difference in recorded values; not verified findings</caption>
+            <thead><tr><th scope="col">Field</th><th scope="col">Comparison</th></tr></thead>
+            <tbody>
+              {[
+                ["Category", p.left.category, p.right.category],
+                ["Classification", p.left.classification, p.right.classification],
+                ["Incident date", p.left.incident_date, p.right.incident_date],
+                ["Source system", p.left.source_system, p.right.source_system],
+                ["Source reference", p.left.source_reference, p.right.source_reference],
+              ].map(([label, left, right]) => <tr key={label}>
+                <th scope="row">{label}</th>
+                <td>{!left || !right ? "Not recorded on one or both cases" : left === right ? "Same recorded value" : "Different recorded values"}</td>
+              </tr>)}
+            </tbody>
+          </table>
+        </div>
       </div>
       {user.role === "coordinator" ? (
         <form className="review-form" onSubmit={save}>
@@ -1709,12 +1746,15 @@ function PairReview({
               Reload relationship and discard draft
             </button>
           )}
-          <div className="decision-options">
+          <fieldset className="decision-fieldset">
+            <legend>Choose a relationship (required)</legend>
+            <div className="decision-options">
             {["same_incident", "related_issue", "unrelated"].map((d) => (
               <label key={d} className={decision === d ? "selected" : ""}>
                 <input
                   type="radio"
                   name="decision"
+                  required
                   value={d}
                   checked={decision === d}
                   onChange={() => setDecision(d)}
@@ -1722,7 +1762,8 @@ function PairReview({
                 {labels[d]}
               </label>
             ))}
-          </div>
+            </div>
+          </fieldset>
           <label>
             Review reason
             <textarea

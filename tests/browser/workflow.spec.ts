@@ -154,6 +154,7 @@ test("mobile registry keeps table scrolling inside the viewport", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await login(page);
+  await page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "My Work", exact: true }).click();
   await page.getByRole("link", { name: "Case registry", exact: true }).click();
   const table = page.getByRole("region", {
     name: "Complaint list",

@@ -29,3 +29,5 @@ Pop-Location
 Start with [the six-case workbook](fixtures/sih-walkthrough/start-here-6-cases.xlsx) and [START-HERE](../START-HERE.md). The [readiness report](results/readiness-verification.md) distinguishes current checks, diagnostic performance runs and unresolved gates. Historical research evidence does not establish real-world AICTE accuracy. This release cycle does not train or activate an experimental model.
 
 Keep credentials, private uploads, database archives, downloaded datasets and weights out of Git. Physical-offline verification requires actual network disconnection; intercepted requests alone are not equivalent.
+
+The [Case Intelligence Milestone A report](results/case-intelligence-a-verification.md) records the navigation/comparison changes, dedicated browser coverage and before/after desktop/mobile screenshots. Later intelligence and protocol milestones remain separate.

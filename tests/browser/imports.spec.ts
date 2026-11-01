@@ -38,7 +38,7 @@ test("spreadsheet preview, rejected row, import, report and asynchronous export"
     path: artifact("dashboard-upgraded.png"),
     fullPage: true,
   });
-  await page.getByRole("link", { name: "Import data", exact: true }).click();
+  await page.getByRole("link", { name: "Data Imports", exact: true }).click();
   const id = Date.now();
   const csv =
     "source_reference,institution_permanent_id,bureau,category,summary,description,received_at,status\n" +

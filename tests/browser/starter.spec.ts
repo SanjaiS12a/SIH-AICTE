@@ -14,7 +14,7 @@ test('provided beginner Excel file imports, reports six cases and reconciles wit
   const institutions=await (await page.request.get('/api/institutions')).json();
   const institution=institutions.find((i:any)=>i.permanent_id==='SIH-26264-DEMO');
   expect(institution,'Prepare the fixed SIH demonstration institution before using the starter workbook').toBeTruthy();
-  await page.getByRole('link',{name:'Import data',exact:true}).click();
+  await page.getByRole('link',{name:'Data Imports',exact:true}).click();
   await page.getByLabel('Spreadsheet',{exact:true}).setInputFiles(resolve('../tests/fixtures/sih-walkthrough/start-here-6-cases.xlsx'));
   await page.getByRole('button',{name:'Upload and preview',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Map and validate columns',exact:true})).toBeVisible();
@@ -46,7 +46,7 @@ test('provided 1000-row Excel file completes through the real upload workspace',
   await page.getByLabel('Username:').fill('coordinator');
   await page.getByLabel('Password:').fill(process.env.DEMO_PASSWORD || 'Demo-only-26264!');
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
-  await page.getByRole('link',{name:'Import data',exact:true}).click();
+  await page.getByRole('link',{name:'Data Imports',exact:true}).click();
   await page.getByLabel('Spreadsheet',{exact:true}).setInputFiles(resolve('../tests/fixtures/sih-walkthrough/load-test-1000-cases.xlsx'));
   await page.getByRole('button',{name:'Upload and preview',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Map and validate columns',exact:true})).toBeVisible();
