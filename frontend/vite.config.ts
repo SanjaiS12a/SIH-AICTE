@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+const backend = process.env.API_PROXY_TARGET || "http://127.0.0.1:8000";
 export default defineConfig({
   plugins: [react()],
   build: {
@@ -16,10 +17,10 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     proxy: {
-      "/api": { target: "http://127.0.0.1:8000", changeOrigin: false },
-      "/accounts": { target: "http://127.0.0.1:8000", changeOrigin: false },
-      "/admin": { target: "http://127.0.0.1:8000", changeOrigin: false },
-      "/static": { target: "http://127.0.0.1:8000", changeOrigin: false },
+      "/api": { target: backend, changeOrigin: false },
+      "/accounts": { target: backend, changeOrigin: false },
+      "/admin": { target: backend, changeOrigin: false },
+      "/static": { target: backend, changeOrigin: false },
     },
   },
 });

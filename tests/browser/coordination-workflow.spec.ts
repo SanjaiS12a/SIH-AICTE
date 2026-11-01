@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 import type { APIRequestContext, Page } from "@playwright/test";
 let backend: APIRequestContext;
@@ -45,7 +46,7 @@ function payload() {
 }
 test.beforeAll(async ({ playwright }) => {
   backend = await playwright.request.newContext({
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
   });
   await backend.get("/accounts/login/");
   expect(
@@ -137,7 +138,7 @@ test("institution to agreed actions, acknowledgment, completion and outcome", as
     ["officer_rb", rbTask],
     ["officer_pgrc", pgTask],
   ]) {
-    const officer = await browser.newPage({ baseURL: "http://127.0.0.1:5173" });
+    const officer = await browser.newPage({ baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173" });
     await login(officer, username);
     await officer.goto("/coordination/requests");
     const card = officer.locator("section.panel").filter({ hasText: task });
@@ -173,7 +174,7 @@ test("institution to agreed actions, acknowledgment, completion and outcome", as
     page.getByRole("heading", { name: "Coordination closed", exact: true }),
   ).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/accountable-coordination.png",
+    path: artifact("accountable-coordination.png"),
     fullPage: true,
   });
 });
@@ -206,7 +207,7 @@ test("complete history pagination, auditor read-only and mobile placement", asyn
     ),
   ).toBeTruthy();
   await page.screenshot({
-    path: "../tests/results/accountable-coordination-mobile.png",
+    path: artifact("accountable-coordination-mobile.png"),
     fullPage: true,
   });
 });

@@ -5,7 +5,8 @@ RUN --mount=type=bind,source=.wheels,target=/wheels --mount=type=cache,target=/r
     if ls /wheels/torch*.whl >/dev/null 2>&1; then pip install --no-deps /wheels/torch*.whl; \
     else pip install --no-deps --timeout 180 torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu; fi \
     && pip install --find-links=/wheels --timeout 180 -r requirements.txt
-COPY manage.py calibration.json ./
+COPY manage.py calibration.json model-manifest.json ./
+COPY licenses ./licenses
 COPY config ./config
 COPY cases ./cases
 COPY templates ./templates

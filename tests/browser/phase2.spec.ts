@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 import type { APIRequestContext, Page } from "@playwright/test";
 
@@ -54,7 +55,7 @@ async function record(page: Page, reason: string) {
 
 test.beforeAll(async ({ playwright }) => {
   backend = await playwright.request.newContext({
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
   });
   await backend.get("/accounts/login/");
   const signedIn = await backend.post("/accounts/login/", {
@@ -168,7 +169,7 @@ test("classification, next action, closure history and institution reporting", a
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(392);
   await page.screenshot({
-    path: "../tests/results/phase2-case-mobile.png",
+    path: artifact("phase2-case-mobile.png"),
     fullPage: true,
   });
 });

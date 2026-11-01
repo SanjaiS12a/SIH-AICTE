@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
@@ -172,7 +173,7 @@ test("home prioritizes active cases and keeps filter-aware drilldowns working", 
   );
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({
-    path: "../tests/results/dashboard-simple.png",
+    path: artifact("dashboard-simple.png"),
     fullPage: true,
   });
   await page.getByRole("button", { name: /Overdue complaints/ }).click();
@@ -245,7 +246,7 @@ test("mobile dashboard and general reports remain keyboard accessible and contai
     ),
   ).toBeTruthy();
   await page.screenshot({
-    path: "../tests/results/dashboard-simple-mobile.png",
+    path: artifact("dashboard-simple-mobile.png"),
     fullPage: true,
   });
   await page.getByRole("link", { name: "Reports", exact: true }).click();

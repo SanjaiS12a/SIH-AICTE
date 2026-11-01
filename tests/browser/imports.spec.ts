@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 test.beforeEach(async ({ context }) => {
   await context.route(/^https?:\/\//, async (route) => {
@@ -34,7 +35,7 @@ test("spreadsheet preview, rejected row, import, report and asynchronous export"
     timeout: 30000,
   });
   await page.screenshot({
-    path: "../tests/results/dashboard-upgraded.png",
+    path: artifact("dashboard-upgraded.png"),
     fullPage: true,
   });
   await page.getByRole("link", { name: "Import data", exact: true }).click();
@@ -56,7 +57,7 @@ test("spreadsheet preview, rejected row, import, report and asynchronous export"
     page.getByText(/Unknown institution permanent ID/),
   ).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/import-preview.png",
+    path: artifact("import-preview.png"),
     fullPage: true,
   });
   await page
@@ -74,7 +75,7 @@ test("spreadsheet preview, rejected row, import, report and asynchronous export"
     page.getByRole("heading", { name: "Complaint categories" }),
   ).toBeVisible({ timeout: 30000 });
   await page.screenshot({
-    path: "../tests/results/import-report.png",
+    path: artifact("import-report.png"),
     fullPage: true,
   });
   await page
@@ -123,7 +124,7 @@ test("summary snapshots stay separate and use one date at a time", async ({
     page.locator(".import-stats").getByText("31", { exact: true }),
   ).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/summary-report.png",
+    path: artifact("summary-report.png"),
     fullPage: true,
   });
 });

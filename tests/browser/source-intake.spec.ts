@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 import type { APIRequestContext, Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
@@ -86,7 +87,7 @@ async function ensureRB() {
 }
 test.beforeAll(async ({ playwright }) => {
   backend = await playwright.request.newContext({
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
   });
   await backend.get("/accounts/login/");
   expect(
@@ -134,7 +135,7 @@ test("independent Bureau files consolidate, replay safely and expose accepted so
     buffer: Buffer.from(csv("rb.csv")),
   });
   await page.screenshot({
-    path: "../tests/results/source-upload-setup.png",
+    path: artifact("source-upload-setup.png"),
     fullPage: true,
   });
   await page
@@ -202,7 +203,7 @@ test("independent Bureau files consolidate, replay safely and expose accepted so
       page.getByRole("row").filter({ hasText: source(key) }),
     ).toHaveCount(1);
   await page.screenshot({
-    path: "../tests/results/bureau-source-monitor.png",
+    path: artifact("bureau-source-monitor.png"),
     fullPage: true,
   });
   const notices = await (
@@ -289,7 +290,7 @@ test("changed source rows require review, reject stale case versions and never o
     ),
   ).toBeTruthy();
   await page.screenshot({
-    path: "../tests/results/source-conflict-mobile.png",
+    path: artifact("source-conflict-mobile.png"),
     fullPage: true,
   });
 });

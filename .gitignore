@@ -37,6 +37,8 @@ data/benchmarks/
 test-results/
 playwright-report/
 tests/results/logs/
+tests/results/runs/
+.run/
 tests/results/playwright/
 tests/results/playwright-report/
 tests/results/legacy-playwright/

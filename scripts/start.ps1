@@ -1,27 +1,125 @@
-param([switch]$Prepare)
+param(
+    [ValidateSet('Start','Stop','Prepare','Check')][string]$Action = 'Start',
+    [switch]$Audit,
+    [switch]$Prepare
+)
 $ErrorActionPreference = 'Stop'
-Set-Location (Split-Path $PSScriptRoot -Parent)
-if (-not (Test-Path '.env')) { Copy-Item '.env.example' '.env' }
-docker compose up -d db
-if ($LASTEXITCODE) { throw 'Start Docker Desktop and retry.' }
-if ($Prepare) {
-    docker compose build
-    if ($LASTEXITCODE) { throw 'Container build failed.' }
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+Set-Location -LiteralPath $repoRoot
+if ($Prepare) { $Action = 'Prepare' }
+$runRoot = Join-Path $repoRoot '.run'
+New-Item -ItemType Directory -Force -Path $runRoot | Out-Null
+$frontendPort = 5173
+$apiPort = 8000
+$composeArgs = @('compose')
+if ($Audit) {
+    $runFile = Join-Path $repoRoot 'tests/results/logs/readiness-run.json'
+    if (-not (Test-Path -LiteralPath $runFile)) { throw 'Create the isolated audit run before using -Audit.' }
+    $auditRun = Get-Content -Raw -LiteralPath $runFile | ConvertFrom-Json
+    if ($auditRun.project -notmatch '^sih-readiness-[a-z0-9-]+$') { throw 'Invalid audit project name.' }
+    $env:AUDIT_RESULTS = $auditRun.directory
+    $composeArgs += @('-p', $auditRun.project, '-f', 'compose.audit.yaml')
+    $frontendPort = 5174
+    $apiPort = 8001
 }
-docker compose run --rm api python manage.py migrate
-if ($LASTEXITCODE) { throw 'Migration failed.' }
-if ($Prepare) {
-    docker compose run --rm -e HF_HUB_OFFLINE=0 api python manage.py download_model
-    if ($LASTEXITCODE) { throw 'Model download failed.' }
-    docker compose run --rm api python manage.py seed_demo
-    docker compose run --rm api python manage.py evaluate_matching --data /data/evaluation.json --output /reports/matching.json
-    docker compose run --rm api python manage.py match_pending
+$pidFile = Join-Path $runRoot ("frontend-$frontendPort.json")
+function Invoke-Compose {
+    & docker @composeArgs @args
+    if ($LASTEXITCODE -ne 0) { throw "Docker command failed: $($args -join ' ')" }
+}
+function Verify-Assets {
+    $expected = Get-Content -Raw backend/model-manifest.json | ConvertFrom-Json
+    $actual = Get-Content -Raw models/minilm/revision.json | ConvertFrom-Json
+    $calibration = Get-Content -Raw backend/calibration.json | ConvertFrom-Json
+    if ($actual.revision -ne $expected.revision -or $calibration.model_revision -ne $expected.revision) { throw 'Model revision does not match the frozen baseline.' }
+    foreach ($asset in @('models/minilm/tokenizer.json','models/minilm/config.json','models/minilm/1_Pooling/config.json','backend/licenses/minilm-LICENSE.txt')) {
+        if (-not (Test-Path -LiteralPath $asset)) { throw "Missing prepared asset: $asset" }
+    }
+    $stream = [IO.File]::OpenRead((Join-Path $repoRoot 'models/minilm/model.safetensors'))
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try { $hash = [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
+    finally { $stream.Dispose(); $sha.Dispose() }
+    if ($hash -ne $expected.weights_sha256) { throw 'Model weights checksum mismatch.' }
+}
+function Wait-Endpoint([string]$Url) {
+    for ($attempt = 0; $attempt -lt 60; $attempt++) {
+        try {
+            $response = Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 2
+            if ($response.StatusCode -eq 200) { return }
+        } catch { }
+        Start-Sleep -Seconds 1
+    }
+    throw "Service did not become ready: $Url"
+}
+function Wait-Database {
+    for ($attempt = 0; $attempt -lt 60; $attempt++) {
+        $container = & docker @composeArgs ps -q db
+        if ($LASTEXITCODE -eq 0 -and $container) {
+            $health = & docker inspect --format '{{.State.Health.Status}}' $container
+            if ($LASTEXITCODE -eq 0 -and $health -eq 'healthy') { return }
+        }
+        Start-Sleep -Seconds 1
+    }
+    throw 'Database did not pass its health check.'
+}
+function Stop-OwnedFrontend {
+    if (-not (Test-Path -LiteralPath $pidFile)) { return }
+    $state = Get-Content -Raw -LiteralPath $pidFile | ConvertFrom-Json
+    $owned = Get-CimInstance Win32_Process -Filter "ProcessId=$([int]$state.pid)" -ErrorAction SilentlyContinue
+    if ($owned) {
+        if ($owned.CommandLine.IndexOf($repoRoot, [StringComparison]::OrdinalIgnoreCase) -lt 0 -or $owned.CommandLine -notmatch 'vite.*preview' -or $owned.CreationDate.ToUniversalTime().Ticks.ToString() -ne $state.created) { throw 'Saved PID is no longer owned by this portal; refusing to stop it.' }
+        Stop-Process -Id $owned.ProcessId
+    }
+    Remove-Item -LiteralPath $pidFile
+}
+if ($Action -eq 'Stop') {
+    Stop-OwnedFrontend
+    Invoke-Compose stop api worker db
+    Write-Host 'Portal services stopped; database volumes preserved.'
+    exit 0
+}
+$nodeText = & node --version
+if ($LASTEXITCODE -ne 0) { throw 'Node.js is not available.' }
+$nodeVersion = [version]$nodeText.Trim().TrimStart('v')
+if (-not ($nodeVersion.Major -gt 22 -or ($nodeVersion.Major -eq 22 -and $nodeVersion.Minor -ge 12) -or ($nodeVersion.Major -eq 20 -and $nodeVersion.Minor -ge 19))) { throw 'Use Node 20.19+, 22.12+, or the verified Node 24 installation.' }
+& docker info --format '{{.ServerVersion}}' | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'Start Docker Desktop, then retry.' }
+if ($Action -eq 'Prepare') {
+    if (-not $Audit -and -not (Test-Path -LiteralPath '.env')) { Copy-Item -LiteralPath '.env.example' -Destination '.env' }
+    if (-not $Audit) { Invoke-Compose build }
+    Invoke-Compose up -d db
+    Wait-Database
+    Invoke-Compose run --rm --no-deps api python manage.py migrate --noinput
+    if ($Audit) { Verify-Assets } else { Invoke-Compose run --rm --no-deps -e HF_HUB_OFFLINE=0 -e TRANSFORMERS_OFFLINE=0 api python manage.py download_model }
+    # The existing seed command creates missing records; it does not reset existing accounts or cases.
+    Invoke-Compose run --rm --no-deps api python manage.py seed_demo
     Push-Location frontend
-    npm.cmd ci
-    Pop-Location
+    try {
+        & npm.cmd ci
+        if ($LASTEXITCODE -ne 0) { throw 'Locked dependency installation failed.' }
+        & npm.cmd run build
+        if ($LASTEXITCODE -ne 0) { throw 'Frontend build failed.' }
+    } finally { Pop-Location }
+    Write-Host 'Preparation complete. Use -Action Start for prepared startup.'
+    exit 0
 }
-docker compose up -d api worker
-if ($LASTEXITCODE) { throw 'Application startup failed.' }
-Write-Host 'API is ready. Starting the interface at http://127.0.0.1:5173'
-Set-Location frontend
-npm.cmd run dev
+Verify-Assets
+if (-not (Test-Path -LiteralPath 'frontend/dist/index.html')) { throw 'Frontend bundle missing. Run -Action Prepare while online.' }
+if (-not $Audit -and -not (Test-Path -LiteralPath '.env')) { throw 'Environment configuration missing. Run -Action Prepare.' }
+if ($Action -eq 'Check') { Write-Host 'Runtime prerequisites and pinned assets verified.'; exit 0 }
+$existing = Get-NetTCPConnection -LocalPort $frontendPort -State Listen -ErrorAction SilentlyContinue
+if ($existing) { throw "Port $frontendPort is occupied. Stop the existing portal or unrelated process explicitly." }
+Invoke-Compose up -d db
+Wait-Database
+Invoke-Compose run --rm --no-deps api python manage.py migrate --noinput
+Invoke-Compose up -d api worker
+Wait-Endpoint "http://127.0.0.1:$apiPort/api/session"
+$env:API_PROXY_TARGET = "http://127.0.0.1:$apiPort"
+$nodePath = (Get-Command node).Source
+$vitePath = Join-Path $repoRoot 'frontend/node_modules/vite/bin/vite.js'
+$child = Start-Process -FilePath $nodePath -ArgumentList @(('"' + $vitePath + '"'),'preview','--host','127.0.0.1','--port',"$frontendPort",'--strictPort') -WorkingDirectory (Join-Path $repoRoot 'frontend') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runRoot "frontend-$frontendPort.log") -RedirectStandardError (Join-Path $runRoot "frontend-$frontendPort-error.log")
+$owned = Get-CimInstance Win32_Process -Filter "ProcessId=$($child.Id)"
+@{pid=$child.Id;created=$owned.CreationDate.ToUniversalTime().Ticks.ToString()} | ConvertTo-Json | Set-Content -LiteralPath $pidFile
+try { Wait-Endpoint "http://127.0.0.1:$frontendPort/api/session" } catch { Stop-OwnedFrontend; throw }
+Write-Host "Portal ready at http://127.0.0.1:$frontendPort (API verified; pinned local assets)."
+Write-Host 'Account credentials come from the configured database; DEMO_PASSWORD is used only when seeding new accounts.'

@@ -55,6 +55,7 @@ import type {
 } from "./api";
 import "./style.css";
 import { DashboardHome } from "./dashboard";
+import { PageBoundary } from "./page-boundary";
 import { CaseEscalations, EscalationQueue } from "./escalations";
 import { ManualRelationship } from "./relationships";
 import { SourceIntake, SourceRows } from "./source-intake";
@@ -403,131 +404,141 @@ function Shell({ user }: { user: User }) {
           </div>
         </header>
         <main id="main">
-          <Routes>
-            <Route
-              path="/coordination/workspace"
-              element={
-                <CoordinationWorkspace
-                  user={user}
-                  options={options || emptyOptions}
-                />
-              }
-            />
-            <Route
-              path="/coordination/workspace/:id"
-              element={
-                <CoordinationRecordPage
-                  user={user}
-                  options={options || emptyOptions}
-                />
-              }
-            />
-            <Route
-              path="/coordination/requests"
-              element={<CoordinationRequests user={user} />}
-            />
-            <Route path="/movements" element={<MovementsPage />} />
-            <Route
-              path="/coordination/activity"
-              element={
-                isCoord ? (
-                  <CoordinationNotices filters={location.search.slice(1)} />
-                ) : (
-                  <ErrorBox message="Coordination access is required." />
-                )
-              }
-            />
-            <Route
-              path="/relationships/new"
-              element={<ManualRelationship user={user} />}
-            />
-            <Route
-              path="/escalations"
-              element={<EscalationQueue user={user} />}
-            />
-            <Route
-              path="/institutions"
-              element={
-                <InstitutionDirectory
-                  user={user}
-                  options={options || emptyOptions}
-                />
-              }
-            />
-            <Route
-              path="/institutions/new"
-              element={<InstitutionEditor user={user} />}
-            />
-            <Route
-              path="/institutions/:id/edit"
-              element={<InstitutionEditor user={user} />}
-            />
-            <Route
-              path="/institutions/:id"
-              element={
-                <InstitutionProfilePage
-                  user={user}
-                  options={options || emptyOptions}
-                />
-              }
-            />
-            <Route
-              path="/imports"
-              element={
-                <Imports user={user} options={options || emptyOptions} />
-              }
-            />
-            <Route path="/imports/sources" element={<SourceIntake />} />
-            <Route
-              path="/imports/:id/rows"
-              element={<SourceRows user={user} />}
-            />
-            <Route path="/imports/:id" element={<ImportDetail user={user} />} />
-            <Route
-              path="/reports"
-              element={<Report filters={location.search.slice(1)} />}
-            />
-            <Route
-              path="/"
-              element={
-                <DashboardHome user={user} options={options || emptyOptions} />
-              }
-            />
-            <Route
-              path="/cases"
-              element={
-                <Registry user={user} options={options || emptyOptions} />
-              }
-            />
-            <Route
-              path="/cases/new"
-              element={
-                <NewCase options={options || emptyOptions} user={user} />
-              }
-            />
-            <Route
-              path="/cases/:id"
-              element={<Detail user={user} options={options || emptyOptions} />}
-            />
-            <Route
-              path="/coordination"
-              element={
-                isCoord ? (
-                  <Coordination user={user} />
-                ) : (
-                  <ErrorBox message="Coordination access is required." />
-                )
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <Empty>
-                  Page not found. <Link to="/">Return to overview</Link>
-                </Empty>
-              }
-            />
-          </Routes>
+          <PageBoundary>
+            <Routes>
+              <Route
+                path="/coordination/workspace"
+                element={
+                  <CoordinationWorkspace
+                    user={user}
+                    options={options || emptyOptions}
+                  />
+                }
+              />
+              <Route
+                path="/coordination/workspace/:id"
+                element={
+                  <CoordinationRecordPage
+                    user={user}
+                    options={options || emptyOptions}
+                  />
+                }
+              />
+              <Route
+                path="/coordination/requests"
+                element={<CoordinationRequests user={user} />}
+              />
+              <Route path="/movements" element={<MovementsPage />} />
+              <Route
+                path="/coordination/activity"
+                element={
+                  isCoord ? (
+                    <CoordinationNotices filters={location.search.slice(1)} />
+                  ) : (
+                    <ErrorBox message="Coordination access is required." />
+                  )
+                }
+              />
+              <Route
+                path="/relationships/new"
+                element={<ManualRelationship user={user} />}
+              />
+              <Route
+                path="/escalations"
+                element={<EscalationQueue user={user} />}
+              />
+              <Route
+                path="/institutions"
+                element={
+                  <InstitutionDirectory
+                    user={user}
+                    options={options || emptyOptions}
+                  />
+                }
+              />
+              <Route
+                path="/institutions/new"
+                element={<InstitutionEditor user={user} />}
+              />
+              <Route
+                path="/institutions/:id/edit"
+                element={<InstitutionEditor user={user} />}
+              />
+              <Route
+                path="/institutions/:id"
+                element={
+                  <InstitutionProfilePage
+                    user={user}
+                    options={options || emptyOptions}
+                  />
+                }
+              />
+              <Route
+                path="/imports"
+                element={
+                  <Imports user={user} options={options || emptyOptions} />
+                }
+              />
+              <Route path="/imports/sources" element={<SourceIntake />} />
+              <Route
+                path="/imports/:id/rows"
+                element={<SourceRows user={user} />}
+              />
+              <Route
+                path="/imports/:id"
+                element={<ImportDetail user={user} />}
+              />
+              <Route
+                path="/reports"
+                element={<Report filters={location.search.slice(1)} />}
+              />
+              <Route
+                path="/"
+                element={
+                  <DashboardHome
+                    user={user}
+                    options={options || emptyOptions}
+                  />
+                }
+              />
+              <Route
+                path="/cases"
+                element={
+                  <Registry user={user} options={options || emptyOptions} />
+                }
+              />
+              <Route
+                path="/cases/new"
+                element={
+                  <NewCase options={options || emptyOptions} user={user} />
+                }
+              />
+              <Route
+                path="/cases/:id"
+                element={
+                  <Detail user={user} options={options || emptyOptions} />
+                }
+              />
+              <Route
+                path="/coordination"
+                element={
+                  isCoord ? (
+                    <Coordination user={user} />
+                  ) : (
+                    <ErrorBox message="Coordination access is required." />
+                  )
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <Empty>
+                    Page not found. <Link to="/">Return to overview</Link>
+                  </Empty>
+                }
+              />
+            </Routes>
+          </PageBoundary>
           <footer>
             AICTE · SIH 26264{" "}
             <span>

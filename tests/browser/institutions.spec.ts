@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 import type { APIRequestContext, Page } from "@playwright/test";
 
@@ -49,7 +50,7 @@ function section(page: Page, name: string) {
 test.beforeAll(async ({ playwright }) => {
   test.setTimeout(120000);
   backend = await playwright.request.newContext({
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
   });
   await backend.get("/accounts/login/");
   const signedIn = await backend.post("/accounts/login/", {
@@ -116,7 +117,7 @@ test("institution navigation, server pagination, ID/name search and empty direct
   await expect(directory.locator("tbody tr")).toHaveCount(1);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({
-    path: "../tests/results/institution-directory.png",
+    path: artifact("institution-directory.png"),
     fullPage: true,
   });
   await directory
@@ -148,7 +149,7 @@ test("all-time overview, case pagination beyond twenty, filter reset and full ac
   ).toBeVisible();
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({
-    path: "../tests/results/institution-profile.png",
+    path: artifact("institution-profile.png"),
     fullPage: true,
   });
   await section(page, "Cases").click();
@@ -500,7 +501,7 @@ test("institution links, keyboard navigation and mobile pages stay contained", a
     page.getByRole("heading", { name: institution.name, exact: true }),
   ).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/institution-profile-mobile.png",
+    path: artifact("institution-profile-mobile.png"),
     fullPage: true,
   });
   for (const tab of [

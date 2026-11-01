@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 import type { APIRequestContext, Page } from "@playwright/test";
 
@@ -65,7 +66,7 @@ async function escalate(
 
 test.beforeAll(async ({ playwright }) => {
   backend = await playwright.request.newContext({
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
   });
   await backend.get("/accounts/login/");
   const signedIn = await backend.post("/accounts/login/", {
@@ -157,7 +158,7 @@ test("officer escalation notifies coordinator and is resolved independently", as
     page.getByRole("link", { name: initial.reference, exact: true }),
   ).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/escalation-queue.png",
+    path: artifact("escalation-queue.png"),
     fullPage: true,
   });
   await page
@@ -275,7 +276,7 @@ test("transfer and closure preserve escalation, institution indicator and audito
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(392);
   await page.screenshot({
-    path: "../tests/results/escalation-case-mobile.png",
+    path: artifact("escalation-case-mobile.png"),
     fullPage: true,
   });
 });

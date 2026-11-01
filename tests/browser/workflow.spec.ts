@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async ({ context }) => {
@@ -91,7 +92,7 @@ test("register, annotate, transfer and verify the audit history", async ({
   await page.getByRole("button", { name: "Record action" }).click();
   await expect(page.getByText("RB → PGRC", { exact: false })).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/case-detail.png",
+    path: artifact("case-detail.png"),
     fullPage: true,
   });
 });
@@ -101,7 +102,7 @@ test("dashboard, drill-down and coordination review", async ({ page }) => {
     page.getByRole("button", { name: /Open complaints/ }),
   ).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/dashboard.png",
+    path: artifact("dashboard.png"),
     fullPage: true,
   });
   await page.getByRole("button", { name: /Overdue complaints/ }).click();
@@ -126,7 +127,7 @@ test("dashboard, drill-down and coordination review", async ({ page }) => {
     page.getByRole("heading", { name: "Review potential relationship" }),
   ).toBeVisible();
   await page.screenshot({
-    path: "../tests/results/coordination.png",
+    path: artifact("coordination.png"),
     fullPage: true,
   });
 });
@@ -161,7 +162,7 @@ test("mobile registry keeps table scrolling inside the viewport", async ({
   await table.focus();
   await expect(table).toBeFocused();
   await page.screenshot({
-    path: "../tests/results/mobile.png",
+    path: artifact("mobile.png"),
     fullPage: true,
   });
 });

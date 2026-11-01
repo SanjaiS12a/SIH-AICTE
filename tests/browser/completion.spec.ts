@@ -1,3 +1,4 @@
+import { artifact } from "./support";
 import { test, expect } from "@playwright/test";
 import type { APIRequestContext, Page } from "@playwright/test";
 let backend: APIRequestContext;
@@ -57,7 +58,7 @@ async function makeCase(inst: any, bureau: string, old = false) {
 }
 test.beforeAll(async ({ playwright }) => {
   backend = await playwright.request.newContext({
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
   });
   await backend.get("/accounts/login/");
   expect(
@@ -168,7 +169,7 @@ test("manual comparison, retry-safe pair and stale review preserve both historie
     ).toBe(2);
   }
   await page.screenshot({
-    path: "../tests/results/manual-relationship.png",
+    path: artifact("manual-relationship.png"),
     fullPage: true,
   });
 });
@@ -228,7 +229,7 @@ test("management receipt cohort and all-time coordination have matching drill-do
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(392);
   await page.screenshot({
-    path: "../tests/results/management-mobile.png",
+    path: artifact("management-mobile.png"),
     fullPage: true,
   });
 });
