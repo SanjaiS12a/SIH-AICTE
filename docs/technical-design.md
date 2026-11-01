@@ -92,6 +92,27 @@ Use `scripts/start.ps1 -Action Prepare` once online, then `-Action Start` for pr
 
 Back up PostgreSQL and private files together and retain model manifests/licence. `scripts/verify_final_restore.py` restores the current audit schema, file archive and pinned model into new destinations, compares every case-table rowset and exercises restored reads/downloads/inference. The working database is not accessed by that verifier. `verify_import_recovery.py` checks a real worker stop/start with queued synthetic rows. A physical offline cold start requires the operator to disconnect Wi-Fi/Ethernet and run `verify-physical-offline.ps1`; blocked web requests alone are insufficient proof.
 
+The controller now checks worker initialization from the current container's startup logs and detaches Vite's standard input/output/error. This verifies initialization, not perpetual worker liveness. If the physical check fails, retain its result/logs, reconnect and run `start.ps1 -Action Check -Audit`, followed by `-Action Start -Audit` after correcting the reported prerequisite; do not discard volumes or silently re-seed data.
+
+## Reproducing measured workloads
+
+`scripts/run_final_benchmarks.py` creates four fresh `coordination_scale_http_*` databases/private volumes, warms the real CPU worker with one explicit synthetic case and waits for an empty queue. It measures 1k XLSX/10k CSV across dispersed and concentrated institutions, continuous readers during processing, a separate ten-user read/registration burst and reconciled asynchronous exports. It restores the audit application's database/private-volume configuration in `finally`; benchmark databases and evidence are retained. No reminder schedule is seeded into these controlled databases. These are ten distinct coordinator identities; officer/auditor correctness is tested separately.
+
+After initializing the audit stack as documented in README, prepare a new ignored result pointer from the repository root:
+
+```powershell
+$audit = Get-Content tests/results/logs/readiness-run.json | ConvertFrom-Json
+$stamp = Get-Date -Format yyyyMMdd-HHmmss
+$run = Join-Path (Get-Location) "tests/results/runs/final-$stamp"
+New-Item -ItemType Directory -Path $run | Out-Null
+@{directory=$run;project=$audit.project;baseline=(& git rev-parse HEAD)} | ConvertTo-Json | Set-Content tests/results/logs/final-run.json
+.venv/Scripts/python.exe scripts/run_final_benchmarks.py
+```
+
+Run this without browser regressions, other application benchmarks or source changes in parallel. Preview timing covers the importer; continuous readers start at confirmation. Resource values are sampled peaks, not process-wide exact high-water marks. Import task queue/stage durations differ from the case `matching_queue_ms` field, which actually measures case-creation-to-match-start including pipeline/batch wait.
+
+`benchmark_scale --sizes 1000 10000 --output /reports/runs/NEW/scale.json` uses an independently created/migrated `coordination_scale_*` database. Its synthetic unit-vector search and in-process endpoints are separate from HTTP/inference results. `benchmark_encoder --output /app/tests/results/runs/NEW/encoder.json` reads 10k completed `synthetic-benchmark` summaries in a scale database, verifies pinned weights and measures warm 1k/10k batches without writing vectors. Neither tool is a million-record capacity or matching-accuracy test.
+
 ## Five-minute fictional demonstration
 
 1. **0:00–0:45:** sign in as coordinator; import the prepared independent RB/PGRC Bureau fixtures from `tests/fixtures/bureau-intake` into canonical `SIH-26264-DEMO`. Explain original source references and conflict handling.

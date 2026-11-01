@@ -52,7 +52,7 @@ test('current brief, exact fact proposal, review and stale conflict retain reaso
   await page.screenshot({path:artifact('case-intelligence-brief.png'),fullPage:true});
 });
 
-test('explicit incident group through institution screen and mobile placement',async({page})=>{
+test('explicit incident group, concurrent conflict recovery and mobile placement',async({page})=>{
   await login(page);await page.goto(`/institutions/${institution}?section=coordination`);
   const groups=page.getByRole('region',{name:'Manual incident groups'});
   await groups.getByLabel('Incident group title').fill('Fictional tuition incident');
@@ -63,6 +63,26 @@ test('explicit incident group through institution screen and mobile placement',a
   await expect(groups.getByRole('heading',{name:'Fictional tuition incident',exact:true})).toBeVisible();
   const stored=await (await backend.get(`/api/incident-groups?institution=${institution}`)).json();
   expect(stored.results[0].cases.map((c:{id:string})=>c.id).sort()).toEqual([first,second].sort());
+  const group=stored.results[0];
+  await groups.getByRole('button',{name:/Review group Fictional tuition incident/}).click();
+  await groups.getByLabel('Group decision reason').fill('My retained group draft');
+  const token=(await backend.storageState()).cookies.find(c=>c.name==='csrftoken')!.value;
+  const concurrent=await backend.patch(`/api/incident-groups/${group.id}`,{headers:{'X-CSRFToken':token},data:{institution,title:group.title,reason:'Concurrent reviewed correction',cases:[first,second],expected_version:group.version}});
+  expect(concurrent.status()).toBe(200);
+  await groups.getByRole('button',{name:'Save explicit incident group'}).click();
+  await expect(groups).toContainText('This group changed');
+  await expect(groups.getByLabel('Group decision reason')).toHaveValue('My retained group draft');
+  await groups.getByRole('button',{name:'Reload group list (keep unsaved draft)',exact:true}).click();
+  await expect(groups.getByText(/Concurrent reviewed correction/)).toBeVisible();
+  await expect(groups.getByLabel('Group decision reason')).toHaveValue('My retained group draft');
+  await groups.getByRole('button',{name:/Review group Fictional tuition incident/}).click();
+  await groups.getByLabel('Group decision reason').fill('My reconciled group decision');
+  const saved=page.waitForResponse(r=>r.url().endsWith(`/api/incident-groups/${group.id}`) && r.request().method()==='PATCH');
+  await groups.getByRole('button',{name:'Save explicit incident group'}).click();
+  expect((await saved).status()).toBe(200);
+  await expect(groups.getByText(/My reconciled group decision/)).toBeVisible();
+  const revised=await (await backend.get(`/api/incident-groups?institution=${institution}`)).json();
+  expect(revised.results[0].version).toBe(group.version+2);
   await page.setViewportSize({width:390,height:844});
   await expect(groups.getByRole('heading',{name:'Fictional tuition incident',exact:true})).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2)).toBeTruthy();
@@ -89,6 +109,12 @@ test('malformed brief reports an error and recovers without a blank page',async(
   await page.getByText('Case brief: current responsibilities',{exact:true}).click();
   await expect(page.getByText('The server returned incomplete or invalid data.',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Original complaint',exact:true})).toBeVisible();
+  await page.unroute('**/api/cases/*/brief');
+  const valid=await (await backend.get(`/api/cases/${first}/brief`)).json();
+  await page.route('**/api/cases/*/brief',route=>route.fulfill({json:{...valid,pending_escalation:null,relationship_status:{awaiting_review:0,same_incident:null,related_issue:0}}}));
+  await page.reload();
+  await page.getByText('Case brief: current responsibilities',{exact:true}).click();
+  await expect(page.getByText('The server returned incomplete or invalid data.',{exact:false})).toBeVisible();
   await page.unroute('**/api/cases/*/brief');
   await expect(page.getByRole('heading',{name:'Original allegation — not a verified finding'})).toBeVisible();
 });

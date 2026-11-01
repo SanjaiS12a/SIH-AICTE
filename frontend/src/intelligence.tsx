@@ -40,9 +40,16 @@ function BriefContent({ id, user }: { id: string; user: User }) {
 
 function validBrief(value: unknown): boolean {
   const b = value as Brief | null;
-  return !!b?.case?.institution?.permanent_id && ['summary','classification','category','status','reference','bureau'].every(k => typeof b.case[k as keyof Case] === 'string')
-    && Array.isArray(b.responsibilities) && b.responsibilities.every(r => r && typeof r.instruction === 'string')
-    && (b.latest_action === null || !!b.latest_action && typeof b.latest_action.kind === 'string' && typeof b.latest_action.reason === 'string');
+  const c=b?.case, i=c?.institution, relation=b?.relationship_status;
+  const validDate=(v:unknown)=>typeof v==='string' && Number.isFinite(Date.parse(v));
+  const optionalDate=(v:unknown)=>v===null || validDate(v);
+  return !!b && !!c && !!i && ['id','name','permanent_id'].every(k=>typeof i[k as keyof typeof i]==='string')
+    && ['id','summary','description','source_reference','classification','category','status','reference','bureau','assigned_name','next_action'].every(k=>typeof c[k as keyof Case]==='string')
+    && validDate(c.received_at) && validDate(c.due_at) && optionalDate(c.incident_date) && optionalDate(c.next_action_date)
+    && validDate(b.generated_at) && typeof b.allegation_label==='string' && typeof b.pending_escalation==='boolean'
+    && Array.isArray(b.responsibilities) && b.responsibilities.every(r=>r && ['instruction','bureau','officer'].every(k=>typeof r[k as keyof typeof r]==='string') && optionalDate(r.action_date) && optionalDate(r.acknowledged_at))
+    && (relation===undefined || !!relation && ['awaiting_review','same_incident','related_issue'].every(k=>Number.isInteger(relation[k as keyof typeof relation]) && relation[k as keyof typeof relation]>=0))
+    && (b.latest_action===null || !!b.latest_action && typeof b.latest_action.kind==='string' && typeof b.latest_action.reason==='string' && validDate(b.latest_action.created_at));
 }
 
 type Fact = { id: string; kind: string; source_field: string; quote: string; value: string; state: string; version: number; reason: string; method: string; source_digest:string; reviewer_id:number|null; reviewed_at:string|null };
@@ -79,10 +86,10 @@ function FactReview({fact,caseId,user,refresh}:{fact:Fact;caseId:string;user:Use
   async function review(state:string) {
     setBusy(true);setError('');
     try { await api(`/api/cases/${caseId}/facts/${fact.id}/review`,{method:'POST',body:JSON.stringify({state,reason,expected_version:fact.version})});refresh(); }
-    catch(e) {setError(e instanceof ApiError && e.status===409 ? 'Another reviewer changed this fact. Your reason is retained; refresh facts before reviewing again.' : (e as Error).message);} finally {setBusy(false);}
+    catch(e) {setError(e instanceof ApiError && e.status===409 ? 'Another reviewer changed this fact. Your reason is retained below. Copy it before reloading the latest facts and reconciling the review.' : (e as Error).message);} finally {setBusy(false);}
   }
   return <article className="panel card-body form-panel"><p><strong>{fact.kind.replaceAll('_',' ')}</strong> · {fact.state} · version {fact.version}</p><blockquote>{fact.quote}</blockquote><p>Source: {fact.source_field}. Method: {fact.method}. {fact.reason}</p><p>Reviewer: {fact.reviewer_id || 'Awaiting review'} · {date(fact.reviewed_at)}</p><details><summary>Source integrity digest</summary><code style={{overflowWrap:'anywhere'}}>{fact.source_digest}</code></details><ErrorBox message={error} />
-    {user.role==='coordinator' && <><label>Fact review rationale<textarea value={reason} onChange={e=>setReason(e.target.value)} maxLength={4000} /></label><button disabled={busy || !reason.trim()} onClick={()=>review('accepted')}>Accept fact</button> <button className="secondary" disabled={busy || !reason.trim()} onClick={()=>review('rejected')}>Reject / correct fact</button> <button className="text-button" onClick={refresh}>Refresh facts</button></>}
+    {user.role==='coordinator' && <><label>Fact review rationale<textarea value={reason} onChange={e=>setReason(e.target.value)} maxLength={4000} /></label><button disabled={busy || !reason.trim()} onClick={()=>review('accepted')}>Accept fact</button> <button className="secondary" disabled={busy || !reason.trim()} onClick={()=>review('rejected')}>Reject / correct fact</button> <button className="text-button" onClick={refresh}>Reload latest facts (discard review draft)</button></>}
   </article>;
 }
 
@@ -101,7 +108,8 @@ export function IncidentGroups({institution,user}:{institution:string;user:User}
     } catch(e) {setMessage(e instanceof ApiError && e.status===409 ? 'This group changed. Your selection is retained; reload the group and reconcile before saving.' : (e as Error).message);} finally {setBusy(false);}
   }
   return <section className="card-body" aria-label="Manual incident groups"><h3>Manual incident groups — experimental</h3><p>Explicit organization only. Cases retain their own ownership, deadlines and status. Related issues do not establish one incident.</p><ErrorBox message={error || message || caseError} />
-    {!data && !error && <Loading />}{data && (data.results.length ? data.results.map(g=><article className="panel card-body" key={g.id}><h4>{g.title}</h4><p>{g.reason} · version {g.version} · {g.needs_review?'Supporting relationship changed: review required':'Explicitly reviewed'}</p><ul>{g.cases.map(c=><li key={c.id}><Link to={`/cases/${c.id}`}>{c.reference}</Link></li>)}</ul>{user.role==='coordinator' && <button onClick={()=>{setEditing(g);setSelected(g.cases.map(c=>c.id));setTitle(g.title);setReason(g.reason);setSupport(g.supporting_relationship_id?.toString()||'');}}>Review group {g.title}</button>}</article>) : <Empty>No incident groups.</Empty>)}
+    <button type="button" className="text-button" onClick={()=>setRefresh(r=>r+1)}>Reload group list (keep unsaved draft)</button>
+    {!data && !error && <Loading />}{data && (data.results.length ? data.results.map(g=><article className="panel card-body" key={g.id}><h4>{g.title}</h4><p>{g.reason} · version {g.version} · {g.needs_review?'Supporting relationship changed: review required':'Explicitly reviewed'}</p><ul>{g.cases.map(c=><li key={c.id}><Link to={`/cases/${c.id}`}>{c.reference}</Link></li>)}</ul>{user.role==='coordinator' && <button onClick={()=>{setEditing(g);setSelected(g.cases.map(c=>c.id));setTitle(g.title);setReason(g.reason);setSupport(g.supporting_relationship_id?.toString()||'');setMessage('');}}>Review group {g.title} (replace unsaved draft)</button>}</article>) : <Empty>No incident groups.</Empty>)}
     {data && <LocalPages page={page} count={data.count} next={data.next} change={setPage} />}
     {user.role==='coordinator' && <form onSubmit={save} className="form-panel form-grid"><h4>{editing?'Review existing group':'Create an explicit group'}</h4>
       <label>Incident group title<input required maxLength={180} value={title} onChange={e=>setTitle(e.target.value)} /></label><label>Group decision reason<textarea required maxLength={4000} value={reason} onChange={e=>setReason(e.target.value)} /></label>

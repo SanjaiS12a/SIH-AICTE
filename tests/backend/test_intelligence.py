@@ -197,6 +197,20 @@ class IntelligenceTests(TestCase):
         with patch('cases.management.commands.seed_if_empty.call_command') as command:
             call_command('seed_if_empty'); command.assert_not_called()
 
+    @patch('cases.shadow.runtime',return_value=(None,'test-revision',0.6))
+    @override_settings(SHADOW_RETRIEVAL_ENABLED=True)
+    def test_common_references_are_bounded_and_report_truncation(self, runtime):
+        from cases.models import OverlapCandidate
+        self.case.source_reference='COMMON';self.case.save()
+        for number in range(25):
+            case=self.make_case(self.rb,f'BOUND-{number}')
+            case.source_system=f'bounded-source-{number}';case.source_reference='COMMON';case.save()
+        result=discover(self.coordinator,self.case)
+        self.assertEqual(result['volumes']['reference'],{'eligible':25,'retrieved':20,'truncated':True})
+        self.assertLessEqual(len(result['bounded_union']),60)
+        self.assertTrue(all(row['cosine'] is None for row in result['candidates']))
+        self.assertFalse(OverlapCandidate.objects.exists())
+
 
 @override_settings(ENABLE_REVIEWED_FACTS=True)
 class IntelligenceConcurrencyTests(TransactionTestCase):

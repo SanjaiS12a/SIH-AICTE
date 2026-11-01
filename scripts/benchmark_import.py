@@ -65,7 +65,7 @@ def main():
  for offset in range(0,args.rows,10000):
   rows=[]
   for n in range(offset,min(offset+10000,args.rows)):
-   institution=institutions[0 if args.concentrated else n%len(institutions)];bureau=bureaus[n%len(bureaus)]['code'];category=['refunds','admissions','documents','facilities','scholarships','administration'][n%6]
+   institution=institutions[0 if args.concentrated else n%len(institutions)];bureau=bureaus[(n+n//len(institutions))%len(bureaus)]['code'];category=['refunds','admissions','documents','facilities','scholarships','administration'][n%6]
    common={'institution_permanent_id':institution['permanent_id'],'bureau':bureau,'category':category}
    if args.kind!='complaints':
     common['bureau']=bureaus[(n//(30*312))%len(bureaus)]['code']

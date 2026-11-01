@@ -135,7 +135,9 @@ Wait-Endpoint "http://127.0.0.1:$apiPort/api/session"
 $env:API_PROXY_TARGET = "http://127.0.0.1:$apiPort"
 $nodePath = (Get-Command node).Source
 $vitePath = Join-Path $repoRoot 'frontend/node_modules/vite/bin/vite.js'
-$child = Start-Process -FilePath $nodePath -ArgumentList @(('"' + $vitePath + '"'),'preview','--host','127.0.0.1','--port',"$frontendPort",'--strictPort') -WorkingDirectory (Join-Path $repoRoot 'frontend') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runRoot "frontend-$frontendPort.log") -RedirectStandardError (Join-Path $runRoot "frontend-$frontendPort-error.log")
+$stdinPath = Join-Path $runRoot "frontend-$frontendPort-stdin.txt"
+[IO.File]::WriteAllText($stdinPath, '')
+$child = Start-Process -FilePath $nodePath -ArgumentList @(('"' + $vitePath + '"'),'preview','--host','127.0.0.1','--port',"$frontendPort",'--strictPort') -WorkingDirectory (Join-Path $repoRoot 'frontend') -WindowStyle Hidden -PassThru -RedirectStandardInput $stdinPath -RedirectStandardOutput (Join-Path $runRoot "frontend-$frontendPort.log") -RedirectStandardError (Join-Path $runRoot "frontend-$frontendPort-error.log")
 $owned = Get-CimInstance Win32_Process -Filter "ProcessId=$($child.Id)"
 @{pid=$child.Id;created=$owned.CreationDate.ToUniversalTime().Ticks.ToString()} | ConvertTo-Json | Set-Content -LiteralPath $pidFile
 try { Wait-Endpoint "http://127.0.0.1:$frontendPort/api/session" } catch { Stop-OwnedFrontend; throw }
