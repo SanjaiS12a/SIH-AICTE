@@ -27,6 +27,8 @@ services:
       HF_HUB_OFFLINE: "1"
       TRANSFORMERS_OFFLINE: "1"
       PYTHONDONTWRITEBYTECODE: "1"
+      ENABLE_REVIEWED_FACTS: ${ENABLE_REVIEWED_FACTS:-0}
+      ENABLE_INCIDENT_GROUPS: ${ENABLE_INCIDENT_GROUPS:-0}
     command: python manage.py runserver 0.0.0.0:8000 --noreload --insecure
     ports: ["127.0.0.1:8001:8000"]
     volumes: &audit_volumes

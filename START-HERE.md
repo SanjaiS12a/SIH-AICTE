@@ -6,6 +6,8 @@ Example: the Regulation Bureau has a refund case about a college, while the Publ
 
 The institution is the central record. Its profile contains Overview, Cases, History, Coordination and Reports. Each complaint keeps its own identity and history. Similarity suggestions require human review.
 
+On a case page, expand **Case brief: current responsibilities** to read its current assignment, allegation, deadline, next action and authorized coordination responsibilities. Experimental reviewed source facts and explicit incident groups have separate controls and default off. The [technical design and five-minute demo](docs/technical-design.md) explains how the existing application works, with fictional test data and fallback paths.
+
 ## Open the prepared demonstration
 
 The isolated demonstration currently runs at **http://127.0.0.1:5174/**. Its data is separate from the preserved working database.

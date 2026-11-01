@@ -153,6 +153,60 @@ class CoordinationParticipant(models.Model):
             models.CheckConstraint(condition=Q(completed_at__isnull=True, completion_note='') | (Q(completed_at__isnull=False, acknowledged_at__isnull=False) & ~Q(completion_note='')), name='coordination_participant_completion')]
 
 
+class ReviewedFact(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    submission_id = models.UUIDField(unique=True)
+    case = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='reviewed_facts')
+    kind = models.CharField(max_length=20, choices=[(x, x) for x in ['incident_date', 'reference', 'remedy']])
+    source_field = models.CharField(max_length=20)
+    span_start = models.PositiveIntegerField()
+    span_end = models.PositiveIntegerField()
+    quote = models.TextField(max_length=2000)
+    source_digest = models.CharField(max_length=64)
+    value = models.CharField(max_length=2000)
+    method = models.CharField(max_length=40, default='manual_span_v1')
+    state = models.CharField(max_length=12, default='pending', choices=[(x, x) for x in ['pending', 'accepted', 'rejected']])
+    proposed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='proposed_facts')
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+    reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, related_name='reviewed_facts')
+    reviewed_at = models.DateTimeField(null=True)
+    reason = models.TextField(max_length=4000, blank=True)
+    version = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ['-created_at', '-id']
+        constraints = [models.CheckConstraint(condition=Q(span_end__gt=models.F('span_start')), name='fact_nonempty_span'),
+            models.CheckConstraint(condition=Q(state='pending', reviewer__isnull=True, reviewed_at__isnull=True) | Q(state__in=['accepted','rejected'], reviewer__isnull=False, reviewed_at__isnull=False), name='fact_review_state')]
+
+
+class IncidentGroup(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    submission_id = models.UUIDField(unique=True)
+    institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
+    title = models.CharField(max_length=180)
+    reason = models.TextField(max_length=4000)
+    reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    supporting_relationship = models.ForeignKey(OverlapCandidate, on_delete=models.PROTECT, null=True)
+    needs_review = models.BooleanField(default=False)
+    version = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+
+    class Meta:
+        ordering = ['-created_at', '-id']
+
+
+class IncidentMembership(models.Model):
+    group = models.ForeignKey(IncidentGroup, on_delete=models.PROTECT, related_name='memberships')
+    case = models.ForeignKey(Complaint, on_delete=models.PROTECT)
+    active = models.BooleanField(default=True)
+    reason = models.TextField(max_length=4000)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    updated_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['group','case'], name='unique_incident_member')]
+
+
 class Attachment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     case = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='attachments')

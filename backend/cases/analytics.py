@@ -32,7 +32,8 @@ def action_query(request):
     if event:
         if event not in EVENTS:raise ValidationError('Unknown movement event.')
         qs=qs.filter(EVENTS[event])
-    return qs
+    from .access import authorized_actions
+    return authorized_actions(request.user, qs)
 
 
 class MovementSerializer(ActionReadSerializer):

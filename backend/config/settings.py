@@ -56,6 +56,9 @@ MODEL_PATH = os.getenv('MODEL_PATH', str(BASE_DIR.parent / 'models' / 'minilm'))
 MODEL_REVISION = 'sentence-transformers/all-MiniLM-L6-v2'
 MATCH_THRESHOLD = float(os.getenv('MATCH_THRESHOLD', '0.75'))
 DEMO_DEADLINE_DAYS = 30
+SHADOW_RETRIEVAL_ENABLED = False
+ENABLE_REVIEWED_FACTS = os.getenv('ENABLE_REVIEWED_FACTS', '0') == '1'
+ENABLE_INCIDENT_GROUPS = os.getenv('ENABLE_INCIDENT_GROUPS', '0') == '1'
 Q_CLUSTER = {'name': 'coordination', 'workers': 1, 'orm': 'default', 'timeout': 120,
              'retry': 300, 'max_attempts': 3, 'queue_limit': 1, 'bulk': 1, 'recycle': 0,
              'catch_up': False, 'poll': 1}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CaseIntelligence } from "./intelligence";
 import type { FormEvent } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -987,6 +988,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
       </Link>
       <ErrorBox message={error} />
       {!c && !error && <Loading />}
+      {id && <CaseIntelligence key={id} id={id} user={user} />}
       {c && (
         <>
           <Heading

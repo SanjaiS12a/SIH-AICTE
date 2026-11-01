@@ -23,9 +23,15 @@ class Command(BaseCommand):
  help='Measure 10k/100k records only inside a disposable coordination_scale_* database.'
  def add_arguments(self,parser):
   parser.add_argument('--sizes',nargs='+',type=int,choices=[1000,10000,100000],default=[1000,10000,100000])
+  parser.add_argument('--output',required=True)
  def handle(self,*args,**options):
   if not connection.settings_dict['NAME'].startswith('coordination_scale_'):raise CommandError('Requires an isolated coordination_scale_* database.')
+  target=Path(options['output']).resolve()
+  if not target.is_relative_to(Path('/reports').resolve()) or target.exists():raise CommandError('Use a new isolated /reports output.')
+  target.parent.mkdir(parents=True,exist_ok=True)
   user=User.objects.create(username='scale-coordinator');Membership.objects.create(user=user,role='coordinator')
+  users=[user]+[User.objects.create(username=f'scale-client-{i}') for i in range(1,10)]
+  Membership.objects.bulk_create([Membership(user=u,role='coordinator') for u in users[1:]])
   bureau=Bureau.objects.create(code='SCALE',name='Synthetic scale bureau')
   Institution.objects.bulk_create([Institution(name=f'Scale Institution {i}',permanent_id=f'SCALE-{i}',region='Synthetic',district='Synthetic') for i in range(100)])
   institutions=list(Institution.objects.order_by('permanent_id').values_list('pk',flat=True));vector=[1.0]+[0.0]*383
@@ -67,26 +73,28 @@ class Command(BaseCommand):
      Escalation.objects.bulk_create([Escalation(case=c,created_by=user,submission_id=uuid.uuid4(),reason='Synthetic scale supervision') for c in Complaint.objects.exclude(status='disposed')[:20]])
     cold_start=time.perf_counter();cold_data=dashboard_data(SimpleNamespace(user=user,query_params=QueryDict('')));cold_ms=(time.perf_counter()-cold_start)*1000
     def simulate(index):
-     close_old_connections();request=SimpleNamespace(user=User.objects.get(pk=user.pk),query_params=QueryDict(''));latencies=[]
+     close_old_connections();actor=User.objects.get(pk=users[index].pk);request=SimpleNamespace(user=actor,query_params=QueryDict(''));latencies=[]
      try:
       from rest_framework.test import APIClient
-      client=APIClient();client.force_authenticate(user)
+      client=APIClient();client.force_authenticate(actor)
       for iteration in range(2):
        start=time.perf_counter();data=dashboard_data(request);assert data['total']==size;latencies.append(('dashboard',(time.perf_counter()-start)*1000))
        start=time.perf_counter();rows=list(filtered_cases(request)[:20]);assert len(rows)==20;latencies.append(('read',(time.perf_counter()-start)*1000))
        start=time.perf_counter();neighbors=list(Complaint.objects.filter(institution_id=institutions[0]).annotate(distance=CosineDistance('embedding',vector)).order_by('distance')[:5]);assert len(neighbors)==5;latencies.append(('exact_search',(time.perf_counter()-start)*1000))
-       for label,path in [('registry','/api/institution-registry'),('profile',f'/api/institutions/{institutions[0]}'),('cases',f'/api/institutions/{institutions[0]}/cases'),('history',f'/api/institutions/{institutions[0]}/history'),('notices','/api/coordination-notices'),('escalations','/api/escalations'),('relationships','/api/overlaps?decision=all')]:
+       for label,path in [('registry','/api/institution-registry'),('profile',f'/api/institutions/{institutions[0]}'),('cases',f'/api/institutions/{institutions[0]}/cases'),('history',f'/api/institutions/{institutions[0]}/history'),('brief',f'/api/cases/{rows[0].pk}/brief'),('notices','/api/coordination-notices'),('escalations','/api/escalations'),('relationships','/api/overlaps?decision=all')]:
         start=time.perf_counter();response=client.get(path);assert response.status_code==200,(path,response.data);latencies.append((label,(time.perf_counter()-start)*1000))
        pair=review_pairs[iteration*10+index]
        start=time.perf_counter();response=client.post(f'/api/overlaps/{pair.pk}/review',{'expected_version':pair.version,'decision':'related_issue' if pair.decision=='unrelated' else 'unrelated','reason':f'Synthetic measured review {size} {distribution} {index} {iteration}'},format='json');assert response.status_code==200,response.data;latencies.append(('review',(time.perf_counter()-start)*1000))
+      start=time.perf_counter();response=client.get('/api/reports.csv');assert response.status_code==200
+      count=sum(len(chunk) for chunk in response.streaming_content);response.close();assert count>size
+      latencies.append(('streamed_export',(time.perf_counter()-start)*1000))
       return latencies
      finally:close_old_connections()
     from unittest.mock import patch
     from rest_framework.throttling import UserRateThrottle
     with patch.object(UserRateThrottle,'THROTTLE_RATES',{'user':'100000/min'}), concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:measurements=[item for batch in pool.map(simulate,range(10)) for item in batch]
     result={'cold_dashboard_ms':cold_ms,'records':size,'distribution':distribution,'setup_seconds':setup_seconds,'peak_process_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,'metrics':{}}
-    for name in ['dashboard','read','exact_search','registry','profile','cases','history','notices','escalations','relationships','review']:
+    for name in ['dashboard','read','exact_search','registry','profile','cases','history','brief','notices','escalations','relationships','review','streamed_export']:
      values=sorted(v for k,v in measurements if k==name);result['metrics'][name]={'requests':len(values),'p50_ms':statistics.median(values),'p95_ms':values[int(.95*len(values))]}
     output['results'].append(result);self.stdout.write(json.dumps(result))
-    suffix='-'+str(options['sizes'][0]) if len(options['sizes'])==1 else ''
-    Path('/reports/completion-scale'+suffix+'.json').write_text(json.dumps(output,indent=2),encoding='utf-8')
+    target.write_text(json.dumps(output,indent=2),encoding='utf-8')

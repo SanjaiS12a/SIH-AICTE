@@ -51,7 +51,7 @@ def session(request):
     bureau = Bureau.objects.filter(pk=current_bureau_id(request.user)).values_list('code', flat=True).first()
     return Response({'user': {'id': request.user.id, 'name': request.user.get_full_name() or request.user.username,
                              'username': request.user.username, 'role': role(request.user),
-                             'bureau': bureau},
+                             'bureau': bureau, 'features': {'reviewed_facts': settings.ENABLE_REVIEWED_FACTS, 'incident_groups': settings.ENABLE_INCIDENT_GROUPS and coordination(request.user)}},
                      'policy': {'deadline_days': settings.DEMO_DEADLINE_DAYS, 'label': 'Demonstration policy, not an AICTE rule'}})
 
 @api_view(['GET'])
@@ -118,7 +118,8 @@ def cases(request):
 def case_detail(request, case_id):
     case = get_object_or_404(scoped_cases(request.user), pk=case_id)
     data = CaseSerializer(case).data
-    data['actions'] = ActionReadSerializer(case.actions.select_related('actor', 'bureau_at_action'), many=True,
+    from .access import authorized_actions
+    data['actions'] = ActionReadSerializer(authorized_actions(request.user, case.actions.select_related('actor', 'bureau_at_action')), many=True,
                                          context={'restricted': not coordination(request.user)}).data
     data['attachments'] = AttachmentSerializer(case.attachments.all(), many=True).data
     history = scoped_cases(request.user).filter(institution=case.institution).exclude(pk=case.id)[:20]

@@ -4,6 +4,7 @@ export type User = {
   username: string;
   role: string;
   bureau: string | null;
+  features?: { reviewed_facts: boolean; incident_groups: boolean };
 };
 export const classifications: Record<string, string> = {
   grievance: "Grievance",

@@ -159,6 +159,7 @@ class HistoricalMigrationTests(TransactionTestCase):
         case = self._case(self.rb)
         CaseAction.objects.create(case=case, actor=self.coord, kind='note', reason='Legacy action')
         executor = MigrationExecutor(connection)
+        latest = executor.loader.graph.leaf_nodes('cases')
         old = [('cases', '0012_complaint_source_bureau_complaint_source_import_and_more')]
         new = [('cases', '0013_caseaction_bureau_at_action')]
         try:
@@ -168,4 +169,4 @@ class HistoricalMigrationTests(TransactionTestCase):
             self.assertEqual(CaseAction.objects.count(), 1)
             self.assertIsNone(CaseAction.objects.get().bureau_at_action)
         finally:
-            MigrationExecutor(connection).migrate(new)
+            MigrationExecutor(connection).migrate(latest)

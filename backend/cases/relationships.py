@@ -53,6 +53,8 @@ def decide(obj, user, decision, reason, expected_version):
         CaseAction.objects.create(case_id=case_id, actor=user, kind='overlap_review', reason=reason,
             changes={'overlap_id': obj.pk, 'origin': obj.origin, 'decision': {'before': previous, 'after': decision},
                      'review_snapshot': snapshot})
+    from .intelligence import flag_supporting_groups
+    flag_supporting_groups(obj, user, reason)
 
 
 @api_view(['POST'])

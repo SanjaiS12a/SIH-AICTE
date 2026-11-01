@@ -3,10 +3,13 @@ from rest_framework.exceptions import PermissionDenied
 from .models import Complaint, Membership, Escalation
 
 def role(user):
-    return Membership.objects.filter(user_id=user.pk).values_list('role', flat=True).first() or ''
+    return Membership.objects.filter(user_id=user.pk, user__is_active=True).values_list('role', flat=True).first() or ''
 
 def current_bureau_id(user):
-    return Membership.objects.filter(user_id=user.pk).values_list('bureau_id', flat=True).first()
+    return Membership.objects.filter(user_id=user.pk, user__is_active=True).values_list('bureau_id', flat=True).first()
+
+def authorized_actions(user, qs):
+    return qs if coordination(user) else qs.exclude(kind__startswith='coordination_group')
 
 def coordination(user):
     return role(user) in ('coordinator', 'auditor')

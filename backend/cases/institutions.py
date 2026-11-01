@@ -157,5 +157,6 @@ def history(request, institution_id):
     require_reader(request.user)
     get_object_or_404(Institution, pk=institution_id)
     cases = scoped_cases(request.user).filter(institution_id=institution_id)
-    actions = CaseAction.objects.filter(case__in=cases).select_related('actor', 'case', 'bureau_at_action').order_by('-created_at', '-id')
+    from .access import authorized_actions
+    actions = authorized_actions(request.user, CaseAction.objects.filter(case__in=cases)).select_related('actor', 'case', 'bureau_at_action').order_by('-created_at', '-id')
     return page(request, actions, InstitutionHistorySerializer, context={'restricted': not coordination(request.user)})

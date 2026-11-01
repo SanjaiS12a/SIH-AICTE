@@ -1,4 +1,5 @@
 import { ReviewEvidence } from "./evidence";
+import { IncidentGroups } from "./intelligence";
 import { useState } from "react";
 import { CoordinationNotices } from "./management";
 import type { FormEvent } from "react";
@@ -952,6 +953,7 @@ function InstitutionCoordination({
         </Link>
       </div>
       <ErrorBox message={dashboardError || error} />
+      <IncidentGroups institution={id} user={user} />
       <CoordinationNotices filters={`institution=${id}`} />
       {!dashboard && !dashboardError && <Loading />}
       {dashboard && (

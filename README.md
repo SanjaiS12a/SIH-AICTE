@@ -40,6 +40,10 @@ The 30-calendar-day deadline is a demonstration policy, not an AICTE rule. Close
 
 ## Verification and recovery
 
+See [implementation design and five-minute demo](docs/technical-design.md) for HLD/LLD, schema relationships, lifecycle, permissions and case intelligence. Case briefs are read-only current-state views. Reviewed facts and manual incident groups are separate experiments, controlled by `ENABLE_REVIEWED_FACTS=1` and `ENABLE_INCIDENT_GROUPS=1`; both default off. Shadow discovery never changes production matching. [Research intake](docs/research-permission-and-intake.md) records the human and permission gates.
+
+Preparation now invokes `seed_if_empty`: only an empty designated demo database is seeded. Existing data is neither reset nor augmented. Use `scripts/verify_final_restore.py` to verify recovery of current isolated audit data/private files/model into independent destinations. New scale runs require a fresh `coordination_scale_*` database and an explicit new `/reports/...` output path; do not reuse historical artifacts.
+
 Test sources and historical evidence are under `tests/`; reports describe the commits and conditions actually tested. A discovered test count is not proof of a fresh passing run. Per-run execution evidence belongs in ignored `tests/results/runs/`, not over earlier screenshots.
 
 The corrective readiness cycle uses `compose.audit.yaml`, a separate database/private-data volume, API port 8001 and frontend port 5174. Models are read-only. It must not use or reset the working demo database. Set `PLAYWRIGHT_BASE_URL=http://127.0.0.1:5174`, `API_PROXY_TARGET=http://127.0.0.1:8001` and the audit artifact directory when running browser tests.

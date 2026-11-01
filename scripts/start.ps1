@@ -91,10 +91,8 @@ if ($Action -eq 'Prepare') {
     Wait-Database
     Invoke-Compose run --rm --no-deps api python manage.py migrate --noinput
     if ($Audit) { Verify-Assets } else { Invoke-Compose run --rm --no-deps -e HF_HUB_OFFLINE=0 -e TRANSFORMERS_OFFLINE=0 api python manage.py download_model }
-    # The existing seed command creates missing records; it does not reset existing accounts or cases.
-    Invoke-Compose run --rm --no-deps api python manage.py seed_demo
-    Invoke-Compose run --rm --no-deps api python manage.py seed_sih_demo
-    Invoke-Compose run --rm --no-deps api python manage.py match_pending
+    # Preparation seeds only an empty designated database; existing data is never augmented.
+    Invoke-Compose run --rm --no-deps api python manage.py seed_if_empty
     Push-Location frontend
     try {
         & npm.cmd ci

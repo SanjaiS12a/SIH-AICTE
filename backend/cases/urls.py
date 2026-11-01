@@ -1,7 +1,13 @@
 from django.urls import path
-from . import api, imports, exports, institutions, escalations, relationships, coordination, analytics, coordination_workflow, source_intake
+from . import api, imports, exports, institutions, escalations, relationships, coordination, analytics, coordination_workflow, source_intake, intelligence
 
 urlpatterns = [
+    path('cases/<uuid:case_id>/brief', intelligence.brief),
+    path('cases/<uuid:case_id>/history', intelligence.history),
+    path('cases/<uuid:case_id>/facts', intelligence.facts),
+    path('cases/<uuid:case_id>/facts/<uuid:fact_id>/review', intelligence.review_fact),
+    path('incident-groups', intelligence.groups),
+    path('incident-groups/<uuid:group_id>', intelligence.edit_group),
     path('source-intake', source_intake.sources),
     path('source-intake/jobs', source_intake.jobs),
     path('imports/<uuid:job_id>/rows', source_intake.rows),
