@@ -1,0 +1,210 @@
+{
+  "date": "2026-11-01",
+  "source_checkpoint": "285336e75dc4933ff000ddd74512bb2b82c6b29a",
+  "branch": "codex/sih26264-readiness",
+  "baseline": "996b2ff7e094aa1e276e1738fcba141ba4a2faa7",
+  "publication": "blocked: physical-offline gate unverified",
+  "tests": {
+    "backend": {
+      "passed": 148,
+      "seconds": 51.902
+    },
+    "browser_regression": {
+      "passed": 51
+    },
+    "starter_workbooks": {
+      "passed": 2
+    },
+    "final_combined_browser": {
+      "passed": 53,
+      "log": "readiness-handoff-browser.log"
+    },
+    "startup": {
+      "passed": 3
+    }
+  },
+  "hardware": {
+    "docker": "29.8.0",
+    "os": {
+      "Caption": "Microsoft Windows 11 Home Single Language",
+      "Version": "10.0.26300",
+      "TotalVisibleMemorySize": 16478072
+    },
+    "gpu": "NVIDIA GeForce RTX 3050 A Laptop GPU, 4094, 616.56",
+    "node": "v24.19.0",
+    "cpu": {
+      "Name": "13th Gen Intel(R) Core(TM) i5-13450HX",
+      "NumberOfCores": 10,
+      "NumberOfLogicalProcessors": 16
+    }
+  },
+  "encoder": {
+    "device": "cpu",
+    "threads": 2,
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "summaries": 1000,
+    "max_wordpieces": 44,
+    "cold_model_load_seconds": 5.876146187999893,
+    "warm_encode_seconds": 7.506081715999699,
+    "summaries_per_second": 133.2253015402744,
+    "scope": "Encoder only; excludes queue, database matching and HTTP."
+  },
+  "reminders": {
+    "cases": 12819,
+    "samples": [
+      {
+        "seconds": 0.4552337439999974,
+        "created": 0,
+        "queries": 1
+      },
+      {
+        "seconds": 0.49719134800034226,
+        "created": 0,
+        "queries": 1
+      }
+    ],
+    "scope": "Current dates and memberships; existing reminders preserved. Includes conflict checks on existing rows."
+  },
+  "xlsx_1000": {
+    "format": "xlsx",
+    "run": "e30699a61f",
+    "kind": "complaints",
+    "rows": 1000,
+    "distribution": "distributed institutions",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "concurrent_sessions": 10,
+    "transport": "HTTP localhost; ten distinct users, nine readers alongside importer",
+    "total_seconds": 52.49691130000065,
+    "results": [
+      {
+        "import_id": "bdd842ee-e8da-4c49-9f31-afc09c905fd3",
+        "rows": 1000,
+        "preview_seconds": 5.901514000001043,
+        "statistics_ready_seconds": 12.098707499999364,
+        "statistics_report_total": 1000,
+        "statistics_report_matching": {
+          "complete": 15,
+          "pending": 985
+        },
+        "matching_and_report_seconds": 44.233108399999765,
+        "counts": {
+          "imported": 1000
+        },
+        "matching": {
+          "complete": 1000
+        },
+        "stage_timings": {
+          "queue_seconds": 0.07496,
+          "registration_seconds": 11.017854,
+          "matching_queue_seconds": 0.199984,
+          "matching_seconds": 31.907718
+        },
+        "latency": {
+          "dashboard": {
+            "requests": 27,
+            "p50_ms": 136.37940000080562,
+            "p95_ms": 416.428000000451
+          },
+          "read": {
+            "requests": 27,
+            "p50_ms": 151.82630000163044,
+            "p95_ms": 197.82339999983378
+          }
+        }
+      }
+    ],
+    "limits": "Synthetic performance data; no million-row claim. Shared laptop workload may affect results."
+  },
+  "csv_10000_diagnostic": {
+    "format": "csv",
+    "run": "74dc9e1162",
+    "kind": "complaints",
+    "rows": 10000,
+    "distribution": "one institution",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "concurrent_sessions": 10,
+    "transport": "HTTP localhost; ten distinct users, nine readers alongside importer",
+    "total_seconds": 786.9501696000007,
+    "results": [
+      {
+        "import_id": "cb4e2f45-8284-436b-a34c-7c713dd222e6",
+        "rows": 10000,
+        "preview_seconds": 49.420249599999806,
+        "statistics_ready_seconds": 205.0115408999991,
+        "matching_and_report_seconds": 735.2158443999997,
+        "counts": {
+          "imported": 10000
+        },
+        "matching": {
+          "complete": 10000
+        },
+        "stage_timings": {
+          "queue_seconds": 0.426291,
+          "registration_seconds": 204.031573,
+          "matching_queue_seconds": 0.405346,
+          "matching_seconds": 529.533207
+        },
+        "latency": {
+          "dashboard": {
+            "requests": 27,
+            "p50_ms": 91.76700000170968,
+            "p95_ms": 174.85490000035497
+          },
+          "read": {
+            "requests": 27,
+            "p50_ms": 109.80950000157463,
+            "p95_ms": 252.83430000126828
+          }
+        }
+      }
+    ],
+    "limits": "Synthetic performance data; no million-row claim. Shared laptop workload may affect results."
+  },
+  "http_11805_cases": {
+    "concurrent_sessions": 10,
+    "case_count_before": 11805,
+    "case_count_after": 11815,
+    "platform": "Windows-11-10.0.26300-SP0",
+    "seconds": 4.091681800000515,
+    "transport": "HTTP localhost; 10 distinct users and authenticated sessions",
+    "results": {
+      "read": {
+        "requests": 50,
+        "p50_ms": 205.64234999983455,
+        "p95_ms": 380.93320000007225,
+        "target_p95_ms": 500
+      },
+      "dashboard": {
+        "requests": 50,
+        "p50_ms": 153.49260000039067,
+        "p95_ms": 527.5387000001501,
+        "target_p95_ms": 1000
+      },
+      "create": {
+        "requests": 10,
+        "p50_ms": 364.5431999993889,
+        "p95_ms": 429.8670000007405,
+        "target_p95_ms": 500
+      }
+    }
+  },
+  "recovery": {
+    "preserved_cases": 9577,
+    "preserved_actions": 10909,
+    "historical_bureau_snapshots_left_null": 10909,
+    "core_tables_compared": 18,
+    "restored_files_checksum_verified": 98,
+    "authorized_attachment_downloads": 1,
+    "working_database_unchanged": true,
+    "restored_application_reads_and_model_passed": true
+  },
+  "sampled_memory": {
+    "peak_host_used_gib": 14.0312,
+    "peak_api_mib": 342.4,
+    "peak_worker_mib": 508.4,
+    "peak_database_mib": 313.5,
+    "peak_device_gpu_mib": 945,
+    "note": "Sampled maxima; whole-host/device values include other software. Model inference uses CPU."
+  },
+  "final_source_checkpoint": "285336e75dc4933ff000ddd74512bb2b82c6b29a"
+}
