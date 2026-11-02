@@ -83,8 +83,10 @@ test("switching from an import to general reports aborts old metadata and clears
   page.on("pageerror", (e) => errors.push(e.message));
   const aborted: string[] = [];
   page.on("requestfailed", (request) => aborted.push(request.url()));
+  let releaseOld!: () => void;
+  const oldResponse = new Promise<void>((resolve) => { releaseOld = resolve; });
   await page.route(`**/api/imports/${idA}`, async (route) => {
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await oldResponse;
     await route
       .fulfill({ json: job(idA, "Obsolete source A.csv") })
       .catch(() => {});
@@ -99,6 +101,7 @@ test("switching from an import to general reports aborts old metadata and clears
   await requested;
   await page.getByRole("link", { name: "Reports", exact: true }).click();
   await expect(page.getByText(/Authorized complaint records/)).toBeVisible();
+  releaseOld();
   await expect
     .poll(() => aborted.some((url) => url.endsWith(`/api/imports/${idA}`)))
     .toBeTruthy();
