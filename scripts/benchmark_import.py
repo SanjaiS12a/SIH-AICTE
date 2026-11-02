@@ -56,6 +56,11 @@ def main():
    try:
     stats=subprocess.check_output(['docker','stats','--no-stream','--format','{{json .}}',*[f'{project}-{service}-1' for service in ['api','worker','db']]],timeout=10,text=True)
     sample={'elapsed_seconds':time.perf_counter()-start_all,'containers':[json.loads(line) for line in stats.splitlines() if line.strip()],'host_memory':memory()}
+    database=os.environ.get('BENCHMARK_DATABASE')
+    if database:
+     if not database.startswith('coordination_scale_http_'):raise ValueError('Only isolated benchmark database telemetry is allowed.')
+     sql="SELECT json_build_object('broker_rows',(SELECT count(*) FROM django_q_ormq),'broker_ready',(SELECT count(*) FROM django_q_ormq WHERE lock<now()),'pending_complaints',(SELECT count(*) FROM cases_complaint WHERE matching_state='pending'),'database_lock_waiters',(SELECT count(*) FROM pg_stat_activity WHERE datname=current_database() AND wait_event_type='Lock'))"
+     sample['queue']=json.loads(subprocess.check_output(['docker','exec',f'{project}-db-1','psql','-U','audit','-d',database,'-tAc',sql],timeout=10,text=True).strip())
     try:sample['gpu']=subprocess.check_output(['nvidia-smi','--query-gpu=index,name,memory.total,memory.used','--format=csv,noheader,nounits'],timeout=5,text=True).strip()
     except (OSError,subprocess.SubprocessError) as exc:sample['gpu_sampling_error']=str(exc)
     resources.append(sample)

@@ -123,6 +123,14 @@ class CoreIncidentTests(TestCase):
             self.assertEqual(len(list(csv.DictReader(io.StringIO(text)))),count,metric)
             if metric=='confirmed_groups':self.assertIn("'=dangerous",text)
 
+    def test_summary_aggregates_ids_without_fetching_vectors_or_repeating_pair_counts(self):
+        self.group()
+        with CaptureQueriesContext(connection) as captured:counts=self.counts()
+        self.assertEqual(counts['complaints'],2)
+        self.assertLessEqual(len(captured),9)
+        count_sql=[q['sql'] for q in captured.captured_queries if 'COUNT(' in q['sql']]
+        self.assertFalse(any('AS "col2"' in sql for sql in count_sql),count_sql)
+
     def test_group_and_history_paginate_beyond_twenty_without_queries_per_row(self):
         for i in range(22):self.group(title=f'Explicit independent grouping {i}')
         with CaptureQueriesContext(connection) as captured:

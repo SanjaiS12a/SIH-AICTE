@@ -3,6 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from openpyxl import Workbook
 from tests.research.acss_audit import inspect_workbook
+from tests.research.acss_packet import candidate_rows
 
 
 class SourceWorkbookAuditTests(unittest.TestCase):
@@ -21,3 +22,18 @@ class SourceWorkbookAuditTests(unittest.TestCase):
             self.assertEqual(result['duplicate_complete_literal_text_rows'],1)
             self.assertEqual(result['rows_with_potential_identifier_patterns'],2)
             self.assertEqual(result['recognized_type_counts'],{'complaint':2,'support':1})
+
+    def test_annotation_candidates_exclude_formulas_duplicates_and_mask_contacts_without_claiming_identity(self):
+        with TemporaryDirectory() as root:
+            path=Path(root)/'source.xlsx';book=Workbook();sheet=book.active
+            sheet.append(['subject','description','type'])
+            text='Fictional refund remains pending after withdrawal. Contact student@example.test for the synthetic receipt record.'
+            sheet.append(['Fictional tuition repayment',text,'Complaint'])
+            sheet.append(['Fictional tuition repayment',text,'Complaint'])
+            sheet.append(['=UNTRUSTED()',text,'Complaint'])
+            sheet.append(['Not a complaint',text,'Suggestion'])
+            book.save(path);book.close()
+            rows,excluded=candidate_rows(path)
+            self.assertEqual(len(rows),1);self.assertNotIn('student@example.test',rows[0]['model_text'])
+            self.assertIsNone(rows[0]['institution_id']);self.assertIsNone(rows[0]['incident_group'])
+            self.assertEqual(excluded,{'repeated_text':1,'formula_or_missing_literal_text':1})

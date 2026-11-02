@@ -82,14 +82,15 @@ def match_case(case_id, vector=None, encoded_revision=None):
         with transaction.atomic():
             # Serialize institution matching so simultaneous submissions see each other's vectors.
             from .models import Institution
-            Institution.objects.select_for_update().get(pk=case.institution_id)
+            institution = Institution.objects.select_for_update().get(pk=case.institution_id)
             case.refresh_from_db()
+            case.institution = institution
             if revision() != encoded_revision:
                 raise RuntimeError('Model switched during encoding; retry with the active revision.')
             Complaint.objects.filter(pk=case_id).update(embedding=vector, model_revision=model)
             neighbors = (Complaint.objects.filter(institution=case.institution, embedding__isnull=False, model_revision=model)
                          .exclude(pk=case_id).annotate(distance=CosineDistance('embedding', vector))
-                         .order_by('distance')[:5])
+                         .defer('embedding','description').order_by('distance')[:5])
             suggestions = []
             for other in neighbors:
                 score = 1 - float(other.distance)

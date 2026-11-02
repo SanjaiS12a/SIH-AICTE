@@ -71,7 +71,7 @@ async_task('cases.matching.match_case',str(c.pk))
                     time.sleep(1)
                 else:raise TimeoutError('Worker did not warm with an empty queue.')
                 result['warmup_seconds']=time.perf_counter()-warm
-                env.update(BENCHMARK_URL='http://127.0.0.1:8001',AUDIT_ARTIFACT_DIR=str(folder),AUDIT_PROJECT=project)
+                env.update(BENCHMARK_URL='http://127.0.0.1:8001',AUDIT_ARTIFACT_DIR=str(folder),AUDIT_PROJECT=project,BENCHMARK_DATABASE=database)
                 args=[sys.executable,str(ROOT/'scripts/benchmark_import.py'),'--rows',str(rows),'--format','xlsx' if rows==1000 else 'csv','--timeout','1800']
                 if concentrated:args.append('--concentrated')
                 for script,args_run in [('import',args),('ordinary-http',[sys.executable,str(ROOT/'scripts/benchmark.py')])]:
@@ -117,6 +117,7 @@ with connection.cursor() as c:
     finally:
         run(*base,'up','-d','--no-deps','api','worker')
         print('Audit database and private-volume configuration restored.',flush=True)
+    if not all(result['passed'] for result in results):raise RuntimeError('One or more benchmark workloads failed; inspect summary.json.')
 
 
 if __name__=='__main__':main()

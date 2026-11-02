@@ -61,7 +61,7 @@ ENABLE_REVIEWED_FACTS = os.getenv('ENABLE_REVIEWED_FACTS', '0') == '1'
 ENABLE_INCIDENT_GROUPS = os.getenv('ENABLE_INCIDENT_GROUPS', '0') == '1'
 Q_CLUSTER = {'name': 'coordination', 'workers': 1, 'orm': 'default', 'timeout': 120,
              'retry': 300, 'max_attempts': 3, 'queue_limit': 1, 'bulk': 1, 'recycle': 0,
-             'catch_up': False, 'poll': 1}
+             'catch_up': False, 'poll': .2}
 
 CACHES = {
     'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'},

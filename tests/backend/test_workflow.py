@@ -252,7 +252,13 @@ class WorkflowTests(TestCase):
         foreign=Institution.objects.create(name='Other College',permanent_id='OTHER',region='North',district='Other')
         self.make_case(self.rb,'C')
         Complaint.objects.filter(reference='C').update(institution=foreign,embedding=vec,model_revision='test-revision')
-        match_case(str(self.case.pk))
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        with CaptureQueriesContext(connection) as captured:match_case(str(self.case.pk))
+        neighbors=[q['sql'].split(' FROM ')[0] for q in captured.captured_queries if '<=>' in q['sql']]
+        self.assertEqual(len(neighbors),1)
+        self.assertNotIn('"description"',neighbors[0])
+        self.assertNotIn('"cases_complaint"."embedding",',neighbors[0])
         pair=OverlapCandidate.objects.get();pair.decision='unrelated';pair.save()
         match_case(str(self.case.pk))
         self.assertEqual(OverlapCandidate.objects.count(),1)

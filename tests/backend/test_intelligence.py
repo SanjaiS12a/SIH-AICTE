@@ -71,6 +71,8 @@ class IntelligenceTests(TestCase):
         with override_settings(ENABLE_REVIEWED_FACTS=False,ENABLE_INCIDENT_GROUPS=False):
             self.assertEqual(self.client.get(f'/api/cases/{self.case.pk}/facts').status_code,404)
             self.assertEqual(self.client.get('/api/incident-groups').status_code,404)
+            for path in ['/api/incident-summary','/api/incident-summary/records','/api/incident-summary.csv']:
+                self.assertEqual(self.client.get(path).status_code,404)
 
     def test_fact_proposal_idempotency_evidence_and_audit(self):
         d=self.fact_data(); url=f'/api/cases/{self.case.pk}/facts'

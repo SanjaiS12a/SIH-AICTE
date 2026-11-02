@@ -48,13 +48,20 @@ def scope(request):
 @api_view(['GET'])
 def summary(request):
     queries, model = scope(request)
-    # One aggregate for each kind; never join pairs and memberships into complaint totals.
-    cases = queries['complaints'].aggregate(total=Count('pk',distinct=True),
+    # Aggregate IDs, not full DISTINCT complaint rows (which include vectors and descriptions).
+    cases = queries['complaints'].values('pk').aggregate(total=Count('pk',distinct=True),
         complete=Count('pk',filter=Q(pk__in=queries['matching_complete'].values('pk')),distinct=True),
         pending=Count('pk',filter=Q(matching_state='pending'),distinct=True),
         failed=Count('pk',filter=Q(matching_state='failed'),distinct=True))
-    counts = {key:qs.count() for key,qs in queries.items() if not key.startswith('matching_') and key!='complaints'}
-    counts['complaints'] = cases['total']
+    ids=queries['complaints'].values('pk')
+    pairs=OverlapCandidate.objects.filter(left_id__in=ids,right_id__in=ids).aggregate(**{
+        key:Count('pk',filter=Q(decision=decision)) for key,decision in PAIR_METRICS.items()})
+    pending=queries['pending_pairs']
+    suggested=pending.order_by().values('left_id').union(pending.order_by().values('right_id')).count()
+    grouped=queries['grouped_cases'].values('pk').count()
+    counts = {**pairs,'complaints':cases['total'],'suggested_cases':suggested,
+        'grouped_cases':grouped,'ungrouped_cases':cases['total']-grouped,
+        'confirmed_groups':queries['confirmed_groups'].count()}
     counts.update(matching_complete=cases['complete'],matching_pending=cases['pending'],matching_failed=cases['failed'],
         matching_not_processed=cases['total']-cases['complete']-cases['pending']-cases['failed'])
     return Response({'counts':counts,'model_revision':model,'generated_at':timezone.now(),

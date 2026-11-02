@@ -70,6 +70,11 @@ def run(input_path, output_path):
                 judgments=[labels.get((q['id'],key)) for key in ids]
                 if any(label is None for label in judgments):raise ValueError('Synthetic judgment coverage is incomplete.')
                 details.append({'query':q['id'],'method':method,'returned':ids,'known_positive_count':len(positive),
+                    'retrieved_relevant':[key for key,label in zip(ids,judgments) if label in ('same_incident','related_issue')],
+                    'missed_same_incident':sorted(positive-set(ids)),
+                    'false_suggestions':[key for key,label in zip(ids,judgments) if label=='unrelated'],
+                    'threshold_abstained':not ids if method=='production_summary_top5' else None,
+                    'top5_truncated':len(eligible)>5 and method.endswith('top5'),
                     'same_incident_hits':len(positive.intersection(ids)),'hits_at5':len(positive.intersection(ids[:5])),
                     'review_worthy':sum(label in ('same_incident','related_issue') for label in judgments),
                     'scope':'same genuine fixture institution; explicit synthetic IDs','shadow_all_channel_ms':shadow_ms,
@@ -84,6 +89,11 @@ def run(input_path, output_path):
             'abstention_rate':sum(not r['returned'] for r in rows)/len(rows)}
     assert hashlib.file_digest(weights.open('rb'),'sha256').hexdigest()==before
     assert runtime()[1:]==(revision,cutoff)
+    costs={}
+    for mode in ['summary','summary_selected_description','paragraphs']:
+        inputs=list(dict.fromkeys(part['text'] for version in versions.values() for part in version['representations'][mode]))
+        started=time.perf_counter();model.encode(inputs,normalize_embeddings=True,batch_size=32)
+        costs[mode]={'unique_inputs':len(inputs),'warm_encode_seconds':time.perf_counter()-started,'float32_vector_bytes':len(inputs)*384*4}
     np.savez_compressed(out/'experimental-embeddings.npz',vectors=vectors)
     (out/'representations.json').write_text(json.dumps(versions,indent=2),encoding='utf-8')
     report={'dataset_sha256':hashlib.sha256(raw).hexdigest(),'provenance':dataset['provenance'],'representation_policy':POLICY,
@@ -91,6 +101,7 @@ def run(input_path, output_path):
         'records':len(records),'queries':len(queries),'unique_passages_encoded':len(texts),'cold_load_seconds':load,'embedding_seconds':embedding_seconds,
         'comparison_cpu_seconds':time.process_time()-cpu_started,'process_peak_ram_kib':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
         'metrics':metrics,'queries_detail':details,'channel_probes':probes,'real_education_accuracy':None,
+        'representation_costs':costs,'stored_compressed_vectors_bytes':(out/'experimental-embeddings.npz').stat().st_size,
         'limits':['Authored synthetic labels; no independent review.','Tiny source-selection diagnostic, not a model/policy promotion.','Experimental rankings use no newly calibrated threshold.','Paragraph max pooling can increase false positives.','Known-positive families exist only in this synthetic fixture.']}
     (out/'results.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
     return report
