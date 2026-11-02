@@ -1,4 +1,4 @@
-# SIH 26264 â€” Final core intelligence readiness
+# SIH 26264 - Final core intelligence readiness
 
 Status: engineering verification completed; source publication authorized. Physical offline, independent real-data review, licence clarification and the stated missed latency objectives remain open. This is not production or model-accuracy certification.
 
