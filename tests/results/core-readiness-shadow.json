@@ -1,0 +1,1188 @@
+{
+  "dataset_sha256": "05ca65ad1a6dabf9bcd36d92e6de20840c1129c94979d52be0ff8f7b48192e74",
+  "provenance": "Authored synthetic source-selection diagnostic. Labels fixed before scoring; no independent human or real AICTE evidence.",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "threshold": 0.603080153465271,
+  "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+  "production_policy_changed": false,
+  "metrics": {
+    "hybrid_top5": {
+      "queries": 6,
+      "returned": 30,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 1.0,
+      "review_worthy_precision": 0.26666666666666666,
+      "abstention_rate": 0.0
+    },
+    "lexical_top20": {
+      "queries": 6,
+      "returned": 0,
+      "judgment_coverage": null,
+      "candidate_recall": 0.0,
+      "same_incident_recall_at5": 0.0,
+      "review_worthy_precision": null,
+      "abstention_rate": 1.0
+    },
+    "paragraphs_top5": {
+      "queries": 6,
+      "returned": 30,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 1.0,
+      "review_worthy_precision": 0.26666666666666666,
+      "abstention_rate": 0.0
+    },
+    "production_summary_top5": {
+      "queries": 6,
+      "returned": 0,
+      "judgment_coverage": null,
+      "candidate_recall": 0.0,
+      "same_incident_recall_at5": 0.0,
+      "review_worthy_precision": null,
+      "abstention_rate": 1.0
+    },
+    "reference_top20": {
+      "queries": 6,
+      "returned": 6,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 1.0,
+      "review_worthy_precision": 1.0,
+      "abstention_rate": 0.0
+    },
+    "semantic_top20": {
+      "queries": 6,
+      "returned": 36,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 0.8333333333333334,
+      "review_worthy_precision": 0.2222222222222222,
+      "abstention_rate": 0.0
+    },
+    "summary_selected_description_top5": {
+      "queries": 6,
+      "returned": 30,
+      "judgment_coverage": 1,
+      "candidate_recall": 0.8333333333333334,
+      "same_incident_recall_at5": 0.8333333333333334,
+      "review_worthy_precision": 0.23333333333333334,
+      "abstention_rate": 0.0
+    }
+  },
+  "queries_detail": [
+    {
+      "query": "query-0",
+      "method": "production_summary_top5",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-0"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": true,
+      "top5_truncated": true,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 65.08232699979999,
+      "threshold_policy": "frozen production cutoff"
+    },
+    {
+      "query": "query-0",
+      "method": "semantic_top20",
+      "returned": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-1",
+        "reference-0"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-5",
+        "reference-4"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 65.08232699979999,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-0",
+      "method": "lexical_top20",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-0"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 65.08232699979999,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-0",
+      "method": "reference_top20",
+      "returned": [
+        "reference-0"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-0"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 65.08232699979999,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-0",
+      "method": "hybrid_top5",
+      "returned": [
+        "reference-0",
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-0",
+        "reference-1"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 65.08232699979999,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-0",
+      "method": "summary_selected_description_top5",
+      "returned": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-0",
+        "reference-1"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-2",
+        "reference-3",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 65.08232699979999,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-0",
+      "method": "paragraphs_top5",
+      "returned": [
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-2",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-0",
+        "reference-1"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 65.08232699979999,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-1",
+      "method": "production_summary_top5",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-1"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": true,
+      "top5_truncated": true,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 62.13128299987147,
+      "threshold_policy": "frozen production cutoff"
+    },
+    {
+      "query": "query-1",
+      "method": "semantic_top20",
+      "returned": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-1",
+        "reference-0"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-5",
+        "reference-4"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 62.13128299987147,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-1",
+      "method": "lexical_top20",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-1"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 62.13128299987147,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-1",
+      "method": "reference_top20",
+      "returned": [
+        "reference-1"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-1"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 62.13128299987147,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-1",
+      "method": "hybrid_top5",
+      "returned": [
+        "reference-1",
+        "reference-3",
+        "reference-2",
+        "reference-0",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-1",
+        "reference-0"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 62.13128299987147,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-1",
+      "method": "summary_selected_description_top5",
+      "returned": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-0",
+        "reference-1"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-2",
+        "reference-3",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 62.13128299987147,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-1",
+      "method": "paragraphs_top5",
+      "returned": [
+        "reference-1",
+        "reference-0",
+        "reference-3",
+        "reference-2",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-1",
+        "reference-0"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 2,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 62.13128299987147,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-2",
+      "method": "production_summary_top5",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-2"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": true,
+      "top5_truncated": true,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 55.65232400022069,
+      "threshold_policy": "frozen production cutoff"
+    },
+    {
+      "query": "query-2",
+      "method": "semantic_top20",
+      "returned": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-2"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 55.65232400022069,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-2",
+      "method": "lexical_top20",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-2"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 55.65232400022069,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-2",
+      "method": "reference_top20",
+      "returned": [
+        "reference-2"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-2"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 55.65232400022069,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-2",
+      "method": "hybrid_top5",
+      "returned": [
+        "reference-2",
+        "reference-3",
+        "reference-1",
+        "reference-0",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-2"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-1",
+        "reference-0",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 55.65232400022069,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-2",
+      "method": "summary_selected_description_top5",
+      "returned": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-2"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 55.65232400022069,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-2",
+      "method": "paragraphs_top5",
+      "returned": [
+        "reference-2",
+        "reference-3",
+        "reference-0",
+        "reference-1",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-2"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-0",
+        "reference-1",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 55.65232400022069,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-3",
+      "method": "production_summary_top5",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-3"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": true,
+      "top5_truncated": true,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 46.86791599942808,
+      "threshold_policy": "frozen production cutoff"
+    },
+    {
+      "query": "query-3",
+      "method": "semantic_top20",
+      "returned": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-3"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 46.86791599942808,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-3",
+      "method": "lexical_top20",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-3"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 46.86791599942808,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-3",
+      "method": "reference_top20",
+      "returned": [
+        "reference-3"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-3"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 46.86791599942808,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-3",
+      "method": "hybrid_top5",
+      "returned": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-3"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 46.86791599942808,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-3",
+      "method": "summary_selected_description_top5",
+      "returned": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-3"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 46.86791599942808,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-3",
+      "method": "paragraphs_top5",
+      "returned": [
+        "reference-3",
+        "reference-0",
+        "reference-2",
+        "reference-1",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-3"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-0",
+        "reference-2",
+        "reference-1",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 46.86791599942808,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-4",
+      "method": "production_summary_top5",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-4"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": true,
+      "top5_truncated": true,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 51.17521500051225,
+      "threshold_policy": "frozen production cutoff"
+    },
+    {
+      "query": "query-4",
+      "method": "semantic_top20",
+      "returned": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-4"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 0,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 51.17521500051225,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-4",
+      "method": "lexical_top20",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-4"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 51.17521500051225,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-4",
+      "method": "reference_top20",
+      "returned": [
+        "reference-4"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-4"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 51.17521500051225,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-4",
+      "method": "hybrid_top5",
+      "returned": [
+        "reference-4",
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-4"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 51.17521500051225,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-4",
+      "method": "summary_selected_description_top5",
+      "returned": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-4"
+      ],
+      "false_suggestions": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 51.17521500051225,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-4",
+      "method": "paragraphs_top5",
+      "returned": [
+        "reference-4",
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-4"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 51.17521500051225,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-5",
+      "method": "production_summary_top5",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-5"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": true,
+      "top5_truncated": true,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 40.038854999693285,
+      "threshold_policy": "frozen production cutoff"
+    },
+    {
+      "query": "query-5",
+      "method": "semantic_top20",
+      "returned": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-5",
+        "reference-4"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-5"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0",
+        "reference-4"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 40.038854999693285,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-5",
+      "method": "lexical_top20",
+      "returned": [],
+      "known_positive_count": 1,
+      "retrieved_relevant": [],
+      "missed_same_incident": [
+        "reference-5"
+      ],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 0,
+      "hits_at5": 0,
+      "review_worthy": 0,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 40.038854999693285,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-5",
+      "method": "reference_top20",
+      "returned": [
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-5"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [],
+      "threshold_abstained": null,
+      "top5_truncated": false,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 40.038854999693285,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-5",
+      "method": "hybrid_top5",
+      "returned": [
+        "reference-5",
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-5"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 40.038854999693285,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-5",
+      "method": "summary_selected_description_top5",
+      "returned": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3",
+        "reference-5"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-5"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-2",
+        "reference-0",
+        "reference-1",
+        "reference-3"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 40.038854999693285,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    },
+    {
+      "query": "query-5",
+      "method": "paragraphs_top5",
+      "returned": [
+        "reference-5",
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "known_positive_count": 1,
+      "retrieved_relevant": [
+        "reference-5"
+      ],
+      "missed_same_incident": [],
+      "false_suggestions": [
+        "reference-3",
+        "reference-2",
+        "reference-1",
+        "reference-0"
+      ],
+      "threshold_abstained": null,
+      "top5_truncated": true,
+      "same_incident_hits": 1,
+      "hits_at5": 1,
+      "review_worthy": 1,
+      "scope": "same genuine fixture institution; explicit synthetic IDs",
+      "shadow_all_channel_ms": 40.038854999693285,
+      "threshold_policy": "bounded experimental ranking; not calibrated for activation"
+    }
+  ],
+  "representation_costs": {
+    "summary": {
+      "unique_inputs": 7,
+      "warm_encode_seconds": 0.044142314000055194,
+      "float32_vector_bytes": 10752
+    },
+    "summary_selected_description": {
+      "unique_inputs": 7,
+      "warm_encode_seconds": 0.40419589700013603,
+      "float32_vector_bytes": 10752
+    },
+    "paragraphs": {
+      "unique_inputs": 15,
+      "warm_encode_seconds": 1.1211080840002978,
+      "float32_vector_bytes": 23040
+    }
+  },
+  "stored_compressed_vectors_bytes": 31631,
+  "real_education_accuracy": null,
+  "limits": [
+    "Authored synthetic labels; no independent review.",
+    "Tiny source-selection diagnostic, not a model/policy promotion.",
+    "Experimental rankings use no newly calibrated threshold.",
+    "Paragraph max pooling can increase false positives.",
+    "Known-positive families exist only in this synthetic fixture."
+  ]
+}

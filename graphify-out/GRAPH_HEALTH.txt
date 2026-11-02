@@ -2,18 +2,18 @@
 input: <in-memory>
 input_stage: provided JSON (normal graph.json is post-build)
 effective_directed: <direct-call>
-nodes: 1545
+nodes: 1575
 unverified_code_nodes: 0
-raw_edges: 3945
-valid_candidate_edges: 3945
+raw_edges: 3983
+valid_candidate_edges: 3983
 missing_endpoint_edges: 0
 dangling_endpoint_edges: 0
 external_reference_edges: 0
 self_loop_edges: 16
 exact_duplicate_edges: 0
-directed_unique_endpoint_pairs: 3945
+directed_unique_endpoint_pairs: 3983
 directed_same_endpoint_collapsed_edges: 0
-undirected_unique_endpoint_pairs: 3943
+undirected_unique_endpoint_pairs: 3981
 undirected_same_endpoint_collapsed_edges: 2
 same_endpoint_group_count: 0
 relation_variant_groups: 0
@@ -21,7 +21,7 @@ source_file_variant_groups: 0
 source_location_variant_groups: 0
 context_variant_groups: 0
 post_build_graph_type: DiGraph
-post_build_edges: 3945
+post_build_edges: 3983
 producer_suppression_sites: 12
 producer_suppression_examples:
   - L1676 seen_ids arity=unknown
@@ -33,4 +33,4 @@ producer_suppression_examples:
   - L3670 seen_keys arity=unknown
   - L5777 seen_ids arity=unknown
 note: normal graph.json is post-build; raw producer loss must be measured earlier.
-Final source audit coverage verified: 4 code files + research intake documentation. Remaining supported changes/deletions 0/0; unchanged CSS digest verified. SHA-256 source digests recorded in GRAPH_HEALTH.json. No private/results content indexed; all source paths repository-relative.
+Final source checkpoint: 967c1a5; zero supported changes/deletions; 1,575 nodes / 3,983 edges verified. Source digests in GRAPH_HEALTH.json.

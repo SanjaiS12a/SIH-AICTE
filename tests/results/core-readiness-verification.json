@@ -1,0 +1,416 @@
+{
+  "baseline": "2a47597",
+  "source_checkpoint": "967c1a5",
+  "main_unchanged": "f73fc0e0bcb33ef1a5f0342bf9c817dca3ce6097",
+  "functional_performance_exit_code": 0,
+  "independent_real_incident_labels": 0,
+  "model_or_threshold_changed": false,
+  "physical_offline": false,
+  "workloads": {
+    "1000-distributed": {
+      "before": {
+        "preview_seconds": 9.514543300000696,
+        "statistics_ready_seconds": 13.20528639999975,
+        "matching_and_report_seconds": 47.520184699999845,
+        "stage_timings": {
+          "queue_seconds": 0.35444,
+          "registration_seconds": 11.482015,
+          "matching_queue_seconds": 0.754947,
+          "matching_seconds": 34.104636
+        },
+        "ordinary_p95_ms": {
+          "read": 363.5972000001857,
+          "dashboard": 330.8220999997502,
+          "create": 182.67329999980575
+        },
+        "incident_p95_ms": {
+          "summary": 518.2015999998839,
+          "cases": 488.52179999994405,
+          "groups": 504.32809999983874,
+          "csv": 571.6575999995257
+        },
+        "all_imported_matched": true,
+        "sampled_resources": {
+          "samples": 20,
+          "cpu_mean_percent": {
+            "api": 40.2375,
+            "worker": 55.1855,
+            "db": 39.83
+          },
+          "cpu_max_percent": {
+            "api": 93.27,
+            "worker": 115.56,
+            "db": 68.55
+          },
+          "max_container_mib": {
+            "api": 100.0,
+            "worker": 461.5,
+            "db": 382.2
+          },
+          "max_host_used_bytes": 14876905472,
+          "limit": "Observed samples, not guaranteed peaks. Docker CPU can exceed 100%; host includes unrelated applications."
+        },
+        "objectives": {
+          "read_below_500ms": true,
+          "registration_below_500ms": true,
+          "dashboard_below_1s": true,
+          "incident_summary_below_500ms": false,
+          "preview_within_10s": true,
+          "statistics_within_30s": true,
+          "matching_within_120s": true
+        }
+      },
+      "after": {
+        "preview_seconds": 5.74501969999983,
+        "statistics_ready_seconds": 10.843004499999552,
+        "matching_and_report_seconds": 39.565596899999946,
+        "stage_timings": {
+          "queue_seconds": 0.116169,
+          "registration_seconds": 9.671243,
+          "matching_queue_seconds": 0.159465,
+          "matching_seconds": 28.551514
+        },
+        "ordinary_p95_ms": {
+          "read": 545.1499999999214,
+          "dashboard": 452.45409999915864,
+          "create": 627.4707000002309
+        },
+        "incident_p95_ms": {
+          "summary": 553.9018000008582,
+          "cases": 476.4254000001529,
+          "groups": 473.77719999985857,
+          "csv": 548.8621000004059
+        },
+        "all_imported_matched": true,
+        "sampled_resources": {
+          "samples": 13,
+          "cpu_mean_percent": {
+            "api": 53.07769230769231,
+            "worker": 69.34846153846154,
+            "db": 52.706923076923076
+          },
+          "cpu_max_percent": {
+            "api": 101.83,
+            "worker": 115.13,
+            "db": 76.68
+          },
+          "max_container_mib": {
+            "api": 101.2,
+            "worker": 471.1,
+            "db": 231.8
+          },
+          "max_host_used_bytes": 13681623040,
+          "limit": "Observed samples, not guaranteed peaks. Docker CPU can exceed 100%; host includes unrelated applications."
+        },
+        "queue_observations": {
+          "broker_rows": {
+            "max": 1,
+            "mean": 0.7692307692307693
+          },
+          "broker_ready": {
+            "max": 1,
+            "mean": 0.07692307692307693
+          },
+          "pending_complaints": {
+            "max": 1000,
+            "mean": 397.3076923076923
+          },
+          "database_lock_waiters": {
+            "max": 1,
+            "mean": 0.07692307692307693
+          }
+        },
+        "objectives": {
+          "read_below_500ms": false,
+          "registration_below_500ms": false,
+          "dashboard_below_1s": true,
+          "incident_summary_below_500ms": false,
+          "preview_within_10s": true,
+          "statistics_within_30s": true,
+          "matching_within_120s": true
+        }
+      }
+    },
+    "10000-concentrated": {
+      "before": {
+        "preview_seconds": 55.31030240000018,
+        "statistics_ready_seconds": 109.76037199999973,
+        "matching_and_report_seconds": 693.9544043999995,
+        "stage_timings": {
+          "queue_seconds": 0.353354,
+          "registration_seconds": 108.076829,
+          "matching_queue_seconds": 0.194796,
+          "matching_seconds": 584.255724
+        },
+        "ordinary_p95_ms": {
+          "read": 273.20460000009916,
+          "dashboard": 461.13100000002305,
+          "create": 171.14500000025146
+        },
+        "incident_p95_ms": {
+          "summary": 598.4020999994755,
+          "cases": 350.1853999996456,
+          "groups": 289.6688000000722,
+          "csv": 319.5375999994212
+        },
+        "all_imported_matched": true,
+        "sampled_resources": {
+          "samples": 227,
+          "cpu_mean_percent": {
+            "api": 39.9663436123348,
+            "worker": 43.93625550660793,
+            "db": 91.6433039647577
+          },
+          "cpu_max_percent": {
+            "api": 234.11,
+            "worker": 109.83,
+            "db": 165.52
+          },
+          "max_container_mib": {
+            "api": 201.9,
+            "worker": 476.6,
+            "db": 423.3
+          },
+          "max_host_used_bytes": 15158743040,
+          "limit": "Observed samples, not guaranteed peaks. Docker CPU can exceed 100%; host includes unrelated applications."
+        },
+        "objectives": {
+          "read_below_500ms": true,
+          "registration_below_500ms": true,
+          "dashboard_below_1s": true,
+          "incident_summary_below_500ms": false
+        }
+      },
+      "after": {
+        "preview_seconds": 59.89134860000013,
+        "statistics_ready_seconds": 90.88384170000063,
+        "matching_and_report_seconds": 595.2147944000008,
+        "stage_timings": {
+          "queue_seconds": 0.262577,
+          "registration_seconds": 89.07915,
+          "matching_queue_seconds": 0.106502,
+          "matching_seconds": 504.834984
+        },
+        "ordinary_p95_ms": {
+          "read": 266.57760000125563,
+          "dashboard": 666.8927000009717,
+          "create": 369.63310000101046
+        },
+        "incident_p95_ms": {
+          "summary": 497.2533999989537,
+          "cases": 380.18560000091384,
+          "groups": 445.55440000112867,
+          "csv": 507.1662999998807
+        },
+        "all_imported_matched": true,
+        "sampled_resources": {
+          "samples": 184,
+          "cpu_mean_percent": {
+            "api": 38.438804347826085,
+            "worker": 49.87972826086956,
+            "db": 97.67391304347827
+          },
+          "cpu_max_percent": {
+            "api": 94.7,
+            "worker": 109.74,
+            "db": 140.62
+          },
+          "max_container_mib": {
+            "api": 202.9,
+            "worker": 476.9,
+            "db": 295.3
+          },
+          "max_host_used_bytes": 14202597376,
+          "limit": "Observed samples, not guaranteed peaks. Docker CPU can exceed 100%; host includes unrelated applications."
+        },
+        "queue_observations": {
+          "broker_rows": {
+            "max": 2,
+            "mean": 0.907608695652174
+          },
+          "broker_ready": {
+            "max": 1,
+            "mean": 0.010869565217391304
+          },
+          "pending_complaints": {
+            "max": 9936,
+            "mean": 4041.5597826086955
+          },
+          "database_lock_waiters": {
+            "max": 8,
+            "mean": 0.3641304347826087
+          }
+        },
+        "objectives": {
+          "read_below_500ms": true,
+          "registration_below_500ms": true,
+          "dashboard_below_1s": true,
+          "incident_summary_below_500ms": true
+        }
+      }
+    }
+  },
+  "queue_dispatch": {
+    "before": {
+      "requests": 12,
+      "poll_seconds": 1,
+      "workers": 1,
+      "dispatch_ms": [
+        762.3884677886963,
+        961.9386196136475,
+        989.6199703216553,
+        978.2888889312744,
+        982.9752445220947,
+        961.8077278137207,
+        980.1280498504639,
+        991.8994903564453,
+        998.9705085754395,
+        1003.3538341522217,
+        1022.8626728057861,
+        992.0027256011963
+      ],
+      "p50_ms": 986.297607421875,
+      "p95_ms": 1022.8626728057861,
+      "scope": "Sequential idle audit broker time.time tasks, not full import or sustained throughput."
+    },
+    "after": {
+      "requests": 12,
+      "poll_seconds": 0.2,
+      "workers": 1,
+      "dispatch_ms": [
+        180.4201602935791,
+        194.24176216125488,
+        156.31413459777832,
+        200.96468925476074,
+        219.5718288421631,
+        179.69107627868652,
+        233.89554023742676,
+        210.3121280670166,
+        184.2355728149414,
+        186.91658973693848,
+        194.81325149536133,
+        202.09360122680664
+      ],
+      "p50_ms": 194.5275068283081,
+      "p95_ms": 233.89554023742676,
+      "scope": "Sequential idle audit broker time.time tasks, not full import or sustained throughput."
+    }
+  },
+  "acss_preparation": {
+    "source_sha256": "afd843068ddd36d65905f3e6b99ff201ddcc6405a297abf2ef3eeafdd351c55a",
+    "candidate_records": 20,
+    "unscored_pairs": 10,
+    "excluded": {
+      "length_outside_candidate_bounds": 6,
+      "repeated_text": 27
+    },
+    "selection": "First 20 bounded unique literal Complaint-labelled narratives in source order; not a representative sample.",
+    "redaction_counts": {},
+    "privacy_review_completed": false,
+    "institution_identity_verified": false,
+    "independent_labels": 0,
+    "evaluation_permitted": false,
+    "training_permitted": false,
+    "redistribution_permitted": false,
+    "model_scored": false,
+    "limits": "Automated masking misses names/contextual identifiers. Review files remain restricted; permission, privacy and genuine entity gates precede annotation use. Unscored adjacent pairs are not same-incident or eligible retrieval labels."
+  },
+  "acss_licence_status": {
+    "refresh_attempt": "2026-11-02",
+    "official_api_status": 403,
+    "article_browser_status": "CAPTCHA; not bypassed",
+    "last_verified_metadata_version": "2.0",
+    "last_verified_publisher_license": "CC BY-NC 4.0",
+    "article_describes": "CC BY 4.0",
+    "discrepancy_resolved": false,
+    "training_or_redistribution_clearance": false
+  },
+  "tests": {
+    "django_enabled": {
+      "passed": 221,
+      "seconds": 91.881,
+      "exit_code": 0
+    },
+    "django_disabled": {
+      "passed": 221,
+      "seconds": 100.297,
+      "exit_code": 0
+    },
+    "operations": {
+      "passed": 5,
+      "seconds": 13.027,
+      "exit_code": 0
+    },
+    "build": {
+      "passed": true,
+      "seconds": 38.54,
+      "exit_code": 0
+    },
+    "shadow_exit_code": 0,
+    "migration_preservation": {
+      "tables": 22,
+      "exit_code": 0
+    },
+    "schema_drift": "No changes detected",
+    "edge_disabled": {
+      "passed": 1,
+      "seconds": 6.7,
+      "exit_code": 0
+    },
+    "cancellation_repeats": {
+      "passed": 3,
+      "seconds": 39.7,
+      "exit_code": 0
+    },
+    "edge_initial": {
+      "passed": 80,
+      "failed": 1,
+      "skipped": 1,
+      "exit_code": 1
+    },
+    "prepared_build_seconds": 8.55,
+    "edge_final": {
+      "passed": 81,
+      "skipped": 1,
+      "minutes": 11.1,
+      "exit_code": 0,
+      "skip_reason": "Disabled-only test passed separately against disabled API."
+    }
+  },
+  "publication_authorized": true,
+  "worker_recovery": {
+    "case_id": "636cb5f5-6b00-4f7d-b9bd-ece4e849a785",
+    "pending_while_worker_stopped": true,
+    "durable_queue_rows": 1,
+    "registration_ms": 242.0345000027737,
+    "restart_to_complete_seconds": 12.878271700003097,
+    "matching_state": "complete",
+    "physical_offline": false,
+    "scope": "Actual audit worker restart; no working-demo database access."
+  },
+  "restore": {
+    "source_commit": "967c1a53a0ab11aa8b7b102e44590c487c3e7f8c",
+    "restore_database": "coordination_restore_final_b4d96afcea",
+    "database_sha256": "fa1ebf8bc0f0ef6c8a43e6d20dbcec4dafbd55c547716e95d87578c476c93671",
+    "all_tables_match": true,
+    "private_and_model_checksums_verified": true,
+    "working_database_accessed": false,
+    "physical_offline": false
+  },
+  "preparation": "Existing isolated Docker/model assets; locked frontend reinstallation, build, clean shutdown and prepared startup succeeded. Not a brand-new-machine or physically disconnected installation.",
+  "graph": {
+    "source_commit": "967c1a5",
+    "nodes": 1575,
+    "edges": 3983,
+    "communities": 115,
+    "represented_sources": 170,
+    "remaining_supported_changes": 0,
+    "missing_or_dangling_endpoints": 0
+  },
+  "external_gates": [
+    "Physically disconnected startup has not been performed.",
+    "Independent education incident labels unavailable.",
+    "Manual privacy/institution identity review and licence clarification pending."
+  ],
+  "publication_scope": "User-authorized source publication after engineering checks; not certification of all performance, real-data or offline goals."
+}
