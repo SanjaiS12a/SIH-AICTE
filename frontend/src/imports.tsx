@@ -13,6 +13,7 @@ import {
 import { api } from "./api";
 import { validDashboard } from "./dashboard-data";
 import { ManagementPanels } from "./management";
+import { IncidentSummary } from "./incident-summary";
 import type { Dashboard, User, Options } from "./api";
 
 type Job = {
@@ -784,9 +785,11 @@ function Bars({
 export function Report({
   filters,
   embedded = false,
+  incidentGroups = false,
 }: {
   filters: string;
   embedded?: boolean;
+  incidentGroups?: boolean;
 }) {
   const ReportHeading = embedded ? "h2" : "h1";
   const params = new URLSearchParams(filters),
@@ -840,6 +843,7 @@ export function Report({
         </div>
       </div>
       <ErrorNotice text={error || jobError} />
+      {facts && incidentGroups && <IncidentSummary filters={filters} allTime={embedded} />}
       {!data && !error && <p>Preparing report…</p>}
       {job && (
         <div className="policy-note">

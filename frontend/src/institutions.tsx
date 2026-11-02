@@ -1,5 +1,6 @@
 import { ReviewEvidence } from "./evidence";
 import { IncidentGroups } from "./intelligence";
+import { IncidentSummary } from "./incident-summary";
 import { useState } from "react";
 import { CoordinationNotices } from "./management";
 import type { FormEvent } from "react";
@@ -525,7 +526,8 @@ export function InstitutionProfilePage({
             )}
           </nav>
           {section === "overview" && (
-            <InstitutionOverview institution={institution} />
+            <><InstitutionOverview institution={institution} />
+              {user.features?.incident_groups && ['coordinator','auditor'].includes(user.role) && <IncidentSummary filters={`institution=${id}`} allTime />}</>
           )}
           {section === "cases" && (
             <InstitutionCases
@@ -562,6 +564,7 @@ export function InstitutionProfilePage({
               <Report
                 filters={new URLSearchParams({ institution: id! }).toString()}
                 embedded
+                incidentGroups={['coordinator','auditor'].includes(user.role) && user.features?.incident_groups}
               />
             </section>
           )}

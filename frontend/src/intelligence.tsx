@@ -73,7 +73,7 @@ function ReviewedFacts({ complaint, user }: { complaint: Case; user: User }) {
     {data && (data.results.length ? data.results.map(f => <FactReview key={f.id} fact={f} caseId={complaint.id} user={user} refresh={()=>setRefresh(r=>r+1)} />) : <Empty>No proposed facts.</Empty>)}
     {data && <LocalPages page={page} count={data.count} next={data.next} change={setPage} />}
     {user.role !== 'auditor' && <form onSubmit={propose} className="form-panel form-grid">
-      <label>Fact type<select value={kind} onChange={e=>setKind(e.target.value)}><option value="remedy">Requested remedy</option><option value="reference">Explicit reference</option><option value="incident_date">Incident date (ISO only)</option></select></label>
+      <label>Fact type<select value={kind} onChange={e=>setKind(e.target.value)}><option value="remedy">Requested remedy</option><option value="reference">Explicit reference</option><option value="incident_date">Incident date (ISO only)</option><option value="academic_year">Academic year or batch</option><option value="allegation">Main alleged issue</option><option value="topic">Recorded issue topic</option></select></label>
       <label>Evidence source<select value={field} onChange={e=>{setField(e.target.value as typeof field);setStart(0);setEnd(0);}}><option value="summary">Original summary</option><option value="description">Original description</option><option value="source_reference">Source reference</option></select></label>
       <label className="wide">Select supporting text<textarea readOnly value={text} onSelect={e=>{setStart(e.currentTarget.selectionStart);setEnd(e.currentTarget.selectionEnd);}} /></label>
       <p className="wide">Selected evidence: {quote || 'Select an exact span in the field above.'}</p>
@@ -93,33 +93,52 @@ function FactReview({fact,caseId,user,refresh}:{fact:Fact;caseId:string;user:Use
   </article>;
 }
 
-type Group = { id:string; title:string; reason:string; version:number; needs_review:boolean; supporting_relationship_id:number|null; cases:{id:string;reference:string}[] };
+type Group = { id:string; title:string; reason:string; version:number; needs_review:boolean; state:'active'|'retired'; supporting_relationship_id:number|null; cases:{id:string;reference:string;bureau:string;status:string;due_at:string}[] };
 export function IncidentGroups({institution,user}:{institution:string;user:User}) {
   const [refresh,setRefresh]=useState(0), [page,setPage]=useState(1), [casePage,setCasePage]=useState(1), [search,setSearch]=useState('');
   const {data,error}=usePoll<Page<Group>>(user.features?.incident_groups ? `/api/incident-groups?institution=${institution}&page=${page}` : null,0,refresh,validGroups);
   const {data:cases,error:caseError}=usePoll<Page<Case>>(user.features?.incident_groups && user.role==='coordinator' ? `/api/institutions/${institution}/cases?page=${casePage}&q=${encodeURIComponent(search)}` : null);
   const [editing,setEditing]=useState<Group|null>(null), [selected,setSelected]=useState<string[]>([]),[title,setTitle]=useState(''),[reason,setReason]=useState(''),[support,setSupport]=useState('');
   const [message,setMessage]=useState(''),[busy,setBusy]=useState(false),[submission,setSubmission]=useState(crypto.randomUUID());
+  const [state,setState]=useState<'active'|'retired'>('active');
   if (!user.features?.incident_groups) return null;
   async function save(e:FormEvent) {
     e.preventDefault();setBusy(true);setMessage('');
-    try {await api(`/api/incident-groups${editing ? '/'+editing.id : ''}`,{method:editing?'PATCH':'POST',body:JSON.stringify({submission_id:submission,expected_version:editing?.version,institution,title,reason,cases:selected,supporting_relationship:support?Number(support):null})});
-      setEditing(null);setSelected([]);setTitle('');setReason('');setSupport('');setSubmission(crypto.randomUUID());setRefresh(r=>r+1);
+    try {await api(`/api/incident-groups${editing ? '/'+editing.id : ''}`,{method:editing?'PATCH':'POST',body:JSON.stringify({submission_id:submission,expected_version:editing?.version,institution,title,reason,cases:selected,supporting_relationship:support?Number(support):null,state})});
+      setEditing(null);setSelected([]);setTitle('');setReason('');setSupport('');setState('active');setSubmission(crypto.randomUUID());setRefresh(r=>r+1);
     } catch(e) {setMessage(e instanceof ApiError && e.status===409 ? 'This group changed. Your selection is retained; reload the group and reconcile before saving.' : (e as Error).message);} finally {setBusy(false);}
   }
   return <section className="card-body" aria-label="Manual incident groups"><h3>Manual incident groups — experimental</h3><p>Explicit organization only. Cases retain their own ownership, deadlines and status. Related issues do not establish one incident.</p><ErrorBox message={error || message || caseError} />
     <button type="button" className="text-button" onClick={()=>setRefresh(r=>r+1)}>Reload group list (keep unsaved draft)</button>
-    {!data && !error && <Loading />}{data && (data.results.length ? data.results.map(g=><article className="panel card-body" key={g.id}><h4>{g.title}</h4><p>{g.reason} · version {g.version} · {g.needs_review?'Supporting relationship changed: review required':'Explicitly reviewed'}</p><ul>{g.cases.map(c=><li key={c.id}><Link to={`/cases/${c.id}`}>{c.reference}</Link></li>)}</ul>{user.role==='coordinator' && <button onClick={()=>{setEditing(g);setSelected(g.cases.map(c=>c.id));setTitle(g.title);setReason(g.reason);setSupport(g.supporting_relationship_id?.toString()||'');setMessage('');}}>Review group {g.title} (replace unsaved draft)</button>}</article>) : <Empty>No incident groups.</Empty>)}
+    {!data && !error && <Loading />}{data && (data.results.length ? data.results.map(g=><article className="panel card-body" key={g.id} id={`incident-${g.id}`}><h4>{g.title}</h4><p>{g.reason} · version {g.version} · {g.state==='retired'?'Retired — historical membership':g.needs_review?'Supporting relationship changed: review required':'Explicitly reviewed'}</p>
+      <p>{g.cases.length} independent complaint records. Their owners, statuses and deadlines remain separate.</p>
+      <ul>{g.cases.map(c=><li key={c.id}><Link to={`/cases/${c.id}`}>{c.reference}</Link> · {c.bureau} · {labels[c.status]||c.status} · deadline {date(c.due_at)}</li>)}</ul>
+      {g.state==='active' && !g.needs_review && <p><Link className="text-button" to={`/coordination/workspace?institution=${institution}&incident_group=${g.id}`}>Coordinate this incident →</Link></p>}
+      <GroupHistory id={g.id} />
+      {user.role==='coordinator' && g.state==='active' && <button onClick={()=>{setEditing(g);setSelected(g.cases.map(c=>c.id));setTitle(g.title);setReason(g.reason);setSupport(g.supporting_relationship_id?.toString()||'');setState('active');setMessage('');}}>Review group {g.title} (replace unsaved draft)</button>}</article>) : <Empty>No incident groups.</Empty>)}
     {data && <LocalPages page={page} count={data.count} next={data.next} change={setPage} />}
     {user.role==='coordinator' && <form onSubmit={save} className="form-panel form-grid"><h4>{editing?'Review existing group':'Create an explicit group'}</h4>
       <label>Incident group title<input required maxLength={180} value={title} onChange={e=>setTitle(e.target.value)} /></label><label>Group decision reason<textarea required maxLength={4000} value={reason} onChange={e=>setReason(e.target.value)} /></label>
       <label>Supporting same-incident relationship ID (optional)<input type="number" min="1" value={support} onChange={e=>setSupport(e.target.value)} /></label>
+      <p className="wide">Include the supporting event evidence in the reason. A related-issue decision or a chain of similar pairs does not establish membership.</p>
+      {editing && <label>Group lifecycle<select value={state} onChange={e=>setState(e.target.value as typeof state)}><option value="active">Active reviewed group</option><option value="retired">Retire group, preserve history</option></select></label>}
       <label>Find member cases<input value={search} onChange={e=>{setSearch(e.target.value);setCasePage(1);}} /></label>
       <fieldset className="wide"><legend>Select 2–20 cases from this institution ({selected.length} selected across pages)</legend>{cases?.results.map(c=><label key={c.id}><input type="checkbox" checked={selected.includes(c.id)} onChange={e=>setSelected(s=>e.target.checked?[...s,c.id]:s.filter(id=>id!==c.id))} />{c.reference} · {c.summary}</label>)}</fieldset>
       {cases && <LocalPages page={casePage} count={cases.count} next={cases.next} change={setCasePage} />}
       <button type="submit" disabled={busy || selected.length<2 || selected.length>20}>Save explicit incident group</button>
     </form>}
   </section>;
+}
+function GroupHistory({id}:{id:string}) {
+  const [open,setOpen]=useState(false),[page,setPage]=useState(1);
+  const {data,error}=usePoll<Page<{id:number;reference:string;reason:string;kind:string;actor:string;created_at:string}>>(open?`/api/incident-groups/${id}/history?page=${page}`:null,5000,0,validGroupHistory);
+  return <details onToggle={e=>setOpen(e.currentTarget.open)}><summary>Complete incident membership history</summary><ErrorBox message={error} />{open && !data && !error && <Loading />}
+    {data && <><ul>{data.results.map(a=><li key={a.id}>{date(a.created_at)} · {a.reference} · {a.actor}: {a.reason}</li>)}</ul><LocalPages page={page} count={data.count} next={data.next} change={setPage} /></>}
+  </details>;
+}
+function validGroupHistory(value:unknown):boolean {
+  const p=value as Page<{id:number;reference:string;reason:string;actor:string;created_at:string}>|null;
+  return !!p && Number.isInteger(p.count) && Array.isArray(p.results) && p.results.every(a=>!!a && Number.isInteger(a.id) && typeof a.reference==='string' && typeof a.reason==='string' && typeof a.actor==='string' && typeof a.created_at==='string');
 }
 function LocalPages({page,count,next,change}:{page:number;count:number;next:string|null;change:(page:number)=>void}) {
   return <nav className="pagination" aria-label="Section pages"><button type="button" className="button secondary" disabled={page===1} onClick={()=>change(page-1)}>Previous page</button> <span>Page {page} · {count} records</span> <button type="button" className="button secondary" disabled={!next} onClick={()=>change(page+1)}>Next page</button></nav>;
@@ -131,5 +150,5 @@ function validFacts(value: unknown): boolean {
 }
 function validGroups(value: unknown): boolean {
   const p=value as Page<Group>|null;
-  return !!p && Number.isInteger(p.count) && p.count>=0 && Array.isArray(p.results) && p.results.every(g=>g && typeof g.id==='string' && typeof g.title==='string' && typeof g.reason==='string' && Number.isInteger(g.version) && Array.isArray(g.cases) && g.cases.every(c=>c && typeof c.id==='string' && typeof c.reference==='string'));
+  return !!p && Number.isInteger(p.count) && p.count>=0 && Array.isArray(p.results) && p.results.every(g=>g && typeof g.id==='string' && typeof g.title==='string' && typeof g.reason==='string' && ['active','retired'].includes(g.state) && typeof g.needs_review==='boolean' && Number.isInteger(g.version) && Array.isArray(g.cases) && g.cases.every(c=>c && typeof c.id==='string' && typeof c.reference==='string' && typeof c.bureau==='string' && typeof c.status==='string' && typeof c.due_at==='string'));
 }

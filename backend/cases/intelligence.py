@@ -69,7 +69,7 @@ class FactSerializer(serializers.ModelSerializer):
 
 class FactInput(serializers.Serializer):
     submission_id = serializers.UUIDField()
-    kind = serializers.ChoiceField(choices=['incident_date','reference','remedy'])
+    kind = serializers.ChoiceField(choices=['incident_date','reference','remedy','academic_year','allegation','topic'])
     source_field = serializers.ChoiceField(choices=['summary','description','source_reference'])
     span_start = serializers.IntegerField(min_value=0)
     span_end = serializers.IntegerField(min_value=1)
@@ -160,6 +160,7 @@ class GroupInput(serializers.Serializer):
     reason = serializers.CharField(max_length=4000)
     cases = serializers.ListField(child=serializers.UUIDField(), min_length=2, max_length=20)
     supporting_relationship = serializers.IntegerField(min_value=1, allow_null=True, default=None)
+    state = serializers.ChoiceField(choices=['active','retired'], default='active')
 
     def validate_cases(self, values):
         if len(set(values)) != len(values): raise ValidationError('Select each case once.')
@@ -169,15 +170,15 @@ class GroupInput(serializers.Serializer):
 class GroupSerializer(serializers.ModelSerializer):
     cases = serializers.SerializerMethodField()
     def get_cases(self, obj):
-        return [{'id':str(m.case_id),'reference':m.case.reference} for m in obj.memberships.all() if m.active]
+        return [{'id':str(m.case_id),'reference':m.case.reference,'bureau':m.case.bureau.code,'status':m.case.status,'due_at':m.case.due_at} for m in obj.memberships.all() if m.active]
     class Meta:
         model = IncidentGroup
-        fields = ['id','submission_id','institution_id','title','reason','reviewer_id','supporting_relationship_id','needs_review','version','created_at','cases']
+        fields = ['id','submission_id','institution_id','title','reason','reviewer_id','supporting_relationship_id','needs_review','state','retired_at','version','created_at','cases']
 
 
 def group_query():
     from django.db.models import Prefetch
-    return IncidentGroup.objects.prefetch_related(Prefetch('memberships',queryset=IncidentMembership.objects.select_related('case')))
+    return IncidentGroup.objects.prefetch_related(Prefetch('memberships',queryset=IncidentMembership.objects.select_related('case__bureau').order_by('case__reference','case_id')))
 
 
 def group_audit(group, actor, reason, before, after, kind='coordination_group_changed', profile_before=None):
@@ -190,7 +191,8 @@ def group_audit(group, actor, reason, before, after, kind='coordination_group_ch
 
 def group_profile(group):
     return {'title':group.title,'reason':group.reason,'reviewer_id':group.reviewer_id,
-            'supporting_relationship_id':group.supporting_relationship_id,'needs_review':group.needs_review,'version':group.version}
+            'supporting_relationship_id':group.supporting_relationship_id,'needs_review':group.needs_review,'version':group.version,
+            'state':group.state,'retired_at':group.retired_at.isoformat() if group.retired_at else None}
 
 
 def flag_supporting_groups(pair, actor, reason):
@@ -211,22 +213,35 @@ def groups(request):
     return save_group(request)
 
 
-@api_view(['PATCH'])
+@api_view(['GET','PATCH'])
 def edit_group(request, group_id):
-    feature('ENABLE_INCIDENT_GROUPS'); manager(request.user, write=True)
+    manager(request.user, write=request.method=='PATCH'); feature('ENABLE_INCIDENT_GROUPS')
+    if request.method == 'GET':
+        return Response(GroupSerializer(get_object_or_404(group_query(),pk=group_id)).data)
     return save_group(request, group_id)
+
+
+@api_view(['GET'])
+def group_history(request, group_id):
+    manager(request.user); feature('ENABLE_INCIDENT_GROUPS')
+    group = get_object_or_404(IncidentGroup,pk=group_id)
+    from .institutions import InstitutionHistorySerializer
+    qs = CaseAction.objects.filter(case__in=scoped_cases(request.user),case__institution_id=group.institution_id,
+        kind__startswith='coordination_group',changes__group_id=str(group.pk)).select_related('actor','case','bureau_at_action').order_by('-created_at','-id')
+    return page(request,qs,InstitutionHistorySerializer)
 
 
 def save_group(request, group_id=None):
     form = GroupInput(data=request.data); form.is_valid(raise_exception=True); d = form.validated_data
     if group_id and 'expected_version' not in d: raise ValidationError('Expected version required.')
     if not group_id and 'submission_id' not in d: raise ValidationError('Submission ID required.')
+    if not group_id and d['state'] != 'active': raise ValidationError('Create an active group before retiring it.')
     with transaction.atomic():
         institution = get_object_or_404(Institution.objects.select_for_update(), pk=d['institution'])
         pair = None
         if d['supporting_relationship']:
             pair = get_object_or_404(OverlapCandidate.objects.select_for_update(), pk=d['supporting_relationship'])
-            if pair.decision != 'same_incident' or pair.left_id not in d['cases'] or pair.right_id not in d['cases']:
+            if (d['state'] == 'active' and pair.decision != 'same_incident') or pair.left_id not in d['cases'] or pair.right_id not in d['cases']:
                 raise ValidationError('Supporting relationship must be a reviewed same-incident pair within the selected cases.')
         group = get_object_or_404(IncidentGroup.objects.select_for_update(), pk=group_id, institution=institution) if group_id else None
         cases = list(scoped_cases(request.user).select_for_update(of=('self',)).filter(pk__in=d['cases'], institution=institution).order_by('id'))
@@ -235,6 +250,7 @@ def save_group(request, group_id=None):
         previous = group_profile(group) if group else {}
         if group:
             if group.version != d['expected_version']: raise Conflict()
+            if group.state == 'retired': raise ValidationError('Retired groups are historical. Create a new reviewed group instead.')
             group.version += 1
         else:
             existing = IncidentGroup.objects.filter(submission_id=d['submission_id']).first()
@@ -245,6 +261,7 @@ def save_group(request, group_id=None):
                 return Response(GroupSerializer(group_query().get(pk=existing.pk)).data)
             group = IncidentGroup(submission_id=d['submission_id'],institution=institution)
         group.title, group.reason, group.reviewer = d['title'], d['reason'], request.user
+        group.state = d['state']; group.retired_at = timezone.now() if group.state == 'retired' else None
         group.supporting_relationship, group.needs_review = pair, False
         try:
             with transaction.atomic():

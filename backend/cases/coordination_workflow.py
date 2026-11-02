@@ -29,9 +29,13 @@ class OpenInput(serializers.Serializer):
     lead_officer = serializers.IntegerField(min_value=1)
     reason = serializers.CharField(max_length=4000)
     participants = ParticipantInput(many=True, allow_empty=False)
+    incident_group = serializers.UUIDField(required=False)
+    expected_group_version = serializers.IntegerField(min_value=1, required=False)
 
     def validate(self, data):
         ids = data['cases']
+        if ('incident_group' in data) != ('expected_group_version' in data):
+            raise ValidationError('Incident group and its expected version must be supplied together.')
         if len(set(ids)) != len(ids):
             raise ValidationError('Select each case only once.')
         participants = data['participants']
@@ -61,13 +65,14 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
 
 class RecordSerializer(serializers.ModelSerializer):
+    incident_group_id = serializers.UUIDField(read_only=True,allow_null=True)
     institution_name = serializers.CharField(source='institution.name')
     lead_bureau_name = serializers.CharField(source='lead_bureau.name')
     lead_officer_name = serializers.CharField(source='lead_officer.get_full_name')
     participants = ParticipantSerializer(many=True)
     class Meta:
         model = CoordinationRecord
-        fields = ['id', 'institution_id', 'institution_name', 'lead_bureau_name', 'lead_officer_name', 'reason', 'state', 'outcome', 'version', 'created_at', 'closed_at', 'participants']
+        fields = ['id', 'institution_id', 'institution_name', 'lead_bureau_name', 'lead_officer_name', 'reason', 'state', 'outcome', 'version', 'created_at', 'closed_at', 'participants','incident_group_id','incident_group_version']
 
 
 def require_management(user, write=False):
@@ -90,6 +95,7 @@ def filtered_records(request):
     form.is_valid(raise_exception=True)
     p = form.validated_data
     qs = records()
+    if p.get('incident_group'): qs = qs.filter(incident_group_id=p['incident_group'])
     for key, field in [('institution','institution_id'), ('region','institution__region'), ('district','institution__district__icontains')]:
         if key == 'district' and p.get('district_exact'): field = 'institution__district'
         if p.get(key): qs = qs.filter(**{field:p[key]})
@@ -126,6 +132,18 @@ def registry(request):
             if existing.created_by_id != request.user.pk or existing.submission_fingerprint != fingerprint:
                 raise Conflict('Submission ID already belongs to a different coordination request.')
             return Response(RecordSerializer(records().get(pk=existing.pk)).data)
+        group = None
+        if data.get('incident_group'):
+            from .intelligence import feature
+            from .models import IncidentGroup
+            feature('ENABLE_INCIDENT_GROUPS')
+            group = get_object_or_404(IncidentGroup.objects.select_for_update(),pk=data['incident_group'],institution_id=data['institution'])
+            if group.version != data['expected_group_version']: raise Conflict('The incident group changed. Reload and reconcile the coordination draft.')
+            if group.state != 'active' or group.needs_review or (group.supporting_relationship_id and group.supporting_relationship.decision != 'same_incident'):
+                raise ValidationError('Use a currently confirmed incident group.')
+            members = set(group.memberships.filter(active=True).values_list('case_id',flat=True))
+            if len(members)<2 or members != set(data['cases']):
+                raise ValidationError('Select every current member of this reviewed incident group.')
         cases = list(scoped_cases(request.user).select_for_update(of=('self',)).filter(pk__in=data['cases'], institution_id=data['institution']))
         if len(cases) != len(data['cases']):
             raise ValidationError('All selected cases must belong to this canonical institution.')
@@ -136,7 +154,7 @@ def registry(request):
             with transaction.atomic():
                 record = CoordinationRecord.objects.create(submission_id=data['submission_id'], submission_fingerprint=fingerprint,
                     institution_id=data['institution'], lead_bureau=data['lead_bureau'], lead_officer_id=data['lead_officer'],
-                    reason=data['reason'], created_by=request.user)
+                    reason=data['reason'], created_by=request.user,incident_group=group,incident_group_version=group.version if group else None)
         except IntegrityError:
             raise Conflict('This submission was recorded concurrently. Reload before continuing.')
         record.cases.set(cases)

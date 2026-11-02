@@ -485,7 +485,7 @@ function Shell({ user }: { user: User }) {
               />
               <Route
                 path="/reports"
-                element={<Report filters={location.search.slice(1)} />}
+                element={<Report filters={location.search.slice(1)} incidentGroups={isCoord && user.features?.incident_groups} />}
               />
               <Route
                 path="/"

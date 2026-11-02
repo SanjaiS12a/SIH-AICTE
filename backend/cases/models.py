@@ -121,6 +121,8 @@ class CoordinationRecord(models.Model):
     submission_fingerprint = models.CharField(max_length=64)
     institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
     cases = models.ManyToManyField(Complaint)
+    incident_group = models.ForeignKey('IncidentGroup', on_delete=models.PROTECT, null=True, blank=True)
+    incident_group_version = models.PositiveIntegerField(null=True, blank=True)
     lead_bureau = models.ForeignKey(Bureau, on_delete=models.PROTECT)
     lead_officer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     reason = models.TextField(max_length=4000)
@@ -133,7 +135,8 @@ class CoordinationRecord(models.Model):
 
     class Meta:
         ordering = ['-created_at', '-id']
-        constraints = [models.CheckConstraint(condition=Q(state='in_coordination', closed_at__isnull=True, outcome='') | (Q(state='closed', closed_at__isnull=False) & ~Q(outcome='')), name='coordination_closure_state')]
+        constraints = [models.CheckConstraint(condition=Q(state='in_coordination', closed_at__isnull=True, outcome='') | (Q(state='closed', closed_at__isnull=False) & ~Q(outcome='')), name='coordination_closure_state'),
+            models.CheckConstraint(condition=Q(incident_group__isnull=True,incident_group_version__isnull=True) | Q(incident_group__isnull=False,incident_group_version__isnull=False,incident_group_version__gte=1),name='coordination_group_snapshot_shape')]
 
 
 class CoordinationParticipant(models.Model):
@@ -157,7 +160,7 @@ class ReviewedFact(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     submission_id = models.UUIDField(unique=True)
     case = models.ForeignKey(Complaint, on_delete=models.PROTECT, related_name='reviewed_facts')
-    kind = models.CharField(max_length=20, choices=[(x, x) for x in ['incident_date', 'reference', 'remedy']])
+    kind = models.CharField(max_length=20, choices=[(x, x) for x in ['incident_date', 'reference', 'remedy', 'academic_year', 'allegation', 'topic']])
     source_field = models.CharField(max_length=20)
     span_start = models.PositiveIntegerField()
     span_end = models.PositiveIntegerField()
@@ -188,11 +191,15 @@ class IncidentGroup(models.Model):
     reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     supporting_relationship = models.ForeignKey(OverlapCandidate, on_delete=models.PROTECT, null=True)
     needs_review = models.BooleanField(default=False)
+    state = models.CharField(max_length=10, default='active', choices=[('active', 'Active'), ('retired', 'Retired')])
+    retired_at = models.DateTimeField(null=True, blank=True)
     version = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     class Meta:
         ordering = ['-created_at', '-id']
+        indexes = [models.Index(fields=['institution', 'state', 'needs_review'], name='incident_validity_idx')]
+        constraints = [models.CheckConstraint(condition=Q(state='active', retired_at__isnull=True) | Q(state='retired', retired_at__isnull=False), name='incident_retirement_state')]
 
 
 class IncidentMembership(models.Model):

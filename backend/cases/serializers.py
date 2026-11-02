@@ -102,6 +102,7 @@ class AttachmentSerializer(serializers.ModelSerializer):
         fields = ['id', 'original_name', 'content_type', 'size', 'created_at']
 
 class FilterSerializer(serializers.Serializer):
+    incident_group = serializers.UUIDField(required=False)
     import_id = serializers.UUIDField(required=False)
     q = serializers.CharField(max_length=200, required=False, allow_blank=True)
     institution = serializers.UUIDField(required=False)

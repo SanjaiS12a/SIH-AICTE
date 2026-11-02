@@ -121,6 +121,16 @@ button, .button { border-radius: 5px; }
 .work-task:hover { background: #fafcf9; }
 .work-task h2 { font-size: 17px; }
 .work-task p { color: var(--muted); }
+.incident-summary { margin-block: 20px; }
+.incident-summary p { margin-block: 12px; line-height: 1.7; }
+.incident-metrics { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 10px; margin-block: 18px; }
+.incident-metric { padding: 13px; display: grid; gap: 8px; text-align: left; background: white; color: var(--deep-green); border: 1px solid var(--border); }
+.incident-metric.active { border-color: var(--secondary-green); background: #f1f7f1; }
+.incident-metric span { font-size: 12px; }
+.incident-metric strong { font-size: 25px; }
+.incident-metric small { color: var(--muted); }
+.incident-drilldown { margin-top: 22px; }
+.incident-drilldown h3 { margin-bottom: 12px; }
 @media (max-width: 1200px) {
   .app { grid-template-columns: 204px minmax(0, 1fr); }
   #main { padding: 24px 22px 0; }

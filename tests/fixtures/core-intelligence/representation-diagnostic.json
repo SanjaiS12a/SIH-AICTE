@@ -1,0 +1,317 @@
+{
+  "provenance": "Authored synthetic source-selection diagnostic. Labels fixed before scoring; no independent human or real AICTE evidence.",
+  "records": [
+    {
+      "id": "reference-0",
+      "institution": "FIC-CORE-001",
+      "family": "refund-2025",
+      "category": "refunds",
+      "role": "reference",
+      "source_reference": "RF-731",
+      "summary": "Tuition refund RF-731 from the 2025 admission cancellation has not been paid.",
+      "description": "Tuition refund RF-731 from the 2025 admission cancellation has not been paid."
+    },
+    {
+      "id": "query-0",
+      "institution": "FIC-CORE-001",
+      "family": "refund-2025",
+      "category": "refunds",
+      "role": "query",
+      "source_reference": "RF-731",
+      "summary": "Please investigate the institution complaint.",
+      "description": "Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. \n\nThe fee return for cancelled admission transaction RF-731, academic year 2025, is still outstanding."
+    },
+    {
+      "id": "reference-1",
+      "institution": "FIC-CORE-001",
+      "family": "refund-2026",
+      "category": "refunds",
+      "role": "reference",
+      "source_reference": "RF-902",
+      "summary": "The 2026 cancellation refund RF-902 for another student is overdue.",
+      "description": "The 2026 cancellation refund RF-902 for another student is overdue."
+    },
+    {
+      "id": "query-1",
+      "institution": "FIC-CORE-001",
+      "family": "refund-2026",
+      "category": "refunds",
+      "role": "query",
+      "source_reference": "RF-902",
+      "summary": "Please investigate the institution complaint.",
+      "description": "Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. \n\nPlease return the refundable tuition for a different student under RF-902 in academic year 2026."
+    },
+    {
+      "id": "reference-2",
+      "institution": "FIC-CORE-001",
+      "family": "documents",
+      "category": "documents",
+      "role": "reference",
+      "source_reference": "DOC-41",
+      "summary": "Original school certificates DOC-41 were withheld after withdrawal.",
+      "description": "Original school certificates DOC-41 were withheld after withdrawal."
+    },
+    {
+      "id": "query-2",
+      "institution": "FIC-CORE-001",
+      "family": "documents",
+      "category": "documents",
+      "role": "query",
+      "source_reference": "DOC-41",
+      "summary": "Please investigate the institution complaint.",
+      "description": "Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. \n\nThe institution has not released the original certificates requested on withdrawal, reference DOC-41."
+    },
+    {
+      "id": "reference-3",
+      "institution": "FIC-CORE-001",
+      "family": "scholarship",
+      "category": "scholarships",
+      "role": "reference",
+      "source_reference": "SCH-88",
+      "summary": "The scholarship payment SCH-88 was sent to an incorrect bank account.",
+      "description": "The scholarship payment SCH-88 was sent to an incorrect bank account."
+    },
+    {
+      "id": "query-3",
+      "institution": "FIC-CORE-001",
+      "family": "scholarship",
+      "category": "scholarships",
+      "role": "query",
+      "source_reference": "SCH-88",
+      "summary": "Please investigate the institution complaint.",
+      "description": "Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. \n\nScholarship money for SCH-88 reached the wrong account and needs correction."
+    },
+    {
+      "id": "reference-4",
+      "institution": "FIC-CORE-001",
+      "family": "lab",
+      "category": "facilities",
+      "role": "reference",
+      "source_reference": "LAB-22",
+      "summary": "Laboratory electrical wiring LAB-22 is exposed and unsafe.",
+      "description": "Laboratory electrical wiring LAB-22 is exposed and unsafe."
+    },
+    {
+      "id": "query-4",
+      "institution": "FIC-CORE-001",
+      "family": "lab",
+      "category": "facilities",
+      "role": "query",
+      "source_reference": "LAB-22",
+      "summary": "Please investigate the institution complaint.",
+      "description": "Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. \n\nAn inspection is requested because open electric wires in laboratory LAB-22 create a safety hazard."
+    },
+    {
+      "id": "reference-5",
+      "institution": "FIC-CORE-001",
+      "family": "admission",
+      "category": "admissions",
+      "role": "reference",
+      "source_reference": "ADM-61",
+      "summary": "Admissions ADM-61 exceeded the approved intake in 2026.",
+      "description": "Admissions ADM-61 exceeded the approved intake in 2026."
+    },
+    {
+      "id": "query-5",
+      "institution": "FIC-CORE-001",
+      "family": "admission",
+      "category": "admissions",
+      "role": "query",
+      "source_reference": "ADM-61",
+      "summary": "Please investigate the institution complaint.",
+      "description": "Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. Background information only. \n\nThe sanctioned student seat capacity was exceeded in the 2026 admission round ADM-61."
+    },
+    {
+      "id": "reference-other-institution",
+      "institution": "FIC-CORE-002",
+      "family": "other-refund",
+      "category": "refunds",
+      "role": "reference",
+      "source_reference": "RF-731",
+      "summary": "Tuition refund RF-731 from the 2025 admission cancellation has not been paid.",
+      "description": "Tuition refund RF-731 from the 2025 admission cancellation has not been paid."
+    }
+  ],
+  "labels": [
+    {
+      "query": "query-0",
+      "reference": "reference-0",
+      "label": "same_incident"
+    },
+    {
+      "query": "query-0",
+      "reference": "reference-1",
+      "label": "related_issue"
+    },
+    {
+      "query": "query-0",
+      "reference": "reference-2",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-0",
+      "reference": "reference-3",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-0",
+      "reference": "reference-4",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-0",
+      "reference": "reference-5",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-1",
+      "reference": "reference-0",
+      "label": "related_issue"
+    },
+    {
+      "query": "query-1",
+      "reference": "reference-1",
+      "label": "same_incident"
+    },
+    {
+      "query": "query-1",
+      "reference": "reference-2",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-1",
+      "reference": "reference-3",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-1",
+      "reference": "reference-4",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-1",
+      "reference": "reference-5",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-2",
+      "reference": "reference-0",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-2",
+      "reference": "reference-1",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-2",
+      "reference": "reference-2",
+      "label": "same_incident"
+    },
+    {
+      "query": "query-2",
+      "reference": "reference-3",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-2",
+      "reference": "reference-4",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-2",
+      "reference": "reference-5",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-3",
+      "reference": "reference-0",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-3",
+      "reference": "reference-1",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-3",
+      "reference": "reference-2",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-3",
+      "reference": "reference-3",
+      "label": "same_incident"
+    },
+    {
+      "query": "query-3",
+      "reference": "reference-4",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-3",
+      "reference": "reference-5",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-4",
+      "reference": "reference-0",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-4",
+      "reference": "reference-1",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-4",
+      "reference": "reference-2",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-4",
+      "reference": "reference-3",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-4",
+      "reference": "reference-4",
+      "label": "same_incident"
+    },
+    {
+      "query": "query-4",
+      "reference": "reference-5",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-5",
+      "reference": "reference-0",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-5",
+      "reference": "reference-1",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-5",
+      "reference": "reference-2",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-5",
+      "reference": "reference-3",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-5",
+      "reference": "reference-4",
+      "label": "unrelated"
+    },
+    {
+      "query": "query-5",
+      "reference": "reference-5",
+      "label": "same_incident"
+    }
+  ]
+}

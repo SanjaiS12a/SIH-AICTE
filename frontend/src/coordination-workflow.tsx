@@ -36,6 +36,8 @@ type Record = {
   version: number;
   participants: Participant[];
   cases?: Case[];
+  incident_group_id?: string|null;
+  incident_group_version?: number|null;
 };
 type Request = {
   id: number;
@@ -101,6 +103,10 @@ function validRequests(value: unknown) {
     )
   );
 }
+function validSourceGroup(value:unknown):boolean {
+  const g=value as {id:string;title:string;version:number;state:string;needs_review:boolean;cases:{id:string}[]}|null;
+  return !!g && typeof g.id==='string' && typeof g.title==='string' && Number.isInteger(g.version) && ['active','retired'].includes(g.state) && typeof g.needs_review==='boolean' && Array.isArray(g.cases) && g.cases.every(c=>!!c && typeof c.id==='string');
+}
 
 export function CoordinationWorkspace({
   user,
@@ -111,6 +117,10 @@ export function CoordinationWorkspace({
 }) {
   const [params, setParams] = useSearchParams();
   const institution = params.get("institution");
+  const [groupVersion,setGroupVersion]=useState<number|null>(null);
+  const sourceGroupId = params.get('incident_group');
+  const {data:sourceGroup,error:groupError}=usePoll<{id:string;title:string;version:number;state:string;needs_review:boolean;cases:{id:string}[]}>(
+    sourceGroupId && user.features?.incident_groups && ['coordinator','auditor'].includes(user.role) ? `/api/incident-groups/${sourceGroupId}` : null,5000,0,validSourceGroup);
   const [chosen, setChosen] = useState<Case[]>([]),
     [reason, setReason] = useState(""),
     [lead, setLead] = useState(""),
@@ -137,7 +147,7 @@ export function CoordinationWorkspace({
   );
   const { data: cases, error: caseError } = usePoll<Page<Case>>(
     user.role === "coordinator" && institution
-      ? `/api/institutions/${institution}/cases?page=${params.get("case_page") || 1}`
+      ? `/api/institutions/${institution}/cases?page=${params.get("case_page") || 1}${sourceGroupId?`&incident_group=${encodeURIComponent(sourceGroupId)}`:''}`
       : null,
     0,
     0,
@@ -166,6 +176,7 @@ export function CoordinationWorkspace({
             officer: Number(p.officer),
             action_date: p.action_date || null,
           })),
+          ...(sourceGroupId ? {incident_group:sourceGroupId,expected_group_version:groupVersion} : {}),
         }),
       });
       navigate(`/coordination/workspace/${result.id}`);
@@ -189,6 +200,10 @@ export function CoordinationWorkspace({
         other evidence stays restricted.
       </p>
       <ErrorBox message={loadError} />
+      <ErrorBox message={groupError} />
+      {sourceGroup && <section className="panel card-body"><h2>Reviewed incident: {sourceGroup.title}</h2><p>Group version {sourceGroup.version}. Explicitly select its {sourceGroup.cases.length} members and agree responsibilities; this does not change their individual case lifecycles.</p>
+        {sourceGroup.state!=='active' || sourceGroup.needs_review ? <ErrorBox message="This group is not currently confirmed. Re-review it before opening coordination." /> : user.role==='coordinator' && cases && cases.count===cases.results.length && <button type="button" className="secondary" onClick={()=>{setChosen(cases.results);setGroupVersion(sourceGroup.version);}}>Use reviewed group cases</button>}
+      </section>}
       {!data && !loadError && <Loading />}
       {data && (
         <section className="panel detail-card">
@@ -205,6 +220,7 @@ export function CoordinationWorkspace({
                   {r.state === "closed" ? "Closed" : "In coordination"} · Lead:{" "}
                   {r.lead_bureau_name} / {r.lead_officer_name}
                 </p>
+                {r.incident_group_id && <p>Incident group snapshot: version {r.incident_group_version} · <Link to={`/institutions/${r.institution_id}?section=coordination#incident-${r.incident_group_id}`}>Inspect incident membership and history</Link></p>}
                 <p>
                   {r.participants.filter((p) => !!p.acknowledged_at).length}/
                   {r.participants.length} acknowledged ·{" "}
@@ -408,7 +424,7 @@ export function CoordinationWorkspace({
               Coordination dates are separate from case deadlines.
             </p>
             <button
-              disabled={busy || !chosen.length || participants.length < 2}
+              disabled={busy || !chosen.length || participants.length < 2 || !!sourceGroupId && (groupVersion===null || sourceGroup?.state!=='active' || sourceGroup.needs_review)}
             >
               {busy ? "Recording…" : "Record agreed coordination"}
             </button>
@@ -627,6 +643,7 @@ export function CoordinationRecordPage({
               Lead: {record.lead_bureau_name} / {record.lead_officer_name}
             </p>
             <p>{record.reason}</p>
+            {record.incident_group_id && <p>Source incident group snapshot: version {record.incident_group_version}. <Link to={`/institutions/${record.institution_id}?section=coordination#incident-${record.incident_group_id}`}>Inspect current membership and history</Link>. Later group corrections do not silently change this coordination record.</p>}
             {record.outcome && <p>Outcome: {record.outcome}</p>}
             {record.participants.map((p) => (
               <article className="card-body" key={p.id}>

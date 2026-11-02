@@ -33,6 +33,11 @@ def filtered_cases(request):
     form.is_valid(raise_exception=True)
     p = form.validated_data
     qs = scoped_cases(request.user)
+    if p.get('incident_group'):
+        from .intelligence import manager, feature
+        from .models import IncidentMembership
+        manager(request.user); feature('ENABLE_INCIDENT_GROUPS')
+        qs = qs.filter(pk__in=IncidentMembership.objects.filter(group_id=p['incident_group'],active=True).values('case_id'))
     if p.get('import_id'):
         from .imports import get_job
         job = get_job(request.user, p['import_id'])
