@@ -1,0 +1,19 @@
+{
+  "provenance": "Authored controlled scenario, not actual AICTE staff workload.",
+  "scripted_independent_requests": [
+    {
+      "bureau": "RB",
+      "artifact": "refund ledger"
+    },
+    {
+      "bureau": "PGRC",
+      "artifact": "refund ledger"
+    }
+  ],
+  "scripted_baseline_requests": 2,
+  "recorded_coordinated_simulated_requests": 1,
+  "designated_bureaus": 2,
+  "acknowledged_and_completed": 2,
+  "case_statuses_unchanged": true,
+  "real_productivity_savings_measured": false
+}

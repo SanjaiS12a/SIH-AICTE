@@ -1,72 +1,77 @@
 # Graph Report - SIH  (2026-11-02)
 
 ## Corpus Check
-- 171 files · ~90,148 words
+- 177 files · ~94,273 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1575 nodes · 3983 edges · 115 communities (55 shown, 60 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 356 edges (avg confidence: 0.94)
+- 1640 nodes · 4235 edges · 123 communities (57 shown, 66 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 406 edges (avg confidence: 0.94)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
 - Independent Research Review
+- Case Intelligence
 - Import Performance Measurement
-- Frozen Model Matching
-- Durable Source Intake
-- Case Intelligence
-- Source Intake Interface
-- Escalation Readiness Tests
-- Escalation Readiness Tests
-- Technical Design Boundaries
-- Database Schema Migrations
-- Institution Profile Interface
-- Import Validation Tests
-- Serialization And Escalation
 - Case Intelligence
 - Case Intelligence
-- Serialization And Escalation
 - Typed API Components
+- Case Intelligence
+- Frozen Model Matching
+- Import Performance Measurement
+- Typed API Components
+- Database Schema Migrations
+- Source Intake Interface
+- Import Validation Tests
+- Case Intelligence
+- Evidence Transaction Tests
+- Case Intelligence
 - Frontend Package Configuration
 - Case Intelligence
-- Institution Registry Administration
-- Case Intelligence
+- Escalation Readiness Tests
+- Durable Source Intake
 - Complaint Import Interface
+- Case Intelligence
+- Durable Source Intake
+- Serialization And Escalation
+- Institution Registry Administration
 - Institution Permission Tests
 - Escalation Readiness Tests
-- Import Performance Measurement
-- Evidence Transaction Tests
+- Import Validation Tests
+- Technical Design Boundaries
+- Escalation Readiness Tests
 - Serialization And Escalation
-- Typed API Components
-- Institution Profile Interface
+- Serialization And Escalation
+- Escalation Readiness Tests
 - Coordination Completion Tests
-- Case Intelligence
 - Independent Research Review
 - Workflow Regression Tests
-- Browser Workflow Coverage
+- Institution Registry Administration
+- Institution Profile Interface
+- Source Navigation
+- Source Intake Interface
 - Frontend Type Configuration
-- Case Intelligence
 - Serialization And Escalation
-- Case Intelligence
 - Import Performance Measurement
 - Browser Workflow Coverage
-- Escalation Readiness Tests
-- Import Validation Tests
-- Escalation Readiness Tests
 - Case Intelligence
+- Escalation Readiness Tests
+- Escalation Readiness Tests
 - Local Runtime Dependencies
 - Browser Workflow Coverage
 - Independent Restore Verification
-- Case Intelligence
+- Independent Restore Verification
+- Technical Design Boundaries
 - Public Research Protocol
+- Import Performance Measurement
 - Project Operation Guide
+- Case Intelligence
 - Analytics Cohort Tests
 - Analytics Export Tests
-- Case Intelligence
-- Case Intelligence
-- Typed API Components
+- Browser Workflow Coverage
 - Analytics Movement Tests
 - Case Intelligence
+- Independent Research Review
 - Browser Workflow Coverage
 - Escalation Readiness Tests
 - Analytics Scope Tests
@@ -76,300 +81,313 @@
 - Browser Workflow Coverage
 - Browser Workflow Coverage
 - Browser Workflow Coverage
-- Independent Restore Verification
-- Case Intelligence
+- Escalation Readiness Tests
+- Institution Profile Interface
 - Analytics Authorization Tests
 - Browser Workflow Coverage
+- Browser Workflow Coverage
 - Coordination Workflows
+- Institution Registry Administration
+- Technical Design Boundaries
+- Case Intelligence
 - Plain Language Walkthrough
 - Escalation Readiness Tests
 - Analytics Counting Tests
 - Analytics Date Tests
-- Test Type Configuration
-- Escalation Readiness Tests
 - Case Intelligence
+- Source Navigation
+- Test Type Configuration
+- Case Intelligence
+- Technical Design Boundaries
+- Shadow Retrieval
 - Isolated Audit Stack
 - Institution Profile Interface
 - Case Intelligence
-- Source Navigation
-- Institution Concurrency Tests
 - Bureau Fixture Documentation
 - CSRF-protected Coordination sign-in form
 - Coordination frontend HTML entrypoint
 - Case Intelligence
 
 ## God Nodes (most connected - your core abstractions)
-1. `Complaint` - 57 edges
-2. `Institution` - 50 edges
-3. `WorkflowTests` - 48 edges
-4. `CaseAction` - 44 edges
-5. `scoped_cases()` - 37 edges
-6. `usePoll()` - 34 edges
-7. `role()` - 31 edges
-8. `IntelligenceTests` - 28 edges
-9. `InstitutionTests` - 28 edges
-10. `Bureau` - 26 edges
+1. `Complaint` - 66 edges
+2. `Institution` - 56 edges
+3. `CaseAction` - 51 edges
+4. `WorkflowTests` - 48 edges
+5. `ErrorBox()` - 37 edges
+6. `usePoll()` - 35 edges
+7. `scoped_cases()` - 31 edges
+8. `api()` - 31 edges
+9. `Loading()` - 31 edges
+10. `Bureau` - 29 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Read APIs and interface` --references--> `ActionReadSerializer`  [INFERRED]
-  docs/evidence-v1.md → backend/cases/serializers.py
-- `Fresh isolated synthetic source-selection diagnostic` --conceptually_related_to--> `run()`  [INFERRED]
-  docs/core-intelligence.md → tests/research/core_retrieval.py
-- `Literal source-preserving research representations` --conceptually_related_to--> `representations()`  [INFERRED]
-  docs/core-intelligence.md → tests/research/representations.py
-- `Versioned group retirement preserves authoritative history` --conceptually_related_to--> `save_group()`  [INFERRED]
-  docs/core-intelligence.md → backend/cases/intelligence.py
 - `5. Milestone C — source-grounded briefs and incident organization` --references--> `ActionReadSerializer`  [INFERRED]
   docs/plans/case-intelligence-2.0.md → backend/cases/serializers.py
+- `2. Requirement-to-code audit` --references--> `PairReview()`  [INFERRED]
+  docs/plans/case-intelligence-2.0.md → frontend/src/main.tsx
+- `Review screen` --references--> `PairReview()`  [INFERRED]
+  docs/plans/case-intelligence-2.0.md → frontend/src/main.tsx
+- `Read APIs and interface` --references--> `ActionReadSerializer`  [INFERRED]
+  docs/evidence-v1.md → backend/cases/serializers.py
+- `Twenty literal complaint narratives with ten unscored scaffolding pairs` --conceptually_related_to--> `candidate_rows()`  [INFERRED]
+  docs/acss-annotation-handoff.md → tests/research/acss_packet.py
 
 ## Import Cycles
 - 2-file cycle: `frontend/src/imports.tsx -> frontend/src/management.tsx -> frontend/src/imports.tsx`
 - 2-file cycle: `frontend/src/imports.tsx -> frontend/src/incident-summary.tsx -> frontend/src/imports.tsx`
 
-## Communities (115 total, 60 thin omitted)
+## Communities (123 total, 66 thin omitted)
 
 ### Community 0 - "Independent Research Review"
+Cohesion: 0.08
+Nodes (26): evaluation_dataset(), seed_records(), Independent same-incident reference set before retrieval, manifest(), PublicEvaluationTests, RecallTests, collect(), digest() (+18 more)
+
+### Community 1 - "Case Intelligence"
 Cohesion: 0.06
-Nodes (36): evaluation_dataset(), seed_records(), Private provenance and independently shuffled blank review forms, Twenty literal complaint narratives with ten unscored scaffolding pairs, ACSS permission, privacy and annotation handoff, Permission privacy identity reference families and blind review gates, Narrower publisher conditions pending licence clarification, Restricted annotation preparation without evaluation clearance (+28 more)
+Nodes (28): confirmed_groups(), Database count over distinct pending-pair endpoint union, export(), chunks(), records(), scope(), selected(), summary() (+20 more)
 
-### Community 1 - "Import Performance Measurement"
-Cohesion: 0.07
-Nodes (14): Django Q2 polling interval of 0.2 seconds, Four isolated controlled HTTP import workloads, browser(), main(), Memory, request(), simulate(), main() (+6 more)
+### Community 3 - "Import Performance Measurement"
+Cohesion: 0.10
+Nodes (7): browser(), Memory, main(), main(), simulate(), docker(), main()
 
-### Community 2 - "Frozen Model Matching"
-Cohesion: 0.07
-Nodes (20): Command, Command, eligible_corpus(), Command, refresh_active_matches(), baseline_runtime(), cached_encoder(), cached_tokenizer() (+12 more)
-
-### Community 3 - "Durable Source Intake"
-Cohesion: 0.11
-Nodes (38): current_bureau_id(), role(), writable(), accessible_jobs(), cell(), digest(), get_job(), import_detail() (+30 more)
+### Community 4 - "Case Intelligence"
+Cohesion: 0.06
+Nodes (31): calibrate(), Command, eligible_corpus(), evaluate(), score(), metrics(), Immutable evidence and policy at human decision time, Evidence contract (+23 more)
 
 ### Community 5 - "Case Intelligence"
-Cohesion: 0.09
-Nodes (26): actions(), Batched overlap complaint serialization, case_detail(), cases(), replay(), Conflict, dashboard(), download() (+18 more)
-
-### Community 6 - "Source Intake Interface"
-Cohesion: 0.13
-Nodes (35): api(), Case, csrf(), date(), errorText(), Escalation, labels, Page (+27 more)
-
-### Community 7 - "Escalation Readiness Tests"
-Cohesion: 0.08
-Nodes (6): Notification, notify_escalation(), EscalationTests, MovementExportTests, AccountabilityTests, HomepageTests
-
-### Community 8 - "Escalation Readiness Tests"
 Cohesion: 0.10
-Nodes (26): dashboard_data(), audit(), awaiting_acknowledgment(), detail(), filtered_records(), history(), Meta, OpenInput (+18 more)
+Nodes (23): actions(), case_detail(), cases(), replay(), dashboard(), download(), institutions(), notifications() (+15 more)
 
-### Community 9 - "Technical Design Boundaries"
-Cohesion: 0.05
-Nodes (28): Command, Command, Command, Migration, Authentication, files and reporting, Disabled shadow semantic20 FTS20 reference20 discovery, Immutable canonical Permanent ID, Case intelligence (+20 more)
+### Community 6 - "Typed API Components"
+Cohesion: 0.09
+Nodes (34): ApiError, Attachment, CaseAction, CaseDetail, categories, categoryLabels, classifications, Dashboard (+26 more)
 
-### Community 10 - "Database Schema Migrations"
+### Community 7 - "Case Intelligence"
+Cohesion: 0.14
+Nodes (34): CaseEscalations(), EscalationList(), EscalationQueue(), validEscalations(), usePoll(), InstitutionCases(), change(), InstitutionCoordination() (+26 more)
+
+### Community 8 - "Frozen Model Matching"
+Cohesion: 0.10
+Nodes (18): Command, Command, refresh_active_matches(), baseline_runtime(), cached_encoder(), cached_tokenizer(), encoder(), match_batch() (+10 more)
+
+### Community 9 - "Import Performance Measurement"
+Cohesion: 0.07
+Nodes (9): Django Q2 polling interval of 0.2 seconds, Independent audit schema files and model restore verification, digest(), main(), run(), snapshot(), SourceWorkbookAuditTests, candidate_rows() (+1 more)
+
+### Community 10 - "Typed API Components"
+Cohesion: 0.11
+Nodes (31): categoryLabel(), csrf(), date(), Overlap, All-time coordination separate from receipt filters, DashboardHome(), cases(), Keyboard-submit institution-first home search (+23 more)
+
+### Community 11 - "Database Schema Migrations"
 Cohesion: 0.08
 Nodes (13): Migration, Migration, Migration, Migration, Migration, Migration, Migration, Migration (+5 more)
 
-### Community 11 - "Institution Profile Interface"
+### Community 12 - "Source Intake Interface"
 Cohesion: 0.10
-Nodes (27): CaseAction, CaseDetail, CoordinationAction(), CoordinationRecordPage(), CoordinationRequests(), CoordinationWorkspace(), Participant, Record (+19 more)
+Nodes (25): Case, labels, Page, User, IncidentSummary(), Metric, metrics, Row (+17 more)
 
-### Community 12 - "Import Validation Tests"
-Cohesion: 0.10
-Nodes (7): Command, swap_release(), StagedEmbedding, DashboardTests, ImportTests, RolloutTests, HistoricalMigrationTests
+### Community 15 - "Evidence Transaction Tests"
+Cohesion: 0.11
+Nodes (7): build_evidence(), compare(), recorded(), ConcurrentEvidenceTests, EvidenceContractTests, EvidenceFixture, EvidenceWorkflowTests
 
-### Community 13 - "Serialization And Escalation"
-Cohesion: 0.09
-Nodes (18): action_query(), Single aggregate for scoped movement event counts, analytics(), Meta, movements(), movements_csv(), MovementSerializer, compute_dashboard() (+10 more)
+### Community 16 - "Case Intelligence"
+Cohesion: 0.17
+Nodes (24): edit_group(), FactInput, facts(), FactSerializer, feature(), flag_supporting_groups(), group_audit(), group_history() (+16 more)
 
-### Community 14 - "Case Intelligence"
-Cohesion: 0.15
-Nodes (27): edit_group(), FactInput, facts(), FactSerializer, feature(), flag_supporting_groups(), group_audit(), group_history() (+19 more)
-
-### Community 16 - "Serialization And Escalation"
-Cohesion: 0.14
-Nodes (22): authorized_actions(), coordination(), scoped_cases(), active_cases(), enrich(), groups(), notices(), case_escalations() (+14 more)
-
-### Community 17 - "Typed API Components"
-Cohesion: 0.13
-Nodes (24): ApiError, Attachment, categories, classifications, Dashboard, EvidenceComparison, Institution, InstitutionAction (+16 more)
-
-### Community 18 - "Frontend Package Configuration"
+### Community 17 - "Frontend Package Configuration"
 Cohesion: 0.07
 Nodes (28): dependencies, @phosphor-icons/react, react, react-dom, react-router-dom, recharts, devDependencies, @playwright/test (+20 more)
 
-### Community 19 - "Case Intelligence"
-Cohesion: 0.12
-Nodes (25): usePoll(), InstitutionCases(), change(), InstitutionCoordination(), InstitutionDirectory(), InstitutionHistory(), InstitutionOverview(), InstitutionProfilePage() (+17 more)
+### Community 19 - "Escalation Readiness Tests"
+Cohesion: 0.20
+Nodes (20): audit(), awaiting_acknowledgment(), detail(), filtered_records(), history(), Meta, OpenInput, ParticipantInput (+12 more)
 
-### Community 20 - "Institution Registry Administration"
+### Community 20 - "Durable Source Intake"
+Cohesion: 0.15
+Nodes (16): accessible_jobs(), get_job(), ImportJob, ImportRow, configuration(), differences(), jobs(), Meta (+8 more)
+
+### Community 21 - "Complaint Import Interface"
+Cohesion: 0.18
+Nodes (24): Bars(), categoryMap(), CategoryMapping(), CategoryPair, ErrorNotice(), ExportButton(), Facts, ImportDetail() (+16 more)
+
+### Community 22 - "Case Intelligence"
 Cohesion: 0.14
-Nodes (16): InstitutionAdmin, InstitutionAdminForm, Meta, page(), detail(), history(), institution_cases(), InstitutionHistorySerializer (+8 more)
+Nodes (14): Batched overlap complaint serialization, overlap_data(), overlap_queryset(), overlaps(), review_snapshots(), decision_snapshot(), CaseAction, OverlapCandidate (+6 more)
 
-### Community 22 - "Complaint Import Interface"
+### Community 23 - "Durable Source Intake"
+Cohesion: 0.19
+Nodes (19): category_mapping(), cell(), digest(), import_detail(), import_errors(), import_report(), import_summary_csv(), imports() (+11 more)
+
+### Community 24 - "Serialization And Escalation"
 Cohesion: 0.18
-Nodes (21): Bars(), ErrorNotice(), ExportButton(), start(), Facts, ImportDetail(), Imports(), isExport() (+13 more)
+Nodes (13): authorized_actions(), coordination(), current_bureau_id(), scoped_cases(), active_cases(), enrich(), groups(), notices() (+5 more)
 
-### Community 25 - "Import Performance Measurement"
+### Community 25 - "Institution Registry Administration"
+Cohesion: 0.09
+Nodes (11): InstitutionAdminForm, Meta, compute_dashboard(), dashboard_data(), Command, simulate(), Command, Command (+3 more)
+
+### Community 28 - "Import Validation Tests"
+Cohesion: 0.14
+Nodes (10): ReadOnlyAdmin, Command, swap_release(), Complaint, Meta, ModelRelease, Notification, StagedEmbedding (+2 more)
+
+### Community 29 - "Technical Design Boundaries"
+Cohesion: 0.10
+Nodes (21): Migration, Authentication, files and reporting, Immutable canonical Permanent ID, Case intelligence, Complaint lifecycle, Authorized current-state brief and paginated history, Database relationships, SIH 26264 — implementation design (+13 more)
+
+### Community 31 - "Serialization And Escalation"
 Cohesion: 0.13
-Nodes (5): Independent audit schema files and model restore verification, digest(), main(), run(), snapshot()
+Nodes (7): action_query(), Single aggregate for scoped movement event counts, analytics(), Meta, movements(), movements_csv(), MovementSerializer
 
-### Community 26 - "Evidence Transaction Tests"
-Cohesion: 0.18
-Nodes (3): ConcurrentEvidenceTests, EvidenceFixture, EvidenceWorkflowTests
-
-### Community 27 - "Serialization And Escalation"
+### Community 32 - "Serialization And Escalation"
 Cohesion: 0.21
 Nodes (12): filtered_cases(), build_export(), case_values(), export_detail(), export_download(), exports(), get_export(), query() (+4 more)
 
-### Community 28 - "Typed API Components"
-Cohesion: 0.17
-Nodes (15): Movement, AgeingPanel(), BureauWorkloadPanel(), ChartRow, CoordinationNotices(), HorizontalDistribution(), InstitutionMonitoringPanel(), InstitutionRow (+7 more)
+### Community 33 - "Escalation Readiness Tests"
+Cohesion: 0.14
+Nodes (3): MovementExportTests, AccountabilityTests, HomepageTests
 
-### Community 29 - "Institution Profile Interface"
-Cohesion: 0.13
-Nodes (11): IncidentSummary(), Metric, metrics, Row, Summary, validSummary(), MyWork(), Boundary (+3 more)
-
-### Community 31 - "Case Intelligence"
-Cohesion: 0.12
-Nodes (15): Migration, Migration, Additive migrations, Additive group retirement and literal fact-type schema, API additions, Current-model matching coverage distinct from zero matches, Source evidence and coordination snapshot triggers, Core incident intelligence (+7 more)
-
-### Community 32 - "Independent Research Review"
+### Community 35 - "Independent Research Review"
 Cohesion: 0.12
 Nodes (16): Private checksum-verified non-executing XLSX intake, ACSS public support-text source audit, ACSS public source audit — 2 November 2026, Quarantined support text pending privacy identity and incident review, Workbook rows and literal complaint labels are separate counts, Authorized Indian institution intake, Separately authorized encrypted institutional research intake, Two blind independent reviewers and third-party adjudication (+8 more)
 
-### Community 35 - "Frontend Type Configuration"
+### Community 37 - "Institution Registry Administration"
+Cohesion: 0.30
+Nodes (12): role(), page(), detail(), history(), institution_cases(), InstitutionHistorySerializer, InstitutionProfileSerializer, InstitutionWriteSerializer (+4 more)
+
+### Community 38 - "Institution Profile Interface"
+Cohesion: 0.23
+Nodes (13): CoordinationAction(), CoordinationRecordPage(), CoordinationRequests(), CoordinationWorkspace(), Participant, Record, Request, validHistory() (+5 more)
+
+### Community 39 - "Source Navigation"
+Cohesion: 0.13
+Nodes (14): Migration, Approve selected source changes, Categories and source provenance, Other and Needs categorization preserve unknown source labels, Bounded persisted source category mapping, Demonstration and limits, Scripted coordination scenario is not measured staff productivity, Operational workflow and isolated demonstration (+6 more)
+
+### Community 40 - "Source Intake Interface"
+Cohesion: 0.16
+Nodes (14): api(), errorText(), ResolutionForm(), submit(), start(), Explicit conflict reload controls and retained drafts, FactReview(), review() (+6 more)
+
+### Community 41 - "Frontend Type Configuration"
 Cohesion: 0.13
 Nodes (14): compilerOptions, allowImportingTsExtensions, isolatedModules, jsx, lib, module, moduleResolution, noEmit (+6 more)
 
-### Community 36 - "Case Intelligence"
-Cohesion: 0.22
-Nodes (4): LiteralRepresentationTests, passages(), representations(), span()
+### Community 42 - "Serialization And Escalation"
+Cohesion: 0.31
+Nodes (11): writable(), Conflict, case_escalations(), CreateEscalationSerializer, EscalationSerializer, Meta, queue(), records() (+3 more)
 
-### Community 37 - "Serialization And Escalation"
-Cohesion: 0.18
-Nodes (9): Command, Attachment, ActionReadSerializer, ActionSerializer, AttachmentSerializer, InstitutionSerializer, Meta, ReviewSerializer (+1 more)
-
-### Community 38 - "Case Intelligence"
-Cohesion: 0.15
-Nodes (12): 10. Order, effort and decisions, 1. Outcome and verified starting point, 2. Requirement-to-code audit, 3. Milestone A — simpler official workspace, 6. Milestone D — optional read-only MCP, 7. File-by-file execution backlog, 8. API and migration compatibility, 9. Verification and delivery gates (+4 more)
-
-### Community 39 - "Import Performance Measurement"
+### Community 43 - "Import Performance Measurement"
 Cohesion: 0.23
 Nodes (7): main(), Memory, ticks(), digest(), main(), run(), snapshot()
 
-### Community 40 - "Browser Workflow Coverage"
-Cohesion: 0.26
-Nodes (10): csv(), ensureRB(), finish(), fixtures, manifest, post(), source(), stamp (+2 more)
-
-### Community 44 - "Case Intelligence"
-Cohesion: 0.27
-Nodes (5): build_evidence(), compare(), recorded(), Immutable evidence and policy at human decision time, EvidenceContractTests
-
-### Community 45 - "Local Runtime Dependencies"
+### Community 48 - "Local Runtime Dependencies"
 Cohesion: 0.24
 Nodes (12): Backend Python requirements, Django and Django REST Framework, pgvector Python integration, Django Q2 durable task worker, sentence-transformers, Django API service, PostgreSQL 17 with pgvector and persistent volume, Incident groups forwarding defaults off (+4 more)
 
-### Community 46 - "Browser Workflow Coverage"
-Cohesion: 0.25
-Nodes (5): endpoint, @playwright/test, post(), artifact(), root
+### Community 49 - "Browser Workflow Coverage"
+Cohesion: 0.29
+Nodes (10): csv(), ensureRB(), finish(), fixtures, manifest, post(), source(), stamp (+2 more)
 
-### Community 47 - "Independent Restore Verification"
+### Community 51 - "Independent Restore Verification"
 Cohesion: 0.40
 Nodes (7): digest(), main(), run(), shell(), snapshot(), main(), snapshot()
 
-### Community 48 - "Case Intelligence"
-Cohesion: 0.40
-Nodes (3): evaluate(), corpus_fixture(), EvaluationSafetyTests
+### Community 52 - "Technical Design Boundaries"
+Cohesion: 0.20
+Nodes (3): Audit-only demonstration bootstrap with scoped feature flags, Current-container worker initialization and detached Vite stdin, Wait-Worker()
 
-### Community 49 - "Public Research Protocol"
+### Community 53 - "Public Research Protocol"
 Cohesion: 0.20
 Nodes (8): B1.5: private public-data evaluation and independent annotation, Blind human review, Metric rules, Offline evaluation, Separate education consumer and government research tracks, Source gates, Storage and collection, Tests and results
 
-### Community 50 - "Project Operation Guide"
+### Community 54 - "Import Performance Measurement"
+Cohesion: 0.24
+Nodes (7): Four isolated controlled HTTP import workloads, main(), signature(), request(), simulate(), main(), main()
+
+### Community 55 - "Project Operation Guide"
 Cohesion: 0.20
 Nodes (10): Separate core incident counts and versioned coordination handoff, Data, permissions and demonstration, AICTE institution monitoring and cross-Bureau coordination — SIH 26264, Reviewed facts and incident groups default off, Movement CSV serializer reuse follow-up, Physical disconnected startup requires separate evidence, Institution-first responsive portal UI follow-up, Prepare once while online (+2 more)
 
-### Community 53 - "Case Intelligence"
-Cohesion: 0.25
-Nodes (7): calibrate(), metrics(), Output-only frozen-policy synthetic evaluation, Read APIs and interface, Relationship evidence v1 and decision snapshots, Review transaction and versioning, Safe evaluation
+### Community 59 - "Browser Workflow Coverage"
+Cohesion: 0.36
+Nodes (4): endpoint, @playwright/test, artifact(), root
 
-### Community 55 - "Typed API Components"
-Cohesion: 0.25
-Nodes (4): All-time coordination separate from receipt filters, DashboardHome(), Keyboard-submit institution-first home search, monthName()
-
-### Community 57 - "Case Intelligence"
+### Community 61 - "Case Intelligence"
 Cohesion: 0.25
 Nodes (3): cases, post(), stamp
 
-### Community 58 - "Browser Workflow Coverage"
-Cohesion: 0.33
-Nodes (3): post(), stamp, token()
+### Community 62 - "Independent Research Review"
+Cohesion: 0.29
+Nodes (7): Private provenance and independently shuffled blank review forms, Twenty literal complaint narratives with ten unscored scaffolding pairs, ACSS permission, privacy and annotation handoff, Permission privacy identity reference families and blind review gates, Narrower publisher conditions pending licence clarification, Restricted annotation preparation without evaluation clearance, Zero independent labels blocks model selection and accuracy claims
 
 ### Community 63 - "Browser Workflow Coverage"
+Cohesion: 0.33
+Nodes (3): post(), stamp, upload()
+
+### Community 68 - "Browser Workflow Coverage"
 Cohesion: 0.43
 Nodes (5): makeCase(), makeInstitution(), post(), stamp, token()
 
-### Community 64 - "Browser Workflow Coverage"
+### Community 69 - "Browser Workflow Coverage"
 Cohesion: 0.43
 Nodes (5): createCase(), csrf(), escalate(), post(), stamp
 
-### Community 65 - "Browser Workflow Coverage"
+### Community 70 - "Browser Workflow Coverage"
 Cohesion: 0.38
 Nodes (4): createInstitution(), csrf(), post(), stamp
 
-### Community 66 - "Browser Workflow Coverage"
+### Community 71 - "Browser Workflow Coverage"
 Cohesion: 0.38
 Nodes (4): createCase(), csrf(), post(), stamp
 
-### Community 69 - "Case Intelligence"
-Cohesion: 0.33
-Nodes (6): score(), Evidence contract, 4. Milestone B — explainable matching, evaluated before activation, Candidate discovery, Evaluation and data, Evidence contract before ranking changes
+### Community 76 - "Browser Workflow Coverage"
+Cohesion: 0.40
+Nodes (3): post(), stamp, token()
 
-### Community 72 - "Browser Workflow Coverage"
+### Community 77 - "Browser Workflow Coverage"
 Cohesion: 0.40
 Nodes (3): create(), post(), stamp
 
-### Community 74 - "Plain Language Walkthrough"
+### Community 82 - "Plain Language Walkthrough"
 Cohesion: 0.40
 Nodes (5): What this project does, First test: six understandable complaints, Larger test: 1,000 rows, Open the prepared demonstration, What runs on the laptop
 
-### Community 78 - "Test Type Configuration"
+### Community 87 - "Source Navigation"
+Cohesion: 0.80
+Nodes (5): main(), columns(), run(), snapshot(), sql()
+
+### Community 88 - "Test Type Configuration"
 Cohesion: 0.40
 Nodes (4): compilerOptions, baseUrl, paths, @playwright/test
 
-### Community 81 - "Isolated Audit Stack"
+### Community 93 - "Isolated Audit Stack"
 Cohesion: 0.50
 Nodes (3): Audit API bound to localhost port 8001, Isolated persistent audit PostgreSQL, Audit worker sharing isolated storage
 
-### Community 82 - "Institution Profile Interface"
+### Community 94 - "Institution Profile Interface"
 Cohesion: 0.50
 Nodes (4): Responsive incident metric cards, Responsive navigation and mobile sign-out, Print layout hides interactive portal controls, Shared responsive government portal presentation
 
-### Community 84 - "Source Navigation"
-Cohesion: 0.83
-Nodes (4): main(), run(), snapshot(), sql()
-
 ## Knowledge Gaps
-- **185 isolated node(s):** `Migration`, `Migration`, `Migration`, `Migration`, `Migration` (+180 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 559 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **60 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **194 isolated node(s):** `Migration`, `Migration`, `Migration`, `Migration`, `Migration` (+189 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 579 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **66 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `compute_dashboard()` connect `Serialization And Escalation` to `Case Intelligence`?**
+- **Why does `WorkflowTests` connect `Escalation Readiness Tests` to `Escalation Readiness Tests`, `Case Intelligence`?**
   _High betweenness centrality (0.000) - this node is a cross-community bridge._
-- **Why does `dashboard_data()` connect `Escalation Readiness Tests` to `Serialization And Escalation`?**
+- **Why does `_Base` connect `Analytics Export Tests` to `Case Intelligence`, `Analytics Filter Tests`, `Escalation Readiness Tests`, `Institution Registry Administration`, `Import Validation Tests`?**
   _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `Migration`, `Migration`, `Migration` to the rest of the system?**
-  _185 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _194 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Independent Research Review` be split into smaller, more focused modules?**
-  _Cohesion score 0.05821917808219178 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07948568088836938 - nodes in this community are weakly interconnected._
+- **Should `Case Intelligence` be split into smaller, more focused modules?**
+  _Cohesion score 0.06183574879227053 - nodes in this community are weakly interconnected._
 - **Should `Import Performance Measurement` be split into smaller, more focused modules?**
-  _Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected._
-- **Should `Frozen Model Matching` be split into smaller, more focused modules?**
-  _Cohesion score 0.07337662337662337 - nodes in this community are weakly interconnected._
-- **Should `Durable Source Intake` be split into smaller, more focused modules?**
-  _Cohesion score 0.11294117647058824 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09634551495016612 - nodes in this community are weakly interconnected._
+- **Should `Case Intelligence` be split into smaller, more focused modules?**
+  _Cohesion score 0.059800664451827246 - nodes in this community are weakly interconnected._
 ## Refresh scope and limitations
 
 Refreshed source/document navigation for final-readiness work, including deterministic briefs, reviewed source spans, manual incident groups, migrations 0014/0015, disabled shadow discovery, technical design and research intake, canonical registration search, explicit conflict reload controls, batched API serialization, scoped aggregate queries, worker/stdin readiness, controlled HTTP workloads and pinned encoder timing. Sources and test implementations describe behavior; this graph does not establish that tests passed or that release gates passed.
@@ -389,18 +407,18 @@ The final technical readiness report exists but remains excluded under tests/res
 input: <in-memory>
 input_stage: provided JSON (normal graph.json is post-build)
 effective_directed: <direct-call>
-nodes: 1575
+nodes: 1640
 unverified_code_nodes: 0
-raw_edges: 3983
-valid_candidate_edges: 3983
+raw_edges: 4235
+valid_candidate_edges: 4235
 missing_endpoint_edges: 0
 dangling_endpoint_edges: 0
 external_reference_edges: 0
-self_loop_edges: 16
+self_loop_edges: 17
 exact_duplicate_edges: 0
-directed_unique_endpoint_pairs: 3983
+directed_unique_endpoint_pairs: 4235
 directed_same_endpoint_collapsed_edges: 0
-undirected_unique_endpoint_pairs: 3981
+undirected_unique_endpoint_pairs: 4233
 undirected_same_endpoint_collapsed_edges: 2
 same_endpoint_group_count: 0
 relation_variant_groups: 0
@@ -408,7 +426,7 @@ source_file_variant_groups: 0
 source_location_variant_groups: 0
 context_variant_groups: 0
 post_build_graph_type: DiGraph
-post_build_edges: 3983
+post_build_edges: 4235
 producer_suppression_sites: 12
 producer_suppression_examples:
   - L1676 seen_ids arity=unknown
@@ -422,4 +440,12 @@ producer_suppression_examples:
 note: normal graph.json is post-build; raw producer loss must be measured earlier.
 ```
 
-Final code-only refresh at `967c1a5` includes the deterministic cancellation-response handshake in `tests/browser/dashboard.spec.ts`. No supported changes/deletions remain; source digests are in `GRAPH_HEALTH.json`. This confirms source navigation freshness, not test or release acceptance.
+## Operational workflow refresh provenance
+
+Source checkpoint 99f77af on codex/operational-workflow. The cached incremental pass refreshed 27 code sources plus README, audit Compose and docs/operational-workflow.md. Changed-file AST produced 347 nodes and 1,230 edges; host semantics produced 39 nodes and 43 edges. No API, model, test, worker, controller or benchmark command was executed for this graph refresh.
+
+New coverage includes category labels and bounded persisted ImportJob.category_mapping; additive migration 0018; coordinator-selected validated source changes; server-computed comparisons; institution-first version checks and CaseAction evidence; replay acknowledgment/idempotency without silently reapplying old source snapshots; Help/guide navigation; Audit-Demo bootstrap, scoped flags and dependency guards; duplicate replay instrumentation; related operational test implementations. Source status approval, assignment, incident grouping and agreed Bureau work remain independent. Human decisions remain authoritative and MiniLM policy stays frozen.
+
+Current graph: 1,640 nodes / 4,235 directed edges / 123 communities, representing 176 source files. Supported corpus: 177 files plus supplemental portal.css. Follow-up detection found zero changed/deleted supported files. SHA-256 digests of all 30 refreshed sources are stored in GRAPH_HEALTH.json; supplemental CSS digest is separately recorded. Every node source path is repository-relative. Health: zero missing/dangling endpoints, duplicate edges or directed collapses; 17 AST self-loops remain disclosed.
+
+The graph documents implementation and test coverage without claiming tests passed, benchmark throughput, staff productivity, model accuracy, privacy/licence clearance, brand-new-machine installation or physically disconnected startup. Running benchmark/result content was not inspected. Raw/private data, models, logs, synthetic fixture datasets, experiment outputs and all tests/results remain excluded. Caches, untracked work and prior backups were preserved; pre-refresh backup is refresh-backup-20261102-232207. No app/test source edits, commits or external APIs were performed. Token measurements remain unavailable with zero placeholders.

@@ -1,0 +1,171 @@
+{
+  "baseline": "557b9793414528fd66f7ed2612309f9d17a02f6b",
+  "source_checkpoint": "99f77af14686605e38ac1c37117bd83d34c5056e",
+  "backend_enabled": {
+    "passed": 230,
+    "seconds": 72.816
+  },
+  "backend_normal_defaults": {
+    "passed": 230,
+    "seconds": 80.266
+  },
+  "controller_tests": {
+    "passed": 10,
+    "seconds": 13.118
+  },
+  "production_build_seconds": 28.53,
+  "migration_original_tables_preserved": 22,
+  "model_or_threshold_changed": false,
+  "physical_offline": false,
+  "workloads": {
+    "1000-distributed": {
+      "preview_seconds": 7.415408100001514,
+      "statistics_ready_seconds": 10.134649100000388,
+      "matching_and_report_seconds": 40.40886769999997,
+      "previous_seconds": 39.5656,
+      "change_percent": 2.131315334532946,
+      "stage_timings": {
+        "queue_seconds": 0.055559,
+        "registration_seconds": 9.668696,
+        "matching_queue_seconds": 0.166981,
+        "matching_seconds": 29.85347
+      },
+      "concurrent_import_read_latency": {
+        "dashboard": {
+          "requests": 297,
+          "p50_ms": 79.83529999910388,
+          "p95_ms": 225.79839999889373
+        },
+        "read": {
+          "requests": 297,
+          "p50_ms": 91.94719999868539,
+          "p95_ms": 166.18759999983013
+        }
+      },
+      "duplicate_replay": {
+        "preview_seconds": 9.09234479999941,
+        "confirmation_seconds": 1.1473308999993606,
+        "rows": 1000,
+        "case_and_matching_signature_unchanged": true,
+        "concurrent_users": 10,
+        "reader_requests": 18,
+        "scope": "Separate idempotency measurement with nine authenticated readers plus importer."
+      },
+      "ordinary_http": {
+        "concurrent_sessions": 10,
+        "case_count_before": 1001,
+        "case_count_after": 1011,
+        "platform": "Windows-11-10.0.26300-SP0",
+        "seconds": 4.236487099999067,
+        "transport": "HTTP localhost; 10 distinct users and authenticated sessions",
+        "results": {
+          "read": {
+            "requests": 50,
+            "p50_ms": 358.24569999931555,
+            "p95_ms": 491.7983000013919,
+            "target_p95_ms": 500
+          },
+          "dashboard": {
+            "requests": 50,
+            "p50_ms": 163.5514499994315,
+            "p95_ms": 295.7903999995324,
+            "target_p95_ms": 1000
+          },
+          "create": {
+            "requests": 10,
+            "p50_ms": 188.2113500014384,
+            "p95_ms": 444.69519999984186,
+            "target_p95_ms": 500
+          }
+        }
+      },
+      "sampled_peak_host_used_bytes": 14085054464,
+      "resource_scope": "Host samples include ordinary portal/background processes and separate replay tail; not isolated application RAM.",
+      "all_imported_matched": true
+    },
+    "10000-concentrated": {
+      "preview_seconds": 67.59259789999851,
+      "statistics_ready_seconds": 96.11899120000089,
+      "matching_and_report_seconds": 614.646432900001,
+      "previous_seconds": 595.2148,
+      "change_percent": 3.2646420922330943,
+      "stage_timings": {
+        "queue_seconds": 0.281666,
+        "registration_seconds": 95.147689,
+        "matching_queue_seconds": 0.122239,
+        "matching_seconds": 517.683494
+      },
+      "concurrent_import_read_latency": {
+        "dashboard": {
+          "requests": 4390,
+          "p50_ms": 86.64884999961942,
+          "p95_ms": 372.36829999892507
+        },
+        "read": {
+          "requests": 4390,
+          "p50_ms": 116.21749999903841,
+          "p95_ms": 176.61510000107228
+        }
+      },
+      "duplicate_replay": {
+        "preview_seconds": 73.00736200000028,
+        "confirmation_seconds": 1.2088446999987355,
+        "rows": 10000,
+        "case_and_matching_signature_unchanged": true,
+        "concurrent_users": 10,
+        "reader_requests": 18,
+        "scope": "Separate idempotency measurement with nine authenticated readers plus importer."
+      },
+      "ordinary_http": {
+        "concurrent_sessions": 10,
+        "case_count_before": 10001,
+        "case_count_after": 10011,
+        "platform": "Windows-11-10.0.26300-SP0",
+        "seconds": 3.0502143999983673,
+        "transport": "HTTP localhost; 10 distinct users and authenticated sessions",
+        "results": {
+          "read": {
+            "requests": 50,
+            "p50_ms": 169.40154999974766,
+            "p95_ms": 197.26950000040233,
+            "target_p95_ms": 500
+          },
+          "dashboard": {
+            "requests": 50,
+            "p50_ms": 127.07290000071225,
+            "p95_ms": 415.69220000019413,
+            "target_p95_ms": 1000
+          },
+          "create": {
+            "requests": 10,
+            "p50_ms": 191.06214999919757,
+            "p95_ms": 243.40250000022934,
+            "target_p95_ms": 500
+          }
+        }
+      },
+      "sampled_peak_host_used_bytes": 15447941120,
+      "resource_scope": "Host samples include ordinary portal/background processes and separate replay tail; not isolated application RAM.",
+      "all_imported_matched": true
+    }
+  },
+  "browser_complete": {
+    "passed": 85,
+    "skipped_enabled_only_disabled_gate": 1,
+    "duration": "5.5 minutes"
+  },
+  "browser_disabled": {
+    "passed": 1,
+    "seconds": 3.2
+  },
+  "migration_drift": false,
+  "recovery": {
+    "all_tables_match": true,
+    "private_and_model_checksums_verified": true,
+    "working_database_accessed": false,
+    "physical_offline": false,
+    "tables": 24,
+    "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "attachment_downloads_verified": 1
+  }
+}
