@@ -1,3 +1,4 @@
+import { categoryLabel } from './api';
 import { useCallback } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -101,7 +102,7 @@ export function DashboardHome({
         href: cases({ bureau: b.bureau__code, pending: "true", status: "" }),
       }))
     : d?.active_categories.map((c) => ({
-        name: c.category,
+        name: categoryLabel(c.category),
         count: c.count,
         href: cases({ category: c.category, pending: "true", status: "" }),
       }));
@@ -201,7 +202,7 @@ export function DashboardHome({
               >
                 <option value="">All categories</option>
                 {categories.map((c) => (
-                  <option key={c}>{c}</option>
+                  <option key={c} value={c}>{categoryLabel(c)}</option>
                 ))}
               </select>
             </label>

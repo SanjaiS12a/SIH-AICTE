@@ -1,3 +1,4 @@
+import { categoryLabel } from './api';
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -114,7 +115,7 @@ export function CaseTable({ rows }: { rows: Case[] }) {
                 </span>
               </td>
               <td className="capitalize">
-                {c.category}
+                {categoryLabel(c.category)}
                 <span className="table-sub">
                   {classifications[c.classification]}
                 </span>

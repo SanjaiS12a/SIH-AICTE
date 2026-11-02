@@ -41,12 +41,15 @@ class CreateCaseSerializer(serializers.Serializer):
     bureau = serializers.SlugRelatedField(slug_field='code', queryset=Bureau.objects.all())
     source_system = serializers.CharField(max_length=40, default='manual')
     source_reference = serializers.CharField(max_length=100)
-    category = serializers.ChoiceField(choices=Complaint.CATEGORIES)
+    category = serializers.ChoiceField(choices=Complaint.CATEGORIES, default='needs_categorization', allow_blank=True)
     classification = serializers.ChoiceField(choices=Complaint.CLASSIFICATIONS, default='unclassified')
     summary = serializers.CharField(max_length=2000)
     description = serializers.CharField(max_length=10000)
     incident_date = serializers.DateField(required=False, allow_null=True)
     received_at = serializers.DateTimeField(default=timezone.now)
+
+    def validate_category(self, value):
+        return value or 'needs_categorization'
 
     def validate_summary(self, value):
         from .matching import tokenizer
@@ -61,7 +64,7 @@ class CreateCaseSerializer(serializers.Serializer):
         return value
 
 class ActionSerializer(serializers.Serializer):
-    kind = serializers.ChoiceField(choices=['note', 'status', 'transfer', 'assign', 'deadline', 'retry_matching', 'classification', 'next_action'])
+    kind = serializers.ChoiceField(choices=['note', 'status', 'transfer', 'assign', 'deadline', 'retry_matching', 'classification', 'category', 'next_action'])
     expected_version = serializers.IntegerField(min_value=1)
     reason = serializers.CharField(max_length=4000)
     status = serializers.ChoiceField(choices=Complaint.STATUSES, required=False)
@@ -69,12 +72,13 @@ class ActionSerializer(serializers.Serializer):
     assigned_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(is_active=True), required=False, allow_null=True)
     due_at = serializers.DateTimeField(required=False)
     classification = serializers.ChoiceField(choices=Complaint.CLASSIFICATIONS, required=False)
+    category = serializers.ChoiceField(choices=Complaint.CATEGORIES, required=False)
     next_action = serializers.CharField(max_length=1000, required=False, allow_blank=True)
     next_action_date = serializers.DateField(required=False, allow_null=True)
 
     def validate(self, data):
         required = {'status': 'status', 'transfer': 'bureau', 'assign': 'assigned_to', 'deadline': 'due_at',
-                    'classification': 'classification', 'next_action': 'next_action'}
+                    'classification': 'classification', 'category': 'category', 'next_action': 'next_action'}
         key = required.get(data['kind'])
         if key and key not in data:
             raise serializers.ValidationError({key: 'This field is required for this action.'})

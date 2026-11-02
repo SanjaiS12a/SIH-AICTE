@@ -1,4 +1,4 @@
-import { date, labels, classifications } from "./api";
+import { date, labels, classifications, categoryLabel } from "./api";
 import type { MatchingEvidence, Overlap, ReviewSnapshot } from "./api";
 
 const fields: Record<string, string> = {
@@ -10,7 +10,7 @@ function value(input: unknown, field: string) {
   if (input === null || input === undefined || input === "") return "Not recorded";
   if (Array.isArray(input)) return input.map(String).join(" / ");
   if (typeof input !== "string") return "Not recorded";
-  return field === "incident_date" ? date(input) : field === "classification" ? classifications[input] || input : input;
+  return field === "incident_date" ? date(input) : field === 'category' ? categoryLabel(input) : field === "classification" ? classifications[input] || input : input;
 }
 
 function CapturedMetadata({ evidence, historical = false }: { evidence: MatchingEvidence; historical?: boolean }) {

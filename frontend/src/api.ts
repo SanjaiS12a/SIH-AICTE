@@ -4,7 +4,7 @@ export type User = {
   username: string;
   role: string;
   bureau: string | null;
-  features?: { reviewed_facts: boolean; incident_groups: boolean };
+  features?: { reviewed_facts: boolean; incident_groups: boolean; demo_mode?: boolean };
 };
 export const classifications: Record<string, string> = {
   grievance: "Grievance",
@@ -112,6 +112,8 @@ export type Page<T> = {
   results: T[];
 };
 export type Options = {
+  categories?: string[];
+  category_labels?: Record<string,string>;
   bureaus: { code: string; name: string }[];
   officers: { id: number; name: string; bureau: string }[];
   regions: string[];
@@ -276,7 +278,11 @@ export const categories = [
   "facilities",
   "scholarships",
   "administration",
+  "other",
+  "needs_categorization",
 ];
+const categoryLabels: Record<string,string> = {other:'Other',needs_categorization:'Needs categorization'};
+export const categoryLabel = (value: string) => typeof value==='string' ? (Object.hasOwn(categoryLabels,value) ? categoryLabels[value] : value.replaceAll('_',' ')) : 'Unknown category';
 export const statuses = [
   "registered",
   "under_review",
@@ -336,5 +342,12 @@ export async function api<T>(url: string, init: RequestInit = {}): Promise<T> {
     .json()
     .catch(() => ({ error: "The server returned an unexpected response." }));
   if (!response.ok) throw new ApiError(errorText(data), response.status);
+  if (url === '/api/options' && data.categories !== undefined) {
+    if (!Array.isArray(data.categories) || !data.categories.every((c:unknown)=>typeof c==='string') ||
+        !data.category_labels || typeof data.category_labels!=='object' || Array.isArray(data.category_labels) || !Object.values(data.category_labels).every(x=>typeof x==='string'))
+      throw new Error('The server returned malformed category choices.');
+    categories.splice(0,categories.length,...data.categories);
+    Object.assign(categoryLabels,data.category_labels);
+  }
   return data;
 }

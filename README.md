@@ -32,6 +32,8 @@ Demo usernames: `coordinator`, `auditor`, `officer_rb`, `officer_pgrc`, `officer
 
 ## Data, permissions and demonstration
 
+For the isolated operational demonstration, use `scripts/start.ps1 -Audit -Demo -Action Prepare`, then `-Action Start`. Open `/guide` through Help for the data flow, fictional CSV downloads and role-aware walkthrough. See the [operational workflow](docs/operational-workflow.md) for missing-category handling, reviewed source updates and demo isolation. Existing records and decisions are preserved; normal deployment defaults remain unchanged.
+
 Use the [fictional independent Bureau fixtures](tests/fixtures/bureau-intake/README.md) to import RB, PGRC and other-cell records into one canonical institution. Source status mappings preserve original references and statuses; changed rows require review and never silently replace allegations. File uploads are snapshots, not live connections to AICTE systems.
 
 Follow institution profile → Coordination → agreed responsibilities → officer acknowledgment/completion → coordinator outcome. Cases, transfers, deadlines, escalation and coordination states remain independent. Auditors inspect without modifying; officers retain current-Bureau case isolation and only receive instructions explicitly addressed to them.

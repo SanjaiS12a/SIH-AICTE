@@ -41,6 +41,7 @@ import {
   date,
   labels,
   categories,
+  categoryLabel,
   statuses,
   classifications,
 } from "./api";
@@ -57,6 +58,7 @@ import "./style.css";
 import "./portal.css";
 import { DashboardHome } from "./dashboard";
 import { PageBoundary } from "./page-boundary";
+import { Guide } from './guide';
 import { MyWork } from "./my-work";
 import { PairEvidence, ReviewEvidence } from "./evidence";
 import { CaseEscalations, EscalationQueue } from "./escalations";
@@ -220,6 +222,7 @@ function Shell({ user }: { user: User }) {
   ];
   const parent = primary.find((item) => item.label === section)!;
   const pageLabel: Record<string, string> = {
+    '/guide':'How it works',
     "/cases": "Case registry", "/cases/new": "Register case",
     "/coordination": "Coordination queue", "/coordination/workspace": "Coordination workspace",
     "/coordination/requests": "Coordination actions", "/relationships/new": "Manual relationship",
@@ -299,6 +302,7 @@ function Shell({ user }: { user: User }) {
             <strong>{currentLabel}</strong>
           </div>
           <div className="top-actions">
+            <Link to="/guide">Help · How it works</Link>
             <span className="scope">
               <ShieldCheck size={16} />
               {isCoord ? "All bureaus" : user.bureau || "No bureau"}
@@ -399,6 +403,7 @@ function Shell({ user }: { user: User }) {
           )}
           <PageBoundary>
             <Routes>
+              <Route path="/guide" element={<Guide user={user} />} />
               <Route path="/work" element={<MyWork user={user} />} />
               <Route
                 path="/coordination/workspace"
@@ -621,7 +626,7 @@ function Registry({ user, options }: { user: User; options: Options }) {
           >
             <option value="">All categories</option>
             {categories.map((c) => (
-              <option key={c}>{c}</option>
+              <option key={c} value={c}>{categoryLabel(c)}</option>
             ))}
           </select>
           <select
@@ -792,12 +797,12 @@ function NewCase({ options, user }: { options: Options; user: User }) {
           </label>
           <label>
             Category
-            <select name="category" required defaultValue="">
+            <select name="category" required defaultValue="needs_categorization">
               <option value="" disabled>
                 Select category
               </option>
               {categories.map((c) => (
-                <option key={c}>{c}</option>
+                <option key={c} value={c}>{categoryLabel(c)}</option>
               ))}
             </select>
           </label>
@@ -894,6 +899,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
     [busy, setBusy] = useState(false),
     [success, setSuccess] = useState("");
   const [classification, setClassification] = useState("unclassified"),
+    [category, setCategory] = useState('needs_categorization'),
     [nextAction, setNextAction] = useState(""),
     [nextDate, setNextDate] = useState(""),
     [savedVersion, setSavedVersion] = useState(0),
@@ -944,6 +950,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
             expected_version: editingVersion ?? c!.version,
             reason,
             ...(action === "classification" ? { classification } : {}),
+            ...(action === "category" ? { category } : {}),
             ...(action === "next_action"
               ? { next_action: nextAction, next_action_date: nextDate || null }
               : {}),
@@ -1027,7 +1034,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
               <section className="panel detail-card">
                 <div className="panel-heading">
                   <h2>Original complaint</h2>
-                  <span className="bureau-tag capitalize">{c.category}</span>
+                  <span className="bureau-tag capitalize">{categoryLabel(c.category)}</span>
                 </div>
                 <div className="card-body">
                   <h3 className="allegation">{c.summary}</h3>
@@ -1232,6 +1239,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
                           }
                           if (e.target.value === "classification")
                             setClassification(c.classification);
+                          if (e.target.value === 'category') setCategory(c.category);
                         }}
                       >
                         <option value="note">Add a note / correction</option>
@@ -1249,6 +1257,7 @@ function Detail({ user, options }: { user: User; options: Options }) {
                         )}
                         {user.role === "coordinator" && (
                           <>
+                            <option value="category">Correct category</option>
                             <option value="classification">
                               Correct classification
                             </option>
@@ -1281,6 +1290,9 @@ function Detail({ user, options }: { user: User; options: Options }) {
                         </select>
                       </label>
                     )}
+                    {action === 'category' && <label>New category<select value={category} onChange={e=>setCategory(e.target.value)}>
+                      {categories.map(value=><option key={value} value={value}>{categoryLabel(value)}</option>)}
+                    </select></label>}
                     {action === "next_action" && (
                       <>
                         <label>

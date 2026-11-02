@@ -1,3 +1,4 @@
+import { categoryLabel } from './api';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
@@ -26,7 +27,7 @@ function BriefContent({ id, user }: { id: string; user: User }) {
     <p><strong>{data.case.reference}</strong> · <Link to={`/institutions/${data.case.institution.id}`}>{data.case.institution.name}</Link> · {data.case.institution.permanent_id}</p>
     <h3>{data.allegation_label}</h3><p>{data.case.summary}</p>
     <p>Responsible Bureau: {data.case.bureau}. Assigned officer: {data.case.assigned_name || 'Unassigned'}.</p>
-    <p>Current status: {labels[data.case.status] || data.case.status}. Category: {data.case.category}. Classification: {data.case.classification.replaceAll('_',' ')}.</p>
+    <p>Current status: {labels[data.case.status] || data.case.status}. Category: {categoryLabel(data.case.category)}. Classification: {data.case.classification.replaceAll('_',' ')}.</p>
     <p>Received: {date(data.case.received_at)}. Recorded incident date: {date(data.case.incident_date)}. Case deadline: {date(data.case.due_at)}.</p>
     <p>Next official action: {data.case.next_action || 'Not recorded'} · {date(data.case.next_action_date)}.</p>
     <p>Supervisory escalation: {data.pending_escalation ? 'Pending' : 'None pending'}.</p>

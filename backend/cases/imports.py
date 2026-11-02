@@ -29,7 +29,7 @@ FIELDS = {
  'monthly': ['month','institution_permanent_id','bureau','category','received','disposed'],
  'snapshot': ['snapshot_date','institution_permanent_id','bureau','category','registered','under_review','awaiting_response','disposed','overdue'],
 }
-REQUIRED = {'complaints': FIELDS['complaints'][:8], 'monthly': FIELDS['monthly'], 'snapshot': FIELDS['snapshot']}
+REQUIRED = {'complaints': [x for x in FIELDS['complaints'][:8] if x!='category'], 'monthly': FIELDS['monthly'], 'snapshot': FIELDS['snapshot']}
 MAX_ROWS = 10000
 
 def digest(value):
@@ -107,13 +107,22 @@ def parse_date(value, label):
  try: return date.fromisoformat(value)
  except (ValueError,TypeError): raise ValidationError(f'{label}: use YYYY-MM-DD.')
 
+def category_mapping(value):
+ try: value=json.loads(value) if isinstance(value,str) else value
+ except (ValueError,TypeError): raise ValidationError('Invalid category mapping.')
+ result=serializers.DictField(child=serializers.ChoiceField(choices=Complaint.CATEGORIES)).run_validation(value)
+ if len(result)>50 or any(not k.strip() or k!=k.strip() or len(k)>80 for k in result):
+  raise ValidationError('Use at most 50 nonempty category labels, each at most 80 characters without surrounding spaces.')
+ return result
+
 def validate_rows(job, mapping):
  if not isinstance(mapping,dict) or any(k not in FIELDS[job.kind] or v not in job.headers for k,v in mapping.items()): raise ValidationError('Invalid column mapping.')
  if any(k not in mapping for k in REQUIRED[job.kind]): raise ValidationError('Map every required column.')
  if len(set(mapping.values())) != len(mapping): raise ValidationError('Each source column can be mapped only once.')
  institutions={i.permanent_id:i for i in Institution.objects.all()}
  bureaus={b.code:b for b in Bureau.objects.all()}
- existing = {(c.source_system,c.source_reference):c for c in Complaint.objects.filter(source_reference__in=[r.raw.get(mapping.get('source_reference',''),'') for r in job.rows.all()])} if job.kind=='complaints' else {}
+ existing = {(c.source_system,c.source_reference):c for c in Complaint.objects.filter(source_reference__in=[r.raw.get(mapping.get('source_reference',''),'') for r in job.rows.all()]).only('id','source_system','source_reference','submission_fingerprint')} if job.kind=='complaints' else {}
+ acknowledged=set(CaseAction.objects.filter(case_id__in=[c.pk for c in existing.values()],kind='source_conflict').values_list('case_id','changes__incoming_fingerprint'))
  from .matching import tokenizer
  summary_tokenizer=tokenizer() if job.kind=='complaints' else None
  seen=set(); output=[]
@@ -125,7 +134,10 @@ def validate_rows(job, mapping):
    if not inst: raise ValidationError('Unknown institution permanent ID; select a canonical institution.')
    if not bureau: raise ValidationError('Unknown bureau code.')
    if role(job.owner)=='officer' and bureau.pk!=current_bureau_id(job.owner): raise PermissionDenied('Officer imports must belong to their own bureau.')
-   if data['category'] not in dict(Complaint.CATEGORIES): raise ValidationError('Unknown category.')
+   if job.kind=='complaints':
+    source_category=data.get('category','')
+    data['category']=job.category_mapping.get(source_category,source_category) if source_category else 'needs_categorization'
+   if data['category'] not in dict(Complaint.CATEGORIES): raise ValidationError('Unknown category; map this source label explicitly, or choose Needs categorization.')
    if job.kind=='complaints':
     if job.source_system:
      if bureau.pk != job.source_bureau_id: raise ValidationError('Row Bureau does not match this declared source Bureau.')
@@ -164,7 +176,7 @@ def validate_rows(job, mapping):
     if old:
      if not scoped_cases(job.owner).filter(pk=old.pk).exists(): raise ValidationError('Source reference is unavailable for import.')
      row.case=old
-     if old.submission_fingerprint!=fingerprint: raise SourceConflict('Source reference already exists with different content; review the conflict. Portal data is unchanged.')
+     if old.submission_fingerprint!=fingerprint and (old.pk,fingerprint) not in acknowledged: raise SourceConflict('Source reference already exists with different content; review the conflict. Portal data is unchanged.')
      row.state='duplicate'; row.case=old
    else:
     field='month' if job.kind=='monthly' else 'snapshot_date'
@@ -202,7 +214,7 @@ def job_data(job):
  timings={}
  for name,start,end in [('queue_seconds','import_confirmed','import_started'),('registration_seconds','import_started','import_registered'),('matching_queue_seconds','import_registered','import_matching_started'),('matching_seconds','import_matching_started','import_matching_finished')]:
   if start in events and end in events:timings[name]=max(0,(events[end]-events[start]).total_seconds())
- return {'source_system':job.source_system,'source_bureau':job.source_bureau.code if job.source_bureau_id else None,'status_mapping':job.status_mapping,'registered_at':job.registered_at,
+ return {'source_system':job.source_system,'source_bureau':job.source_bureau.code if job.source_bureau_id else None,'status_mapping':job.status_mapping,'category_mapping':job.category_mapping,'registered_at':job.registered_at,
   'timings':timings,'id':str(job.pk),'kind':job.kind,'filename':job.filename,'headers':job.headers,'mapping':job.mapping,'fields':FIELDS[job.kind],'required':REQUIRED[job.kind],
   'state':state,'error':job.error,'created_at':job.created_at,'counts':counts,'total':sum(counts.values()),'matching':matching,
   'preview':list(job.rows.order_by('number').values('number','raw','state','error')[:20])}
@@ -216,9 +228,11 @@ def imports(request):
  file=request.FILES.get('file')
  if not file: raise ValidationError('Choose a spreadsheet.')
  source=configuration(request,kind)
+ categories=category_mapping(request.data.get('category_mapping',{}))
+ if categories and kind!='complaints': raise ValidationError('Category mapping is for individual complaints only.')
  headers,rows=parse_file(file)
  with transaction.atomic():
-  job=ImportJob.objects.create(owner=request.user,kind=kind,filename=Path(file.name).name[:180],headers=headers,**source)
+  job=ImportJob.objects.create(owner=request.user,kind=kind,filename=Path(file.name).name[:180],headers=headers,category_mapping=categories,**source)
   ImportRow.objects.bulk_create([ImportRow(job=job,number=n,raw=raw) for n,raw in rows],batch_size=100)
   mapping={k:k for k in FIELDS[kind] if k in headers}
   if all(k in mapping for k in REQUIRED[kind]): validate_rows(job,mapping)
@@ -236,6 +250,9 @@ def import_detail(request,job_id):
   action=request.data.get('action')
   if action=='preview':
    if job.state!='preview': raise ValidationError('Only unconfirmed imports can be remapped.')
+   if 'category_mapping' in request.data:
+    if job.kind!='complaints': raise ValidationError('Category mapping is for individual complaints only.')
+    job.category_mapping=category_mapping(request.data['category_mapping']);job.save(update_fields=['category_mapping'])
    validate_rows(job,request.data.get('mapping',{}))
   elif action=='confirm':
    if job.state=='preview':
@@ -274,7 +291,7 @@ def process_import(job_id):
         'reference':f'C-{timezone.now():%y%m}-{uuid.uuid4().hex[:12].upper()}'})
        if not scoped_cases(job.owner).filter(pk=case.pk).exists(): raise ValueError('Source record unavailable in current permission scope.')
        row.case=case
-       if case.submission_fingerprint!=fingerprint: raise SourceConflict('Concurrent source conflict; existing content preserved.')
+       if case.submission_fingerprint!=fingerprint and not CaseAction.objects.filter(case=case,kind='source_conflict',changes__incoming_fingerprint=fingerprint).exists(): raise SourceConflict('Concurrent source conflict; existing content preserved.')
        row.case=case; row.state='imported' if created else 'duplicate'
        if created:
         CaseAction.objects.create(case=case,actor=job.owner,kind='imported',reason=note or 'Spreadsheet registration',changes={'import':str(job.pk),'row':row.number,'status':case.status,'classification':case.classification})

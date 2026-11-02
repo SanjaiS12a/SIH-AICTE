@@ -1,3 +1,4 @@
+import { categoryLabel } from './api';
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -10,7 +11,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import { api } from "./api";
+import { api, categories } from "./api";
 import { validDashboard } from "./dashboard-data";
 import { ManagementPanels } from "./management";
 import { IncidentSummary } from "./incident-summary";
@@ -21,6 +22,7 @@ type Job = {
   source_bureau?: string | null;
   registered_at?: string | null;
   status_mapping?: Record<string, string>;
+  category_mapping?: Record<string,string>;
   id: string;
   kind: string;
   filename: string;
@@ -189,6 +191,7 @@ function isJob(value: unknown): boolean {
     strings(value.fields) &&
     strings(value.required) &&
     record(value.mapping) &&
+    (value.category_mapping===undefined || (record(value.category_mapping) && Object.values(value.category_mapping).every(x=>typeof x==='string'))) &&
     Object.values(value.mapping).every((x) => typeof x === "string") &&
     Array.isArray(value.preview) &&
     value.preview.every(
@@ -294,12 +297,31 @@ export function ExportButton({ filters }: { filters: string }) {
     </>
   );
 }
+type CategoryPair={source:string;target:string};
+function categoryMap(pairs:CategoryPair[]) {
+  const supplied=pairs.filter(p=>p.source.trim());
+  if(new Set(supplied.map(p=>p.source.trim())).size!==supplied.length)throw new Error('Use each source category label only once.');
+  return Object.fromEntries(supplied.map(p=>[p.source.trim(),p.target]));
+}
+function CategoryMapping({pairs,setPairs}:{pairs:CategoryPair[];setPairs:(pairs:CategoryPair[])=>void}) {
+  return <fieldset className="wide"><legend>Optional category mapping</legend>
+    <p>Missing categories become Needs categorization. Map unfamiliar labels explicitly; no AI category is guessed. Original source labels remain in the row history.</p>
+    {pairs.map((pair,i)=><div className="form-grid" key={i}>
+      <label>Source category {i+1}<input maxLength={80} value={pair.source} onChange={e=>setPairs(pairs.map((p,n)=>n===i?{...p,source:e.target.value}:p))}/></label>
+      <label>Portal category {i+1}<select value={pair.target} onChange={e=>setPairs(pairs.map((p,n)=>n===i?{...p,target:e.target.value}:p))}>
+        {categories.map(value=><option key={value} value={value}>{categoryLabel(value)}</option>)}
+      </select></label>
+    </div>)}
+    <button type="button" className="secondary" onClick={()=>setPairs([...pairs,{source:'',target:'needs_categorization'}])}>Add category mapping</button>
+  </fieldset>;
+}
 export function Imports({ user, options }: { user: User; options: Options }) {
   const { data: jobs, error } = usePoll<Job[]>("/api/imports", 5000, 0, isJobs);
   const [kind, setKind] = useState("complaints"),
     [busy, setBusy] = useState(false),
     [failure, setFailure] = useState("");
   const [sourceMode, setSourceMode] = useState(false);
+  const [categoryPairs,setCategoryPairs]=useState<CategoryPair[]>([{source:'',target:'needs_categorization'}]);
   const [statusPairs, setStatusPairs] = useState([
     { source: "", target: "registered" },
   ]);
@@ -321,6 +343,7 @@ export function Imports({ user, options }: { user: User; options: Options }) {
           ),
         );
       }
+      if(kind==='complaints') form.set('category_mapping',JSON.stringify(categoryMap(categoryPairs)));
       const job = await api<Job>("/api/imports", {
         method: "POST",
         body: form,
@@ -367,6 +390,7 @@ export function Imports({ user, options }: { user: User; options: Options }) {
             </label>
             {kind === "complaints" && (
               <>
+                <CategoryMapping pairs={categoryPairs} setPairs={setCategoryPairs}/>
                 <label>
                   <input
                     type="checkbox"
@@ -529,6 +553,7 @@ export function Imports({ user, options }: { user: User; options: Options }) {
 }
 export function ImportDetail({ user }: { user: User }) {
   const { id } = useParams();
+  const [categoryPairs,setCategoryPairs]=useState<CategoryPair[]|null>(null);
   const [refresh, setRefresh] = useState(0),
     [mapping, setMapping] = useState<Record<string, string> | null>(null),
     [error, setError] = useState(""),
@@ -545,7 +570,8 @@ export function ImportDetail({ user }: { user: User }) {
     try {
       await api(`/api/imports/${id}`, {
         method: "POST",
-        body: JSON.stringify({ action, mapping: mapping || job?.mapping }),
+        body: JSON.stringify({ action, mapping: mapping || job?.mapping,
+          ...(action==='preview' && job?.kind==='complaints'?{category_mapping:categoryMap(categoryPairs??Object.entries(job.category_mapping||{}).map(([source,target])=>({source,target})))}:{}) }),
       });
       setMapping(null);
       setRefresh((x) => x + 1);
@@ -639,6 +665,7 @@ export function ImportDetail({ user }: { user: User }) {
       {job.state === "preview" && (
         <section className="panel mapping">
           <h2>Map and validate columns</h2>
+          {job.kind==='complaints' && <CategoryMapping pairs={categoryPairs??(Object.entries(job.category_mapping||{}).length?Object.entries(job.category_mapping||{}).map(([source,target])=>({source,target})):[{source:'',target:'needs_categorization'}])} setPairs={setCategoryPairs}/>}
           <p>
             Required fields are marked *. Confirming imports valid rows;
             rejected rows remain available in the error report.
@@ -893,7 +920,7 @@ export function Report({
             <Bars
               title="Complaint categories"
               rows={facts.categories.map((x) => ({
-                name: x.category,
+                name: categoryLabel(x.category),
                 count: x.count,
               }))}
             />
@@ -1010,7 +1037,7 @@ export function Report({
                         )}
                       </td>
                       <td>{x.bureau}</td>
-                      <td>{x.category}</td>
+                      <td>{categoryLabel(x.category)}</td>
                       <td>
                         {Object.entries(x.counts)
                           .map(([k, v]) => `${k}: ${v}`)

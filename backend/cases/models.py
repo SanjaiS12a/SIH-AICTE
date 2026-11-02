@@ -35,7 +35,7 @@ class Membership(models.Model):
 class Complaint(models.Model):
     CLASSIFICATIONS = [('grievance', 'Grievance'), ('regulatory_compliance', 'Regulatory / Compliance'), ('unclassified', 'Unclassified')]
     STATUSES = [(x, x.replace('_', ' ').title()) for x in ['registered', 'under_review', 'awaiting_response', 'disposed']]
-    CATEGORIES = [(x, x.title()) for x in ['admissions', 'refunds', 'documents', 'facilities', 'scholarships', 'administration']]
+    CATEGORIES = [(x, x.title()) for x in ['admissions', 'refunds', 'documents', 'facilities', 'scholarships', 'administration']] + [('other', 'Other'), ('needs_categorization', 'Needs categorization')]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     reference = models.CharField(max_length=32, unique=True)
     submission_id = models.UUIDField(unique=True)
@@ -279,6 +279,7 @@ class ImportJob(models.Model):
     source_system = models.CharField(max_length=40, blank=True)
     source_bureau = models.ForeignKey(Bureau, on_delete=models.PROTECT, null=True, blank=True)
     status_mapping = models.JSONField(default=dict)
+    category_mapping = models.JSONField(default=dict)
     registered_at = models.DateTimeField(null=True, blank=True)
     state = models.CharField(max_length=20, default='preview')
     error = models.CharField(max_length=300, blank=True)

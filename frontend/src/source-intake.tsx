@@ -18,6 +18,8 @@ type Source = {
   latest_job: string;
 };
 type Row = {
+  differences?: {field:string;before:unknown;after:unknown;eligible:boolean;explanation:string}[];
+  resolution?: {decision?:string;applied_fields?:string[]}|null;
   number: number;
   raw: Record<string, string>;
   data: Record<string, unknown>;
@@ -104,6 +106,8 @@ function validRows(value: unknown) {
         typeof r.state === "string" &&
         typeof r.error === "string" &&
         typeof r.resolution_reason === "string" &&
+        (r.differences===undefined || (Array.isArray(r.differences) && r.differences.every(d=>d && typeof d.field==='string' && typeof d.eligible==='boolean' && typeof d.explanation==='string'))) &&
+        (r.resolution==null || (typeof r.resolution==='object' && (r.resolution.decision===undefined || typeof r.resolution.decision==='string'))) &&
         !!r.data &&
         typeof r.data === "object" &&
         (r.current_case === null ||
@@ -231,11 +235,16 @@ function ReviewConflict({
   row,
   job,
   saved,
+  user,
 }: {
   row: Row;
   job: string;
   saved: () => void;
+  user: User;
 }) {
+  const [decision,setDecision]=useState('keep_portal_record'),[fields,setFields]=useState<string[]>([]),[retain,setRetain]=useState(false),[reopen,setReopen]=useState(false);
+  const [versions,setVersions]=useState<{row:number;case:number}|null>(null);
+  function edit(){setVersions(old=>old??{row:row.version,case:row.current_case!.version});}
   const [reason, setReason] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
@@ -248,9 +257,12 @@ function ReviewConflict({
       await api(`/api/imports/${job}/rows/${row.number}/resolve`, {
         method: "POST",
         body: JSON.stringify({
-          expected_version: row.version,
-          expected_case_version: row.current_case!.version,
-          decision: "keep_portal_record",
+          expected_version: versions?.row??row.version,
+          expected_case_version: versions?.case??row.current_case!.version,
+          decision,
+          fields: decision==='apply_selected_updates'?fields:[],
+          retain_unselected:retain,
+          confirm_reopen:reopen,
           reason,
         }),
       });
@@ -274,15 +286,29 @@ function ReviewConflict({
         or ownership correction is warranted. Original allegations remain
         immutable.
       </p>
+      {row.differences && <div className="table-scroll" tabIndex={0} role="region" aria-label="Source changes compared with portal">
+        <table><thead><tr><th>Field</th><th>Portal record</th><th>Incoming source</th><th>Permitted action</th></tr></thead><tbody>
+          {row.differences.map(d=><tr key={d.field}><th>{d.field.replaceAll('_',' ')}</th><td><pre className="source-value">{JSON.stringify(d.before,null,2)}</pre></td><td><pre className="source-value">{JSON.stringify(d.after,null,2)}</pre></td>
+            <td>{d.eligible && user.role==='coordinator' && decision==='apply_selected_updates' ? <label><input type="checkbox" checked={fields.includes(d.field)} onChange={e=>{edit();setFields(old=>e.target.checked?[...old,d.field]:old.filter(f=>f!==d.field));}}/>Apply {d.field.replaceAll('_',' ')}</label>:d.eligible?'Coordinator may select this update.':'Retain portal value.'}<p>{d.explanation}</p></td></tr>)}
+        </tbody></table>
+      </div>}
+      {user.role==='coordinator' && row.differences && <label>Review decision<select value={decision} onChange={e=>{edit();setDecision(e.target.value);}}>
+        <option value="keep_portal_record">Keep portal record</option><option value="apply_selected_updates">Apply selected metadata updates</option>
+      </select></label>}
+      {decision==='apply_selected_updates' && <>
+        <p>Closing applies only to this complaint. Source disposal date and resolution note are recorded together; no other group member is closed. Bureau/officer changes use <Link to={`/cases/${row.current_case!.id}`}>the case workflow</Link>.</p>
+        <label><input type="checkbox" required checked={retain} onChange={e=>{edit();setRetain(e.target.checked);}}/>Keep original allegations and all unselected/protected fields</label>
+        {row.current_case?.status==='disposed' && row.data.status!=='disposed' && fields.includes('status') && <label><input type="checkbox" required checked={reopen} onChange={e=>{edit();setReopen(e.target.checked);}}/>Explicitly reopen this closed case</label>}
+      </>}
       <ErrorBox message={error} />
       <label>
-        Reason for keeping portal record
+        {decision==='keep_portal_record'?'Reason for keeping portal record':'Reason for applying selected updates'}
         <textarea
           required
           rows={3}
           maxLength={2000}
           value={reason}
-          onChange={(e) => setReason(e.target.value)}
+          onChange={(e) => {edit();setReason(e.target.value);}}
         />
       </label>
       {conflict && (
@@ -297,8 +323,8 @@ function ReviewConflict({
             Reload row and discard draft
           </button>
         )}
-        <button disabled={busy || conflict}>
-          {busy ? "Recording…" : "Keep portal record and record review"}
+        <button disabled={busy || conflict || (decision==='apply_selected_updates' && !fields.length)}>
+          {busy ? "Recording…" : decision==='apply_selected_updates'?'Approve selected updates':'Keep portal record and record review'}
         </button>
       </div>
     </form>
@@ -376,7 +402,7 @@ export function SourceRows({ user }: { user: User }) {
                 <h2>
                   Row {row.number} —{" "}
                   {row.state === "resolved"
-                    ? "Conflict reviewed; portal record retained"
+                    ? row.resolution?.decision==='apply_selected_updates'?'Reviewed - selected changes applied':'Conflict reviewed; portal record retained'
                     : row.state}
                 </h2>
                 {row.error && <p>{row.error}</p>}
@@ -426,6 +452,7 @@ export function SourceRows({ user }: { user: User }) {
                   (job?.registered_at ? (
                     <ReviewConflict
                       row={row}
+                      user={user}
                       job={id!}
                       saved={() => setRefresh((n) => n + 1)}
                     />

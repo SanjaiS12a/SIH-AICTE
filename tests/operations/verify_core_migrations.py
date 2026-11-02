@@ -22,11 +22,16 @@ def main():
     target='/tmp/'+name+'.dump';run('docker','cp',str(archive),db+':'+target)
     run('docker','exec',db,'pg_restore','-U','audit','-d',name,'--no-owner','--no-acl','--exit-on-error',target)
     def sql(query):return run('docker','exec',db,'psql','-U','audit','-d',name,'-At','-c',query).strip()
+    tables=sql("SELECT tablename FROM pg_tables WHERE schemaname='public' AND tablename LIKE 'cases_%' ORDER BY tablename").splitlines()
+    def columns(table):return sql(f"SELECT column_name FROM information_schema.columns WHERE table_schema='public' AND table_name='{table}' ORDER BY ordinal_position").splitlines()
+    original={table:columns(table) for table in tables}
     def snapshot():
         result={}
-        for table in sql("SELECT tablename FROM pg_tables WHERE schemaname='public' AND tablename LIKE 'cases_%' ORDER BY tablename").splitlines():
+        for table in tables:
             if not table.replace('_','').isalnum():raise ValueError('Unexpected table identifier.')
-            removed={'cases_incidentgroup':"ARRAY['state','retired_at']",'cases_coordinationrecord':"ARRAY['incident_group_id','incident_group_version']"}.get(table,'ARRAY[]::text[]')
+            current=columns(table);assert set(original[table])<=set(current),'Original column removed.'
+            added=set(current)-set(original[table]);assert all(c.replace('_','').isalnum() for c in added)
+            removed='ARRAY['+','.join("'"+c+"'" for c in sorted(added))+']::text[]'
             value=sql(f"SELECT count(*),md5(coalesce(string_agg(md5((to_jsonb(t)-{removed})::text),'' ORDER BY id),'')) FROM {table} t").split('|')
             result[table]={'rows':int(value[0]),'original_columns_digest':value[1]}
         return result

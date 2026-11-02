@@ -1,3 +1,4 @@
+import { categoryLabel } from './api';
 import { ReviewEvidence } from "./evidence";
 import { IncidentGroups } from "./intelligence";
 import { IncidentSummary } from "./incident-summary";
@@ -799,7 +800,7 @@ function InstitutionCases({
           >
             <option value="">All categories</option>
             {categories.map((c) => (
-              <option key={c}>{c}</option>
+              <option key={c} value={c}>{categoryLabel(c)}</option>
             ))}
           </select>
         </label>

@@ -213,3 +213,7 @@ button, .button { border-radius: 5px; }
   #main { padding: 0; }
   .panel { box-shadow: none; }
 }
+
+.source-value { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 32rem; font: inherit; }
+.panel code { overflow-wrap: anywhere; }
+.top-actions > a { color: var(--green, #18503c); font-size: .85rem; }

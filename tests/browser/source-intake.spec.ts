@@ -314,7 +314,8 @@ test("source rows paginate past twenty and role scopes apply to lists and review
   await expect(
     page.getByRole("heading", { name: "Row 22 — ready", exact: true }),
   ).toBeVisible();
-  const changed = await upload("rb", "rb-changed.csv");
+  // A previously reviewed snapshot is acknowledged; permission checks need a fresh change.
+  const changed = await upload("rb", "rb-changed.csv", csv('rb-changed.csv').replace('Fictional regulatory site observation for accessibility review.','Fictional role-isolation revision requiring a new source review.'));
   await finish(changed);
   await login(page, "auditor");
   await page.goto(`/imports/${changed.id}/rows?state=conflict`);

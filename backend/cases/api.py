@@ -51,7 +51,7 @@ def session(request):
     bureau = Bureau.objects.filter(pk=current_bureau_id(request.user)).values_list('code', flat=True).first()
     return Response({'user': {'id': request.user.id, 'name': request.user.get_full_name() or request.user.username,
                              'username': request.user.username, 'role': role(request.user),
-                             'bureau': bureau, 'features': {'reviewed_facts': settings.ENABLE_REVIEWED_FACTS, 'incident_groups': settings.ENABLE_INCIDENT_GROUPS and coordination(request.user)}},
+                             'bureau': bureau, 'features': {'demo_mode': settings.DEMO_MODE, 'reviewed_facts': settings.ENABLE_REVIEWED_FACTS, 'incident_groups': settings.ENABLE_INCIDENT_GROUPS and coordination(request.user)}},
                      'policy': {'deadline_days': settings.DEMO_DEADLINE_DAYS, 'label': 'Demonstration policy, not an AICTE rule'}})
 
 @api_view(['GET'])
@@ -68,7 +68,7 @@ def options(request):
     if not coordination(request.user):
         bureaus = bureaus.filter(id=current_bureau_id(request.user)) if role(request.user) == 'officer' else bureaus.none()
         users = users.filter(membership__bureau_id=current_bureau_id(request.user)) if role(request.user) == 'officer' else users.none()
-    return Response({'bureaus': list(bureaus.values('code', 'name')),
+    return Response({'categories': list(dict(Complaint.CATEGORIES)), 'category_labels': dict(Complaint.CATEGORIES), 'bureaus': list(bureaus.values('code', 'name')),
                      'officers': [{'id': u.id, 'name': u.get_full_name(), 'bureau': u.membership.bureau.code} for u in users.select_related('membership__bureau')],
                      'regions': list(Institution.objects.order_by('region').values_list('region', flat=True).distinct())})
 
@@ -137,7 +137,7 @@ def actions(request, case_id):
         if case.version != d['expected_version']:
             raise Conflict()
         kind, changes = d['kind'], {}
-        if kind in ('transfer', 'assign', 'deadline', 'retry_matching', 'classification') and role(request.user) != 'coordinator':
+        if kind in ('transfer', 'assign', 'deadline', 'retry_matching', 'classification', 'category') and role(request.user) != 'coordinator':
             raise PermissionDenied('This action requires a coordinator.')
         if kind == 'status':
             if case.status == d['status']:
@@ -151,6 +151,10 @@ def actions(request, case_id):
                 changes.update(next_action={'before': case.next_action, 'after': ''},
                                next_action_date={'before': case.next_action_date.isoformat() if case.next_action_date else None, 'after': None})
                 case.next_action, case.next_action_date = '', None
+        elif kind == 'category':
+            if case.category == d['category']: raise ValidationError('Choose a different category.')
+            changes = {'category': {'before': case.category, 'after': d['category']}}
+            case.category = d['category']
         elif kind == 'classification':
             if case.classification == d['classification']:
                 raise ValidationError('Choose a different classification.')

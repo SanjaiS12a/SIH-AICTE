@@ -35,8 +35,9 @@ def request(client,jar,path,payload=None,body=None,content_type=None):
   headers={'X-CSRFToken':next(c.value for c in jar if c.name=='csrftoken'),'Content-Type':content_type}
  with client.open(urllib.request.Request(BASE+path,data=body,headers=headers),timeout=180) as response:return json.loads(response.read())
 
-def simulate(index,done):
+def simulate(index,done,ready=None):
  client,jar=browser(f"readiness-user-{index+1}");values=[]
+ if ready is not None:ready.wait(timeout=30)
  while not done.is_set():
   for kind,path in [('dashboard','/api/dashboard'),('read','/api/cases')]:
    start=time.perf_counter();result=request(client,jar,path);values.append((kind,(time.perf_counter()-start)*1000))
@@ -44,7 +45,7 @@ def simulate(index,done):
  return values
 
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--rows',type=int,default=1000);parser.add_argument('--format',choices=['csv','xlsx'],default='csv');parser.add_argument('--concentrated',action='store_true');parser.add_argument('--kind',choices=['complaints','monthly','snapshot'],default='complaints');parser.add_argument('--timeout',type=int,default=1800);args=parser.parse_args()
+ parser=argparse.ArgumentParser();parser.add_argument('--rows',type=int,default=1000);parser.add_argument('--format',choices=['csv','xlsx'],default='csv');parser.add_argument('--concentrated',action='store_true');parser.add_argument('--kind',choices=['complaints','monthly','snapshot'],default='complaints');parser.add_argument('--timeout',type=int,default=1800);parser.add_argument('--duplicate-replay',action='store_true');args=parser.parse_args()
  if not 1<=args.rows<=100000:raise ValueError('Use 1 to 100,000 rows; uploads are split into 10,000-row files.')
  project=os.environ['AUDIT_PROJECT']
  if not project.startswith('sih-readiness-'):raise ValueError('Use the audit project only.')
@@ -113,6 +114,29 @@ def main():
   assert job['state']=='complete',job
   results.append({'import_id':job['id'],'rows':len(rows),'preview_seconds':preview,'statistics_ready_seconds':stats_at,'statistics_report_total':statistics_report.get('total') if statistics_report else None,'statistics_report_matching':statistics_report.get('matching') if statistics_report else None,'matching_and_report_seconds':time.perf_counter()-confirmed,'counts':job['counts'],'matching':job['matching'],'stage_timings':job.get('timings',{}),
    'latency':{kind:{'requests':len(v:=sorted(ms for k,ms in latencies if k==kind)),'p50_ms':statistics.median(v),'p95_ms':v[min(len(v)-1,int(.95*len(v)))]} for kind in ['dashboard','read']}})
+  if args.duplicate_replay:
+   database=os.environ['BENCHMARK_DATABASE'];assert database.startswith('coordination_scale_http_')
+   sql="SELECT count(*)::text||':'||md5(string_agg(id::text||coalesce(matched_at::text,'')||version::text||status,'' ORDER BY id)) FROM cases_complaint WHERE source_system='synthetic-benchmark'"
+   def signature():return subprocess.check_output(['docker','exec',f'{project}-db-1','psql','-U','audit','-d',database,'-tAc',sql],timeout=15,text=True).strip()
+   before=signature();started=time.perf_counter()
+   replay=request(client,jar,'/api/imports',body=body,content_type=f'multipart/form-data; boundary={boundary}')
+   replay_preview=time.perf_counter()-started;assert replay['counts']=={'duplicate':len(rows)},replay
+   done=threading.Event();ready=threading.Barrier(10)
+   with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
+    readers=pool.submit(lambda:list(pool.map(lambda index:simulate(index,done,ready),range(9))))
+    ready.wait(timeout=30);confirmed=time.perf_counter()
+    try:
+     request(client,jar,f"/api/imports/{replay['id']}",{'action':'confirm'})
+     while time.perf_counter()-confirmed<args.timeout:
+      replay=request(client,jar,f"/api/imports/{replay['id']}")
+      if replay['state']=='complete':break
+      if replay['state']=='failed':raise RuntimeError(replay)
+      time.sleep(.5)
+     else:raise TimeoutError('Duplicate replay did not complete.')
+    finally:done.set()
+    replay_latencies=[item for batch in readers.result() for item in batch]
+   assert signature()==before,'Replay changed cases, matching timestamps or versions.'
+   results[-1]['duplicate_replay']={'preview_seconds':replay_preview,'confirmation_seconds':time.perf_counter()-confirmed,'rows':len(rows),'case_and_matching_signature_unchanged':True,'concurrent_users':10,'reader_requests':len(replay_latencies),'scope':'Separate idempotency measurement with nine authenticated readers plus importer.'}
  stop.set();monitor.join(timeout=12)
  output={'resources':resources,'format':args.format,'run':run,'kind':args.kind,'rows':args.rows,'distribution':'one institution' if args.concentrated else 'distributed institutions','platform':platform.platform(),'concurrent_sessions':10,'transport':'HTTP localhost; ten distinct users, nine readers alongside importer','total_seconds':time.perf_counter()-start_all,'results':results,'limits':'Synthetic performance data; no million-row claim. Shared laptop workload may affect results.'}
  path=RESULTS/f"completion-import-{args.kind}-{args.rows}-{'concentrated' if args.concentrated else 'distributed'}.json";

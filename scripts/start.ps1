@@ -1,10 +1,37 @@
 param(
     [ValidateSet('Start','Stop','Prepare','Check')][string]$Action = 'Start',
     [switch]$Audit,
+    [switch]$Demo,
     [switch]$Prepare
 )
 $ErrorActionPreference = 'Stop'
+if ($Demo -and -not $Audit) { throw '-Demo requires -Audit; the working database cannot be used for demo activation.' }
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+if ($Demo) {
+    $names=@('DEMO_MODE','ENABLE_REVIEWED_FACTS','ENABLE_INCIDENT_GROUPS','AUDIT_RESULTS','API_PROXY_TARGET')
+    $previous=@{}
+    foreach ($name in $names) { $previous[$name]=[Environment]::GetEnvironmentVariable($name,'Process') }
+    try {
+        $env:DEMO_MODE='1'; $env:ENABLE_REVIEWED_FACTS='1'; $env:ENABLE_INCIDENT_GROUPS='1'
+        $metadata=Join-Path $repoRoot 'tests/results/logs/readiness-run.json'
+        if (-not (Test-Path -LiteralPath $metadata)) {
+            if ($Action -eq 'Stop') { throw 'No isolated demo profile exists. Prepare the demo first.' }
+            $sha=[Security.Cryptography.SHA256]::Create()
+            try { $key=[BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($repoRoot))).Replace('-','').Substring(0,8).ToLowerInvariant() } finally { $sha.Dispose() }
+            $destination=Join-Path $repoRoot ('tests/results/runs/demo-'+[guid]::NewGuid().ToString('N'))
+            New-Item -ItemType Directory -Path $destination | Out-Null
+            New-Item -ItemType Directory -Force -Path (Split-Path $metadata) | Out-Null
+            $bytes=[Text.Encoding]::UTF8.GetBytes((@{project="sih-readiness-demo-$key";directory=$destination} | ConvertTo-Json))
+            $file=[IO.File]::Open($metadata,[IO.FileMode]::CreateNew)
+            try { $file.Write($bytes,0,$bytes.Length) } finally { $file.Dispose() }
+        }
+        & $PSCommandPath -Audit -Action $Action -Prepare:$Prepare
+        if ($LASTEXITCODE -ne 0) { throw "Demo controller failed with exit code $LASTEXITCODE." }
+    } finally {
+        foreach ($name in $names) { [Environment]::SetEnvironmentVariable($name,$previous[$name],'Process') }
+    }
+    return
+}
 Set-Location -LiteralPath $repoRoot
 if ($Prepare) { $Action = 'Prepare' }
 $runRoot = Join-Path $repoRoot '.run'
@@ -89,6 +116,12 @@ function Stop-OwnedFrontend {
     }
     Remove-Item -LiteralPath $pidFile
 }
+function Assert-DependenciesIdle {
+    $active=Get-CimInstance Win32_Process -Filter "Name='node.exe'" | Where-Object {
+        $_.CommandLine -and $_.CommandLine.IndexOf($repoRoot,[StringComparison]::OrdinalIgnoreCase) -ge 0 -and $_.CommandLine -match 'vite[\\/]bin[\\/]vite\.js'
+    }
+    if ($active) { throw 'Stop other workspace Vite previews/builds before preparation; their Windows executable locks prevent npm ci.' }
+}
 if ($Action -eq 'Stop') {
     Stop-OwnedFrontend
     Invoke-Compose stop api worker db
@@ -102,12 +135,31 @@ if (-not ($nodeVersion.Major -gt 22 -or ($nodeVersion.Major -eq 22 -and $nodeVer
 & docker info --format '{{.ServerVersion}}' | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Start Docker Desktop, then retry.' }
 if ($Action -eq 'Prepare') {
+    Stop-OwnedFrontend
+    Assert-DependenciesIdle
     if (-not $Audit -and -not (Test-Path -LiteralPath '.env')) { Copy-Item -LiteralPath '.env.example' -Destination '.env' }
     if (-not $Audit) { Invoke-Compose build }
+    if ($Audit -and $env:DEMO_MODE -eq '1') {
+        $previousPreference=$ErrorActionPreference
+        try { $ErrorActionPreference='Continue'; & docker image inspect aicte-coordination:local *> $null; $imageStatus=$LASTEXITCODE }
+        finally { $ErrorActionPreference=$previousPreference }
+        if ($imageStatus -ne 0) {
+            New-Item -ItemType Directory -Force -Path (Join-Path $repoRoot 'backend/.wheels') | Out-Null
+            & docker build -t aicte-coordination:local (Join-Path $repoRoot 'backend')
+            if ($LASTEXITCODE -ne 0) { throw 'Isolated demo image preparation failed.' }
+        }
+    }
     Invoke-Compose up -d db
     Wait-Database
     Invoke-Compose run --rm --no-deps api python manage.py migrate --noinput
-    if ($Audit) { Verify-Assets } else { Invoke-Compose run --rm --no-deps -e HF_HUB_OFFLINE=0 -e TRANSFORMERS_OFFLINE=0 api python manage.py download_model }
+    if ($Audit) {
+        if ($env:DEMO_MODE -eq '1' -and -not (Test-Path -LiteralPath 'models/minilm/model.safetensors')) {
+            $modelDirectory=Join-Path $repoRoot 'models'
+            New-Item -ItemType Directory -Force -Path $modelDirectory | Out-Null
+            Invoke-Compose run --rm --no-deps -v ($modelDirectory.Replace('\','/')+':/models:rw') -e HF_HUB_OFFLINE=0 -e TRANSFORMERS_OFFLINE=0 api python manage.py download_model
+        }
+        Verify-Assets
+    } else { Invoke-Compose run --rm --no-deps -e HF_HUB_OFFLINE=0 -e TRANSFORMERS_OFFLINE=0 api python manage.py download_model }
     # Preparation seeds only an empty designated database; existing data is never augmented.
     Invoke-Compose run --rm --no-deps api python manage.py seed_if_empty
     Push-Location frontend

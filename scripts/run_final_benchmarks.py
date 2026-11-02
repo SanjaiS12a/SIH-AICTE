@@ -25,7 +25,7 @@ def main():
     current=json.loads(run('docker','inspect',project+'-api-1'))[0]['Config']['Env']
     current=dict(v.split('=',1) for v in current)
     if current.get('POSTGRES_DB')!='coordination_audit':raise ValueError('Start from the preserved audit application configuration.')
-    for key in ['ENABLE_REVIEWED_FACTS','ENABLE_INCIDENT_GROUPS']:env[key]=current.get(key,'0')
+    for key in ['ENABLE_REVIEWED_FACTS','ENABLE_INCIDENT_GROUPS','DEMO_MODE']:env[key]=current.get(key,'0')
     destination=Path(final['directory'])/'performance-http';destination.mkdir(exist_ok=False)
     results=[]
     try:
@@ -74,6 +74,7 @@ async_task('cases.matching.match_case',str(c.pk))
                 env.update(BENCHMARK_URL='http://127.0.0.1:8001',AUDIT_ARTIFACT_DIR=str(folder),AUDIT_PROJECT=project,BENCHMARK_DATABASE=database)
                 args=[sys.executable,str(ROOT/'scripts/benchmark_import.py'),'--rows',str(rows),'--format','xlsx' if rows==1000 else 'csv','--timeout','1800']
                 if concentrated:args.append('--concentrated')
+                if os.environ.get('BENCHMARK_OPERATIONAL')=='1':args.append('--duplicate-replay')
                 for script,args_run in [('import',args),('ordinary-http',[sys.executable,str(ROOT/'scripts/benchmark.py')])]:
                     with (folder/(script+'.log')).open('x',encoding='utf-8') as stream:
                         completed=subprocess.run(args_run,cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT,timeout=2100)
