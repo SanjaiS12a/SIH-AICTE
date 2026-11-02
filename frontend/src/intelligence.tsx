@@ -131,14 +131,17 @@ export function IncidentGroups({institution,user}:{institution:string;user:User}
 }
 function GroupHistory({id}:{id:string}) {
   const [open,setOpen]=useState(false),[page,setPage]=useState(1);
-  const {data,error}=usePoll<Page<{id:number;reference:string;reason:string;kind:string;actor:string;created_at:string}>>(open?`/api/incident-groups/${id}/history?page=${page}`:null,5000,0,validGroupHistory);
+  const {data,error}=usePoll<Page<{id:number;reference:string;reason:string;kind:string;actor:string;created_at:string;changes:{before:string[];after:string[]}}>>(open?`/api/incident-groups/${id}/history?page=${page}`:null,5000,0,validGroupHistory);
   return <details onToggle={e=>setOpen(e.currentTarget.open)}><summary>Complete incident membership history</summary><ErrorBox message={error} />{open && !data && !error && <Loading />}
-    {data && <><ul>{data.results.map(a=><li key={a.id}>{date(a.created_at)} · {a.reference} · {a.actor}: {a.reason}</li>)}</ul><LocalPages page={page} count={data.count} next={data.next} change={setPage} /></>}
+    {data && <><ul>{data.results.map(a=><li key={a.id}>{date(a.created_at)} · {a.reference} · {a.actor}: {a.reason}
+      <details><summary>Membership before: {a.changes.before.length} cases · after: {a.changes.after.length} cases</summary>
+        <p>Before: {a.changes.before.map(c=><Link key={c} to={`/cases/${c}`}>{c} </Link>)}</p><p>After: {a.changes.after.map(c=><Link key={c} to={`/cases/${c}`}>{c} </Link>)}</p>
+      </details></li>)}</ul><LocalPages page={page} count={data.count} next={data.next} change={setPage} /></>}
   </details>;
 }
 function validGroupHistory(value:unknown):boolean {
-  const p=value as Page<{id:number;reference:string;reason:string;actor:string;created_at:string}>|null;
-  return !!p && Number.isInteger(p.count) && Array.isArray(p.results) && p.results.every(a=>!!a && Number.isInteger(a.id) && typeof a.reference==='string' && typeof a.reason==='string' && typeof a.actor==='string' && typeof a.created_at==='string');
+  const p=value as Page<{id:number;reference:string;reason:string;actor:string;created_at:string;changes:{before:string[];after:string[]}}>|null;
+  return !!p && Number.isInteger(p.count) && Array.isArray(p.results) && p.results.every(a=>!!a && Number.isInteger(a.id) && typeof a.reference==='string' && typeof a.reason==='string' && typeof a.actor==='string' && typeof a.created_at==='string' && !!a.changes && [a.changes.before,a.changes.after].every(ids=>Array.isArray(ids) && ids.every(id=>typeof id==='string')));
 }
 function LocalPages({page,count,next,change}:{page:number;count:number;next:string|null;change:(page:number)=>void}) {
   return <nav className="pagination" aria-label="Section pages"><button type="button" className="button secondary" disabled={page===1} onClick={()=>change(page-1)}>Previous page</button> <span>Page {page} · {count} records</span> <button type="button" className="button secondary" disabled={!next} onClick={()=>change(page+1)}>Next page</button></nav>;

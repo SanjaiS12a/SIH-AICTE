@@ -40,6 +40,8 @@ The 30-calendar-day deadline is a demonstration policy, not an AICTE rule. Close
 
 ## Verification and recovery
 
+The [core incident workflow](docs/core-intelligence.md) defines separate complaint/pair/group counts, audited group retirement, source-preserving experiments and versioned hand-off to Bureau coordination. The [six-case fixture](tests/fixtures/core-intelligence/README.md) exercises six independent complaints linked to one reviewed incident. Incident groups remain disabled by default; verify them on the isolated audit stack before any live-demo activation.
+
 The [portal UI verification](tests/results/portal-ui-verification.md) covers the institution-first home layout, shared government theme, responsive navigation and browser workflow regressions.
 
 The [movement CSV follow-up](tests/results/movement-export-hardening.md) records the post-publication export correction: 10,000 synthetic rows fell from 10,005 Django SQL executions to six with identical CSV bytes. The separate real-data and physical-offline acceptance gates remain open.

@@ -113,6 +113,7 @@ test('membership correction, stale draft and retirement preserve paginated autho
   await groups.getByRole('button',{name:'Save explicit incident group',exact:true}).click();
   await expect(groups.getByText('Retired — historical membership',{exact:false})).toBeVisible();
   await groups.getByText('Complete incident membership history',{exact:true}).click();
+  await expect(groups.getByText('Membership before: 5 cases · after: 5 cases',{exact:true}).first()).toBeVisible();
   await expect(groups.getByRole('button',{name:'Next page',exact:true}).first()).toBeEnabled();
   await groups.getByRole('button',{name:'Next page',exact:true}).first().click();
   await expect(groups.getByText(/Page 2 ·/)).toBeVisible();

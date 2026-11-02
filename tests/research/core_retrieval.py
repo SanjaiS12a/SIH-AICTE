@@ -45,7 +45,7 @@ def run(input_path, output_path):
             received_at=timezone.now(),due_at=timezone.now(),embedding=vectors[indexes[r['summary']]].tolist(),model_revision=revision,matching_state='complete')
     reverse={str(c.pk):key for key,c in cases.items()}
     references=[r for r in records if r['role']=='reference'];queries=[r for r in records if r['role']=='query']
-    details=[];cpu_started=time.process_time()
+    details=[];probes=[];cpu_started=time.process_time()
     def score(a,b,mode):
         left=[indexes[p['text']] for p in versions[a]['representations'][mode]]
         right=[indexes[p['text']] for p in versions[b]['representations'][mode]]
@@ -54,6 +54,8 @@ def run(input_path, output_path):
         for q in queries:
             eligible=[r for r in references if r['institution']==q['institution']]
             started=time.perf_counter();found=discover(user,cases[q['id']],budget=20,reference_ids=[cases[r['id']].pk for r in eligible]);shadow_ms=(time.perf_counter()-started)*1000
+            probes.append({'query':q['id'],'all_shadow_channels_ms':shadow_ms,'channel_fetch_and_count_ms':found['channel_fetch_and_count_ms'],
+                'volumes':found['volumes'],'candidates':found['candidates'],'plans':found['plans']})
             convert=lambda ids:[reverse[x] for x in ids]
             methods={'production_summary_top5':convert(found['baseline']),
                 'semantic_top20':convert(found['candidate_ids_by_channel']['semantic']),
@@ -88,7 +90,7 @@ def run(input_path, output_path):
         'production_policy_changed':False,'model_revision':revision,'threshold':cutoff,'weights_sha256':before,
         'records':len(records),'queries':len(queries),'unique_passages_encoded':len(texts),'cold_load_seconds':load,'embedding_seconds':embedding_seconds,
         'comparison_cpu_seconds':time.process_time()-cpu_started,'process_peak_ram_kib':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
-        'metrics':metrics,'queries_detail':details,'real_education_accuracy':None,
+        'metrics':metrics,'queries_detail':details,'channel_probes':probes,'real_education_accuracy':None,
         'limits':['Authored synthetic labels; no independent review.','Tiny source-selection diagnostic, not a model/policy promotion.','Experimental rankings use no newly calibrated threshold.','Paragraph max pooling can increase false positives.','Known-positive families exist only in this synthetic fixture.']}
     (out/'results.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
     return report

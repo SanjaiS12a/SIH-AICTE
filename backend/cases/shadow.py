@@ -1,5 +1,6 @@
 """Read-only experimental discovery. Production matching never calls this module."""
 import re
+import time
 from django.conf import settings
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from pgvector.django import CosineDistance
@@ -28,10 +29,12 @@ def discover(user, case, budget=20, reference_ids=None):
     lexical = base.annotate(search=search, lexical_rank=SearchRank(search, query)).filter(search=query).order_by('-lexical_rank', 'reference', 'pk') if terms else base.none()
     reference = base.filter(source_reference=case.source_reference).order_by('pk') if case.source_reference and case.source_reference.strip() else base.none()
     channels = {'semantic': semantic, 'lexical': lexical, 'reference': reference}
-    retrieved, candidates, volumes = {}, {}, {}
+    retrieved, candidates, volumes, timings = {}, {}, {}, {}
     for method, qs in channels.items():
+        started = time.perf_counter()
         rows = list(qs[:budget]); retrieved[method] = []
         count = qs.count(); volumes[method] = {'eligible': count, 'retrieved': len(rows), 'truncated': count > budget}
+        timings[method] = (time.perf_counter()-started)*1000
         for rank, row in enumerate(rows, 1):
             key = str(row.pk); retrieved[method].append(key)
             result = candidates.setdefault(key, {'case_id': key, 'methods': [], 'cosine': None, 'lexical_rank': None, 'experimental_priority': 0.0})
@@ -50,5 +53,6 @@ def discover(user, case, budget=20, reference_ids=None):
         'baseline': baseline, 'lexical': retrieved['lexical'][:5], 'reference': retrieved['reference'][:5], 'union': union,
         'candidates': list(candidates.values()), 'volumes': volumes,
         'candidate_ids_by_channel': retrieved, 'bounded_union': list(candidates),
+        'channel_fetch_and_count_ms':timings,
         'lexical_query_terms': terms, 'plans': {'lexical': lexical[:budget].explain(format='json', analyze=True, buffers=True) if terms else None,
                                               'semantic': semantic[:budget].explain(format='json', analyze=True, buffers=True) if vector else None}}

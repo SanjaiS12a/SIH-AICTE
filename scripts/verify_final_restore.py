@@ -33,7 +33,7 @@ def snapshot(container,database):
 
 def main():
     metadata=json.loads((ROOT/'tests/results/logs/readiness-run.json').read_text())
-    current=json.loads((ROOT/'tests/results/logs/final-run.json').read_text())
+    current=json.loads(Path(os.environ.get('RESTORE_RUN_FILE',ROOT/'tests/results/logs/final-run.json')).read_text(encoding='utf-8-sig'))
     project=metadata['project']
     if not project.startswith('sih-readiness-'): raise ValueError('Isolated audit project required.')
     os.environ['AUDIT_RESULTS']=metadata['directory']
@@ -77,7 +77,7 @@ from rest_framework.test import APIClient
 from cases.models import Complaint,Attachment,ReviewedFact,IncidentGroup
 from cases.matching import encoder,runtime
 c=APIClient();c.force_authenticate(User.objects.get(username='coordinator'))
-for path in ['/api/dashboard','/api/institution-registry','/api/overlaps?decision=all','/api/coordination-records']:
+for path in ['/api/dashboard','/api/institution-registry','/api/overlaps?decision=all','/api/coordination-records','/api/incident-summary','/api/incident-summary/records?metric=confirmed_groups']:
  assert c.get(path).status_code==200,path
 case=Complaint.objects.first()
 assert c.get('/api/cases/'+str(case.pk)+'/brief').status_code==200

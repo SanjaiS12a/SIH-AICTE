@@ -15,7 +15,8 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def main():
     audit=json.loads((ROOT/'tests/results/logs/readiness-run.json').read_text())
-    final=json.loads((ROOT/'tests/results/logs/final-run.json').read_text())
+    final=json.loads(Path(os.environ.get('BENCHMARK_RUN_FILE',ROOT/'tests/results/logs/final-run.json')).read_text(encoding='utf-8-sig'))
+    core = os.environ.get('BENCHMARK_CORE_INTELLIGENCE')=='1'
     project=audit['project']
     if not project.startswith('sih-readiness-'):raise ValueError('Audit project required.')
     env=os.environ.copy();env['AUDIT_RESULTS']=audit['directory']
@@ -28,13 +29,13 @@ def main():
     destination=Path(final['directory'])/'performance-http';destination.mkdir(exist_ok=False)
     results=[]
     try:
-        for rows,concentrated in [(1000,False),(1000,True),(10000,False),(10000,True)]:
+        for rows,concentrated in ([(1000,False),(10000,True)] if core else [(1000,False),(1000,True),(10000,False),(10000,True)]):
             name=f'{rows}-'+('concentrated' if concentrated else 'distributed')
             folder=destination/name;folder.mkdir()
             database='coordination_scale_http_'+uuid.uuid4().hex[:10]
             private='benchmark_'+uuid.uuid4().hex[:10]
             override=folder/'compose-benchmark.json'
-            override.write_text(json.dumps({'services':{s:{'environment':{'POSTGRES_DB':database,'ENABLE_REVIEWED_FACTS':'0','ENABLE_INCIDENT_GROUPS':'0'},
+            override.write_text(json.dumps({'services':{s:{'environment':{'POSTGRES_DB':database,'ENABLE_REVIEWED_FACTS':'1' if core else '0','ENABLE_INCIDENT_GROUPS':'1' if core else '0'},
                 'volumes':[private+':/app/private']} for s in ['api','worker']},'volumes':{private:{}}}),encoding='utf-8')
             command=[*base,'-f',str(override)]
             result={'rows':rows,'distribution':name.split('-',1)[1],'database':database,'folder':str(folder),'passed':False}
@@ -77,6 +78,10 @@ async_task('cases.matching.match_case',str(c.pk))
                     with (folder/(script+'.log')).open('x',encoding='utf-8') as stream:
                         completed=subprocess.run(args_run,cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT,timeout=2100)
                     if completed.returncode:raise RuntimeError(script+' failed; inspect its saved log.')
+                if core:
+                    with (folder/'incident-http.log').open('x',encoding='utf-8') as stream:
+                        completed=subprocess.run([sys.executable,str(ROOT/'scripts/benchmark_incidents.py')],cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT,timeout=300)
+                    if completed.returncode:raise RuntimeError('Incident report benchmark failed; inspect its saved log.')
                 os.environ.update({key:env[key] for key in ['BENCHMARK_URL','AUDIT_ARTIFACT_DIR']})
                 from benchmark import browser, BASE
                 from benchmark_import import request

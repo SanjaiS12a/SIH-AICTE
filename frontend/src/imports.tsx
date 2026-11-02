@@ -867,7 +867,7 @@ export function Report({
               ["Pending", facts.pending],
               ["Overdue", facts.overdue],
               ["Closed", facts.disposed],
-              ["Overlap reviews", facts.overlap_reviews ?? "Restricted"],
+              ["Pending pair reviews — either endpoint in scope", facts.overlap_reviews ?? "Restricted"],
             ].map(([label, value]) => (
               <div key={label}>
                 <span>{label}</span>
