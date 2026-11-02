@@ -2,18 +2,18 @@
 input: <in-memory>
 input_stage: provided JSON (normal graph.json is post-build)
 effective_directed: <direct-call>
-nodes: 1405
+nodes: 1413
 unverified_code_nodes: 0
-raw_edges: 3559
-valid_candidate_edges: 3559
+raw_edges: 3554
+valid_candidate_edges: 3554
 missing_endpoint_edges: 0
 dangling_endpoint_edges: 0
 external_reference_edges: 0
 self_loop_edges: 15
 exact_duplicate_edges: 0
-directed_unique_endpoint_pairs: 3559
+directed_unique_endpoint_pairs: 3554
 directed_same_endpoint_collapsed_edges: 0
-undirected_unique_endpoint_pairs: 3558
+undirected_unique_endpoint_pairs: 3553
 undirected_same_endpoint_collapsed_edges: 1
 same_endpoint_group_count: 0
 relation_variant_groups: 0
@@ -21,7 +21,7 @@ source_file_variant_groups: 0
 source_location_variant_groups: 0
 context_variant_groups: 0
 post_build_graph_type: DiGraph
-post_build_edges: 3559
+post_build_edges: 3554
 producer_suppression_sites: 12
 producer_suppression_examples:
   - L1676 seen_ids arity=unknown
@@ -33,3 +33,4 @@ producer_suppression_examples:
   - L3670 seen_keys arity=unknown
   - L5777 seen_ids arity=unknown
 note: normal graph.json is post-build; raw producer loss must be measured earlier.
+Manifest freshness: eight stale permitted sources were refreshed; follow-up detection reports zero changed/deleted files. New movement-export test source and exporter function are covered. All node source paths are repository-relative.
