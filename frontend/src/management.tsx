@@ -6,6 +6,7 @@
  * Every KPI has a corresponding drill-down link.
  */
 import { useState } from "react";
+import { ArrowDownLeft, ArrowRight, CheckCircle, Clock, FileText } from "@phosphor-icons/react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   BarChart,
@@ -32,18 +33,19 @@ export function ManagementHome({ data: d, filters }: { data: Dashboard; filters:
     Object.entries(extra).forEach(([k,v]) => v ? q.set(k,v) : q.delete(k));
     return `/cases?${q}`;
   }
-  const cards: [string, number, Record<string,string>][] = [
-    ["Received complaints", d.total, {}],
-    ["Open complaints", d.pending, {pending:"true"}],
-    ["Under-process complaints", d.under_process, {under_process:"true"}],
-    ["Closed complaints", d.disposed, {closed:"true"}],
+  const cards: {label:string; count:number; extra:Record<string,string>; note:string; icon:typeof Clock}[] = [
+    {label:"Received complaints", count:d.total, extra:{}, note:"All cases in the selected period", icon:ArrowDownLeft},
+    {label:"Open complaints", count:d.pending, extra:{pending:"true"}, note:"Still waiting for resolution", icon:FileText},
+    {label:"Under-process complaints", count:d.under_process, extra:{under_process:"true"}, note:"Being reviewed or awaiting a response", icon:Clock},
+    {label:"Closed complaints", count:d.disposed, extra:{closed:"true"}, note:"A resolution has been recorded", icon:CheckCircle},
   ];
   return <>
-    <div className="home-summary">{cards.map(([label,count,extra]) =>
+    <div className="home-summary">{cards.map(({label,count,extra,note,icon:Icon}) =>
       <button className="home-stat" key={label} onClick={() => navigate(cases(extra))}>
-        <span>{label}</span><strong>{count.toLocaleString("en-IN")}</strong>
+        <span>{label}<Icon size={19} aria-hidden="true" /></span><strong>{count.toLocaleString("en-IN")}</strong>
+        <small>{note}</small><ArrowRight className="stat-arrow" size={17} aria-hidden="true" />
       </button>)}</div>
-    <p className="home-guidance">Selected receipt cohort. Under-process means under review or awaiting response and is included in Open. <Link to={cases({overdue:"true"})}>{d.overdue} overdue complaints</Link>.</p>
+    <div className="home-scope-note"><p>Selected receipt cohort. Under-process is included in Open.</p><Link to={cases({overdue:"true"})}>{d.overdue.toLocaleString("en-IN")} overdue complaints <ArrowRight size={14} aria-hidden="true" /></Link></div>
     <section className="panel home-attention" aria-labelledby="priority-title">
       <div className="home-section-heading"><div><h2 id="priority-title">Priority institutions</h2>
       <p>Selected receipt cohort. Ranked by overdue cases, unresolved escalations, then earliest deadline.</p></div></div>

@@ -18,6 +18,8 @@ import {
   Plus,
   Tray,
   CaretDown,
+  MagnifyingGlass,
+  Buildings,
 } from "@phosphor-icons/react";
 import { date, categories, classifications } from "./api";
 import type { Dashboard, Options, User } from "./api";
@@ -107,9 +109,9 @@ export function DashboardHome({
     <div className="home-dashboard">
       <div className="home-heading">
         <div>
-          <p className="eyebrow">AICTE · COMPLAINT COORDINATION</p>
+          <p className="eyebrow">YOUR INSTITUTION WORKSPACE</p>
           <h1>Complaint Monitoring Dashboard</h1>
-          <p>See what needs attention. Help the right bureaus work together.</p>
+          <p>Find the institution. See the history. Coordinate the next action.</p>
         </div>
         <div className="actions">
           {writable && (
@@ -129,13 +131,15 @@ export function DashboardHome({
           </Link>
         </div>
       </div>
-      {coordinator && <form className="home-filterbar" onSubmit={e => {
+      <div className="home-controls">
+      {coordinator && <form className="institution-finder" role="search" aria-label="Find an institution" onSubmit={e => {
         e.preventDefault();
         const q = new FormData(e.currentTarget).get("institution_search")?.toString() || "";
         navigate(`/institutions?q=${encodeURIComponent(q)}`);
       }}>
-        <label>Find an institution<input name="institution_search" placeholder="Institution name or Permanent ID" /></label>
-        <button type="submit">Search institutions</button>
+        <div className="finder-intro"><Buildings size={25} aria-hidden="true" /><div><strong>Start with the institution</strong><p>Its cases, bureaus and complete history, in one place.</p></div></div>
+        <label><span className="sr-only">Find an institution</span><span className="finder-input"><MagnifyingGlass size={19} aria-hidden="true" /><input name="institution_search" type="search" maxLength={200} placeholder="Institution name or Permanent ID" /></span></label>
+        <button type="submit">Search institutions <ArrowRight size={16} aria-hidden="true" /></button>
       </form>}
       <div className="home-filterbar">
         <label>
@@ -220,6 +224,7 @@ export function DashboardHome({
             Clear filters
           </button>
         )}
+      </div>
       </div>
       {error && (
         <div className="error" role="alert">
@@ -355,11 +360,11 @@ export function DashboardHome({
               <div className="home-section-heading">
                 <div>
                   <h2 id="coordination-title">Needs coordination</h2>
-                  <p>
-                    All-time active cases across current Bureaus. Receipt dates,
-                    categories and Bureau filters do not suppress these notices.
-                  </p>
+                  <p>Active cases handled by more than one bureau. All-time scope, independent of receipt dates, categories and Bureau filters.</p>
                 </div>
+                <span className="scope-tag">All-time coordination</span>
+              </div>
+              <div className="coordination-actions">
                 <Link className="text-button" to={reviews()}>
                   Review possible overlaps <ArrowRight size={16} />
                 </Link>
@@ -456,7 +461,7 @@ export function DashboardHome({
                           isAnimationActive={false}
                           name="Received"
                           dataKey="received"
-                          fill="#138808"
+                          fill="#2F7658"
                           radius={[3, 3, 0, 0]}
                           onClick={(entry) =>
                             entry.payload.received > 0 &&
@@ -474,7 +479,7 @@ export function DashboardHome({
                           isAnimationActive={false}
                           name="Closed"
                           dataKey="disposed"
-                          fill="#e87500"
+                          fill="#D9852B"
                           radius={[3, 3, 0, 0]}
                           onClick={(entry) =>
                             navigate(
@@ -583,7 +588,7 @@ export function DashboardHome({
                           isAnimationActive={false}
                           name="Open complaints"
                           dataKey="count"
-                          fill="#138808"
+                          fill="#2F7658"
                           radius={[0, 3, 3, 0]}
                           onClick={(entry) =>
                             navigate(String(entry.payload.href))

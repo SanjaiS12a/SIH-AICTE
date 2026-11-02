@@ -54,6 +54,7 @@ import type {
   Overlap,
 } from "./api";
 import "./style.css";
+import "./portal.css";
 import { DashboardHome } from "./dashboard";
 import { PageBoundary } from "./page-boundary";
 import { MyWork } from "./my-work";
@@ -242,12 +243,12 @@ function Shell({ user }: { user: User }) {
       </a>
       <GovernmentHeader />
       <aside className="sidebar">
-        <Link className="brand" to="/">
+        <Link className="brand" to="/" aria-label="AICTE workspace home">
           <span className="brand-mark">
             <Buildings weight="regular" size={25} />
           </span>
           <span>
-            AICTE<span className="brand-sub">COMPLAINT MONITORING</span>
+            Institution hub<span className="brand-sub">AICTE CASE MANAGEMENT</span>
           </span>
         </Link>
         <div className="workspace-label">PORTAL SERVICES</div>
@@ -302,6 +303,10 @@ function Shell({ user }: { user: User }) {
               <ShieldCheck size={16} />
               {isCoord ? "All bureaus" : user.bureau || "No bureau"}
             </span>
+            <form className="mobile-signout" action="/accounts/logout/" method="post">
+              <input type="hidden" name="csrfmiddlewaretoken" value={csrf()} />
+              <button className="icon-button" aria-label="Sign out"><SignOut size={19} /></button>
+            </form>
             <div className="alerts-wrap">
               <button
                 className="icon-button alert-button"
