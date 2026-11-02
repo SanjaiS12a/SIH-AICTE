@@ -11,6 +11,22 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class StartupTests(unittest.TestCase):
+    def test_physical_offline_guard_rejects_up_adapters_without_changing_network(self):
+        script=r'''
+$tokens=$null; $errors=$null
+$ast=[System.Management.Automation.Language.Parser]::ParseFile($env:OFFLINE_SCRIPT,[ref]$tokens,[ref]$errors)
+if ($errors.Count) { throw 'Offline script parse failed.' }
+$function=$ast.Find({param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Disconnected-Adapters'},$true)
+Invoke-Expression $function.Extent.Text
+function Get-NetAdapter { [pscustomobject]@{Name='Synthetic';Status=$env:ADAPTER_STATE;InterfaceDescription='Test only'} }
+Disconnected-Adapters
+'''
+        for state,expected in [('Up',1),('Disconnected',0)]:
+            env=os.environ.copy();env.pop('PSModulePath',None)
+            env.update(OFFLINE_SCRIPT=str(ROOT/'scripts/verify-physical-offline.ps1'),ADAPTER_STATE=state)
+            result=subprocess.run(['powershell.exe','-NoProfile','-Command',"$ErrorActionPreference='Stop';"+script],env=env,capture_output=True,text=True,timeout=15)
+            self.assertEqual(result.returncode,expected,result.stdout+result.stderr)
+
     def invoke(self, root, *args):
         env = os.environ.copy()
         env.pop('PSModulePath', None)

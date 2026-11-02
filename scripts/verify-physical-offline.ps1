@@ -16,6 +16,9 @@ function Disconnected-Adapters {
 }
 try {
     $result.adapters_before = @(Disconnected-Adapters)
+    # This isolated acceptance run exercises both gated workflows; live defaults stay unchanged.
+    $env:ENABLE_REVIEWED_FACTS = '1'
+    $env:ENABLE_INCIDENT_GROUPS = '1'
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/start.ps1 -Action Stop -Audit *> (Join-Path $dest 'stop.log')
     if ($LASTEXITCODE -ne 0) { throw 'Isolated shutdown failed.' }
     $started = Get-Date
@@ -26,7 +29,7 @@ try {
     $env:AUDIT_ARTIFACT_DIR = $dest
     Push-Location frontend
     try {
-        & npx.cmd --no-install playwright test coordination-workflow.spec.ts workflow.spec.ts readiness.spec.ts *> (Join-Path $dest 'browser.log')
+        & npx.cmd --no-install playwright test core-intelligence.spec.ts imports.spec.ts coordination-workflow.spec.ts workflow.spec.ts readiness.spec.ts *> (Join-Path $dest 'browser.log')
         if ($LASTEXITCODE -ne 0) { throw 'Disconnected workflow regression failed.' }
     } finally { Pop-Location }
     $result.adapters_after = @(Disconnected-Adapters)

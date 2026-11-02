@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[2]
 
 def main():
     audit=json.loads((ROOT/'tests/results/logs/readiness-run.json').read_text(encoding='utf-8-sig'))
-    core=json.loads((ROOT/'tests/results/logs/core-intelligence-run.json').read_text(encoding='utf-8-sig'))
+    core=json.loads(Path(os.environ.get('CORE_RUN_FILE',ROOT/'tests/results/logs/core-intelligence-run.json')).read_text(encoding='utf-8-sig'))
     project=audit['project']
     if not project.startswith('sih-readiness-'):raise ValueError('Isolated audit project required.')
     os.environ.update(AUDIT_RESULTS=audit['directory'],BENCHMARK_URL='http://127.0.0.1:8001',AUDIT_ARTIFACT_DIR=str(Path(core['directory'])/'worker-probe'))

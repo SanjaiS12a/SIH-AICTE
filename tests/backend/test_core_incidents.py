@@ -131,6 +131,15 @@ class CoreIncidentTests(TestCase):
         count_sql=[q['sql'] for q in captured.captured_queries if 'COUNT(' in q['sql']]
         self.assertFalse(any('AS "col2"' in sql for sql in count_sql),count_sql)
 
+    def test_unrelated_cross_bureau_cases_raise_monitoring_notice_without_confirmed_incident(self):
+        left,right=sorted([self.case.pk,self.hidden.pk])
+        OverlapCandidate.objects.create(left_id=left,right_id=right,origin='manual',decision='unrelated',reason='Different events; monitoring is still required.')
+        self.assertEqual(self.counts()['confirmed_groups'],0)
+        self.assertEqual(self.counts()['same_incident_pairs'],0)
+        dashboard=self.client.get('/api/dashboard').data
+        self.assertEqual(dashboard['coordination_institutions'],1)
+        self.assertEqual(str(dashboard['coordination_notices'][0]['institution_id']),str(self.institution.pk))
+
     def test_group_and_history_paginate_beyond_twenty_without_queries_per_row(self):
         for i in range(22):self.group(title=f'Explicit independent grouping {i}')
         with CaptureQueriesContext(connection) as captured:

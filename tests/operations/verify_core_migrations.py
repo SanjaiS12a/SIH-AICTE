@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[2]
 
 def main():
     audit=json.loads((ROOT/'tests/results/logs/readiness-run.json').read_text(encoding='utf-8-sig'))
-    core=json.loads((ROOT/'tests/results/logs/core-intelligence-run.json').read_text(encoding='utf-8-sig'))
+    core=json.loads(Path(os.environ.get('CORE_RUN_FILE',ROOT/'tests/results/logs/core-intelligence-run.json')).read_text(encoding='utf-8-sig'))
     project=audit['project']
     if not project.startswith('sih-readiness-'):raise ValueError('An isolated audit project is required.')
     os.environ['AUDIT_RESULTS']=audit['directory']
