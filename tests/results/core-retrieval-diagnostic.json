@@ -1,0 +1,79 @@
+{
+  "dataset_sha256": "05ca65ad1a6dabf9bcd36d92e6de20840c1129c94979d52be0ff8f7b48192e74",
+  "provenance": "Authored synthetic source-selection diagnostic. Labels fixed before scoring; no independent human or real AICTE evidence.",
+  "production_policy_changed": false,
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "threshold": 0.603080153465271,
+  "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+  "records": 13,
+  "queries": 6,
+  "unique_passages_encoded": 22,
+  "cold_load_seconds": 6.25247913200019,
+  "embedding_seconds": 1.3381009700001414,
+  "process_peak_ram_kib": 672556,
+  "metrics": {
+    "hybrid_top5": {
+      "queries": 6,
+      "returned": 30,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 1.0,
+      "review_worthy_precision": 0.26666666666666666,
+      "abstention_rate": 0.0
+    },
+    "lexical_top20": {
+      "queries": 6,
+      "returned": 0,
+      "judgment_coverage": null,
+      "candidate_recall": 0.0,
+      "same_incident_recall_at5": 0.0,
+      "review_worthy_precision": null,
+      "abstention_rate": 1.0
+    },
+    "paragraphs_top5": {
+      "queries": 6,
+      "returned": 30,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 1.0,
+      "review_worthy_precision": 0.26666666666666666,
+      "abstention_rate": 0.0
+    },
+    "production_summary_top5": {
+      "queries": 6,
+      "returned": 0,
+      "judgment_coverage": null,
+      "candidate_recall": 0.0,
+      "same_incident_recall_at5": 0.0,
+      "review_worthy_precision": null,
+      "abstention_rate": 1.0
+    },
+    "reference_top20": {
+      "queries": 6,
+      "returned": 6,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 1.0,
+      "review_worthy_precision": 1.0,
+      "abstention_rate": 0.0
+    },
+    "semantic_top20": {
+      "queries": 6,
+      "returned": 36,
+      "judgment_coverage": 1,
+      "candidate_recall": 1.0,
+      "same_incident_recall_at5": 0.8333333333333334,
+      "review_worthy_precision": 0.2222222222222222,
+      "abstention_rate": 0.0
+    },
+    "summary_selected_description_top5": {
+      "queries": 6,
+      "returned": 30,
+      "judgment_coverage": 1,
+      "candidate_recall": 0.8333333333333334,
+      "same_incident_recall_at5": 0.8333333333333334,
+      "review_worthy_precision": 0.23333333333333334,
+      "abstention_rate": 0.0
+    }
+  }
+}

@@ -1,5 +1,15 @@
 # Research intake and independent review
 
+## ACSS public source audit — 2 November 2026
+
+The [ACSS dataset, DOI 10.7910/DVN/EITGBB](https://doi.org/10.7910/DVN/EITGBB) is now verified as a public AICTE support-text source. Its current released Dataverse version 2.0 specifies **CC BY-NC 4.0**, whereas the [associated article](https://pmc.ncbi.nlm.nih.gov/articles/PMC11617942/) describes CC BY 4.0. Retain that discrepancy; do not describe the data as unrestricted for commercial training or redistribution.
+
+Only the public XLSX was downloaded to an ignored, restricted research directory, using the official API and verifying its publisher checksum. No pickle was loaded, formula evaluated, raw record published, application case created or model trained. The aggregate audit is in `tests/results/core-acss-source-audit.json`; the reproducible collector is `tests/research/acss_audit.py`.
+
+The workbook contains 14,272 nonempty rows, **not 14,272 complaints**. The literal Type label Complaint occurs 585 times. There are 14,265 complete literal subject/description rows, 3,715 repeated normalized text representations, 10,979 formula cells and 3,804 rows with potential identifier patterns. Pattern screening does not establish anonymity; repeated wording does not establish a duplicate incident. Seven subject formulas were excluded from literal narrative analysis.
+
+Keep the source quarantined until privacy, formula handling, field meaning and genuine institution identity are reviewed. Its support/sentiment labels do not establish same-incident relationships. Independent incident-family annotation and a frozen evaluation split remain prerequisites for incident accuracy claims or domain model selection. This discovery updates earlier source availability findings, without retroactively validating earlier experiments.
+
 OIA collection remains pending permission. No OIA corpus has been downloaded. The following is an **unsent draft**, for the project owner to send through the publisher's contact channel.
 
 Subject: Permission request — local academic evaluation using published case summaries

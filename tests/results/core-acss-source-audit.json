@@ -1,0 +1,80 @@
+{
+  "source": "ACSS (AICTE Centralized Support System) Data Set",
+  "doi": "10.7910/DVN/EITGBB",
+  "metadata_url": "https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/EITGBB",
+  "collected_at_utc": "2026-11-02T12:33:47.860591+00:00",
+  "version": "2.0",
+  "publisher_license": {
+    "name": "CC BY-NC 4.0",
+    "uri": "http://creativecommons.org/licenses/by-nc/4.0",
+    "iconUri": "https://licensebuttons.net/l/by-nc/4.0/88x31.png"
+  },
+  "article_license_discrepancy": "Article describes CC BY 4.0; current Dataverse metadata specifies CC BY-NC 4.0. Raw data is retained privately and not redistributed.",
+  "file_id": 10267233,
+  "filename": "ACSSv1.xlsx",
+  "bytes": 2387916,
+  "sha256": "afd843068ddd36d65905f3e6b99ff201ddcc6405a297abf2ef3eeafdd351c55a",
+  "publisher_checksum": {
+    "type": "MD5",
+    "value": "35f9215c383f3e96ccb95dabc5a5ce7f"
+  },
+  "sheets": [
+    {
+      "sheet": "CompleteData",
+      "physical_data_rows": 14274,
+      "nonempty_rows": 14272,
+      "blank_rows": 2,
+      "columns": 7,
+      "recognized_headers": {
+        "1": "nature",
+        "2": "subject",
+        "3": "description",
+        "5": "type"
+      },
+      "missing_by_column": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "formula_cells_not_executed": 10979,
+      "formula_rows": 10972,
+      "formula_cells_by_column": {
+        "4": 10972,
+        "2": 7
+      },
+      "formula_function_names_only": {
+        "LEN": 10972
+      },
+      "text_columns_recognized": [
+        2,
+        3
+      ],
+      "complete_literal_text_rows": 14265,
+      "duplicate_complete_literal_text_rows": 3715,
+      "rows_with_potential_identifier_patterns": 3804,
+      "label_cardinality_by_column": {
+        "1": 44,
+        "5": 7
+      },
+      "recognized_type_counts": {
+        "complaint": 585,
+        "appreciation": 770,
+        "suggestion": 1056
+      }
+    }
+  ],
+  "identity_and_incident_labels": "Sentiment/support classification is documented; no independent same-incident ground truth established.",
+  "deidentification": "Unverified; pattern counts are screening signals, not proof of anonymity. No raw cells included in this report.",
+  "application_imported": false,
+  "model_scored": false,
+  "trained": false,
+  "real_world_matching_accuracy": null,
+  "next_gate": "Verify fields/identity and complete independent incident annotation before any incident accuracy or training claim.",
+  "status": "quarantined_pending_formula_and_identity_review",
+  "limits": "Formula text is excluded from literal narrative duplicate and identifier screening. Distinct rows, not individual cells, are counted. No formula is evaluated.",
+  "canonical_institution_mapping_verified": false
+}

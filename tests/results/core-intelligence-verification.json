@@ -1,0 +1,61 @@
+{
+  "baseline": "f73fc0e0bcb33ef1a5f0342bf9c817dca3ce6097",
+  "branch": "codex/core-intelligence",
+  "backend": {
+    "passed": 218,
+    "seconds": 70.432
+  },
+  "edge_full": {
+    "passed": 81,
+    "minutes": 5.7
+  },
+  "edge_final_affected": {
+    "passed": 17,
+    "minutes": 2.2
+  },
+  "operations_passed": 4,
+  "production_build": "passed",
+  "resources": {
+    "1000-distributed": {
+      "sample_count": 20,
+      "observed_max_container_mib": {
+        "api": 100.0,
+        "worker": 461.5,
+        "db": 382.2
+      },
+      "observed_max_host_used_bytes": 14876905472,
+      "limit": "Sampled maxima, not guaranteed process peaks. Host includes unrelated applications; inference used CPU."
+    },
+    "10000-concentrated": {
+      "sample_count": 227,
+      "observed_max_container_mib": {
+        "api": 201.9,
+        "worker": 476.6,
+        "db": 423.3
+      },
+      "observed_max_host_used_bytes": 15158743040,
+      "limit": "Sampled maxima, not guaranteed process peaks. Host includes unrelated applications; inference used CPU."
+    }
+  },
+  "worker_recovery": {
+    "case_id": "54d166ce-ca21-4a43-9003-e79375dede6c",
+    "pending_while_worker_stopped": true,
+    "durable_queue_rows": 1,
+    "registration_ms": 208.28200000050856,
+    "restart_to_complete_seconds": 10.36540689999947,
+    "matching_state": "complete",
+    "physical_offline": false,
+    "scope": "Actual audit worker restart; no working-demo database access."
+  },
+  "migration_original_tables_preserved": 22,
+  "restore": {
+    "source_commit": "f6d8071f72e9b49ae9431bd78571d1c40271c078",
+    "all_tables_match": true,
+    "private_and_model_checksums_verified": true,
+    "working_database_accessed": false,
+    "physical_offline": false
+  },
+  "physical_offline": "Not performed; operator gate remains open",
+  "real_world_incident_accuracy": null,
+  "model_activation": false
+}

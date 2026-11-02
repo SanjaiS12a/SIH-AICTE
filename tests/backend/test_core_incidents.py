@@ -56,6 +56,32 @@ class CoreIncidentTests(TestCase):
         row=self.rows('confirmed_groups','&from='+timezone.now().date().isoformat())['results'][0]
         self.assertEqual((row['scope_case_count'],row['all_time_case_count']),(1,2))
 
+    def test_reviewed_pair_chains_do_not_create_incident_groups_or_the_missing_pair(self):
+        third=self.make_case(self.rb,'CHAIN-C')
+        for left,right in [(self.case,self.hidden),(self.hidden,third)]:
+            response=self.client.post('/api/relationships',{'left':str(left.pk),'right':str(right.pk),'decision':'same_incident',
+                'reason':'Explicit pair review only; no automatic transitive membership'},format='json')
+            self.assertEqual(response.status_code,201,response.data)
+        self.assertEqual(self.counts()['same_incident_pairs'],2)
+        self.assertEqual(self.counts()['confirmed_groups'],0)
+        a,b=sorted([self.case.pk,third.pk]);self.assertFalse(OverlapCandidate.objects.filter(left_id=a,right_id=b).exists())
+
+    def test_supplied_two_bureau_demo_csv_files_import_and_replay_as_six_records(self):
+        from pathlib import Path
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from .test_imports import ImportTests
+        root=Path(__file__).resolve().parents[1]/'fixtures/core-intelligence'
+        for bureau in ['RB','PGRC']:
+            content=(root/f'six-case-{bureau.lower()}.csv').read_bytes().replace(b'CORE-DEMO-001',self.institution.permanent_id.encode())
+            for repeat in [False,True]:
+                response=self.client.post('/api/imports',{'file':SimpleUploadedFile('source.csv',content,content_type='text/csv'),
+                    'kind':'complaints','source_system':'core-demo-'+bureau.lower(),'source_bureau':bureau,'status_mapping':'{"registered":"registered"}'},format='multipart')
+                self.assertEqual(response.status_code,201,response.data)
+                self.assertEqual(response.data['counts'],{'duplicate' if repeat else 'ready':3})
+                ImportTests.finish(self,response.data)
+        self.assertEqual(Complaint.objects.filter(source_system__startswith='core-demo-').count(),6)
+        self.assertEqual(self.counts('?q=TX-CORE-DEMO-2026')['complaints'],6)
+
     def test_retirement_corrections_history_and_stale_versions(self):
         group,data=self.group();third=self.make_case(self.rb,'THIRD')
         update={**data,'expected_version':1,'cases':[str(self.case.pk),str(third.pk)],'reason':'Corrected membership after source review'}
