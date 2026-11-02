@@ -40,6 +40,8 @@ The 30-calendar-day deadline is a demonstration policy, not an AICTE rule. Close
 
 ## Verification and recovery
 
+The [movement CSV follow-up](tests/results/movement-export-hardening.md) records the post-publication export correction: 10,000 synthetic rows fell from 10,005 Django SQL executions to six with identical CSV bytes. The separate real-data and physical-offline acceptance gates remain open.
+
 See [implementation design and five-minute demo](docs/technical-design.md) for HLD/LLD, schema relationships, lifecycle, permissions and case intelligence. Case briefs are read-only current-state views. Reviewed facts and manual incident groups are separate experiments, controlled by `ENABLE_REVIEWED_FACTS=1` and `ENABLE_INCIDENT_GROUPS=1`; both default off. Shadow discovery never changes production matching. [Research intake](docs/research-permission-and-intake.md) records the human and permission gates.
 
 Preparation now invokes `seed_if_empty`: only an empty designated demo database is seeded. Existing data is neither reset nor augmented. Use `scripts/verify_final_restore.py` to verify recovery of current isolated audit data/private files/model into independent destinations. New scale runs require a fresh `coordination_scale_*` database and an explicit new `/reports/...` output path; do not reuse historical artifacts.

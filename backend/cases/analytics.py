@@ -62,11 +62,12 @@ def movements_csv(request):
     from .exports import safe
     qs=action_query(request)
     AuditEvent.objects.create(actor=request.user,kind='movement_export',detail={'filters':dict(request.query_params),'count':qs.count()})
+    serializer=MovementSerializer(context={'restricted':not coordination(request.user)})
     def chunks():
         out=io.StringIO();writer=csv.writer(out);writer.writerow(['Case','Institution','Event','Action time','Actor','Reason','Changes','Bureau at action'])
         yield out.getvalue();out.seek(0);out.truncate(0)
         for action in qs.iterator(chunk_size=1000):
-            row=MovementSerializer(action,context={'restricted':not coordination(request.user)}).data
+            row=serializer.to_representation(action)
             writer.writerow([safe(row[k]) for k in ['reference','institution','event','created_at','actor','reason']]+[safe(json.dumps(row['changes'])), safe(row['bureau_at_action'] or 'Unknown historical Bureau')])
             yield out.getvalue();out.seek(0);out.truncate(0)
     return StreamingHttpResponse(chunks(),content_type='text/csv',headers={'Content-Disposition':'attachment; filename="case-movements.csv"'})

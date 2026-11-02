@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-02",
+  "baseline": "ff4025e388aea798c7e7a0cbdd635dfd0874e2b0",
+  "branch": "codex/movement-export-hardening",
+  "before": {
+    "database": "coordination_scale_optimized_20261101_205207",
+    "rows": 10000,
+    "queries": 10005,
+    "seconds": 17.500307226000587,
+    "bytes": 1145634,
+    "sha256": "e6d5df3571efdc12c49cdc66eaf328bb26b385e2fd37ef672afc6c1f5c54def8",
+    "transport": "In-process authorized Django view; complete CSV consumed. Single synthetic coordinator, no HTTP latency claim."
+  },
+  "after": {
+    "database": "coordination_scale_optimized_20261101_205207",
+    "rows": 10000,
+    "queries": 6,
+    "seconds": 2.292049566996866,
+    "bytes": 1145634,
+    "sha256": "e6d5df3571efdc12c49cdc66eaf328bb26b385e2fd37ef672afc6c1f5c54def8",
+    "transport": "In-process authorized Django view; complete CSV consumed. Single synthetic coordinator, no HTTP latency claim."
+  },
+  "speedup_single_trial": 7.635221976865964,
+  "bytes_identical": true,
+  "backend": {
+    "passed": 200,
+    "seconds": 58.639
+  },
+  "browser": {
+    "passed": 4,
+    "seconds": 12.3,
+    "scope": "completion.spec.ts; actual movement-list/CSV reconciliation and role workflows"
+  },
+  "focused_regression": {
+    "before": "1 query-scaling failure, 2 passed",
+    "after": "3 passed"
+  },
+  "constraints": [
+    "Fresh permission scope per request; no login-time permission cache.",
+    "No working demo database mutation or model change.",
+    "One in-process coordinator measurement; not HTTP p95, not a million-record claim.",
+    "Server retains chunked iteration; benchmark consumer materializes downloaded bytes for digest comparison."
+  ],
+  "remaining_external_gates": [
+    "Authorized real education grievance data and independent relationship judgments",
+    "Publisher access/permission",
+    "Physically disconnected cold startup"
+  ]
+}
