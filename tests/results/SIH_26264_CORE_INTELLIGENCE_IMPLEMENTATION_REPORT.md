@@ -61,6 +61,8 @@ Actual worker recovery: registration persisted one queue row while the audit wor
 
 Raw per-run logs remain ignored in `tests/results/runs/core-intelligence-20261102-171138/`: `backend-release.log`, `browser-full.log`, `browser-final-focused.log`, `build-final.log`, `migration-preservation.json`, `final-restore.json` and `worker-recovery.json`. Historical runs were not overwritten. Portable aggregates accompany this report in `core-intelligence-verification.json`, `core-retrieval-diagnostic.json` and `core-acss-source-audit.json`. Generated artifacts describe the run; source tests remain authoritative.
 
+Graphify refreshed the source map at `2dde701`: 1,545 nodes, 3,945 directed edges, 115 communities and 165 represented source files. Health checks found zero missing/dangling endpoints, duplicate edges or directed collapses; 16 AST self-loops are disclosed. Five portable artifacts and source digests are retained, while datasets, results, weights, caches and rotating backups remain excluded. This map supports navigation, not a correctness or accuracy claim.
+
 ## Measured performance
 
 Local Windows laptop, approximately 16 GB RAM; RTX 3050 A 4 GB present, **CPU inference** with two threads. PostgreSQL/pgvector and one Q2 worker ran in Docker. Each workload used a fresh synthetic database and ten independent HTTP users/sessions. These are measured prototype results, not production promises.
